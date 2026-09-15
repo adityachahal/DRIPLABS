@@ -1,23 +1,29 @@
 "use client";
 
-import Image from "next/image";
 import { motion } from "framer-motion";
 
 export default function Hero() {
   return (
     <section className="driplabs-noise relative min-h-[100svh] overflow-hidden bg-[#0B1D35] text-[#F5F0E7]">
       {/* =========================================================
-          BACKGROUND
+          BACKGROUND VIDEO
       ========================================================= */}
       <div className="absolute inset-0">
-        <Image
-          src="/images/hero/driplabs-hero.jpg"
-          alt="DRIPLABS physician-led wellness experience"
-          fill
-          priority
-          sizes="100vw"
-          className="object-cover object-[60%_center]"
-        />
+        <video
+          className="absolute inset-0 h-full w-full object-cover object-[60%_center]"
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="metadata"
+          poster="/images/hero/driplabs-hero.jpg"
+          aria-label="DRIPLABS physician-led wellness experience"
+        >
+          <source
+            src="/videos/driplabs-hero.mp4"
+            type="video/mp4"
+          />
+        </video>
 
         {/* Cinematic colour treatment */}
         <div className="absolute inset-0 bg-[#071525]/30 mix-blend-multiply" />
@@ -71,7 +77,7 @@ export default function Hero() {
               <br />
               IV wellness
               <br />
-              & NAD+
+              &amp; NAD+
             </p>
           </motion.div>
 
