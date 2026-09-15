@@ -1,3 +1,5 @@
+﻿import Image from "next/image";
+
 export default function Footer() {
   return (
     <footer className="bg-[#171714] text-[#f4f1eb]">
@@ -6,9 +8,13 @@ export default function Footer() {
           <div className="grid gap-12 md:grid-cols-12">
             {/* Brand */}
             <div className="md:col-span-5">
-              <div className="text-2xl font-semibold tracking-[0.2em]">
-                DRIPLABS
-              </div>
+              <Image
+                src="/images/brand/driplabs-logo.webp"
+                alt="DRIPLABS by Snnylo"
+                width={180}
+                height={64}
+                className="h-auto w-[155px] object-contain object-left"
+              />
 
               <p className="mt-5 max-w-sm text-sm leading-6 text-white/45">
                 Nourish. Recharge. Restore.

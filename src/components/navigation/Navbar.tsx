@@ -1,5 +1,6 @@
-"use client";
+﻿"use client";
 
+import Image from "next/image";
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState } from "react";
 
@@ -123,12 +124,19 @@ export default function Navbar() {
           <a
             href="/"
             onClick={closeMenus}
-            className={`relative z-[110] select-none text-[17px] font-semibold tracking-[0.27em] transition-all duration-500 ${
-              scrolled ? "text-[#0B1D35]" : "text-[#F5F0E7]"
-            }`}
+            aria-label="DRIPLABS home"
+            className="relative z-[110] flex items-center select-none"
           >
-            DRIPLABS
-            <sup className="ml-0.5 text-[7px] tracking-normal">®</sup>
+            <Image
+              src="/images/brand/driplabs-logo.webp"
+              alt="DRIPLABS by Snnylo"
+              width={180}
+              height={64}
+              priority
+              className={`h-auto w-[138px] object-contain transition-all duration-500 md:w-[150px] ${
+                scrolled ? "brightness-[0.22] saturate-[0.75]" : ""
+              }`}
+            />
           </a>
 
           {/* =====================================================
@@ -148,11 +156,11 @@ export default function Navbar() {
                 type="button"
                 aria-expanded={exploreOpen}
                 onClick={() => setExploreOpen((open) => !open)}
-                className={`group flex items-center gap-2 text-[9px] uppercase tracking-[0.21em] transition-opacity duration-300 ${
+                className={`group flex items-center gap-2 text-[9px] uppercase tracking-[0.21em] transition-all duration-300 ${
                   scrolled
                     ? "text-[#0B1D35]"
                     : "text-[#F5F0E7]"
-                } hover:opacity-55`}
+                } hover:opacity-60`}
               >
                 <span>Explore</span>
 
@@ -250,8 +258,15 @@ export default function Navbar() {
               DESKTOP CTA
           ===================================================== */}
           <div className="hidden lg:block">
-            <a
-              href="#book"
+            <motion.a
+              href="/book"
+              whileHover={{
+                y: -1,
+              }}
+              whileTap={{
+                scale: 0.98,
+              }}
+              onClick={closeMenus}
               className={`group inline-flex items-center gap-4 border px-6 py-3 text-[9px] uppercase tracking-[0.22em] transition-all duration-500 ${
                 scrolled
                   ? "border-[#0B1D35]/25 bg-transparent hover:border-[#0B1D35] hover:bg-[#0B1D35]"
@@ -268,16 +283,25 @@ export default function Navbar() {
                 Book Your Drip
               </span>
 
-              <span
+              <motion.span
+                animate={{
+                  x: [0, 2, 0],
+                }}
+                transition={{
+                  duration: 1.8,
+                  repeat: Infinity,
+                  repeatDelay: 2,
+                  ease: "easeInOut",
+                }}
                 className={
                   scrolled
-                    ? "text-[#0B1D35] transition-all duration-300 group-hover:translate-x-1 group-hover:text-[#C9A646]"
-                    : "text-[#F5F0E7] transition-all duration-300 group-hover:translate-x-1 group-hover:text-[#0B1D35]"
+                    ? "text-[#0B1D35] transition-all duration-300 group-hover:text-[#C9A646]"
+                    : "text-[#F5F0E7] transition-all duration-300 group-hover:text-[#0B1D35]"
                 }
               >
                 →
-              </span>
-            </a>
+              </motion.span>
+            </motion.a>
           </div>
 
           {/* =====================================================
@@ -462,19 +486,29 @@ export default function Navbar() {
                 }}
                 className="mt-auto pt-10"
               >
-                <a
-                  href="#book"
+                <motion.a
+                  href="/book"
                   onClick={closeMenus}
+                  whileTap={{ scale: 0.985 }}
                   className="group flex items-center justify-between bg-[#C9A646] px-6 py-5 text-[9px] uppercase tracking-[0.24em]"
                 >
                   <span className="text-[#0B1D35]">
                     Book Your Drip
                   </span>
 
-                  <span className="text-[#0B1D35] transition-transform duration-300 group-hover:translate-x-1">
+                  <motion.span
+                    animate={{ x: [0, 3, 0] }}
+                    transition={{
+                      duration: 1.6,
+                      repeat: Infinity,
+                      repeatDelay: 2,
+                      ease: "easeInOut",
+                    }}
+                    className="text-[#0B1D35]"
+                  >
                     →
-                  </span>
-                </a>
+                  </motion.span>
+                </motion.a>
 
                 <div className="mt-6 flex items-center justify-between text-[8px] uppercase tracking-[0.2em] text-white/25">
                   <span>DRIPLABS®</span>
@@ -514,3 +548,4 @@ function NavLink({
     </a>
   );
 }
+

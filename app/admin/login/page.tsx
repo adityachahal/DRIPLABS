@@ -37,7 +37,7 @@ export default function AdminLoginPage() {
         return;
       }
 
-      router.push("/admin/bookings");
+      router.push("/admin");
       router.refresh();
     } catch {
       setError("Unable to sign in. Please try again.");

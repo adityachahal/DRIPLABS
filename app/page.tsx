@@ -1,6 +1,7 @@
-import Navbar from "@/components/navigation/Navbar";
+﻿import Navbar from "@/components/navigation/Navbar";
 import Hero from "@/components/hero/Hero";
 import CredibilitySection from "@/components/sections/CredibilitySection";
+import LocationMarquee from "@/components/sections/LocationMarquee";
 import TailoredTherapy from "@/components/sections/TailoredTherapy";
 import NADExperience from "@/components/sections/NADExperience";
 import BrandStatement from "@/components/sections/BrandStatement";
@@ -20,44 +21,47 @@ export default function Home() {
     <main className="bg-[#f4f1eb] text-[#171714]">
       <Navbar />
 
-      {/* 01 — Hero */}
+      {/* 01 â€” Hero */}
       <Hero />
 
       <CredibilitySection />
 
-      {/* 02 — Tailored IV Therapy */}
+      <LocationMarquee />
+
+      {/* 02 â€” Tailored IV Therapy */}
       <TailoredTherapy />
 
-      {/* 03 — Interactive treatment discovery */}
+      {/* 03 â€” Interactive treatment discovery */}
       <WellnessProfile />
 
       <NADExperience />
 
       <ConsumerExperience />
 
-      {/* 04 — Nourish / Recharge / Restore */}
+      {/* 04 â€” Nourish / Recharge / Restore */}
       <NourishStatement />
 
-      {/* 05 — Featured treatment */}
+      {/* 05 â€” Featured treatment */}
       <FeaturedTreatment />
 
-      {/* 06 — Guest experience / results */}
+      {/* 06 â€” Guest experience / results */}
       <Testimonials />
 
-      {/* 07 — Memberships */}
+      {/* 07 â€” Memberships */}
       <Memberships />
 
-      {/* 08 — Locations */}
+      {/* 08 â€” Locations */}
       <Locations />
 
-      {/* 09 — FAQ */}
+      {/* 09 â€” FAQ */}
       <FAQ />
 
-      {/* 10 — Final CTA */}
+      {/* 10 â€” Final CTA */}
       <FinalCTA />
 
-      {/* 11 — Footer */}
+      {/* 11 â€” Footer */}
       <Footer />
     </main>
   );
 }
+
