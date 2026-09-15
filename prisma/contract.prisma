@@ -1,0 +1,114 @@
+// use prisma-next
+
+enum BookingStatus {
+  PENDING
+  CONFIRMED
+  COMPLETED
+  CANCELLED
+  REJECTED
+}
+
+enum LocationStatus {
+  ACTIVE
+  EXPANSION
+}
+
+enum MembershipType {
+  PACKAGE
+  UNLIMITED
+  CIRCLE
+}
+
+model Customer {
+  id        String   @id @default(uuid())
+  name      String
+  email     String
+  phone     String
+  createdAt DateTime @default(now())
+
+  bookings Booking[]
+}
+
+model Location {
+  id             String         @id
+  city           String
+  region         String
+  country        String
+  status         LocationStatus
+  phase          Int
+  type           String
+  address        String?
+  landmark       String?
+  phone          String
+  bookingEnabled Boolean
+  clinicEnabled  Boolean
+  atHomeEnabled  Boolean
+  nadxEnabled    Boolean
+
+  bookings Booking[]
+}
+
+model Protocol {
+  id               String   @id
+  slug             String   @unique
+  number           Int      @unique
+  name             String
+  family           String
+  category         String
+  shortDescription String
+  description      String
+  duration         String
+  price            Decimal?
+  image            String
+  evidenceTier     String
+  active            Boolean
+
+  bookings Booking[]
+}
+
+model Membership {
+  id           String         @id @default(uuid())
+  name         String
+  type         MembershipType
+  monthlyPrice Decimal?
+  packagePrice Decimal?
+  gst          Decimal?
+  totalPrice   Decimal?
+  description  String?
+  active       Boolean
+
+  bookings Booking[]
+}
+
+model Booking {
+  id             String        @id @default(uuid())
+  reference      String        @unique
+
+  customerId     String
+  locationId     String
+  protocolId     String
+  membershipId   String?
+
+  date           String
+  time           String
+
+  customerName   String
+  email          String
+  phone          String
+  membershipName String?
+
+  status         BookingStatus @default(PENDING)
+  createdAt      DateTime      @default(now())
+
+  customer   Customer    @relation(fields: [customerId], references: [id])
+  location   Location    @relation(fields: [locationId], references: [id])
+  protocol   Protocol    @relation(fields: [protocolId], references: [id])
+  membership Membership? @relation(fields: [membershipId], references: [id])
+
+  @@index([customerId])
+  @@index([locationId])
+  @@index([protocolId])
+  @@index([membershipId])
+  @@index([status])
+  @@index([date])
+}

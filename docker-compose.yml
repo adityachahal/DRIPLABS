@@ -1,0 +1,16 @@
+services:
+  postgres:
+    image: postgres:17
+    container_name: driplabs-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: driplabs
+      POSTGRES_PASSWORD: driplabs_dev_password
+      POSTGRES_DB: driplabs
+    ports:
+      - "5432:5432"
+    volumes:
+      - driplabs_postgres_data:/var/lib/postgresql/data
+
+volumes:
+  driplabs_postgres_data:
