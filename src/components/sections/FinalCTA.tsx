@@ -1,80 +1,87 @@
-"use client";
+﻿"use client";
 
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 
 export default function FinalCTA() {
+  const reducedMotion = useReducedMotion();
+
   return (
     <section
       id="book"
-      className="relative min-h-[90vh] overflow-hidden bg-[#171714] text-[#f4f1eb]"
+      className="relative min-h-[82svh] overflow-hidden bg-[#060F1F] text-[#F7F4EC]"
     >
-      {/* Atmospheric background */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_35%,rgba(220,211,194,0.18),transparent_35%)]" />
+      <div className="pointer-events-none absolute inset-0">
+        <div className="absolute left-1/2 top-[32%] h-[30rem] w-[30rem] -translate-x-1/2 rounded-full bg-[#C9A227]/[0.06] blur-[120px]" />
 
-      <div className="relative z-10 flex min-h-[90vh] flex-col justify-between px-6 py-10 md:px-10 md:py-12 lg:px-14">
-        {/* Top */}
-        <div className="mx-auto flex w-full max-w-[1600px] justify-between">
-          <p className="text-[9px] uppercase tracking-[0.25em] text-white/40">
-            DRIPLABS
-          </p>
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_35%,transparent_0%,rgba(6,15,31,0.22)_52%,rgba(6,15,31,0.7)_100%)]" />
+      </div>
 
-          <p className="text-right text-[9px] uppercase tracking-[0.22em] text-white/40">
-            Ready when you are
-          </p>
+      <div className="relative mx-auto flex min-h-[82svh] max-w-[1680px] flex-col justify-between px-5 py-8 md:px-10 md:py-10 lg:px-14">
+        <div className="flex items-center justify-between border-b border-white/10 pb-5">
+          <span className="text-[8px] uppercase tracking-[0.26em] text-[#E3CE8E]">
+            DRIPLABS®
+          </span>
+
+          <span className="text-[8px] uppercase tracking-[0.22em] text-white/30">
+            Physician-led wellness
+          </span>
         </div>
 
-        {/* Main */}
-        <div className="mx-auto w-full max-w-[1600px] py-24">
+        <div className="py-24 md:py-32">
           <motion.p
-            initial={{ opacity: 0, y: 20 }}
+            initial={reducedMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="mb-8 text-[10px] uppercase tracking-[0.28em] text-white/45"
+            transition={{
+              duration: reducedMotion ? 0.01 : 0.8,
+              ease: [0.22, 1, 0.36, 1],
+            }}
+            className="text-[8px] uppercase tracking-[0.3em] text-[#E3CE8E] md:text-[9px]"
           >
-            Your next wellness experience
+            Begin with a consultation
           </motion.p>
 
           <motion.h2
-            initial={{ opacity: 0, y: 70 }}
+            initial={reducedMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.2 }}
+            viewport={{ once: true, margin: "-10% 0px" }}
             transition={{
-              duration: 1,
+              duration: reducedMotion ? 0.01 : 1,
+              delay: reducedMotion ? 0 : 0.08,
               ease: [0.22, 1, 0.36, 1],
             }}
-            className="max-w-[1200px] text-[clamp(5rem,13vw,14rem)] font-light leading-[0.73] tracking-[-0.08em]"
+            className="mt-7 max-w-6xl font-[var(--font-heading)] text-[clamp(4rem,9vw,10rem)] font-light leading-[0.78] tracking-[-0.075em]"
           >
-            Get
+            Your wellness,
             <br />
-            dripp&apos;d.
+            considered.
           </motion.h2>
 
-          <div className="mt-12 flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
-            <p className="max-w-md text-sm leading-7 text-white/50 md:text-base">
-              Discover a more considered approach to IV therapy and make time
-              for your wellness.
+          <div className="mt-10 flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
+            <p className="max-w-xl text-sm leading-7 text-white/48 md:text-base">
+              Start with a physician consultation and discover a more
+              considered approach to IV wellness.
             </p>
 
             <a
-              href="#booking"
-              className="group inline-flex items-center gap-5 text-[10px] uppercase tracking-[0.22em]"
+              href="/book"
+              className="group inline-flex w-full items-center justify-between border border-[#C9A227] bg-[#C9A227] px-6 py-4 text-[8px] uppercase tracking-[0.23em] text-[#060F1F] transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] hover:bg-transparent hover:text-[#E3CE8E] sm:w-auto sm:min-w-[260px]"
             >
-              Book your drip
+              <span>Book a Physician Consultation</span>
 
-              <span className="flex h-12 w-12 items-center justify-center rounded-full border border-white/30 transition-all duration-300 group-hover:bg-white group-hover:text-[#171714]">
+              <span className="transition-transform duration-500 group-hover:translate-x-1">
                 →
               </span>
             </a>
           </div>
         </div>
 
-        {/* Bottom */}
-        <div className="mx-auto flex w-full max-w-[1600px] items-end justify-between border-t border-white/15 pt-5">
-          <p className="text-[9px] uppercase tracking-[0.2em] text-white/35">
+        <div className="flex items-end justify-between border-t border-white/10 pt-5">
+          <p className="text-[8px] uppercase tracking-[0.2em] text-white/30">
             Nourish. Recharge. Restore.
           </p>
 
-          <p className="hidden text-[9px] uppercase tracking-[0.2em] text-white/35 md:block">
+          <p className="text-[8px] uppercase tracking-[0.2em] text-white/30">
             India
           </p>
         </div>

@@ -1,13 +1,16 @@
 ﻿import Navbar from "@/components/navigation/Navbar";
 import Hero from "@/components/hero/Hero";
+
+import ProofBand from "@/components/home/ProofBand";
 import CredibilitySection from "@/components/sections/CredibilitySection";
+
 import LocationMarquee from "@/components/sections/LocationMarquee";
-import TailoredTherapy from "@/components/sections/TailoredTherapy";
+import ProtocolObservatory from "@/components/home/ProtocolObservatory";
 import NADExperience from "@/components/sections/NADExperience";
+import ConsumerExperience from "@/components/sections/ConsumerExperience";
+
 import BrandStatement from "@/components/sections/BrandStatement";
 import NourishStatement from "@/components/sections/NourishStatement";
-import ConsumerExperience from "@/components/sections/ConsumerExperience";
-import WellnessProfile from "@/components/sections/WellnessProfile";
 import FeaturedTreatment from "@/components/sections/FeaturedTreatment";
 import Testimonials from "@/components/sections/Testimonials";
 import Memberships from "@/components/sections/Memberships";
@@ -18,50 +21,56 @@ import Footer from "@/components/sections/Footer";
 
 export default function Home() {
   return (
-    <main className="bg-[#f4f1eb] text-[#171714]">
+    <main className="bg-[#F7F4EC] text-[#111318]">
       <Navbar />
 
-      {/* 01 â€” Hero */}
+      {/* 01 — Cinematic opening */}
       <Hero />
 
+      {/* 02 — Immediate proof */}
+      <ProofBand />
+{/* 04 — The trust moat */}
       <CredibilitySection />
 
+      {/* 05 — Geographic presence */}
       <LocationMarquee />
 
-      {/* 02 â€” Tailored IV Therapy */}
-      <TailoredTherapy />
+      {/* 06 — Protocol system */}
+      <ProtocolObservatory />
 
-      {/* 03 â€” Interactive treatment discovery */}
-      <WellnessProfile />
-
+      {/* 07 — NADx flagship */}
       <NADExperience />
 
+      {/* 08 — Human experience */}
       <ConsumerExperience />
 
-      {/* 04 â€” Nourish / Recharge / Restore */}
+      {/* 09 — Brand philosophy */}
+      <BrandStatement />
+
       <NourishStatement />
 
-      {/* 05 â€” Featured treatment */}
+      {/* 10 — Featured protocol */}
       <FeaturedTreatment />
 
-      {/* 06 â€” Guest experience / results */}
+      {/* 11 — Social proof */}
       <Testimonials />
 
-      {/* 07 â€” Memberships */}
+      {/* 12 — Circle / membership */}
       <Memberships />
 
-      {/* 08 â€” Locations */}
+      {/* 13 — Locations */}
       <Locations />
 
-      {/* 09 â€” FAQ */}
+      {/* 14 — Questions */}
       <FAQ />
 
-      {/* 10 â€” Final CTA */}
+      {/* 15 — Final conversion */}
       <FinalCTA />
 
-      {/* 11 â€” Footer */}
+      {/* 16 — Global footer */}
       <Footer />
     </main>
   );
 }
+
 

@@ -1,7 +1,7 @@
-"use client";
+﻿"use client";
 
 import Image from "next/image";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { useState } from "react";
 
 const steps = [
@@ -12,7 +12,7 @@ const steps = [
     description:
       "A physician reviews your goals, health history and suitability before any protocol is confirmed.",
     detail:
-      "Every DRIPLABS journey begins with professional assessment. Your goals, relevant health information and suitability are reviewed before a treatment is confirmed.",
+      "Every DRIPLABS journey begins with professional assessment. Your goals, relevant health information and suitability are reviewed before a protocol is confirmed.",
     imagePosition: "60% center",
   },
   {
@@ -48,46 +48,51 @@ const steps = [
 ];
 
 export default function ConsumerExperience() {
+  const reducedMotion = useReducedMotion();
   const [activeStep, setActiveStep] = useState(0);
-
   const active = steps[activeStep];
 
   return (
     <section
       id="how-it-works"
-      className="overflow-hidden bg-[#F5F0E7] text-[#0B1D35]"
+      className="relative overflow-hidden bg-[#F7F4EC] text-[#0B1B33]"
     >
-      {/* =========================================================
-          INTRO
-      ========================================================= */}
-      <div className="mx-auto max-w-[1600px] px-6 pb-16 pt-24 md:px-10 md:pb-24 md:pt-36 lg:px-14">
-        <div className="grid gap-10 md:grid-cols-12 md:gap-8">
-          {/* Left label */}
-          <div className="md:col-span-3">
-            <p className="driplabs-label text-[#77736A]">
-              How it works
+      <div className="mx-auto max-w-[1680px] px-5 pb-20 pt-24 md:px-10 md:pb-32 md:pt-36 lg:px-14">
+        <div className="grid gap-12 lg:grid-cols-12 lg:gap-10">
+          <motion.div
+            initial={reducedMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-12% 0px" }}
+            transition={{
+              duration: reducedMotion ? 0.01 : 0.8,
+              ease: [0.22, 1, 0.36, 1],
+            }}
+            className="lg:col-span-3"
+          >
+            <div className="flex items-center gap-3">
+              <span className="h-px w-8 bg-[#C9A227]" />
+
+              <p className="text-[8px] uppercase tracking-[0.28em] text-[#B8901F] md:text-[9px]">
+                How it works
+              </p>
+            </div>
+
+            <p className="mt-8 max-w-[220px] text-xs leading-6 text-[#5A6B82]">
+              Four steps. One considered experience — from first conversation
+              through follow-up.
             </p>
+          </motion.div>
 
-            <div className="mt-6 hidden h-px w-14 bg-[#C9A646] md:block" />
-
-            <p className="mt-5 max-w-[190px] text-[9px] uppercase leading-5 tracking-[0.18em] text-[#99958C]">
-              Four steps.
-              <br />
-              One considered experience.
-            </p>
-          </div>
-
-          {/* Main heading */}
-          <div className="md:col-span-8 md:col-start-5">
+          <div className="lg:col-span-8 lg:col-start-5">
             <motion.h2
-              initial={{ opacity: 0, y: 50 }}
+              initial={reducedMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.25 }}
+              viewport={{ once: true, margin: "-12% 0px" }}
               transition={{
-                duration: 1,
+                duration: reducedMotion ? 0.01 : 0.9,
                 ease: [0.22, 1, 0.36, 1],
               }}
-              className="max-w-[1000px] text-[clamp(4rem,7.2vw,8.5rem)] font-light leading-[0.8] tracking-[-0.075em]"
+              className="max-w-6xl font-[var(--font-heading)] text-[clamp(3.4rem,7vw,8rem)] font-light leading-[0.84] tracking-[-0.065em]"
             >
               From first
               <br />
@@ -96,54 +101,37 @@ export default function ConsumerExperience() {
               to follow-up.
             </motion.h2>
 
-            <motion.p
-              initial={{ opacity: 0, y: 25 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.3 }}
-              transition={{
-                duration: 0.8,
-                delay: 0.15,
-              }}
-              className="mt-9 max-w-xl text-sm leading-7 text-[#59616B] md:text-base"
-            >
+            <p className="mt-8 max-w-xl text-sm leading-7 text-[#5A6B82] md:text-base">
               A physician-led journey designed to keep assessment,
               recommendation, treatment and follow-up connected.
-            </motion.p>
+            </p>
           </div>
         </div>
-      </div>
 
-      {/* =========================================================
-          MAIN EXPERIENCE
-      ========================================================= */}
-      <div className="mx-auto max-w-[1600px] px-6 pb-24 md:px-10 md:pb-32 lg:px-14">
-        <div className="overflow-hidden border border-[#0B1D35]/12">
+        <div className="mt-16 overflow-hidden border border-[#0B1B33]/10 lg:mt-24">
           <div className="grid lg:grid-cols-12">
-            {/* =====================================================
-                LEFT — FULL HEIGHT JOURNEY TIMELINE
-            ===================================================== */}
-            <div className="flex min-h-[720px] flex-col bg-[#0B1D35] lg:col-span-5">
-              {/* Panel header */}
+            {/* ==================================================
+                MOBILE / DESKTOP STEP SELECTOR
+            ================================================== */}
+
+            <div className="bg-[#0B1B33] lg:col-span-5">
               <div className="flex items-center justify-between border-b border-white/10 px-6 py-5 md:px-9">
                 <div>
                   <p className="text-[8px] uppercase tracking-[0.28em] text-white/35">
                     Your DRIPLABS journey
                   </p>
 
-                  <div className="mt-2 h-px w-9 bg-[#C9A646]" />
+                  <div className="mt-3 h-px w-8 bg-[#C9A227]" />
                 </div>
 
-                <p className="text-[8px] uppercase tracking-[0.22em] text-[#C9A646]">
+                <span className="text-[8px] uppercase tracking-[0.22em] text-[#E3CE8E]">
                   {active.number} / 04
-                </p>
+                </span>
               </div>
 
-              {/* =================================================
-                  FOUR EQUAL SECTIONS
-              ================================================= */}
-              <div className="flex flex-1 flex-col">
+              <div>
                 {steps.map((step, index) => {
-                  const selected = index === activeStep;
+                  const selected = activeStep === index;
 
                   return (
                     <button
@@ -151,97 +139,74 @@ export default function ConsumerExperience() {
                       type="button"
                       onClick={() => setActiveStep(index)}
                       aria-pressed={selected}
-                      className={`group relative flex flex-1 flex-col justify-center border-b border-white/10 px-6 py-8 text-left transition-all duration-500 last:border-b-0 md:px-9 ${
+                      className={[
+                        "group relative w-full border-b border-white/10 px-6 py-8 text-left last:border-b-0 md:px-9 md:py-9",
+                        "transition-colors duration-700 ease-[cubic-bezier(0.22,1,0.36,1)]",
                         selected
                           ? "bg-[#122845]"
-                          : "bg-[#0B1D35] hover:bg-[#10213B]"
-                      }`}
+                          : "bg-[#0B1B33] hover:bg-[#10213B]",
+                      ].join(" ")}
                     >
-                      {/* Active gold rail */}
                       <span
-                        className={`absolute left-0 top-0 h-full w-[3px] origin-top bg-[#C9A646] transition-transform duration-500 ${
-                          selected ? "scale-y-100" : "scale-y-0"
-                        }`}
+                        className={[
+                          "absolute left-0 top-0 h-full w-[2px] origin-top bg-[#C9A227]",
+                          "transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)]",
+                          selected ? "scale-y-100" : "scale-y-0",
+                        ].join(" ")}
                       />
 
-                      {/* Subtle background number */}
-                      <span
-                        className={`pointer-events-none absolute right-7 top-1/2 -translate-y-1/2 text-[70px] font-light leading-none tracking-[-0.08em] transition-opacity duration-500 md:text-[90px] ${
-                          selected
-                            ? "text-white/[0.035]"
-                            : "text-white/[0.018]"
-                        }`}
-                      >
-                        {step.number}
-                      </span>
-
-                      <div className="relative z-10">
-                        {/* Number + state */}
-                        <div className="flex items-center justify-between">
+                      <div className="flex items-start justify-between gap-6">
+                        <div>
                           <span
-                            className={`text-[9px] tracking-[0.24em] ${
-                              selected
-                                ? "text-[#C9A646]"
-                                : "text-white/25"
-                            }`}
+                            className={[
+                              "text-[8px] tracking-[0.24em]",
+                              selected ? "text-[#C9A227]" : "text-white/25",
+                            ].join(" ")}
                           >
                             {step.number}
                           </span>
 
-                          <span
-                            className={`text-sm transition-all duration-300 ${
+                          <h3
+                            className={[
+                              "mt-5 max-w-md font-[var(--font-heading)] text-[1.8rem] font-light leading-[0.95] tracking-[-0.04em] md:text-[2.15rem]",
+                              "transition-colors duration-500",
                               selected
-                                ? "translate-x-0 text-[#C9A646]"
-                                : "translate-x-2 text-white/15 group-hover:translate-x-0"
-                            }`}
+                                ? "text-[#F7F4EC]"
+                                : "text-white/48 group-hover:text-white/80",
+                            ].join(" ")}
                           >
-                            →
-                          </span>
+                            {step.title}
+                          </h3>
+
+                          <p
+                            className={[
+                              "mt-4 max-w-md text-xs leading-6",
+                              "transition-colors duration-500",
+                              selected
+                                ? "text-white/62"
+                                : "text-white/28 group-hover:text-white/42",
+                            ].join(" ")}
+                          >
+                            {step.description}
+                          </p>
                         </div>
 
-                        {/* Title */}
-                        <h3
-                          className={`mt-5 max-w-[390px] text-[clamp(1.55rem,2.3vw,2.2rem)] font-light leading-[1.02] tracking-[-0.035em] transition-colors duration-300 ${
+                        <span
+                          className={[
+                            "pt-1 text-sm transition-all duration-500",
                             selected
-                              ? "text-[#F5F0E7]"
-                              : "text-white/52 group-hover:text-white/85"
-                          }`}
+                              ? "translate-x-0 text-[#C9A227]"
+                              : "translate-x-1 text-white/15 group-hover:translate-x-0",
+                          ].join(" ")}
                         >
-                          {step.title}
-                        </h3>
-
-                        {/* Description */}
-                        <p
-                          className={`mt-4 max-w-[390px] text-[13px] leading-6 transition-colors duration-300 ${
-                            selected
-                              ? "text-white/65"
-                              : "text-white/30 group-hover:text-white/45"
-                          }`}
-                        >
-                          {step.description}
-                        </p>
-
-                        {/* Active label */}
-                        <div
-                          className={`mt-5 flex items-center gap-3 transition-opacity duration-300 ${
-                            selected ? "opacity-100" : "opacity-0"
-                          }`}
-                        >
-                          <span className="h-px w-7 bg-[#C9A646]" />
-
-                          <span className="text-[7px] uppercase tracking-[0.2em] text-[#C9A646]">
-                            Current step
-                          </span>
-                        </div>
+                          →
+                        </span>
                       </div>
                     </button>
                   );
                 })}
               </div>
 
-              {/* =================================================
-                  TRUST STRIP
-              ================================================= */}
               <div className="border-t border-white/10 px-6 py-6 md:px-9">
                 <div className="grid grid-cols-3 gap-4">
                   <div>
@@ -271,34 +236,34 @@ export default function ConsumerExperience() {
               </div>
             </div>
 
-            {/* =====================================================
-                RIGHT — CINEMATIC EXPERIENCE
-            ===================================================== */}
-            <div className="relative min-h-[620px] overflow-hidden bg-[#0B1D35] lg:col-span-7 lg:min-h-[720px]">
+            {/* ==================================================
+                EXPERIENCE IMAGE
+            ================================================== */}
+
+            <div className="relative min-h-[520px] overflow-hidden bg-[#0B1B33] lg:col-span-7 lg:min-h-[720px]">
               <AnimatePresence mode="wait">
                 <motion.div
                   key={active.number}
-                  initial={{
-                    opacity: 0,
-                    scale: 1.045,
-                  }}
-                  animate={{
-                    opacity: 1,
-                    scale: 1,
-                  }}
-                  exit={{
-                    opacity: 0,
-                    scale: 1.015,
-                  }}
+                  initial={
+                    reducedMotion
+                      ? { opacity: 1 }
+                      : { opacity: 0, y: 16 }
+                  }
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={
+                    reducedMotion
+                      ? { opacity: 0 }
+                      : { opacity: 0, y: -16 }
+                  }
                   transition={{
-                    duration: 0.75,
+                    duration: reducedMotion ? 0.01 : 0.7,
                     ease: [0.22, 1, 0.36, 1],
                   }}
                   className="absolute inset-0"
                 >
                   <Image
                     src="/images/hero/driplabs-hero.jpg"
-                    alt="DRIPLABS treatment experience"
+                    alt="DRIPLABS wellness experience"
                     fill
                     sizes="(max-width: 1024px) 100vw, 58vw"
                     className="object-cover"
@@ -307,172 +272,106 @@ export default function ConsumerExperience() {
                     }}
                   />
 
-                  <div className="absolute inset-0 bg-[#071525]/25" />
-
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#071525]/95 via-[#071525]/15 to-transparent" />
-
-                  <div className="absolute inset-0 bg-gradient-to-r from-[#071525]/25 via-transparent to-transparent" />
+                  <div className="absolute inset-0 bg-[#060F1F]/20" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#060F1F]/95 via-[#060F1F]/15 to-transparent" />
                 </motion.div>
               </AnimatePresence>
 
-              {/* Top metadata */}
               <div className="absolute left-6 right-6 top-6 z-10 flex items-start justify-between md:left-9 md:right-9 md:top-9">
                 <div>
-                  <p className="text-[8px] uppercase tracking-[0.28em] text-white/60">
+                  <p className="text-[8px] uppercase tracking-[0.28em] text-white/55">
                     DRIPLABS
                   </p>
 
-                  <p className="mt-2 text-[8px] uppercase tracking-[0.2em] text-[#C9A646]">
+                  <p className="mt-2 text-[8px] uppercase tracking-[0.2em] text-[#E3CE8E]">
                     The experience
                   </p>
                 </div>
 
-                <p className="text-[8px] uppercase tracking-[0.22em] text-white/45">
+                <span className="text-[8px] uppercase tracking-[0.22em] text-white/40">
                   {active.number} / 04
-                </p>
+                </span>
               </div>
 
-              {/* =================================================
-                  RIGHT CONTENT
-              ================================================= */}
-              <div className="absolute inset-x-0 top-0 z-10 px-6 pt-28 md:px-10 md:pt-32 lg:px-12 lg:pt-28">
+              <div className="absolute inset-x-0 bottom-0 z-10 p-6 md:p-10 lg:p-12">
                 <AnimatePresence mode="wait">
                   <motion.div
                     key={active.number}
-                    initial={{
-                      opacity: 0,
-                      y: 20,
-                    }}
-                    animate={{
-                      opacity: 1,
-                      y: 0,
-                    }}
-                    exit={{
-                      opacity: 0,
-                      y: -12,
-                    }}
+                    initial={reducedMotion ? { opacity: 1 } : { opacity: 0, y: 16 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={reducedMotion ? { opacity: 0 } : { opacity: 0, y: -12 }}
                     transition={{
-                      duration: 0.5,
+                      duration: reducedMotion ? 0.01 : 0.6,
+                      ease: [0.22, 1, 0.36, 1],
                     }}
-                    className="w-full max-w-2xl"
                   >
-                    <p className="text-[8px] uppercase tracking-[0.28em] text-white/50">
+                    <p className="text-[8px] uppercase tracking-[0.24em] text-white/40">
                       Step {active.number}
                     </p>
 
-                    <h3 className="mt-5 max-w-xl text-[clamp(4rem,6.2vw,7rem)] font-light leading-[0.78] tracking-[-0.07em] text-[#F5F0E7]">
+                    <h3 className="mt-4 max-w-2xl font-[var(--font-heading)] text-[clamp(3.2rem,6vw,6.5rem)] font-light leading-[0.8] tracking-[-0.065em] text-[#F7F4EC]">
                       {active.shortTitle}
                     </h3>
 
-                    <div className="mt-8 max-w-xl border-t border-white/20 pt-5">
-                      <p className="text-sm leading-7 text-white/70 md:text-base">
-                        {active.detail}
-                      </p>
-                    </div>
+                    <p className="mt-6 max-w-xl border-t border-white/20 pt-5 text-sm leading-7 text-white/65 md:text-base">
+                      {active.detail}
+                    </p>
                   </motion.div>
                 </AnimatePresence>
-              </div>
-
-              {/* Bottom content */}
-              <div className="absolute bottom-6 left-6 right-6 z-10 flex items-end justify-between md:bottom-9 md:left-9 md:right-9">
-                <div>
-                  <p className="text-[8px] uppercase tracking-[0.22em] text-white/40">
-                    Physician-led experience
-                  </p>
-
-                  <p className="mt-2 text-sm text-white/65">
-                    Calm. Personal. Considered.
-                  </p>
-                </div>
-
-                <div className="hidden h-12 w-12 items-center justify-center rounded-full border border-white/25 md:flex">
-                  <span className="text-xs text-[#C9A646]">
-                    ✦
-                  </span>
-                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
 
-      {/* =========================================================
-          SESSION TIMING
-      ========================================================= */}
-      <div className="border-t border-[#0B1D35]/10">
-        <div className="mx-auto max-w-[1600px] px-6 py-16 md:px-10 md:py-24 lg:px-14">
-          <div className="grid gap-10 md:grid-cols-12 md:gap-8">
+        {/* Session timing */}
+        <div className="mt-16 border-t border-[#0B1B33]/10 pt-10 md:mt-24 md:pt-14">
+          <div className="grid gap-8 md:grid-cols-12">
             <div className="md:col-span-3">
-              <p className="driplabs-label text-[#77736A]">
+              <p className="text-[8px] uppercase tracking-[0.26em] text-[#B8901F]">
                 Session timing
               </p>
             </div>
 
             <div className="md:col-span-8 md:col-start-5">
-              <div className="grid border-t border-[#0B1D35]/10 sm:grid-cols-2">
-                <div className="border-b border-[#0B1D35]/10 py-8 sm:border-b-0 sm:border-r sm:pr-10 md:py-10">
-                  <p className="text-[8px] uppercase tracking-[0.22em] text-[#99958C]">
+              <div className="grid border-t border-[#0B1B33]/10 sm:grid-cols-2">
+                <div className="border-b border-[#0B1B33]/10 py-7 sm:border-b-0 sm:border-r sm:pr-8">
+                  <p className="text-[8px] uppercase tracking-[0.2em] text-[#77736A]">
                     Standard IV
                   </p>
 
-                  <p className="mt-4 text-[clamp(4rem,6vw,6rem)] font-light leading-none tracking-[-0.07em]">
+                  <p className="mt-4 font-[var(--font-heading)] text-[clamp(3.5rem,5vw,5.5rem)] font-light leading-none tracking-[-0.06em]">
                     45–60
                     <span className="ml-2 text-xl tracking-normal text-[#77736A]">
                       min
                     </span>
                   </p>
-
-                  <p className="mt-4 max-w-sm text-sm leading-6 text-[#77736A]">
-                    Approximate timing described in the DRIPLABS consumer
-                    experience materials.
-                  </p>
                 </div>
 
-                <div className="py-8 sm:pl-10 md:py-10">
-                  <p className="text-[8px] uppercase tracking-[0.22em] text-[#99958C]">
+                <div className="py-7 sm:pl-8">
+                  <p className="text-[8px] uppercase tracking-[0.2em] text-[#77736A]">
                     NADx
                   </p>
 
-                  <p className="mt-4 text-[clamp(4rem,6vw,6rem)] font-light leading-none tracking-[-0.07em]">
+                  <p className="mt-4 font-[var(--font-heading)] text-[clamp(3.5rem,5vw,5.5rem)] font-light leading-none tracking-[-0.06em]">
                     3–4
                     <span className="ml-2 text-xl tracking-normal text-[#77736A]">
                       hrs
                     </span>
-                  </p>
-
-                  <p className="mt-4 max-w-sm text-sm leading-6 text-[#77736A]">
-                    Separate longer session timing described for the NADx
-                    programme.
                   </p>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
 
-      {/* =========================================================
-          CTA
-      ========================================================= */}
-      <div className="bg-[#0B1D35] text-[#F5F0E7]">
-        <div className="mx-auto flex max-w-[1600px] flex-col gap-7 px-6 py-9 md:flex-row md:items-center md:justify-between md:px-10 lg:px-14">
-          <div>
-            <p className="driplabs-label text-white/35">
-              Begin with a consultation
-            </p>
-
-            <p className="mt-3 max-w-2xl text-2xl font-light tracking-[-0.035em] md:text-3xl">
-              Your journey starts with understanding you.
-            </p>
-          </div>
-
+        <div className="mt-10 flex justify-end">
           <a
-            href="#book"
-            className="group inline-flex shrink-0 items-center gap-5 border border-[#C9A646] bg-[#C9A646] px-6 py-4 text-[9px] uppercase tracking-[0.22em] text-[#0B1D35] transition-all duration-300 hover:bg-transparent hover:text-[#C9A646]"
+            href="/book"
+            className="group inline-flex items-center gap-5 border-b border-[#C9A227]/50 pb-3 text-[8px] uppercase tracking-[0.23em] text-[#B8901F]"
           >
-            Book your consultation
+            Begin with a consultation
 
-            <span className="transition-transform duration-300 group-hover:translate-x-1">
+            <span className="transition-transform duration-500 group-hover:translate-x-1">
               →
             </span>
           </a>

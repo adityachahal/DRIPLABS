@@ -1,0 +1,1997 @@
+
+============================================================
+FILE: src\components\sections\ConsumerExperience.tsx
+============================================================
+
+"use client";
+
+import Image from "next/image";
+import { AnimatePresence, motion } from "framer-motion";
+import { useState } from "react";
+
+const steps = [
+  {
+    number: "01",
+    title: "Consultation & Assessment",
+    shortTitle: "Consultation.",
+    description:
+      "A physician reviews your goals, health history and suitability before any protocol is confirmed.",
+    detail:
+      "Every DRIPLABS journey begins with professional assessment. Your goals, relevant health information and suitability are reviewed before a treatment is confirmed.",
+    imagePosition: "60% center",
+  },
+  {
+    number: "02",
+    title: "Personalised Recommendation",
+    shortTitle: "Recommendation.",
+    description:
+      "Your protocol is selected around your profile, body weight and wellness goals.",
+    detail:
+      "Following assessment, the treating physician determines the appropriate protocol, dosage and treatment plan for your individual profile.",
+    imagePosition: "48% center",
+  },
+  {
+    number: "03",
+    title: "Comfortable IV Session",
+    shortTitle: "IV Session.",
+    description:
+      "Your treatment is administered by trained medical professionals in a comfortable, monitored setting.",
+    detail:
+      "Your selected protocol is administered by trained medical professionals in a carefully monitored environment designed around comfort and care.",
+    imagePosition: "55% center",
+  },
+  {
+    number: "04",
+    title: "Recovery & Follow-Up",
+    shortTitle: "Follow-Up.",
+    description:
+      "Your experience continues with structured recovery guidance and follow-up.",
+    detail:
+      "DRIPLABS considers the journey beyond the infusion, with appropriate recovery guidance and structured follow-up forming part of the experience.",
+    imagePosition: "66% center",
+  },
+];
+
+export default function ConsumerExperience() {
+  const [activeStep, setActiveStep] = useState(0);
+
+  const active = steps[activeStep];
+
+  return (
+    <section
+      id="how-it-works"
+      className="overflow-hidden bg-[#F5F0E7] text-[#0B1D35]"
+    >
+      {/* =========================================================
+          INTRO
+      ========================================================= */}
+      <div className="mx-auto max-w-[1600px] px-6 pb-16 pt-24 md:px-10 md:pb-24 md:pt-36 lg:px-14">
+        <div className="grid gap-10 md:grid-cols-12 md:gap-8">
+          {/* Left label */}
+          <div className="md:col-span-3">
+            <p className="driplabs-label text-[#77736A]">
+              How it works
+            </p>
+
+            <div className="mt-6 hidden h-px w-14 bg-[#C9A646] md:block" />
+
+            <p className="mt-5 max-w-[190px] text-[9px] uppercase leading-5 tracking-[0.18em] text-[#99958C]">
+              Four steps.
+              <br />
+              One considered experience.
+            </p>
+          </div>
+
+          {/* Main heading */}
+          <div className="md:col-span-8 md:col-start-5">
+            <motion.h2
+              initial={{ opacity: 0, y: 50 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.25 }}
+              transition={{
+                duration: 1,
+                ease: [0.22, 1, 0.36, 1],
+              }}
+              className="max-w-[1000px] text-[clamp(4rem,7.2vw,8.5rem)] font-light leading-[0.8] tracking-[-0.075em]"
+            >
+              From first
+              <br />
+              conversation
+              <br />
+              to follow-up.
+            </motion.h2>
+
+            <motion.p
+              initial={{ opacity: 0, y: 25 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.3 }}
+              transition={{
+                duration: 0.8,
+                delay: 0.15,
+              }}
+              className="mt-9 max-w-xl text-sm leading-7 text-[#59616B] md:text-base"
+            >
+              A physician-led journey designed to keep assessment,
+              recommendation, treatment and follow-up connected.
+            </motion.p>
+          </div>
+        </div>
+      </div>
+
+      {/* =========================================================
+          MAIN EXPERIENCE
+      ========================================================= */}
+      <div className="mx-auto max-w-[1600px] px-6 pb-24 md:px-10 md:pb-32 lg:px-14">
+        <div className="overflow-hidden border border-[#0B1D35]/12">
+          <div className="grid lg:grid-cols-12">
+            {/* =====================================================
+                LEFT â€” FULL HEIGHT JOURNEY TIMELINE
+            ===================================================== */}
+            <div className="flex min-h-[720px] flex-col bg-[#0B1D35] lg:col-span-5">
+              {/* Panel header */}
+              <div className="flex items-center justify-between border-b border-white/10 px-6 py-5 md:px-9">
+                <div>
+                  <p className="text-[8px] uppercase tracking-[0.28em] text-white/35">
+                    Your DRIPLABS journey
+                  </p>
+
+                  <div className="mt-2 h-px w-9 bg-[#C9A646]" />
+                </div>
+
+                <p className="text-[8px] uppercase tracking-[0.22em] text-[#C9A646]">
+                  {active.number} / 04
+                </p>
+              </div>
+
+              {/* =================================================
+                  FOUR EQUAL SECTIONS
+              ================================================= */}
+              <div className="flex flex-1 flex-col">
+                {steps.map((step, index) => {
+                  const selected = index === activeStep;
+
+                  return (
+                    <button
+                      key={step.number}
+                      type="button"
+                      onClick={() => setActiveStep(index)}
+                      aria-pressed={selected}
+                      className={`group relative flex flex-1 flex-col justify-center border-b border-white/10 px-6 py-8 text-left transition-all duration-500 last:border-b-0 md:px-9 ${
+                        selected
+                          ? "bg-[#122845]"
+                          : "bg-[#0B1D35] hover:bg-[#10213B]"
+                      }`}
+                    >
+                      {/* Active gold rail */}
+                      <span
+                        className={`absolute left-0 top-0 h-full w-[3px] origin-top bg-[#C9A646] transition-transform duration-500 ${
+                          selected ? "scale-y-100" : "scale-y-0"
+                        }`}
+                      />
+
+                      {/* Subtle background number */}
+                      <span
+                        className={`pointer-events-none absolute right-7 top-1/2 -translate-y-1/2 text-[70px] font-light leading-none tracking-[-0.08em] transition-opacity duration-500 md:text-[90px] ${
+                          selected
+                            ? "text-white/[0.035]"
+                            : "text-white/[0.018]"
+                        }`}
+                      >
+                        {step.number}
+                      </span>
+
+                      <div className="relative z-10">
+                        {/* Number + state */}
+                        <div className="flex items-center justify-between">
+                          <span
+                            className={`text-[9px] tracking-[0.24em] ${
+                              selected
+                                ? "text-[#C9A646]"
+                                : "text-white/25"
+                            }`}
+                          >
+                            {step.number}
+                          </span>
+
+                          <span
+                            className={`text-sm transition-all duration-300 ${
+                              selected
+                                ? "translate-x-0 text-[#C9A646]"
+                                : "translate-x-2 text-white/15 group-hover:translate-x-0"
+                            }`}
+                          >
+                            â†’
+                          </span>
+                        </div>
+
+                        {/* Title */}
+                        <h3
+                          className={`mt-5 max-w-[390px] text-[clamp(1.55rem,2.3vw,2.2rem)] font-light leading-[1.02] tracking-[-0.035em] transition-colors duration-300 ${
+                            selected
+                              ? "text-[#F5F0E7]"
+                              : "text-white/52 group-hover:text-white/85"
+                          }`}
+                        >
+                          {step.title}
+                        </h3>
+
+                        {/* Description */}
+                        <p
+                          className={`mt-4 max-w-[390px] text-[13px] leading-6 transition-colors duration-300 ${
+                            selected
+                              ? "text-white/65"
+                              : "text-white/30 group-hover:text-white/45"
+                          }`}
+                        >
+                          {step.description}
+                        </p>
+
+                        {/* Active label */}
+                        <div
+                          className={`mt-5 flex items-center gap-3 transition-opacity duration-300 ${
+                            selected ? "opacity-100" : "opacity-0"
+                          }`}
+                        >
+                          <span className="h-px w-7 bg-[#C9A646]" />
+
+                          <span className="text-[7px] uppercase tracking-[0.2em] text-[#C9A646]">
+                            Current step
+                          </span>
+                        </div>
+                      </div>
+                    </button>
+                  );
+                })}
+              </div>
+
+              {/* =================================================
+                  TRUST STRIP
+              ================================================= */}
+              <div className="border-t border-white/10 px-6 py-6 md:px-9">
+                <div className="grid grid-cols-3 gap-4">
+                  <div>
+                    <p className="text-[7px] uppercase leading-4 tracking-[0.15em] text-white/30">
+                      Physician
+                      <br />
+                      assessment
+                    </p>
+                  </div>
+
+                  <div className="border-l border-white/10 pl-4">
+                    <p className="text-[7px] uppercase leading-4 tracking-[0.15em] text-white/30">
+                      Professional
+                      <br />
+                      supervision
+                    </p>
+                  </div>
+
+                  <div className="border-l border-white/10 pl-4">
+                    <p className="text-[7px] uppercase leading-4 tracking-[0.15em] text-white/30">
+                      Structured
+                      <br />
+                      follow-up
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* =====================================================
+                RIGHT â€” CINEMATIC EXPERIENCE
+            ===================================================== */}
+            <div className="relative min-h-[620px] overflow-hidden bg-[#0B1D35] lg:col-span-7 lg:min-h-[720px]">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={active.number}
+                  initial={{
+                    opacity: 0,
+                    scale: 1.045,
+                  }}
+                  animate={{
+                    opacity: 1,
+                    scale: 1,
+                  }}
+                  exit={{
+                    opacity: 0,
+                    scale: 1.015,
+                  }}
+                  transition={{
+                    duration: 0.75,
+                    ease: [0.22, 1, 0.36, 1],
+                  }}
+                  className="absolute inset-0"
+                >
+                  <Image
+                    src="/images/hero/driplabs-hero.jpg"
+                    alt="DRIPLABS treatment experience"
+                    fill
+                    sizes="(max-width: 1024px) 100vw, 58vw"
+                    className="object-cover"
+                    style={{
+                      objectPosition: active.imagePosition,
+                    }}
+                  />
+
+                  <div className="absolute inset-0 bg-[#071525]/25" />
+
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#071525]/95 via-[#071525]/15 to-transparent" />
+
+                  <div className="absolute inset-0 bg-gradient-to-r from-[#071525]/25 via-transparent to-transparent" />
+                </motion.div>
+              </AnimatePresence>
+
+              {/* Top metadata */}
+              <div className="absolute left-6 right-6 top-6 z-10 flex items-start justify-between md:left-9 md:right-9 md:top-9">
+                <div>
+                  <p className="text-[8px] uppercase tracking-[0.28em] text-white/60">
+                    DRIPLABS
+                  </p>
+
+                  <p className="mt-2 text-[8px] uppercase tracking-[0.2em] text-[#C9A646]">
+                    The experience
+                  </p>
+                </div>
+
+                <p className="text-[8px] uppercase tracking-[0.22em] text-white/45">
+                  {active.number} / 04
+                </p>
+              </div>
+
+              {/* =================================================
+                  RIGHT CONTENT
+              ================================================= */}
+              <div className="absolute inset-x-0 top-0 z-10 px-6 pt-28 md:px-10 md:pt-32 lg:px-12 lg:pt-28">
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={active.number}
+                    initial={{
+                      opacity: 0,
+                      y: 20,
+                    }}
+                    animate={{
+                      opacity: 1,
+                      y: 0,
+                    }}
+                    exit={{
+                      opacity: 0,
+                      y: -12,
+                    }}
+                    transition={{
+                      duration: 0.5,
+                    }}
+                    className="w-full max-w-2xl"
+                  >
+                    <p className="text-[8px] uppercase tracking-[0.28em] text-white/50">
+                      Step {active.number}
+                    </p>
+
+                    <h3 className="mt-5 max-w-xl text-[clamp(4rem,6.2vw,7rem)] font-light leading-[0.78] tracking-[-0.07em] text-[#F5F0E7]">
+                      {active.shortTitle}
+                    </h3>
+
+                    <div className="mt-8 max-w-xl border-t border-white/20 pt-5">
+                      <p className="text-sm leading-7 text-white/70 md:text-base">
+                        {active.detail}
+                      </p>
+                    </div>
+                  </motion.div>
+                </AnimatePresence>
+              </div>
+
+              {/* Bottom content */}
+              <div className="absolute bottom-6 left-6 right-6 z-10 flex items-end justify-between md:bottom-9 md:left-9 md:right-9">
+                <div>
+                  <p className="text-[8px] uppercase tracking-[0.22em] text-white/40">
+                    Physician-led experience
+                  </p>
+
+                  <p className="mt-2 text-sm text-white/65">
+                    Calm. Personal. Considered.
+                  </p>
+                </div>
+
+                <div className="hidden h-12 w-12 items-center justify-center rounded-full border border-white/25 md:flex">
+                  <span className="text-xs text-[#C9A646]">
+                    âœ¦
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* =========================================================
+          SESSION TIMING
+      ========================================================= */}
+      <div className="border-t border-[#0B1D35]/10">
+        <div className="mx-auto max-w-[1600px] px-6 py-16 md:px-10 md:py-24 lg:px-14">
+          <div className="grid gap-10 md:grid-cols-12 md:gap-8">
+            <div className="md:col-span-3">
+              <p className="driplabs-label text-[#77736A]">
+                Session timing
+              </p>
+            </div>
+
+            <div className="md:col-span-8 md:col-start-5">
+              <div className="grid border-t border-[#0B1D35]/10 sm:grid-cols-2">
+                <div className="border-b border-[#0B1D35]/10 py-8 sm:border-b-0 sm:border-r sm:pr-10 md:py-10">
+                  <p className="text-[8px] uppercase tracking-[0.22em] text-[#99958C]">
+                    Standard IV
+                  </p>
+
+                  <p className="mt-4 text-[clamp(4rem,6vw,6rem)] font-light leading-none tracking-[-0.07em]">
+                    45â€“60
+                    <span className="ml-2 text-xl tracking-normal text-[#77736A]">
+                      min
+                    </span>
+                  </p>
+
+                  <p className="mt-4 max-w-sm text-sm leading-6 text-[#77736A]">
+                    Approximate timing described in the DRIPLABS consumer
+                    experience materials.
+                  </p>
+                </div>
+
+                <div className="py-8 sm:pl-10 md:py-10">
+                  <p className="text-[8px] uppercase tracking-[0.22em] text-[#99958C]">
+                    NADx
+                  </p>
+
+                  <p className="mt-4 text-[clamp(4rem,6vw,6rem)] font-light leading-none tracking-[-0.07em]">
+                    3â€“4
+                    <span className="ml-2 text-xl tracking-normal text-[#77736A]">
+                      hrs
+                    </span>
+                  </p>
+
+                  <p className="mt-4 max-w-sm text-sm leading-6 text-[#77736A]">
+                    Separate longer session timing described for the NADx
+                    programme.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* =========================================================
+          CTA
+      ========================================================= */}
+      <div className="bg-[#0B1D35] text-[#F5F0E7]">
+        <div className="mx-auto flex max-w-[1600px] flex-col gap-7 px-6 py-9 md:flex-row md:items-center md:justify-between md:px-10 lg:px-14">
+          <div>
+            <p className="driplabs-label text-white/35">
+              Begin with a consultation
+            </p>
+
+            <p className="mt-3 max-w-2xl text-2xl font-light tracking-[-0.035em] md:text-3xl">
+              Your journey starts with understanding you.
+            </p>
+          </div>
+
+          <a
+            href="#book"
+            className="group inline-flex shrink-0 items-center gap-5 border border-[#C9A646] bg-[#C9A646] px-6 py-4 text-[9px] uppercase tracking-[0.22em] text-[#0B1D35] transition-all duration-300 hover:bg-transparent hover:text-[#C9A646]"
+          >
+            Book your consultation
+
+            <span className="transition-transform duration-300 group-hover:translate-x-1">
+              â†’
+            </span>
+          </a>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+============================================================
+FILE: src\components\sections\TailoredTherapy.tsx
+============================================================
+
+"use client";
+
+import Image from "next/image";
+import { motion } from "framer-motion";
+
+const proofPoints = [
+  {
+    number: "01",
+    title: "Physician-led",
+    description:
+      "Every journey begins with professional assessment and physician oversight.",
+  },
+  {
+    number: "02",
+    title: "Pharma-grade",
+    description:
+      "Documented protocols and pharmaceutical manufacturing standards support the DRIPLABS system.",
+  },
+  {
+    number: "03",
+    title: "Traceable",
+    description:
+      "Batch information, expiry and Certificate of Analysis documentation support product traceability.",
+  },
+  {
+    number: "04",
+    title: "Made in India",
+    description:
+      "The platform is built around Indian manufacturing and quality systems.",
+  },
+];
+
+export default function TailoredTherapy() {
+  return (
+    <section
+      id="about"
+      className="overflow-hidden bg-[#F5F0E7] text-[#0B1D35]"
+    >
+      {/* =========================================================
+          INTRO
+      ========================================================= */}
+      <div className="mx-auto max-w-[1680px] px-6 pb-20 pt-28 md:px-10 md:pb-28 md:pt-40 lg:px-14">
+        <div className="grid gap-12 md:grid-cols-12 md:gap-8">
+          {/* Left metadata */}
+          <div className="md:col-span-3">
+            <motion.div
+              initial={{ opacity: 0, y: 15 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.4 }}
+              transition={{ duration: 0.7 }}
+            >
+              <p className="driplabs-label text-[#77736A]">
+                About DRIPLABS
+              </p>
+
+              <div className="mt-6 h-px w-12 bg-[#C9A646]" />
+
+              <p className="mt-6 max-w-[190px] text-[9px] uppercase leading-5 tracking-[0.18em] text-[#99958C]">
+                Physician-led
+                <br />
+                Pharma-grade
+                <br />
+                Made in India
+              </p>
+            </motion.div>
+          </div>
+
+          {/* Main statement */}
+          <div className="md:col-span-8 md:col-start-5">
+            <motion.h2
+              initial={{ opacity: 0, y: 65 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.2 }}
+              transition={{
+                duration: 1,
+                ease: [0.22, 1, 0.36, 1],
+              }}
+              className="max-w-[1120px] text-[clamp(4.2rem,7.8vw,9rem)] font-light leading-[0.78] tracking-[-0.075em]"
+            >
+              Wellness,
+              <br />
+              built the way
+              <br />
+              medicine is built.
+            </motion.h2>
+
+            <motion.p
+              initial={{ opacity: 0, y: 25 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.25 }}
+              transition={{
+                duration: 0.8,
+                delay: 0.12,
+              }}
+              className="mt-10 max-w-[650px] text-sm leading-7 text-[#59616B] md:text-base"
+            >
+              DRIPLABS brings together physician-led IV wellness, documented
+              protocols, professional supervision and a pharmaceutical-grade
+              approach to the wellness experience.
+            </motion.p>
+          </div>
+        </div>
+      </div>
+
+      {/* =========================================================
+          HERO IMAGE
+      ========================================================= */}
+      <div className="mx-auto max-w-[1680px] px-6 md:px-10 lg:px-14">
+        <motion.div
+          initial={{ opacity: 0, scale: 1.025 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true, amount: 0.2 }}
+          transition={{
+            duration: 1.2,
+            ease: [0.22, 1, 0.36, 1],
+          }}
+          className="group relative aspect-[4/3] overflow-hidden bg-[#D8D1C6] md:aspect-[2.15/1]"
+        >
+          <Image
+            src="/images/hero/driplabs-hero.jpg"
+            alt="DRIPLABS wellness experience"
+            fill
+            sizes="100vw"
+            className="object-cover object-[58%_center] transition-transform duration-[1400ms] ease-out group-hover:scale-[1.018]"
+          />
+
+          <div className="absolute inset-0 bg-[#071525]/10" />
+
+          <div className="absolute inset-0 bg-gradient-to-t from-[#071525]/65 via-transparent to-transparent" />
+
+          {/* Image top label */}
+          <div className="absolute left-6 top-6 md:left-10 md:top-10">
+            <p className="text-[8px] uppercase tracking-[0.28em] text-white/65">
+              DRIPLABS
+            </p>
+          </div>
+
+          {/* Image caption */}
+          <div className="absolute bottom-6 left-6 right-6 md:bottom-10 md:left-10 md:right-10">
+            <div className="flex items-end justify-between gap-8">
+              <div>
+                <p className="text-[8px] uppercase tracking-[0.25em] text-white/45">
+                  The experience
+                </p>
+
+                <p className="mt-3 max-w-lg text-2xl font-light leading-none tracking-[-0.035em] text-[#F5F0E7] md:text-4xl">
+                  Personal care, considered.
+                </p>
+              </div>
+
+              <span className="hidden text-[8px] uppercase tracking-[0.22em] text-white/45 md:block">
+                01 / DRIPLABS
+              </span>
+            </div>
+          </div>
+        </motion.div>
+      </div>
+
+      {/* =========================================================
+          BRAND PROOF
+      ========================================================= */}
+      <div className="mx-auto max-w-[1680px] px-6 md:px-10 lg:px-14">
+        <div className="grid border-b border-[#0B1D35]/10 md:grid-cols-12">
+          {/* Intro */}
+          <div className="py-14 md:col-span-4 md:py-20 lg:pr-14">
+            <p className="driplabs-label text-[#77736A]">
+              The standard
+            </p>
+
+            <h3 className="mt-6 max-w-md text-4xl font-light leading-[0.9] tracking-[-0.05em] md:text-5xl">
+              The details matter.
+            </h3>
+
+            <p className="mt-6 max-w-md text-sm leading-7 text-[#666B73]">
+              The DRIPLABS experience is designed around the details behind
+              every protocol, not simply the appearance of a treatment menu.
+            </p>
+          </div>
+
+          {/* Statistics */}
+          <div className="grid border-t border-[#0B1D35]/10 md:col-span-8 md:col-start-5 md:grid-cols-2 md:border-t-0 md:border-l">
+            <ProofMetric
+              value="19"
+              label="Commercial protocols"
+              detail="Across the DRIPLABS wellness system."
+            />
+
+            <ProofMetric
+              value="8"
+              label="Wellness families"
+              detail="Structured around distinct wellness focuses."
+            />
+
+            <ProofMetric
+              value="19"
+              label="Technical IV kits"
+              detail="Detailed technical architecture documented separately."
+            />
+
+            <ProofMetric
+              value="IN"
+              label="Made in India"
+              detail="Manufacturing and quality systems built around India."
+            />
+          </div>
+        </div>
+      </div>
+
+      {/* =========================================================
+          FOUR PROOF POINTS
+      ========================================================= */}
+      <div className="mx-auto max-w-[1680px] px-6 py-20 md:px-10 md:py-28 lg:px-14">
+        <div className="grid gap-14 md:grid-cols-12 md:gap-8">
+          {/* Label */}
+          <div className="md:col-span-3">
+            <p className="driplabs-label text-[#77736A]">
+              What defines us
+            </p>
+          </div>
+
+          {/* Points */}
+          <div className="md:col-span-8 md:col-start-5">
+            <div className="border-t border-[#0B1D35]/10">
+              {proofPoints.map((point, index) => (
+                <motion.div
+                  key={point.number}
+                  initial={{
+                    opacity: 0,
+                    y: 25,
+                  }}
+                  whileInView={{
+                    opacity: 1,
+                    y: 0,
+                  }}
+                  viewport={{
+                    once: true,
+                    amount: 0.2,
+                  }}
+                  transition={{
+                    duration: 0.7,
+                    delay: index * 0.06,
+                  }}
+                  className="grid gap-6 border-b border-[#0B1D35]/10 py-8 md:grid-cols-12 md:items-start md:py-10"
+                >
+                  <div className="md:col-span-1">
+                    <span className="text-[8px] tracking-[0.22em] text-[#C9A646]">
+                      {point.number}
+                    </span>
+                  </div>
+
+                  <div className="md:col-span-4">
+                    <h4 className="text-2xl font-light tracking-[-0.035em] md:text-3xl">
+                      {point.title}
+                    </h4>
+                  </div>
+
+                  <div className="md:col-span-6 md:col-start-7">
+                    <p className="max-w-lg text-sm leading-7 text-[#59616B]">
+                      {point.description}
+                    </p>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* =========================================================
+          GOLD CTA STRIP
+      ========================================================= */}
+      <div className="bg-[#0B1D35] text-[#F5F0E7]">
+        <div className="mx-auto flex max-w-[1680px] flex-col gap-8 px-6 py-10 md:flex-row md:items-center md:justify-between md:px-10 lg:px-14">
+          <div>
+            <p className="driplabs-label text-white/35">
+              Explore the system
+            </p>
+
+            <p className="mt-3 max-w-2xl text-2xl font-light tracking-[-0.035em] md:text-3xl">
+              Discover the protocols designed around you.
+            </p>
+          </div>
+
+          <a
+            href="#drips"
+            className="group inline-flex shrink-0 items-center gap-5 border border-[#C9A646] bg-[#C9A646] px-6 py-4 text-[9px] uppercase tracking-[0.22em] text-[#0B1D35] transition-all duration-300 hover:bg-transparent hover:text-[#C9A646]"
+          >
+            Explore protocols
+
+            <span className="transition-transform duration-300 group-hover:translate-x-1">
+              â†’
+            </span>
+          </a>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* =============================================================
+   PROOF METRIC
+============================================================= */
+
+function ProofMetric({
+  value,
+  label,
+  detail,
+}: {
+  value: string;
+  label: string;
+  detail: string;
+}) {
+  return (
+    <motion.div
+      initial={{
+        opacity: 0,
+        y: 25,
+      }}
+      whileInView={{
+        opacity: 1,
+        y: 0,
+      }}
+      viewport={{
+        once: true,
+        amount: 0.2,
+      }}
+      transition={{
+        duration: 0.7,
+      }}
+      className="border-b border-[#0B1D35]/10 px-0 py-10 md:px-10 md:py-12 md:[&:nth-child(odd)]:border-r lg:px-14"
+    >
+      <p className="text-[clamp(4rem,6vw,6.5rem)] font-light leading-none tracking-[-0.07em] text-[#0B1D35]">
+        {value}
+      </p>
+
+      <p className="mt-5 text-[9px] uppercase tracking-[0.2em] text-[#77736A]">
+        {label}
+      </p>
+
+      <p className="mt-3 max-w-xs text-sm leading-6 text-[#77736A]">
+        {detail}
+      </p>
+    </motion.div>
+  );
+}
+
+============================================================
+FILE: src\components\sections\Memberships.tsx
+============================================================
+
+"use client";
+
+import { motion } from "framer-motion";
+import { useMemo, useState } from "react";
+
+import {
+  circleMemberships,
+  membershipPlans,
+} from "@/data/memberships";
+
+type MembershipMode = "packages" | "unlimited" | "circle";
+
+export default function Memberships() {
+  const [mode, setMode] =
+    useState<MembershipMode>("packages");
+
+  const [selectedSlug, setSelectedSlug] =
+    useState<string>(membershipPlans[0].slug);
+
+  const packagePlans = useMemo(
+    () =>
+      membershipPlans.filter(
+        (plan) => plan.type === "package",
+      ),
+    [],
+  );
+
+  const unlimitedPlans = useMemo(
+    () =>
+      membershipPlans.filter(
+        (plan) => plan.type === "unlimited",
+      ),
+    [],
+  );
+
+  const activePlan =
+    membershipPlans.find(
+      (plan) => plan.slug === selectedSlug,
+    ) ?? membershipPlans[0];
+
+  const visiblePlans =
+    mode === "packages"
+      ? packagePlans
+      : unlimitedPlans;
+
+  return (
+    <section
+      id="memberships"
+      className="overflow-hidden bg-[#F5F0E7] text-[#0B1D35]"
+    >
+      {/* =====================================================
+          HEADER
+      ===================================================== */}
+      <div className="mx-auto max-w-[1600px] px-6 pb-16 pt-28 md:px-10 md:pb-24 md:pt-40 lg:px-14">
+        <div className="grid gap-12 md:grid-cols-12 md:gap-8">
+          <div className="md:col-span-3">
+            <p className="driplabs-label text-[#77736A]">
+              Membership
+            </p>
+
+            <div className="mt-6 h-px w-14 bg-[#C9A646]" />
+
+            <p className="mt-5 max-w-[190px] text-[9px] uppercase leading-5 tracking-[0.18em] text-[#99958C]">
+              Make wellness
+              <br />
+              a ritual.
+            </p>
+          </div>
+
+          <div className="md:col-span-8 md:col-start-5">
+            <motion.h2
+              initial={{ opacity: 0, y: 55 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{
+                once: true,
+                amount: 0.2,
+              }}
+              transition={{
+                duration: 1,
+                ease: [0.22, 1, 0.36, 1],
+              }}
+              className="max-w-[1050px] text-[clamp(4rem,7.8vw,8.8rem)] font-light leading-[0.78] tracking-[-0.075em]"
+            >
+              A deeper
+              <br />
+              commitment
+              <br />
+              to wellness.
+            </motion.h2>
+
+            <motion.p
+              initial={{ opacity: 0, y: 25 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{
+                once: true,
+                amount: 0.3,
+              }}
+              transition={{
+                duration: 0.8,
+                delay: 0.15,
+              }}
+              className="mt-9 max-w-xl text-sm leading-7 text-[#59616B] md:text-base"
+            >
+              Choose from structured packages, unlimited
+              access options or recurring DRIPLABS Circle
+              membership.
+            </motion.p>
+          </div>
+        </div>
+      </div>
+
+      {/* =====================================================
+          MEMBERSHIP TYPE SELECTOR
+      ===================================================== */}
+      <div className="mx-auto max-w-[1600px] px-6 md:px-10 lg:px-14">
+        <div className="flex flex-wrap border-y border-[#0B1D35]/10">
+          <ModeButton
+            active={mode === "packages"}
+            label="Packages"
+            count={packagePlans.length.toString()}
+            onClick={() => {
+              setMode("packages");
+              setSelectedSlug(packagePlans[0].slug);
+            }}
+          />
+
+          <ModeButton
+            active={mode === "unlimited"}
+            label="Unlimited"
+            count={unlimitedPlans.length.toString()}
+            onClick={() => {
+              setMode("unlimited");
+              setSelectedSlug(unlimitedPlans[0].slug);
+            }}
+          />
+
+          <ModeButton
+            active={mode === "circle"}
+            label="DRIPLABS Circle"
+            count={circleMemberships.length.toString()}
+            onClick={() => {
+              setMode("circle");
+            }}
+          />
+        </div>
+      </div>
+
+      {/* =====================================================
+          PACKAGES / UNLIMITED
+      ===================================================== */}
+      {mode !== "circle" && (
+        <div className="mx-auto max-w-[1600px] px-6 pb-28 pt-10 md:px-10 md:pb-40 md:pt-14 lg:px-14">
+          <div className="grid overflow-hidden border border-[#0B1D35]/10 lg:grid-cols-12">
+            {/* -------------------------------------------------
+                PLAN LIST
+            ------------------------------------------------- */}
+            <div className="lg:col-span-7">
+              {visiblePlans.map((plan, index) => {
+                const selected =
+                  selectedSlug === plan.slug;
+
+                return (
+                  <button
+                    key={plan.slug}
+                    type="button"
+                    aria-pressed={selected}
+                    onClick={() =>
+                      setSelectedSlug(plan.slug)
+                    }
+                    className="relative flex min-h-[96px] w-full items-center justify-between border-b border-[#0B1D35]/10 px-6 text-left transition-all duration-500 last:border-b-0 md:min-h-[112px] md:px-9"
+                    style={{
+                      backgroundColor: selected
+                        ? "#0B1D35"
+                        : "#F5F0E7",
+                    }}
+                  >
+                    <span
+                      className="absolute left-0 top-0 h-full w-[3px] bg-[#C9A646]"
+                      style={{
+                        opacity: selected ? 1 : 0,
+                      }}
+                    />
+
+                    <div className="flex min-w-0 items-center gap-5">
+                      <span
+                        className="w-6 shrink-0 text-[8px] tracking-[0.25em]"
+                        style={{
+                          color: selected
+                            ? "#C9A646"
+                            : "#99958C",
+                        }}
+                      >
+                        {String(index + 1).padStart(
+                          2,
+                          "0",
+                        )}
+                      </span>
+
+                      <div className="min-w-0">
+                        <h3
+                          className="text-xl font-light tracking-[-0.025em] md:text-2xl"
+                          style={{
+                            color: selected
+                              ? "#F5F0E7"
+                              : "#0B1D35",
+                          }}
+                        >
+                          {plan.name}
+                        </h3>
+
+                        <p
+                          className="mt-2 text-[9px] uppercase tracking-[0.16em]"
+                          style={{
+                            color: selected
+                              ? "rgba(245,240,231,0.45)"
+                              : "#99958C",
+                          }}
+                        >
+                          {plan.sessions}
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="ml-5 flex shrink-0 items-center gap-4">
+                      <span
+                        className="hidden text-sm md:block"
+                        style={{
+                          color: selected
+                            ? "rgba(245,240,231,0.58)"
+                            : "#77736A",
+                        }}
+                      >
+                        â‚¹
+                        {plan.price.toLocaleString(
+                          "en-IN",
+                        )}
+                      </span>
+
+                      <span
+                        className="text-base"
+                        style={{
+                          color: selected
+                            ? "#C9A646"
+                            : "#99958C",
+                        }}
+                      >
+                        â†’
+                      </span>
+                    </div>
+                  </button>
+                );
+              })}
+            </div>
+
+            {/* -------------------------------------------------
+                SELECTED PLAN
+            ------------------------------------------------- */}
+            <div className="flex min-h-[620px] flex-col justify-between bg-[#122845] text-[#F5F0E7] lg:col-span-5">
+              <SelectedPlan plan={activePlan} />
+
+              <div className="border-t border-white/10 p-7 md:p-9">
+                <div className="grid grid-cols-2 gap-6">
+                  <div>
+                    <p className="text-[8px] uppercase tracking-[0.2em] text-white/30">
+                      Before GST
+                    </p>
+
+                    <p className="mt-2 text-sm text-white/70">
+                      â‚¹
+                      {activePlan.price.toLocaleString(
+                        "en-IN",
+                      )}
+                    </p>
+                  </div>
+
+                  <div>
+                    <p className="text-[8px] uppercase tracking-[0.2em] text-white/30">
+                      Including GST
+                    </p>
+
+                    <p className="mt-2 text-sm text-white/70">
+                      â‚¹
+                      {activePlan.total.toLocaleString(
+                        "en-IN",
+                      )}
+                    </p>
+                  </div>
+                </div>
+
+                <a
+                  href="/book"
+                  className="mt-8 flex items-center justify-between bg-[#C9A646] px-5 py-4 text-[9px] uppercase tracking-[0.22em] text-[#0B1D35] transition-colors duration-300 hover:bg-[#E5D39A]"
+                >
+                  <span className="text-[#0B1D35]">
+                    Choose this membership
+                  </span>
+
+                  <span className="text-[#0B1D35]">
+                    â†’
+                  </span>
+                </a>
+
+                <p className="mt-5 text-[8px] leading-5 text-white/25">
+                  Final membership eligibility, terms and
+                  treatment scheduling remain subject to
+                  applicable DRIPLABS policies and physician
+                  assessment where required.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* =====================================================
+          DRIPLABS CIRCLE
+      ===================================================== */}
+      {mode === "circle" && (
+        <div className="mx-auto max-w-[1600px] px-6 pb-28 pt-10 md:px-10 md:pb-40 md:pt-14 lg:px-14">
+          <div className="grid gap-6 md:grid-cols-2">
+            {circleMemberships.map(
+              (membership, index) => (
+                <motion.article
+                  key={membership.slug}
+                  initial={{
+                    opacity: 0,
+                    y: 35,
+                  }}
+                  whileInView={{
+                    opacity: 1,
+                    y: 0,
+                  }}
+                  viewport={{
+                    once: true,
+                    amount: 0.2,
+                  }}
+                  transition={{
+                    duration: 0.8,
+                    delay: index * 0.08,
+                  }}
+                  className="border border-[#0B1D35]/10 bg-[#EEE8DC] p-7 md:p-10 lg:p-12"
+                >
+                  {/* Card header */}
+                  <div className="flex items-start justify-between">
+                    <span className="text-[8px] tracking-[0.24em] text-[#C9A646]">
+                      {String(index + 1).padStart(2, "0")}
+                    </span>
+
+                    <span className="text-[8px] uppercase tracking-[0.2em] text-[#99958C]">
+                      Monthly
+                    </span>
+                  </div>
+
+                  {/* Card title */}
+                  <h3 className="mt-16 max-w-lg text-[clamp(3rem,4vw,4.8rem)] font-light leading-[0.86] tracking-[-0.055em] text-[#0B1D35]">
+                    {membership.name}
+                  </h3>
+
+                  {/* Description */}
+                  <p className="mt-7 max-w-xl text-sm leading-7 text-[#59616B]">
+                    {membership.summary}
+                  </p>
+
+                  {/* Price */}
+                  <div className="mt-12 border-t border-[#0B1D35]/10 pt-7">
+                    <p className="text-[8px] uppercase tracking-[0.2em] text-[#99958C]">
+                      Monthly commitment
+                    </p>
+
+                    <div className="mt-3 flex items-baseline gap-2">
+                      <span className="text-[clamp(3.5rem,5vw,5.5rem)] font-light leading-none tracking-[-0.07em] text-[#0B1D35]">
+                        â‚¹
+                        {membership.monthlyPrice.toLocaleString(
+                          "en-IN",
+                        )}
+                      </span>
+
+                      <span className="text-[9px] uppercase tracking-[0.16em] text-[#99958C]">
+                        / month
+                      </span>
+                    </div>
+
+                    <p className="mt-4 text-[9px] uppercase tracking-[0.16em] text-[#77736A]">
+                      {membership.term}
+                    </p>
+                  </div>
+
+                  {/* CTA */}
+                  <a
+  href="/book"
+  className="group mt-10 flex items-center justify-between border border-[#0B1D35]/25 bg-transparent px-5 py-4 text-[9px] uppercase tracking-[0.22em] text-[#0B1D35] transition-all duration-400 hover:border-[#0B1D35] hover:bg-[#0B1D35]"
+>
+  <span className="text-[#0B1D35] transition-colors duration-300 group-hover:text-[#F5F0E7]">
+    Explore Circle
+  </span>
+
+  <span className="text-[#0B1D35] transition-colors duration-300 group-hover:text-[#C9A646]">
+    â†’
+  </span>
+</a>
+                </motion.article>
+              ),
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* =====================================================
+          FOOTNOTE
+      ===================================================== */}
+      <div className="mx-auto max-w-[1600px] px-6 pb-10 md:px-10 lg:px-14">
+        <div className="border-t border-[#0B1D35]/10 pt-5">
+          <p className="max-w-4xl text-[8px] leading-5 text-[#99958C]">
+            Membership pricing shown here reflects the current
+            DRIPLABS membership information provided for this
+            build. Treatment suitability, physician scheduling,
+            membership terms and applicable conditions should be
+            confirmed before purchase.
+          </p>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* =============================================================
+   MODE BUTTON
+============================================================= */
+
+function ModeButton({
+  active,
+  label,
+  count,
+  onClick,
+}: {
+  active: boolean;
+  label: string;
+  count: string;
+  onClick: () => void;
+}) {
+  return (
+    <button
+      type="button"
+      aria-pressed={active}
+      onClick={onClick}
+      className="relative flex items-center gap-4 border-r border-[#0B1D35]/10 px-5 py-5 text-[9px] uppercase tracking-[0.2em] transition-colors duration-300 last:border-r-0 md:px-8"
+      style={{
+        backgroundColor: active
+          ? "#0B1D35"
+          : "#F5F0E7",
+        color: active
+          ? "#F5F0E7"
+          : "#0B1D35",
+      }}
+    >
+      {active && (
+        <span className="absolute bottom-0 left-0 right-0 h-[2px] bg-[#C9A646]" />
+      )}
+
+      <span
+        style={{
+          color: active
+            ? "#F5F0E7"
+            : "#0B1D35",
+        }}
+      >
+        {label}
+      </span>
+
+      <span
+        className="text-[8px]"
+        style={{
+          color: active
+            ? "#C9A646"
+            : "#99958C",
+        }}
+      >
+        {count}
+      </span>
+    </button>
+  );
+}
+
+/* =============================================================
+   SELECTED PLAN
+============================================================= */
+
+function SelectedPlan({
+  plan,
+}: {
+  plan: (typeof membershipPlans)[number];
+}) {
+  return (
+    <motion.div
+      key={plan.slug}
+      initial={{
+        opacity: 0,
+        y: 18,
+      }}
+      animate={{
+        opacity: 1,
+        y: 0,
+      }}
+      transition={{
+        duration: 0.45,
+        ease: [0.22, 1, 0.36, 1],
+      }}
+      className="p-7 md:p-9 lg:p-10"
+    >
+      <div className="flex items-center justify-between">
+        <p className="text-[8px] uppercase tracking-[0.22em] text-white/35">
+          Selected membership
+        </p>
+
+        <span className="text-[8px] uppercase tracking-[0.18em] text-[#C9A646]">
+          {plan.type === "unlimited"
+            ? "Unlimited"
+            : "Package"}
+        </span>
+      </div>
+
+      <h3 className="mt-16 max-w-md text-5xl font-light leading-[0.86] tracking-[-0.06em] text-[#F5F0E7] md:text-6xl">
+        {plan.name}
+      </h3>
+
+      <p className="mt-7 max-w-md text-sm leading-6 text-white/50">
+        {plan.summary}
+      </p>
+
+      {plan.discount !== undefined && (
+        <div className="mt-10 inline-flex items-center gap-3 border border-white/10 px-4 py-3">
+          <span className="text-[8px] uppercase tracking-[0.18em] text-white/35">
+            Package discount
+          </span>
+
+          <span className="text-sm text-[#C9A646]">
+            {plan.discount}%
+          </span>
+        </div>
+      )}
+
+      {plan.gift && (
+        <div className="mt-4 inline-flex items-center gap-3 border border-[#C9A646]/30 px-4 py-3">
+          <span className="text-[8px] uppercase tracking-[0.18em] text-white/35">
+            Longevity gift
+          </span>
+
+          <span className="text-sm text-[#C9A646]">
+            {plan.gift}
+          </span>
+        </div>
+      )}
+
+      <div className="mt-12 border-t border-white/10 pt-6">
+        <p className="text-[8px] uppercase tracking-[0.2em] text-white/30">
+          Included sessions
+        </p>
+
+        <p className="mt-3 text-2xl font-light tracking-[-0.03em] text-[#F5F0E7]">
+          {plan.sessions}
+        </p>
+      </div>
+    </motion.div>
+  );
+}
+
+============================================================
+FILE: src\components\sections\Locations.tsx
+============================================================
+
+"use client";
+
+import { motion } from "framer-motion";
+
+const locations = [
+  {
+    number: "01",
+    city: "Delhi NCR",
+    description: "Discover the DRIPLABS experience in Delhi NCR.",
+  },
+  {
+    number: "02",
+    city: "Mumbai",
+    description: "Premium IV therapy in the heart of Mumbai.",
+  },
+  {
+    number: "03",
+    city: "Bengaluru",
+    description: "A considered wellness experience in Bengaluru.",
+  },
+  {
+    number: "04",
+    city: "Hyderabad",
+    description: "Visit DRIPLABS for personalised IV therapy in Hyderabad.",
+  },
+  {
+    number: "05",
+    city: "Pune",
+    description: "Experience DRIPLABS in Pune.",
+  },
+  {
+    number: "06",
+    city: "Chandigarh",
+    description: "Your local DRIPLABS wellness destination in Chandigarh.",
+  },
+];
+
+export default function Locations() {
+  return (
+    <section
+      id="locations"
+      className="bg-[#f4f1eb] text-[#171714]"
+    >
+      <div className="mx-auto max-w-[1600px] px-6 py-28 md:px-10 md:py-40 lg:px-14">
+        <div className="grid gap-12 md:grid-cols-12">
+          <div className="md:col-span-3">
+            <p className="text-[10px] uppercase tracking-[0.28em] text-[#77736a]">
+              Locations
+            </p>
+          </div>
+
+          <div className="md:col-span-8 md:col-start-5">
+            <motion.h2
+              initial={{ opacity: 0, y: 50 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.25 }}
+              transition={{ duration: 0.9 }}
+              className="text-[clamp(4rem,8vw,9rem)] font-light leading-[0.8] tracking-[-0.07em]"
+            >
+              Find your
+              <br />
+              nearest drip.
+            </motion.h2>
+          </div>
+        </div>
+
+        <div className="mt-20 border-t border-black/15">
+          {locations.map((location, index) => (
+            <motion.a
+              key={location.city}
+              href="#book"
+              initial={{ opacity: 0, x: 30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, amount: 0.2 }}
+              transition={{
+                duration: 0.7,
+                delay: index * 0.05,
+              }}
+              className="group grid grid-cols-12 border-b border-black/15 py-7 transition-opacity hover:opacity-60"
+            >
+              <span className="col-span-2 text-[9px] tracking-[0.22em] text-[#99958c] md:col-span-1">
+                {location.number}
+              </span>
+
+              <span className="col-span-6 text-2xl font-light tracking-[-0.03em] md:col-span-5 md:text-4xl">
+                {location.city}
+              </span>
+
+              <span className="col-span-3 hidden max-w-sm text-sm leading-6 text-[#77736a] md:block">
+                {location.description}
+              </span>
+
+              <span className="col-span-4 text-right text-xl transition-transform duration-300 group-hover:translate-x-2 md:col-span-3">
+                â†’
+              </span>
+            </motion.a>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+============================================================
+FILE: src\components\sections\FAQ.tsx
+============================================================
+
+"use client";
+
+import { AnimatePresence, motion } from "framer-motion";
+import { useState } from "react";
+
+const faqs = [
+  {
+    question: "What is IV therapy?",
+    answer:
+      "IV therapy delivers fluids and selected nutrients through an intravenous infusion. Treatment suitability is determined through a professional consultation.",
+  },
+  {
+    question: "How does a DRIPLABS appointment work?",
+    answer:
+      "You select your preferred treatment and location, book an appointment, complete the required consultation, and then receive your infusion in a DRIPLABS setting.",
+  },
+  {
+    question: "How long does an appointment take?",
+    answer:
+      "Appointment duration can vary depending on the treatment and your individual consultation. Your DRIPLABS team will guide you through the expected timing.",
+  },
+  {
+    question: "Can everyone receive IV therapy?",
+    answer:
+      "Not necessarily. Treatment suitability depends on individual circumstances and professional assessment. Our team will determine whether a treatment is appropriate for you.",
+  },
+  {
+    question: "Do I need an appointment?",
+    answer:
+      "Appointments are recommended so our team can prepare for your visit and provide the appropriate consultation and treatment experience.",
+  },
+  {
+    question: "Where can I find DRIPLABS?",
+    answer:
+      "DRIPLABS operates across multiple locations in India. Visit our locations section to find the destination nearest to you.",
+  },
+];
+
+export default function FAQ() {
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
+
+  const toggle = (index: number) => {
+    setOpenIndex((current) => (current === index ? null : index));
+  };
+
+  return (
+    <section id="faq" className="bg-[#e8e3da] text-[#171714]">
+      <div className="mx-auto max-w-[1600px] px-6 py-28 md:px-10 md:py-40 lg:px-14">
+        <div className="grid gap-12 md:grid-cols-12">
+          <div className="md:col-span-3">
+            <p className="text-[10px] uppercase tracking-[0.28em] text-[#77736a]">
+              Frequently asked
+            </p>
+          </div>
+
+          <div className="md:col-span-8 md:col-start-5">
+            <motion.h2
+              initial={{ opacity: 0, y: 50 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.25 }}
+              transition={{
+                duration: 0.9,
+                ease: [0.22, 1, 0.36, 1],
+              }}
+              className="text-[clamp(4rem,8vw,9rem)] font-light leading-[0.8] tracking-[-0.07em]"
+            >
+              Questions,
+              <br />
+              answered.
+            </motion.h2>
+          </div>
+        </div>
+
+        <div className="mt-20 border-t border-black/15">
+          {faqs.map((faq, index) => {
+            const isOpen = openIndex === index;
+
+            return (
+              <div
+                key={faq.question}
+                className="border-b border-black/15"
+              >
+                <button
+                  type="button"
+                  onClick={() => toggle(index)}
+                  aria-expanded={isOpen}
+                  className="flex w-full items-center justify-between gap-8 py-7 text-left"
+                >
+                  <div className="flex items-start gap-6">
+                    <span className="pt-1 text-[9px] tracking-[0.2em] text-[#99958c]">
+                      {String(index + 1).padStart(2, "0")}
+                    </span>
+
+                    <span className="text-xl font-light tracking-[-0.02em] md:text-3xl">
+                      {faq.question}
+                    </span>
+                  </div>
+
+                  <span
+                    className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-black/20 text-lg transition-transform duration-300 ${
+                      isOpen ? "rotate-45" : ""
+                    }`}
+                  >
+                    +
+                  </span>
+                </button>
+
+                <AnimatePresence initial={false}>
+                  {isOpen && (
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: "auto", opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{
+                        duration: 0.4,
+                        ease: [0.22, 1, 0.36, 1],
+                      }}
+                      className="overflow-hidden"
+                    >
+                      <p className="max-w-2xl pb-8 pl-[3.25rem] text-sm leading-7 text-[#666259] md:text-base">
+                        {faq.answer}
+                      </p>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+============================================================
+FILE: src\components\sections\FinalCTA.tsx
+============================================================
+
+"use client";
+
+import { motion } from "framer-motion";
+
+export default function FinalCTA() {
+  return (
+    <section
+      id="book"
+      className="relative min-h-[90vh] overflow-hidden bg-[#171714] text-[#f4f1eb]"
+    >
+      {/* Atmospheric background */}
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_35%,rgba(220,211,194,0.18),transparent_35%)]" />
+
+      <div className="relative z-10 flex min-h-[90vh] flex-col justify-between px-6 py-10 md:px-10 md:py-12 lg:px-14">
+        {/* Top */}
+        <div className="mx-auto flex w-full max-w-[1600px] justify-between">
+          <p className="text-[9px] uppercase tracking-[0.25em] text-white/40">
+            DRIPLABS
+          </p>
+
+          <p className="text-right text-[9px] uppercase tracking-[0.22em] text-white/40">
+            Ready when you are
+          </p>
+        </div>
+
+        {/* Main */}
+        <div className="mx-auto w-full max-w-[1600px] py-24">
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="mb-8 text-[10px] uppercase tracking-[0.28em] text-white/45"
+          >
+            Your next wellness experience
+          </motion.p>
+
+          <motion.h2
+            initial={{ opacity: 0, y: 70 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{
+              duration: 1,
+              ease: [0.22, 1, 0.36, 1],
+            }}
+            className="max-w-[1200px] text-[clamp(5rem,13vw,14rem)] font-light leading-[0.73] tracking-[-0.08em]"
+          >
+            Get
+            <br />
+            dripp&apos;d.
+          </motion.h2>
+
+          <div className="mt-12 flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
+            <p className="max-w-md text-sm leading-7 text-white/50 md:text-base">
+              Discover a more considered approach to IV therapy and make time
+              for your wellness.
+            </p>
+
+            <a
+              href="#booking"
+              className="group inline-flex items-center gap-5 text-[10px] uppercase tracking-[0.22em]"
+            >
+              Book your drip
+
+              <span className="flex h-12 w-12 items-center justify-center rounded-full border border-white/30 transition-all duration-300 group-hover:bg-white group-hover:text-[#171714]">
+                â†’
+              </span>
+            </a>
+          </div>
+        </div>
+
+        {/* Bottom */}
+        <div className="mx-auto flex w-full max-w-[1600px] items-end justify-between border-t border-white/15 pt-5">
+          <p className="text-[9px] uppercase tracking-[0.2em] text-white/35">
+            Nourish. Recharge. Restore.
+          </p>
+
+          <p className="hidden text-[9px] uppercase tracking-[0.2em] text-white/35 md:block">
+            India
+          </p>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+============================================================
+FILE: src\components\sections\Footer.tsx
+============================================================
+
+import Image from "next/image";
+
+export default function Footer() {
+  return (
+    <footer className="bg-[#171714] text-[#f4f1eb]">
+      <div className="mx-auto max-w-[1600px] px-6 pb-8 md:px-10 lg:px-14">
+        <div className="border-t border-white/15 pt-12">
+          <div className="grid gap-12 md:grid-cols-12">
+            {/* Brand */}
+            <div className="md:col-span-5">
+              <Image
+                src="/images/brand/driplabs-logo.webp"
+                alt="DRIPLABS by Snnylo"
+                width={180}
+                height={64}
+                className="h-auto w-[155px] object-contain object-left"
+              />
+
+              <p className="mt-5 max-w-sm text-sm leading-6 text-white/45">
+                Nourish. Recharge. Restore.
+              </p>
+            </div>
+
+            {/* Navigation */}
+            <div className="md:col-span-3">
+              <p className="text-[9px] uppercase tracking-[0.22em] text-white/30">
+                Explore
+              </p>
+
+              <nav className="mt-6 flex flex-col gap-4 text-sm text-white/65">
+                <a href="#about" className="transition-opacity hover:opacity-50">
+                  About
+                </a>
+
+                <a href="#drips" className="transition-opacity hover:opacity-50">
+                  Drips
+                </a>
+
+                <a
+                  href="#memberships"
+                  className="transition-opacity hover:opacity-50"
+                >
+                  Memberships
+                </a>
+
+                <a
+                  href="#locations"
+                  className="transition-opacity hover:opacity-50"
+                >
+                  Locations
+                </a>
+
+                <a href="#faq" className="transition-opacity hover:opacity-50">
+                  FAQ
+                </a>
+              </nav>
+            </div>
+
+            {/* Contact */}
+            <div className="md:col-span-4">
+              <p className="text-[9px] uppercase tracking-[0.22em] text-white/30">
+                Contact
+              </p>
+
+              <div className="mt-6 text-sm text-white/65">
+                <a
+                  href="tel:+919319119009"
+                  className="block transition-opacity hover:opacity-50"
+                >
+                  +91 (931) 911-9009
+                </a>
+
+                <a
+                  href="mailto:hello@thedriplabs.com"
+                  className="mt-3 block transition-opacity hover:opacity-50"
+                >
+                  hello@thedriplabs.com
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <div className="mt-20 flex flex-col justify-between gap-5 border-t border-white/10 pt-6 text-[9px] uppercase tracking-[0.2em] text-white/25 md:flex-row">
+            <span>© 2026 DRIPLABS</span>
+
+            <div className="flex gap-6">
+              <a href="#" className="transition-opacity hover:opacity-50">
+                Privacy
+              </a>
+
+              <a href="#" className="transition-opacity hover:opacity-50">
+                Terms
+              </a>
+            </div>
+
+            <span>Made for better wellness</span>
+          </div>
+        </div>
+      </div>
+    </footer>
+  );
+}
+
+============================================================
+FILE: app\page.tsx
+============================================================
+
+import Navbar from "@/components/navigation/Navbar";
+import Hero from "@/components/hero/Hero";
+
+import ProofBand from "@/components/home/ProofBand";
+import FourPaths from "@/components/home/FourPaths";
+
+import CredibilitySection from "@/components/sections/CredibilitySection";
+import LocationMarquee from "@/components/sections/LocationMarquee";
+import TailoredTherapy from "@/components/sections/TailoredTherapy";
+import NADExperience from "@/components/sections/NADExperience";
+import BrandStatement from "@/components/sections/BrandStatement";
+import NourishStatement from "@/components/sections/NourishStatement";
+import ConsumerExperience from "@/components/sections/ConsumerExperience";
+import ProtocolObservatory from "@/components/home/ProtocolObservatory";
+import FeaturedTreatment from "@/components/sections/FeaturedTreatment";
+import Testimonials from "@/components/sections/Testimonials";
+import Memberships from "@/components/sections/Memberships";
+import Locations from "@/components/sections/Locations";
+import FAQ from "@/components/sections/FAQ";
+import FinalCTA from "@/components/sections/FinalCTA";
+import Footer from "@/components/sections/Footer";
+
+export default function Home() {
+  return (
+    <main className="bg-[#F7F4EC] text-[#111318]">
+
+      {/* ======================================================
+          GLOBAL NAVIGATION
+      ====================================================== */}
+
+      <Navbar />
+
+      {/* ======================================================
+          01 — CINEMATIC HERO
+      ====================================================== */}
+
+      <Hero />
+
+      {/* ======================================================
+          02 — TRUST / NUMBERS
+          Establish credibility immediately after the hero.
+      ====================================================== */}
+
+      <ProofBand />
+
+      {/* ======================================================
+          03 — FOUR PATHS
+          Core DRIPLABS audience architecture.
+      ====================================================== */}
+
+      <FourPaths />
+
+      {/* ======================================================
+          04 — WHY DRIPLABS FEELS DIFFERENT
+          Existing detailed credibility system.
+      ====================================================== */}
+
+      <CredibilitySection />
+
+      {/* ======================================================
+          05 — LOCATION PRESENCE
+      ====================================================== */}
+
+      <LocationMarquee />
+
+      {/* ======================================================
+          06 — TAILORED IV THERAPY
+      ====================================================== */}
+
+      <TailoredTherapy />
+
+      {/* ======================================================
+          07 — WELLNESS PROFILE / DISCOVERY
+      ====================================================== */}
+
+      <ProtocolObservatory />
+
+      {/* ======================================================
+          08 — NADx EXPERIENCE
+      ====================================================== */}
+
+      <NADExperience />
+
+      {/* ======================================================
+          09 — CONSUMER EXPERIENCE
+      ====================================================== */}
+
+      <ConsumerExperience />
+
+      {/* ======================================================
+          10 — BRAND PHILOSOPHY
+      ====================================================== */}
+
+      <BrandStatement />
+
+      <NourishStatement />
+
+      {/* ======================================================
+          11 — FEATURED TREATMENT
+      ====================================================== */}
+
+      <FeaturedTreatment />
+
+      {/* ======================================================
+          12 — GUEST EXPERIENCE
+      ====================================================== */}
+
+      <Testimonials />
+
+      {/* ======================================================
+          13 — MEMBERSHIP / CIRCLE
+      ====================================================== */}
+
+      <Memberships />
+
+      {/* ======================================================
+          14 — LOCATIONS
+      ====================================================== */}
+
+      <Locations />
+
+      {/* ======================================================
+          15 — FAQ
+      ====================================================== */}
+
+      <FAQ />
+
+      {/* ======================================================
+          16 — FINAL CONVERSION
+      ====================================================== */}
+
+      <FinalCTA />
+
+      {/* ======================================================
+          17 — FOOTER
+      ====================================================== */}
+
+      <Footer />
+
+    </main>
+  );
+}
+

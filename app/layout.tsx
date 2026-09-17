@@ -1,45 +1,53 @@
-import type { Metadata, Viewport } from "next";
-import { Cormorant_Garamond, Manrope } from "next/font/google";
+﻿import type { Metadata } from "next";
+import { Cormorant_Garamond, DM_Sans } from "next/font/google";
 import "./globals.css";
 
 const headingFont = Cormorant_Garamond({
-  variable: "--font-heading",
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600"],
+  variable: "--font-heading",
   display: "swap",
+  weight: ["300", "400", "500", "600"],
 });
 
-const bodyFont = Manrope({
-  variable: "--font-body",
+const bodyFont = DM_Sans({
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
+  variable: "--font-body",
   display: "swap",
+  weight: ["300", "400", "500", "600"],
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://thedriplabs.com"),
-
   title: {
-    default: "DRIPLABS® — Nourish. Recharge. Restore.",
-    template: "%s — DRIPLABS®",
+    default: "DRIPLABS® — Wellness, built the way medicine is built.",
+    template: "%s | DRIPLABS®",
   },
 
   description:
-    "DRIPLABS® is a physician-led IV wellness and NAD+ platform built around documented protocols, professional supervision and pharmaceutical-grade standards.",
+    "Physician-led IV wellness and NAD⁺ experiences built around documented protocols, professional supervision and a pharmaceutical-grade approach.",
 
   applicationName: "DRIPLABS",
 
   keywords: [
     "DRIPLABS",
-    "IV wellness",
-    "IV therapy",
-    "NAD+",
+    "IV wellness India",
+    "physician-led IV therapy",
+    "NAD+ India",
     "NADx",
-    "physician-led wellness",
     "wellness protocols",
-    "cellular wellness",
-    "longevity",
+    "Glutathione IV India",
   ],
+
+  authors: [
+    {
+      name: "Snnylo Wellness Sciences",
+    },
+  ],
+
+  creator: "Snnylo Wellness Sciences",
+
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_SITE_URL || "https://thedriplabs.com",
+  ),
 
   robots: {
     index: true,
@@ -48,28 +56,26 @@ export const metadata: Metadata = {
 
   openGraph: {
     type: "website",
-    siteName: "DRIPLABS",
-    title: "DRIPLABS® — Nourish. Recharge. Restore.",
+    siteName: "DRIPLABS®",
+    title: "DRIPLABS® — Wellness, built the way medicine is built.",
     description:
-      "Physician-led IV wellness and NAD+ experiences, built around documented protocols and professional supervision.",
-    url: "https://thedriplabs.com",
+      "Physician-led IV wellness and NAD⁺ experiences built around documented protocols, professional supervision and a pharmaceutical-grade approach.",
+    images: [
+      {
+        url: "/images/hero/driplabs-hero.jpg",
+        width: 1600,
+        height: 1000,
+        alt: "DRIPLABS physician-led wellness experience",
+      },
+    ],
   },
 
   twitter: {
     card: "summary_large_image",
-    title: "DRIPLABS® — Nourish. Recharge. Restore.",
-    description:
-      "Physician-led IV wellness and NAD+ experiences.",
+    title: "DRIPLABS®",
+    description: "Wellness, built the way medicine is built.",
+    images: ["/images/hero/driplabs-hero.jpg"],
   },
-
-  icons: {
-    icon: "/favicon.ico",
-  },
-};
-
-export const viewport: Viewport = {
-  themeColor: "#0B1D35",
-  colorScheme: "light",
 };
 
 export default function RootLayout({
@@ -78,12 +84,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body
-        className={`${headingFont.variable} ${bodyFont.variable} antialiased`}
-      >
-        {children}
-      </body>
+    <html
+      lang="en"
+      className={`${headingFont.variable} ${bodyFont.variable}`}
+    >
+      <body>{children}</body>
     </html>
   );
 }

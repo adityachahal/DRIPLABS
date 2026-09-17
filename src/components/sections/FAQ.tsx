@@ -1,6 +1,6 @@
-"use client";
+﻿"use client";
 
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { useState } from "react";
 
 const faqs = [
@@ -37,32 +37,38 @@ const faqs = [
 ];
 
 export default function FAQ() {
+  const reducedMotion = useReducedMotion();
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
-  const toggle = (index: number) => {
-    setOpenIndex((current) => (current === index ? null : index));
-  };
-
   return (
-    <section id="faq" className="bg-[#e8e3da] text-[#171714]">
-      <div className="mx-auto max-w-[1600px] px-6 py-28 md:px-10 md:py-40 lg:px-14">
-        <div className="grid gap-12 md:grid-cols-12">
-          <div className="md:col-span-3">
-            <p className="text-[10px] uppercase tracking-[0.28em] text-[#77736a]">
-              Frequently asked
+    <section id="faq" className="bg-[#EEE8DC] text-[#0B1B33]">
+      <div className="mx-auto max-w-[1680px] px-5 py-24 md:px-10 md:py-36 lg:px-14">
+        <div className="grid gap-12 lg:grid-cols-12 lg:gap-10">
+          <div className="lg:col-span-3">
+            <div className="flex items-center gap-3">
+              <span className="h-px w-8 bg-[#C9A227]" />
+
+              <p className="text-[8px] uppercase tracking-[0.28em] text-[#B8901F] md:text-[9px]">
+                Frequently asked
+              </p>
+            </div>
+
+            <p className="mt-8 max-w-[220px] text-xs leading-6 text-[#5A6B82]">
+              Straight answers for the questions people ask before beginning
+              their DRIPLABS journey.
             </p>
           </div>
 
-          <div className="md:col-span-8 md:col-start-5">
+          <div className="lg:col-span-8 lg:col-start-5">
             <motion.h2
-              initial={{ opacity: 0, y: 50 }}
+              initial={reducedMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.25 }}
+              viewport={{ once: true, margin: "-10% 0px" }}
               transition={{
-                duration: 0.9,
+                duration: reducedMotion ? 0.01 : 0.9,
                 ease: [0.22, 1, 0.36, 1],
               }}
-              className="text-[clamp(4rem,8vw,9rem)] font-light leading-[0.8] tracking-[-0.07em]"
+              className="font-[var(--font-heading)] text-[clamp(3.5rem,7vw,8rem)] font-light leading-[0.84] tracking-[-0.065em]"
             >
               Questions,
               <br />
@@ -71,59 +77,69 @@ export default function FAQ() {
           </div>
         </div>
 
-        <div className="mt-20 border-t border-black/15">
+        <div className="mt-16 border-t border-[#0B1B33]/15 md:mt-24">
           {faqs.map((faq, index) => {
-            const isOpen = openIndex === index;
+            const open = openIndex === index;
 
             return (
-              <div
+              <motion.div
                 key={faq.question}
-                className="border-b border-black/15"
+                initial={reducedMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-8% 0px" }}
+                transition={{
+                  duration: reducedMotion ? 0.01 : 0.7,
+                  delay: reducedMotion ? 0 : Math.min(index * 0.035, 0.18),
+                  ease: [0.22, 1, 0.36, 1],
+                }}
+                className="border-b border-[#0B1B33]/15"
               >
                 <button
                   type="button"
-                  onClick={() => toggle(index)}
-                  aria-expanded={isOpen}
-                  className="flex w-full items-center justify-between gap-8 py-7 text-left"
+                  onClick={() => setOpenIndex(open ? null : index)}
+                  aria-expanded={open}
+                  className="flex w-full items-center justify-between gap-6 py-7 text-left md:py-8"
                 >
-                  <div className="flex items-start gap-6">
-                    <span className="pt-1 text-[9px] tracking-[0.2em] text-[#99958c]">
+                  <div className="flex min-w-0 items-start gap-5 md:gap-7">
+                    <span className="pt-1 text-[8px] tracking-[0.22em] text-[#B8901F]">
                       {String(index + 1).padStart(2, "0")}
                     </span>
 
-                    <span className="text-xl font-light tracking-[-0.02em] md:text-3xl">
+                    <span className="font-[var(--font-heading)] text-[1.45rem] font-light leading-[1.05] tracking-[-0.03em] md:text-2xl lg:text-3xl">
                       {faq.question}
                     </span>
                   </div>
 
                   <span
-                    className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-black/20 text-lg transition-transform duration-300 ${
-                      isOpen ? "rotate-45" : ""
-                    }`}
+                    className={[
+                      "flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-[#0B1B33]/20 text-lg",
+                      "transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]",
+                      open ? "rotate-45" : "",
+                    ].join(" ")}
                   >
                     +
                   </span>
                 </button>
 
                 <AnimatePresence initial={false}>
-                  {isOpen && (
+                  {open && (
                     <motion.div
-                      initial={{ height: 0, opacity: 0 }}
-                      animate={{ height: "auto", opacity: 1 }}
-                      exit={{ height: 0, opacity: 0 }}
+                      initial={reducedMotion ? { opacity: 1, height: "auto" } : { opacity: 0, height: 0 }}
+                      animate={{ opacity: 1, height: "auto" }}
+                      exit={reducedMotion ? { opacity: 0 } : { opacity: 0, height: 0 }}
                       transition={{
-                        duration: 0.4,
+                        duration: reducedMotion ? 0.01 : 0.45,
                         ease: [0.22, 1, 0.36, 1],
                       }}
                       className="overflow-hidden"
                     >
-                      <p className="max-w-2xl pb-8 pl-[3.25rem] text-sm leading-7 text-[#666259] md:text-base">
+                      <p className="max-w-3xl pb-8 pl-[2.1rem] text-sm leading-7 text-[#5A6B82] md:pl-[3.3rem] md:text-base">
                         {faq.answer}
                       </p>
                     </motion.div>
                   )}
                 </AnimatePresence>
-              </div>
+              </motion.div>
             );
           })}
         </div>

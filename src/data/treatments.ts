@@ -1,4 +1,4 @@
-export type TreatmentFamily =
+﻿export type TreatmentFamily =
   | "Skin & Beauty"
   | "Cellular & Longevity"
   | "Metabolic & Performance"
@@ -40,7 +40,7 @@ export interface Treatment {
 
 export const treatments: Treatment[] = [
   /* =========================================================
-     01 — SKIN & BEAUTY
+     01 â€” SKIN & BEAUTY
   ========================================================= */
 
   {
@@ -60,7 +60,7 @@ export const treatments: Treatment[] = [
     duration: "To be confirmed",
     price: null,
 
-    image: "/images/treatments/glamour.jpg",
+    image: "/images/treatments/glamour.png",
 
     benefits: [
       "Skin & beauty wellness focus",
@@ -134,7 +134,7 @@ export const treatments: Treatment[] = [
   },
 
   /* =========================================================
-     02 — CELLULAR & LONGEVITY
+     02 â€” CELLULAR & LONGEVITY
   ========================================================= */
 
   {
@@ -258,7 +258,7 @@ export const treatments: Treatment[] = [
   },
 
   /* =========================================================
-     03 — METABOLIC & PERFORMANCE
+     03 â€” METABOLIC & PERFORMANCE
   ========================================================= */
 
   {
@@ -412,7 +412,7 @@ export const treatments: Treatment[] = [
   },
 
   /* =========================================================
-     04 — DIGESTIVE & SYSTEMIC
+     04 â€” DIGESTIVE & SYSTEMIC
   ========================================================= */
 
   {
@@ -446,7 +446,7 @@ export const treatments: Treatment[] = [
   },
 
   /* =========================================================
-     05 — WOMEN'S WELLNESS
+     05 â€” WOMEN'S WELLNESS
   ========================================================= */
 
   {
@@ -480,7 +480,7 @@ export const treatments: Treatment[] = [
   },
 
   /* =========================================================
-     06 — RECOVERY & IMMUNE
+     06 â€” RECOVERY & IMMUNE
   ========================================================= */
 
   {
@@ -574,7 +574,7 @@ export const treatments: Treatment[] = [
   },
 
   /* =========================================================
-     07 — COGNITIVE & NEURO
+     07 â€” COGNITIVE & NEURO
   ========================================================= */
 
   {
@@ -608,7 +608,7 @@ export const treatments: Treatment[] = [
   },
 
   /* =========================================================
-     08 — MUSCULOSKELETAL
+     08 â€” MUSCULOSKELETAL
   ========================================================= */
 
   {
@@ -671,3 +671,4 @@ export function getActiveTreatments(): Treatment[] {
     (treatment) => treatment.active,
   );
 }
+

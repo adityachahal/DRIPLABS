@@ -1,58 +1,42 @@
-@import "tailwindcss";
+﻿@import "tailwindcss";
 
-/* =========================================================
-   DRIPLABS — LUXURY DESIGN SYSTEM
-   ========================================================= */
+/* ==========================================================
+   DRIPLABS — MASTER VISUAL SYSTEM
+   ========================================================== */
 
 :root {
-  /* -------------------------------------------------------
-     Core palette
-  ------------------------------------------------------- */
-
-  --dl-navy: #0b1d35;
-  --dl-navy-deep: #071525;
+  --dl-navy: #0B1B33;
+  --dl-navy-deep: #060F1F;
   --dl-navy-soft: #122845;
 
-  --dl-ivory: #f5f0e7;
-  --dl-ivory-soft: #faf7f0;
-  --dl-paper: #eee8dc;
+  --dl-gold: #C9A227;
+  --dl-gold-soft: #E3CE8E;
+  --dl-gold-dark: #B8901F;
 
-  --dl-gold: #c9a646;
-  --dl-gold-soft: #e5d39a;
+  --dl-bone: #F7F4EC;
+  --dl-mist: #EDF0F5;
+
+  --dl-slate: #5A6B82;
 
   --dl-ink: #111318;
-  --dl-ink-soft: #555c66;
+  --dl-ink-soft: #555C66;
 
-  /* -------------------------------------------------------
-     Existing aliases
-  ------------------------------------------------------- */
-
-  --background: var(--dl-ivory);
+  --background: var(--dl-bone);
   --foreground: var(--dl-ink);
 
-  --cream: var(--dl-ivory);
+  --cream: var(--dl-bone);
   --charcoal: var(--dl-navy);
 
-  --muted: #77736a;
+  --muted: #77736A;
 
-  --border: rgba(11, 29, 53, 0.10);
-  --border-strong: rgba(11, 29, 53, 0.16);
-
-  /* -------------------------------------------------------
-     Layout
-  ------------------------------------------------------- */
+  --border: rgba(11, 27, 51, 0.10);
+  --border-strong: rgba(11, 27, 51, 0.16);
 
   --container-width: 1680px;
 
-  --page-x: clamp(1.25rem, 4vw, 4.75rem);
-
-  --section-space: clamp(6rem, 11vw, 12rem);
-
+  --page-x: clamp(1rem, 4vw, 4.75rem);
+  --section-space: clamp(5rem, 10vw, 11rem);
   --content-space: clamp(3rem, 6vw, 7rem);
-
-  /* -------------------------------------------------------
-     Typography
-  ------------------------------------------------------- */
 
   --display-tracking: -0.065em;
   --heading-tracking: -0.045em;
@@ -60,29 +44,20 @@
   --body-size: 0.95rem;
   --body-line: 1.75;
 
-  /* -------------------------------------------------------
-     Radius
-     Luxury sites should be restrained.
-  ------------------------------------------------------- */
-
   --radius-sm: 2px;
   --radius-md: 6px;
   --radius-lg: 12px;
 
-  /* -------------------------------------------------------
-     Motion
-  ------------------------------------------------------- */
-
   --ease-luxury: cubic-bezier(0.22, 1, 0.36, 1);
 
-  --duration-fast: 0.3s;
-  --duration-normal: 0.6s;
-  --duration-slow: 1s;
+  --duration-fast: 300ms;
+  --duration-normal: 600ms;
+  --duration-slow: 900ms;
 }
 
-/* =========================================================
+/* ==========================================================
    RESET
-   ========================================================= */
+   ========================================================== */
 
 *,
 *::before,
@@ -93,7 +68,6 @@
 html {
   margin: 0;
   padding: 0;
-
   background: var(--dl-navy);
 
   scroll-behavior: smooth;
@@ -122,10 +96,6 @@ body {
 
   overflow-x: hidden;
 }
-
-/* =========================================================
-   DOCUMENT ELEMENTS
-   ========================================================= */
 
 section {
   position: relative;
@@ -175,17 +145,21 @@ select {
 button,
 a {
   -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
 }
 
-button {
-  border: 0;
-  background: transparent;
-  color: inherit;
+/* ==========================================================
+   SELECTION
+   ========================================================== */
+
+::selection {
+  background: var(--dl-gold);
+  color: var(--dl-navy-deep);
 }
 
-/* =========================================================
+/* ==========================================================
    MEDIA
-   ========================================================= */
+   ========================================================== */
 
 img,
 svg,
@@ -200,12 +174,19 @@ img {
   -webkit-user-drag: none;
 }
 
-/* =========================================================
-   CONTAINER SYSTEM
-   ========================================================= */
+video {
+  backface-visibility: hidden;
+}
+
+/* ==========================================================
+   CONTAINERS
+   ========================================================== */
 
 .driplabs-container {
-  width: min(100% - (var(--page-x) * 2), var(--container-width));
+  width: min(
+    calc(100% - (var(--page-x) * 2)),
+    var(--container-width)
+  );
 
   margin-inline: auto;
 }
@@ -218,12 +199,15 @@ img {
   max-width: 1100px;
 }
 
-/* =========================================================
-   EDITORIAL GRID
-   ========================================================= */
+/* ==========================================================
+   GRID
+   ========================================================== */
 
 .driplabs-grid {
-  width: min(100% - (var(--page-x) * 2), var(--container-width));
+  width: min(
+    calc(100% - (var(--page-x) * 2)),
+    var(--container-width)
+  );
 
   margin-inline: auto;
 
@@ -232,12 +216,12 @@ img {
   grid-template-columns:
     repeat(12, minmax(0, 1fr));
 
-  column-gap: clamp(1.25rem, 2vw, 2.5rem);
+  column-gap: clamp(1rem, 2vw, 2.5rem);
 }
 
-/* =========================================================
-   LABELS
-   ========================================================= */
+/* ==========================================================
+   LABEL
+   ========================================================== */
 
 .driplabs-label {
   font-family:
@@ -247,17 +231,15 @@ img {
     sans-serif;
 
   font-size: 0.6rem;
-
   line-height: 1.2;
-
   letter-spacing: 0.24em;
 
   text-transform: uppercase;
 }
 
-/* =========================================================
-   DISPLAY TYPE
-   ========================================================= */
+/* ==========================================================
+   DISPLAY
+   ========================================================== */
 
 .driplabs-display {
   font-family:
@@ -267,40 +249,35 @@ img {
     serif;
 
   font-weight: 400;
-
   letter-spacing: var(--display-tracking);
-
   line-height: 0.82;
 }
 
-/* =========================================================
-   HAIRLINE BORDERS
-   ========================================================= */
+/* ==========================================================
+   RULES
+   ========================================================== */
 
 .driplabs-rule {
   height: 1px;
   width: 100%;
-
   background: var(--border);
 }
 
 .driplabs-rule-light {
   height: 1px;
   width: 100%;
-
   background: var(--border-strong);
 }
 
 .driplabs-rule-dark {
   height: 1px;
   width: 100%;
-
   background: rgba(255, 255, 255, 0.12);
 }
 
-/* =========================================================
-   GOLD DETAILS
-   ========================================================= */
+/* ==========================================================
+   GOLD
+   ========================================================== */
 
 .driplabs-gold {
   color: var(--dl-gold);
@@ -308,21 +285,17 @@ img {
 
 .driplabs-gold-line {
   height: 1px;
-
   width: 100%;
-
   background: var(--dl-gold);
-
   transform-origin: left;
 }
 
-/* =========================================================
+/* ==========================================================
    IMAGE SYSTEM
-   ========================================================= */
+   ========================================================== */
 
 .driplabs-image {
   position: relative;
-
   overflow: hidden;
 }
 
@@ -341,20 +314,18 @@ img {
   transform: scale(1.02);
 }
 
-/* =========================================================
-   LUXURY BUTTON
-   ========================================================= */
+/* ==========================================================
+   BUTTON
+   ========================================================== */
 
 .driplabs-button {
   display: inline-flex;
-
   align-items: center;
   justify-content: center;
 
   gap: 1.25rem;
 
   min-height: 3.25rem;
-
   padding-inline: 1.5rem;
 
   border: 1px solid currentColor;
@@ -366,9 +337,7 @@ img {
     sans-serif;
 
   font-size: 0.58rem;
-
   line-height: 1;
-
   letter-spacing: 0.2em;
 
   text-transform: uppercase;
@@ -384,22 +353,22 @@ img {
   transform: translateY(-1px);
 }
 
-/* =========================================================
+/* ==========================================================
    GLASS
-   ========================================================= */
+   ========================================================== */
 
 .driplabs-glass {
-  background: rgba(245, 240, 231, 0.88);
+  background: rgba(247, 244, 236, 0.88);
 
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
 
-  border-bottom: 1px solid rgba(11, 29, 53, 0.08);
+  border-bottom: 1px solid rgba(11, 27, 51, 0.08);
 }
 
-/* =========================================================
+/* ==========================================================
    NOISE
-   ========================================================= */
+   ========================================================== */
 
 .driplabs-noise {
   position: relative;
@@ -410,7 +379,6 @@ img {
   content: "";
 
   position: absolute;
-
   inset: 0;
 
   z-index: 50;
@@ -419,21 +387,22 @@ img {
 
   opacity: 0.028;
 
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.7'/%3E%3C/svg%3E");
+  background-image:
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.7'/%3E%3C/svg%3E");
 }
 
-/* =========================================================
+/* ==========================================================
    FOCUS
-   ========================================================= */
+   ========================================================== */
 
 :focus-visible {
   outline: 1px solid var(--dl-gold);
   outline-offset: 4px;
 }
 
-/* =========================================================
+/* ==========================================================
    SCROLLBAR
-   ========================================================= */
+   ========================================================== */
 
 html {
   scrollbar-width: thin;
@@ -453,13 +422,88 @@ html::-webkit-scrollbar-track {
 
 html::-webkit-scrollbar-thumb {
   background: var(--dl-gold);
-
   border-radius: 999px;
 }
 
-/* =========================================================
+/* ==========================================================
+   MOBILE
+   ========================================================== */
+
+@media (max-width: 768px) {
+  :root {
+    --page-x: 1.125rem;
+    --section-space: clamp(4.5rem, 16vw, 6rem);
+    --content-space: 2.5rem;
+    --body-size: 0.88rem;
+  }
+
+  html {
+    overflow-x: clip;
+  }
+
+  body {
+    overflow-x: clip;
+  }
+
+  .driplabs-container {
+    width: calc(100% - (var(--page-x) * 2));
+  }
+
+  .driplabs-grid {
+    grid-template-columns:
+      repeat(4, minmax(0, 1fr));
+
+    column-gap: 0.875rem;
+  }
+
+  .driplabs-display {
+    line-height: 0.86;
+    letter-spacing: -0.06em;
+  }
+
+  .driplabs-label {
+    font-size: 0.54rem;
+    letter-spacing: 0.19em;
+  }
+
+  .driplabs-button {
+    min-height: 3.25rem;
+    padding-inline: 1.15rem;
+
+    font-size: 0.55rem;
+    letter-spacing: 0.17em;
+  }
+}
+
+/* ==========================================================
+   SMALL PHONES
+   ========================================================== */
+
+@media (max-width: 390px) {
+  :root {
+    --page-x: 1rem;
+  }
+
+  .driplabs-hero h1 {
+    font-size: clamp(3.6rem, 19vw, 5.2rem);
+    line-height: 0.79;
+  }
+}
+
+/* ==========================================================
+   TOUCH DEVICES
+   ========================================================== */
+
+@media (hover: none) {
+  .driplabs-image:hover img,
+  .driplabs-button:hover {
+    transform: none;
+  }
+}
+
+/* ==========================================================
    REDUCED MOTION
-   ========================================================= */
+   ========================================================== */
 
 @media (prefers-reduced-motion: reduce) {
   html {
@@ -473,31 +517,17 @@ html::-webkit-scrollbar-thumb {
     animation-iteration-count: 1 !important;
     animation-delay: 0ms !important;
     transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
   }
 }
 
-/* =========================================================
-   MOBILE
-   ========================================================= */
+/* ==========================================================
+   SAFE AREA
+   ========================================================== */
 
-@media (max-width: 768px) {
-  :root {
-    --page-x: 1.25rem;
-
-    --section-space: 5rem;
-
-    --content-space: 3rem;
-  }
-
-  body {
-    overflow-x: clip;
-  }
-
-  .driplabs-grid {
-    grid-template-columns:
-      repeat(4, minmax(0, 1fr));
-
-    column-gap: 1rem;
+@supports (padding: env(safe-area-inset-bottom)) {
+  @media (max-width: 768px) {
+    body {
+      padding-bottom: env(safe-area-inset-bottom);
+    }
   }
 }
