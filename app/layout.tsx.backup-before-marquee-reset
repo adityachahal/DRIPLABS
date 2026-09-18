@@ -1,0 +1,483 @@
+﻿import type { Metadata } from "next";
+import { Cormorant_Garamond, DM_Sans } from "next/font/google";
+import "./globals.css";
+
+const headingFont = Cormorant_Garamond({
+  subsets: ["latin"],
+  variable: "--font-heading",
+  display: "swap",
+  weight: ["300", "400", "500", "600"],
+});
+
+const bodyFont = DM_Sans({
+  subsets: ["latin"],
+  variable: "--font-body",
+  display: "swap",
+  weight: ["300", "400", "500", "600"],
+});
+
+export const metadata: Metadata = {
+  title: {
+    default: "DRIPLABS® — Wellness, built the way medicine is built.",
+    template: "%s | DRIPLABS®",
+  },
+
+  description:
+    "Physician-led IV wellness and NAD⁺ experiences built around documented protocols, professional supervision and a pharmaceutical-grade approach.",
+
+  applicationName: "DRIPLABS",
+
+  keywords: [
+    "DRIPLABS",
+    "IV wellness India",
+    "physician-led IV therapy",
+    "NAD+ India",
+    "NADx",
+    "wellness protocols",
+    "Glutathione IV India",
+  ],
+
+  authors: [
+    {
+      name: "Snnylo Wellness Sciences",
+    },
+  ],
+
+  creator: "Snnylo Wellness Sciences",
+
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_SITE_URL || "https://thedriplabs.com",
+  ),
+
+  robots: {
+    index: true,
+    follow: true,
+  },
+
+  openGraph: {
+    type: "website",
+    siteName: "DRIPLABS®",
+    title: "DRIPLABS® — Wellness, built the way medicine is built.",
+    description:
+      "Physician-led IV wellness and NAD⁺ experiences built around documented protocols, professional supervision and a pharmaceutical-grade approach.",
+    images: [
+      {
+        url: "/images/hero/driplabs-hero.jpg",
+        width: 1600,
+        height: 1000,
+        alt: "DRIPLABS physician-led wellness experience",
+      },
+    ],
+  },
+
+  twitter: {
+    card: "summary_large_image",
+    title: "DRIPLABS®",
+    description: "Wellness, built the way medicine is built.",
+    images: ["/images/hero/driplabs-hero.jpg"],
+  },
+};
+
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
+  return (
+    <html
+      lang="en"
+      className={`${headingFont.variable} ${bodyFont.variable}`}
+    >
+      <body>
+        {/* =====================================================
+            DRIPLABS — GLOBAL WELCOME MARQUEE
+            Appears across the entire website
+        ====================================================== */}
+
+        <div
+          className="driplabs-welcome-marquee"
+          aria-hidden="true"
+        >
+          <div className="driplabs-welcome-light" />
+
+          <div className="driplabs-welcome-track">
+
+            {/* FIRST MARQUEE SET */}
+            <div className="driplabs-welcome-set">
+              <span className="driplabs-welcome-brand">
+                DRIPLABS®
+              </span>
+
+              <span className="driplabs-welcome-star">
+                ✦
+              </span>
+
+              <span>
+                WELCOME TO A NEW STANDARD OF WELLNESS
+              </span>
+
+              <span className="driplabs-welcome-star">
+                ✦
+              </span>
+
+              <span>
+                PHYSICIAN-LED WELLNESS
+              </span>
+
+              <span className="driplabs-welcome-star">
+                ✦
+              </span>
+
+              <span>
+                MADE IN INDIA
+              </span>
+
+              <span className="driplabs-welcome-star">
+                ✦
+              </span>
+
+              <span>
+                PRECISION · CELLULAR HEALTH · LONGEVITY
+              </span>
+
+              <span className="driplabs-welcome-star">
+                ✦
+              </span>
+            </div>
+
+            {/* IDENTICAL SECOND SET FOR SEAMLESS LOOP */}
+            <div
+              className="driplabs-welcome-set"
+              aria-hidden="true"
+            >
+              <span className="driplabs-welcome-brand">
+                DRIPLABS®
+              </span>
+
+              <span className="driplabs-welcome-star">
+                ✦
+              </span>
+
+              <span>
+                WELCOME TO A NEW STANDARD OF WELLNESS
+              </span>
+
+              <span className="driplabs-welcome-star">
+                ✦
+              </span>
+
+              <span>
+                PHYSICIAN-LED WELLNESS
+              </span>
+
+              <span className="driplabs-welcome-star">
+                ✦
+              </span>
+
+              <span>
+                MADE IN INDIA
+              </span>
+
+              <span className="driplabs-welcome-star">
+                ✦
+              </span>
+
+              <span>
+                PRECISION · CELLULAR HEALTH · LONGEVITY
+              </span>
+
+              <span className="driplabs-welcome-star">
+                ✦
+              </span>
+            </div>
+
+          </div>
+        </div>
+
+        {/* =====================================================
+            GLOBAL MARQUEE STYLES
+        ====================================================== */}
+
+        <style>{`
+          .driplabs-welcome-marquee {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+
+            width: 100vw;
+            height: 38px;
+
+            z-index: 2147483647;
+
+            display: flex;
+            align-items: center;
+
+            overflow: hidden;
+
+            pointer-events: none;
+
+            background:
+              linear-gradient(
+                180deg,
+                #070809 0%,
+                #0c0e11 50%,
+                #070809 100%
+              );
+
+            border-bottom:
+              1px solid
+              rgba(201, 166, 70, 0.32);
+
+            box-shadow:
+              0 2px 20px
+              rgba(201, 166, 70, 0.16);
+          }
+
+          /* Fine luminous line at the very top */
+          .driplabs-welcome-marquee::before {
+            content: "";
+
+            position: absolute;
+
+            top: 0;
+            left: 0;
+
+            width: 100%;
+            height: 1px;
+
+            background:
+              linear-gradient(
+                90deg,
+                transparent 0%,
+                rgba(201, 166, 70, 0.4) 18%,
+                rgba(255, 248, 220, 0.95) 50%,
+                rgba(201, 166, 70, 0.4) 82%,
+                transparent 100%
+              );
+          }
+
+          /* Fine architectural line underneath */
+          .driplabs-welcome-marquee::after {
+            content: "";
+
+            position: absolute;
+
+            left: 0;
+            right: 0;
+            bottom: 0;
+
+            height: 1px;
+
+            background:
+              linear-gradient(
+                90deg,
+                transparent,
+                rgba(201, 166, 70, 0.42),
+                transparent
+              );
+          }
+
+          /* =====================================================
+             MOVING GOLD LIGHT
+          ====================================================== */
+
+          .driplabs-welcome-light {
+            position: absolute;
+
+            top: -14px;
+            left: -25vw;
+
+            width: 25vw;
+            min-width: 260px;
+
+            height: 66px;
+
+            background:
+              radial-gradient(
+                ellipse at center,
+                rgba(201, 166, 70, 0.48) 0%,
+                rgba(201, 166, 70, 0.2) 28%,
+                transparent 70%
+              );
+
+            filter: blur(8px);
+
+            animation:
+              driplabs-welcome-light-sweep
+              5s
+              cubic-bezier(0.22, 1, 0.36, 1)
+              infinite;
+          }
+
+          /* =====================================================
+             MARQUEE TRACK
+          ====================================================== */
+
+          .driplabs-welcome-track {
+            position: relative;
+
+            z-index: 5;
+
+            display: flex;
+
+            width: max-content;
+            min-width: max-content;
+
+            animation:
+              driplabs-welcome-marquee
+              30s
+              linear
+              infinite;
+          }
+
+          .driplabs-welcome-set {
+            display: flex;
+            align-items: center;
+
+            gap: 22px;
+
+            padding-right: 22px;
+
+            white-space: nowrap;
+
+            font-family:
+              var(--font-body),
+              Arial,
+              sans-serif;
+
+            font-size: 8px;
+
+            font-weight: 500;
+
+            letter-spacing: 0.28em;
+
+            text-transform: uppercase;
+
+            color:
+              rgba(244, 242, 236, 0.78);
+
+            text-shadow:
+              0 0 12px
+              rgba(201, 166, 70, 0.16);
+          }
+
+          /* DRIPLABS brand */
+          .driplabs-welcome-brand {
+            color: #e3ce8e;
+
+            font-weight: 600;
+
+            letter-spacing: 0.32em;
+
+            text-shadow:
+              0 0 12px
+              rgba(201, 166, 70, 0.45);
+          }
+
+          /* Gold separators */
+          .driplabs-welcome-star {
+            color: #c9a646;
+
+            font-size: 8px;
+
+            text-shadow:
+              0 0 9px
+              rgba(201, 166, 70, 0.9);
+          }
+
+          /* =====================================================
+             ANIMATIONS
+          ====================================================== */
+
+          @keyframes driplabs-welcome-marquee {
+            from {
+              transform:
+                translate3d(0, 0, 0);
+            }
+
+            to {
+              transform:
+                translate3d(-50%, 0, 0);
+            }
+          }
+
+          @keyframes driplabs-welcome-light-sweep {
+            0% {
+              transform:
+                translate3d(0, 0, 0);
+
+              opacity: 0;
+            }
+
+            10% {
+              opacity: 1;
+            }
+
+            50% {
+              opacity: 1;
+            }
+
+            90% {
+              opacity: 1;
+            }
+
+            100% {
+              transform:
+                translate3d(650vw, 0, 0);
+
+              opacity: 0;
+            }
+          }
+
+          /* =====================================================
+             MOBILE
+          ====================================================== */
+
+          @media (max-width: 640px) {
+            .driplabs-welcome-marquee {
+              height: 32px;
+            }
+
+            .driplabs-welcome-set {
+              gap: 14px;
+
+              padding-right: 14px;
+
+              font-size: 6px;
+
+              letter-spacing: 0.18em;
+            }
+
+            .driplabs-welcome-star {
+              font-size: 6px;
+            }
+          }
+
+          /* =====================================================
+             REDUCED MOTION
+          ====================================================== */
+
+          @media (prefers-reduced-motion: reduce) {
+            .driplabs-welcome-track {
+              animation: none;
+
+              transform:
+                translate3d(-25%, 0, 0);
+            }
+
+            .driplabs-welcome-light {
+              animation: none;
+
+              left: 40%;
+
+              opacity: 0.55;
+            }
+          }
+        `}</style>
+
+        {children}
+      </body>
+    </html>
+  );
+}
