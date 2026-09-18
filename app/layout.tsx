@@ -88,7 +88,202 @@ export default function RootLayout({
       lang="en"
       className={`${headingFont.variable} ${bodyFont.variable}`}
     >
-      <body>{children}</body>
+      <body>
+        {/* DRIPLABS GLOBAL BRAND MARQUEE */}
+
+        <div
+          style={{
+            position: "fixed",
+            top: 0,
+            left: 0,
+            right: 0,
+            width: "100%",
+            height: "44px",
+            zIndex: 999999,
+            display: "flex",
+            alignItems: "center",
+            overflow: "hidden",
+            background: "#08090B",
+            borderBottom: "1px solid rgba(201,166,70,0.45)",
+            boxShadow: "0 2px 25px rgba(201,166,70,0.2)",
+            pointerEvents: "none",
+          }}
+          aria-hidden="true"
+        >
+          <div
+            style={{
+              position: "absolute",
+              top: 0,
+              left: 0,
+              width: "100%",
+              height: "2px",
+              background:
+                "linear-gradient(90deg, transparent, #C9A646, #FFF8DC, #C9A646, transparent)",
+              animation: "driplabsTopLight 4s linear infinite",
+            }}
+          />
+
+          <div
+            style={{
+              display: "flex",
+              width: "max-content",
+              whiteSpace: "nowrap",
+              animation: "driplabsTopMarquee 24s linear infinite",
+            }}
+          >
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "28px",
+                paddingRight: "28px",
+                fontFamily: "var(--font-body), Arial, sans-serif",
+                fontSize: "9px",
+                fontWeight: 500,
+                letterSpacing: "0.3em",
+                textTransform: "uppercase",
+                color: "#F4F2EC",
+              }}
+            >
+              <strong
+                style={{
+                  color: "#E3CE8E",
+                  fontWeight: 600,
+                }}
+              >
+                DRIPLABS®
+              </strong>
+
+              <span style={{ color: "#C9A646" }}>✦</span>
+
+              <span>
+                WELCOME TO A NEW STANDARD OF WELLNESS
+              </span>
+
+              <span style={{ color: "#C9A646" }}>✦</span>
+
+              <span>
+                PHYSICIAN-LED WELLNESS
+              </span>
+
+              <span style={{ color: "#C9A646" }}>✦</span>
+
+              <span>
+                MADE IN INDIA
+              </span>
+
+              <span style={{ color: "#C9A646" }}>✦</span>
+
+              <span>
+                PRECISION · CELLULAR HEALTH · LONGEVITY
+              </span>
+
+              <span style={{ color: "#C9A646" }}>✦</span>
+            </div>
+
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "28px",
+                paddingRight: "28px",
+                fontFamily: "var(--font-body), Arial, sans-serif",
+                fontSize: "9px",
+                fontWeight: 500,
+                letterSpacing: "0.3em",
+                textTransform: "uppercase",
+                color: "#F4F2EC",
+              }}
+              aria-hidden="true"
+            >
+              <strong
+                style={{
+                  color: "#E3CE8E",
+                  fontWeight: 600,
+                }}
+              >
+                DRIPLABS®
+              </strong>
+
+              <span style={{ color: "#C9A646" }}>✦</span>
+
+              <span>
+                WELCOME TO A NEW STANDARD OF WELLNESS
+              </span>
+
+              <span style={{ color: "#C9A646" }}>✦</span>
+
+              <span>
+                PHYSICIAN-LED WELLNESS
+              </span>
+
+              <span style={{ color: "#C9A646" }}>✦</span>
+
+              <span>
+                MADE IN INDIA
+              </span>
+
+              <span style={{ color: "#C9A646" }}>✦</span>
+
+              <span>
+                PRECISION · CELLULAR HEALTH · LONGEVITY
+              </span>
+
+              <span style={{ color: "#C9A646" }}>✦</span>
+            </div>
+          </div>
+
+          <style>{`
+            @keyframes driplabsTopMarquee {
+              from {
+                transform: translateX(0);
+              }
+
+              to {
+                transform: translateX(-50%);
+              }
+            }
+
+            @keyframes driplabsTopLight {
+              0% {
+                transform: translateX(-100%);
+                opacity: 0;
+              }
+
+              15% {
+                opacity: 1;
+              }
+
+              50% {
+                opacity: 1;
+              }
+
+              85% {
+                opacity: 1;
+              }
+
+              100% {
+                transform: translateX(100%);
+                opacity: 0;
+              }
+            }
+
+            @media (max-width: 640px) {
+              .driplabs-mobile-hidden {
+                display: none;
+              }
+            }
+
+            @media (prefers-reduced-motion: reduce) {
+              .driplabs-welcome-motion {
+                animation: none;
+              }
+            }
+          `}</style>
+        </div>
+
+        {children}
+      </body>
     </html>
   );
 }

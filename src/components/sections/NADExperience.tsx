@@ -1,6 +1,7 @@
 ﻿"use client";
 
 import { motion, useReducedMotion } from "framer-motion";
+import { useEffect, useRef } from "react";
 
 const evidence = [
   {
@@ -19,6 +20,46 @@ const evidence = [
 
 export default function NADExperience() {
   const reducedMotion = useReducedMotion();
+  const molecularRef = useRef<SVGSVGElement>(null);
+
+  useEffect(() => {
+    if (reducedMotion) return;
+
+    const svg = molecularRef.current;
+    if (!svg) return;
+
+    const handlePointerMove = (event: PointerEvent) => {
+      const rect = svg.getBoundingClientRect();
+
+      const x = (event.clientX - rect.left) / rect.width - 0.5;
+      const y = (event.clientY - rect.top) / rect.height - 0.5;
+
+      const rotateX = y * -7;
+      const rotateY = x * 7;
+      const moveX = x * 18;
+      const moveY = y * 18;
+
+      svg.style.transform =
+        `translate3d(${moveX}px, ${moveY}px, 0) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.015)`;
+
+      svg.style.transformOrigin = "center center";
+    };
+
+    const handlePointerLeave = () => {
+      svg.style.transform =
+        "translate3d(0, 0, 0) rotateX(0deg) rotateY(0deg) scale(1)";
+    };
+
+    svg.addEventListener("pointermove", handlePointerMove);
+    svg.addEventListener("pointerleave", handlePointerLeave);
+
+    return () => {
+      svg.removeEventListener("pointermove", handlePointerMove);
+      svg.removeEventListener("pointerleave", handlePointerLeave);
+    };
+  }, [reducedMotion]);
+
+  
 
   return (
     <section
@@ -35,8 +76,9 @@ export default function NADExperience() {
         <div className="absolute right-[-5%] bottom-[5%] h-[24rem] w-[24rem] rounded-full bg-[#E3CE8E]/[0.025] blur-[110px]" />
 
         <svg
+          ref={molecularRef}
           viewBox="0 0 900 900"
-          className="absolute right-[-10%] top-[8%] h-[80vw] max-h-[900px] w-[80vw] max-w-[900px] opacity-[0.15] md:right-[-4%]"
+          className="pointer-events-auto absolute right-[-10%] top-[8%] h-[80vw] max-h-[900px] w-[80vw] max-w-[900px] opacity-[0.15] transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] md:right-[-4%]"
           aria-hidden="true"
         >
           <defs>
@@ -318,3 +360,6 @@ export default function NADExperience() {
     </section>
   );
 }
+
+
+

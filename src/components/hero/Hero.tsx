@@ -2,385 +2,391 @@
 
 import { useRef } from "react";
 import {
-motion,
-useScroll,
-useTransform,
+  motion,
+  useScroll,
+  useTransform,
 } from "framer-motion";
 
 export default function Hero() {
-const heroRef = useRef<HTMLElement>(null);
+  const heroRef = useRef<HTMLElement>(null);
 
-const { scrollYProgress } = useScroll({
-target: heroRef,
-offset: ["start start", "end start"],
-});
+  const { scrollYProgress } = useScroll({
+    target: heroRef,
+    offset: ["start start", "end start"],
+  });
 
-const videoScale = useTransform(
-scrollYProgress,
-[0, 1],
-[1.03, 1.12]
-);
+  const videoScale = useTransform(scrollYProgress, [0, 1], [1.02, 1.18]);
+  const videoY = useTransform(scrollYProgress, [0, 1], ["0%", "10%"]);
+  const contentY = useTransform(scrollYProgress, [0, 1], ["0%", "-9%"]);
+  const contentOpacity = useTransform(
+    scrollYProgress,
+    [0, 0.6, 1],
+    [1, 0.92, 0]
+  );
 
-const videoY = useTransform(
-scrollYProgress,
-[0, 1],
-["0%", "8%"]
-);
+  const lineWidth = useTransform(
+    scrollYProgress,
+    [0, 1],
+    ["18%", "75%"]
+  );
 
-const contentY = useTransform(
-scrollYProgress,
-[0, 1],
-["0%", "-7%"]
-);
+  return (
+    <section
+      ref={heroRef}
+      className="driplabs-noise relative min-h-[100svh] overflow-hidden bg-[#08090B] text-[#F4F2EC]"
+    >
+      {/* =========================================================
+          VIDEO SYSTEM
+      ========================================================= */}
 
-const contentOpacity = useTransform(
-scrollYProgress,
-[0, 0.75, 1],
-[1, 0.98, 0]
-);
-
-return (
-<section
-   ref={heroRef}
-   className="driplabs-noise relative min-h-[100svh] overflow-hidden bg-[#071525] text-[#F5F0E7]"
- >
-{/* =========================================================
-BACKGROUND VIDEO
-========================================================= */}
-<div className="absolute inset-0 overflow-hidden">
-<motion.video
-style={{
-scale: videoScale,
-y: videoY,
-}}
-className="absolute inset-0 h-full w-full origin-center object-cover object-[60%_center] brightness-[1.1] saturate-[1.08] contrast-[1.02]"
-autoPlay
-muted
-loop
-playsInline
-preload="metadata"
-poster="/images/hero/driplabs-hero.jpg"
-aria-label="DRIPLABS physician-led wellness experience"
->
-<source
-         src="/videos/driplabs-hero.mp4"
-         type="video/mp4"
-       />
-</motion.video>
-
-    {/* Gentle cinematic tone */}
-    <div className="absolute inset-0 bg-[#071525]/8 mix-blend-multiply" />
-
-    {/* Very light readability layer */}
-    <div className="absolute inset-0 bg-black/[0.035]" />
-
-    {/* Left-side readability for typography */}
-    <div className="absolute inset-0 bg-gradient-to-r from-[#071525]/28 via-[#071525]/8 to-transparent" />
-
-    {/* Bottom atmosphere */}
-    <div className="absolute inset-0 bg-gradient-to-t from-[#071525]/60 via-[#071525]/8 to-transparent" />
-
-    {/* Top atmosphere */}
-    <div className="absolute inset-0 bg-gradient-to-b from-[#071525]/20 via-transparent to-transparent" />
-
-    {/* Subtle vignette */}
-    <div className="absolute inset-0 bg-[radial-gradient(circle_at_66%_44%,transparent_0%,rgba(7,21,37,0.025)_58%,rgba(7,21,37,0.16)_100%)]" />
-
-    {/* Slow cinematic light movement */}
-    <motion.div
-      initial={{ opacity: 0, x: "-20%" }}
-      animate={{
-        opacity: [0, 0.08, 0],
-        x: ["-20%", "110%"],
-      }}
-      transition={{
-        duration: 9,
-        delay: 1.2,
-        repeat: Infinity,
-        repeatDelay: 5,
-        ease: "easeInOut",
-      }}
-      className="pointer-events-none absolute inset-y-0 left-0 w-[35vw] bg-gradient-to-r from-transparent via-white/[0.07] to-transparent blur-3xl"
-    />
-  </div>
-
-  {/* =========================================================
-      GOLD TOP ACCENT
-  ========================================================= */}
-  <motion.div
-    initial={{ scaleX: 0, opacity: 0 }}
-    animate={{ scaleX: 1, opacity: 1 }}
-    transition={{
-      duration: 1.4,
-      delay: 0.15,
-      ease: [0.22, 1, 0.36, 1],
-    }}
-    className="absolute left-0 top-0 z-30 h-px w-[30vw] origin-left bg-[#C9A646]"
-  />
-
-  {/* =========================================================
-      CONTENT
-  ========================================================= */}
-  <motion.div
-    style={{
-      y: contentY,
-      opacity: contentOpacity,
-    }}
-    className="relative z-10 mx-auto flex min-h-[100svh] max-w-[1600px] flex-col justify-between px-6 pb-6 pt-28 md:px-10 md:pb-8 lg:px-14"
-  >
-    {/* ---------------------------------------------------------
-        TOP META
-    --------------------------------------------------------- */}
-    <div className="grid grid-cols-2 items-start">
-      <motion.div
-        initial={{ opacity: 0, y: 18 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{
-          duration: 0.9,
-          delay: 0.25,
-          ease: [0.22, 1, 0.36, 1],
-        }}
-      >
-        <p className="text-[9px] uppercase leading-[1.8] tracking-[0.3em] text-white/72">
-          Physician-led
-          <br />
-          IV wellness
-          <br />
-          &amp; NAD+
-        </p>
-      </motion.div>
-
-      <motion.div
-        initial={{ opacity: 0, y: 18 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{
-          duration: 0.9,
-          delay: 0.35,
-          ease: [0.22, 1, 0.36, 1],
-        }}
-        className="text-right"
-      >
-        <p className="text-[9px] uppercase tracking-[0.28em] text-white/72">
-          Snnylo Life Sciences
-        </p>
-
-        <p className="mt-2 text-[9px] uppercase tracking-[0.24em] text-[#E5D39A]">
-          Made in India
-        </p>
-      </motion.div>
-    </div>
-
-    {/* ---------------------------------------------------------
-        MAIN HERO
-    --------------------------------------------------------- */}
-    <div className="mt-auto pb-5 pt-20 md:pb-7 md:pt-24">
-      {/* Eyebrow */}
-      <motion.div
-        initial={{ opacity: 0, x: -25 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{
-          duration: 1,
-          delay: 0.45,
-          ease: [0.22, 1, 0.36, 1],
-        }}
-        className="mb-6 flex items-center gap-4"
-      >
-        <motion.span
-          initial={{ scaleX: 0 }}
-          animate={{ scaleX: 1 }}
-          transition={{
-            duration: 0.8,
-            delay: 0.52,
-            ease: [0.22, 1, 0.36, 1],
+      <div className="absolute inset-0 overflow-hidden bg-[#08090B]">
+        <motion.video
+          style={{
+            scale: videoScale,
+            y: videoY,
           }}
-          className="h-px w-9 origin-left bg-[#C9A646]"
+          className="absolute inset-0 h-full w-full object-cover object-[60%_center] brightness-[0.72] saturate-[0.62] contrast-[1.12]"
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="metadata"
+          poster="/images/hero/driplabs-hero.jpg"
+          aria-label="DRIPLABS physician-led wellness experience"
+        >
+          <source
+            src="/videos/driplabs-hero.mp4"
+            type="video/mp4"
+          />
+        </motion.video>
+
+        {/* Heavy cinematic treatment */}
+        <div className="absolute inset-0 bg-[#08090B]/30" />
+
+        <div className="absolute inset-0 bg-gradient-to-r from-[#08090B]/95 via-[#08090B]/58 to-[#08090B]/10" />
+
+        <div className="absolute inset-0 bg-gradient-to-t from-[#08090B] via-[#08090B]/35 to-transparent" />
+
+        <div className="absolute inset-0 bg-gradient-to-b from-[#08090B]/65 via-transparent to-transparent" />
+
+        {/* Radial depth */}
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_68%_45%,transparent_0%,rgba(8,9,11,.12)_36%,rgba(8,9,11,.72)_100%)]" />
+
+        {/* Technical grid */}
+        <div
+          className="absolute inset-0 opacity-[0.045]"
+          style={{
+            backgroundImage:
+              "linear-gradient(rgba(255,255,255,.35) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.35) 1px, transparent 1px)",
+            backgroundSize: "90px 90px",
+          }}
         />
 
-        <p className="text-[8px] uppercase tracking-[0.34em] text-white/68 md:text-[9px]">
-          PRECISION NUTRITION   •   FUNCTIONAL WELLNESS   •   CELLULAR HEALTH
-        </p>
-      </motion.div>
+        {/* Film grain */}
+        <div className="driplabs-noise pointer-events-none absolute inset-0" />
 
-      {/* Main title */}
-      <motion.h1
-        initial={{ opacity: 0, y: 85 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{
-          duration: 1.35,
-          delay: 0.52,
-          ease: [0.16, 1, 0.3, 1],
-        }}
-        className="max-w-[1120px] text-[clamp(4.4rem,10.2vw,11.5rem)] font-light leading-[0.77] tracking-[-0.075em] text-[#F5F0E7]"
-      >
-        <motion.span
-          initial={{ opacity: 0, x: -25 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{
-            duration: 1,
-            delay: 0.58,
-            ease: [0.16, 1, 0.3, 1],
-          }}
-          className="block"
-        >
-          Nourish.
-        </motion.span>
-
-        <motion.span
-          initial={{ opacity: 0, x: 20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{
-            duration: 1,
-            delay: 0.68,
-            ease: [0.16, 1, 0.3, 1],
-          }}
-          className="block"
-        >
-          Recharge.
-        </motion.span>
-
-        <motion.span
-          initial={{ opacity: 0, x: -18 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{
-            duration: 1,
-            delay: 0.78,
-            ease: [0.16, 1, 0.3, 1],
-          }}
-          className="block pl-[6vw]"
-        >
-          Restore.
-        </motion.span>
-      </motion.h1>
-
-      {/* Supporting content */}
-      <div className="mt-8 grid gap-7 md:grid-cols-12 md:items-end md:gap-8">
-        <motion.p
-          initial={{ opacity: 0, y: 25 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{
-            duration: 0.9,
-            delay: 0.9,
-            ease: [0.22, 1, 0.36, 1],
-          }}
-          className="max-w-[500px] text-sm leading-6 text-white/76 md:col-span-6 md:text-[15px] md:leading-7"
-        >
-          Physician-led IV wellness and NAD+ experiences, built around
-          documented protocols, professional supervision and a
-          pharmaceutical-grade approach.
-        </motion.p>
-
+        {/* Moving light */}
         <motion.div
-          initial={{ opacity: 0, y: 25 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{
-            duration: 0.9,
-            delay: 1,
-            ease: [0.22, 1, 0.36, 1],
+          initial={{ x: "-100%", opacity: 0 }}
+          animate={{
+            x: ["-100%", "160%"],
+            opacity: [0, 0.1, 0],
           }}
-          className="md:col-span-4 md:col-start-9"
-        >
-          <a
-            href="#about"
-            className="group inline-flex items-center gap-5 text-[9px] uppercase tracking-[0.27em] text-white"
+          transition={{
+            duration: 12,
+            repeat: Infinity,
+            repeatDelay: 7,
+            ease: "easeInOut",
+          }}
+          className="pointer-events-none absolute inset-y-0 w-[30vw] bg-gradient-to-r from-transparent via-[#C9A646]/10 to-transparent blur-3xl"
+        />
+      </div>
+
+      {/* =========================================================
+          PRECISION FRAME
+      ========================================================= */}
+
+      <div className="pointer-events-none absolute inset-4 z-20 border border-white/[0.06] md:inset-6 lg:inset-8" />
+
+      <div className="absolute left-0 top-0 z-30 h-px w-[45vw] bg-gradient-to-r from-[#C9A646] to-transparent" />
+
+      <div className="absolute right-8 top-8 z-30 hidden items-center gap-3 md:flex">
+        <span className="font-mono text-[8px] uppercase tracking-[0.25em] text-white/35">
+          DL / 001
+        </span>
+        <span className="h-px w-10 bg-white/20" />
+        <span className="h-1.5 w-1.5 rounded-full bg-[#C9A646] shadow-[0_0_14px_#C9A646]" />
+      </div>
+
+      {/* =========================================================
+          CONTENT
+      ========================================================= */}
+
+      <motion.div
+        style={{
+          y: contentY,
+          opacity: contentOpacity,
+        }}
+        className="relative z-10 mx-auto flex min-h-[100svh] max-w-[1440px] flex-col justify-between px-7 pb-7 pt-28 md:px-12 md:pb-10 md:pt-32 lg:px-16"
+      >
+        {/* =======================================================
+            TOP INFORMATION
+        ======================================================= */}
+
+        <div className="grid grid-cols-2">
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{
+              duration: 1,
+              delay: 0.25,
+              ease: [0.22, 1, 0.36, 1],
+            }}
           >
-            <span className="relative">
-              Explore DRIPLABS
+            <div className="mb-3 flex items-center gap-3">
+              <span className="h-px w-7 bg-[#C9A646]" />
+              <span className="font-mono text-[7px] uppercase tracking-[0.3em] text-[#C9A646]">
+                Physician-led
+              </span>
+            </div>
 
-              <span className="absolute -bottom-2 left-0 h-px w-0 bg-[#C9A646] transition-all duration-500 group-hover:w-full" />
-            </span>
+            <p className="font-mono text-[8px] uppercase leading-[1.8] tracking-[0.22em] text-white/55 md:text-[9px]">
+              Physician-led
+              <br />
+              IV wellness
+              <br />
+              &amp; NAD+
+            </p>
+          </motion.div>
 
-            <motion.span
-              whileHover={{
-                scale: 1.08,
-                rotate: -3,
-              }}
+          <motion.div
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{
+              duration: 1,
+              delay: 0.35,
+              ease: [0.22, 1, 0.36, 1],
+            }}
+            className="text-right"
+          >
+            <p className="font-mono text-[8px] uppercase tracking-[0.22em] text-white/55 md:text-[9px]">
+              Snnylo Life Sciences
+            </p>
+
+            <p className="mt-2 font-mono text-[8px] uppercase tracking-[0.22em] text-[#C9A646] md:text-[9px]">
+              Made in India
+            </p>
+          </motion.div>
+        </div>
+
+        {/* =======================================================
+            MAIN EDITORIAL HERO
+        ======================================================= */}
+
+        <div className="mt-auto pb-7 pt-24 md:pb-10 md:pt-28">
+          {/* Eyebrow */}
+
+          <motion.div
+            initial={{ opacity: 0, x: -35 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{
+              duration: 1,
+              delay: 0.4,
+              ease: [0.16, 1, 0.3, 1],
+            }}
+            className="mb-8 flex items-center gap-4"
+          >
+            <span className="h-px w-14 bg-[#C9A646]" />
+
+            <p className="font-mono text-[7px] uppercase tracking-[0.25em] text-white/50 sm:text-[8px] md:text-[9px]">
+              PRECISION NUTRITION   •   FUNCTIONAL WELLNESS   •   CELLULAR HEALTH   •  ANTI AGING
+            </p>
+          </motion.div>
+
+          {/* Giant typography */}
+
+          <div className="relative">
+            <motion.div
+              initial={{ opacity: 0, scaleX: 0 }}
+              animate={{ opacity: 1, scaleX: 1 }}
               transition={{
-                type: "tween",
-                duration: 0.6,
+                duration: 1.3,
+                delay: 0.55,
+                ease: [0.16, 1, 0.3, 1],
+              }}
+              className="absolute -top-5 left-0 h-px w-28 origin-left bg-[#C9A646]/60"
+            />
+
+            <motion.h1
+              initial={{ opacity: 0, y: 100 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{
+                duration: 1.35,
+                delay: 0.5,
+                ease: [0.16, 1, 0.3, 1],
+              }}
+              className="max-w-[1250px] text-[clamp(4.2rem,11.5vw,11.5rem)] font-light leading-[0.78] tracking-[-0.075em]"
+            >
+              <motion.span
+                initial={{ opacity: 0, x: -50 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{
+                  duration: 1,
+                  delay: 0.58,
+                  ease: [0.16, 1, 0.3, 1],
+                }}
+                className="block"
+              >
+                Nourish.
+              </motion.span>
+
+              <motion.span
+                initial={{ opacity: 0, x: 50 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{
+                  duration: 1,
+                  delay: 0.7,
+                  ease: [0.16, 1, 0.3, 1],
+                }}
+                className="ml-[7vw] block text-[#EDEBE5]"
+              >
+                Recharge.
+              </motion.span>
+
+              <motion.span
+                initial={{ opacity: 0, x: -30 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{
+                  duration: 1,
+                  delay: 0.82,
+                  ease: [0.16, 1, 0.3, 1],
+                }}
+                className="block"
+              >
+                Restore<span className="text-[#C9A646]">.</span>
+              </motion.span>
+            </motion.h1>
+
+            {/* Vertical technical marker */}
+
+            <div className="absolute right-[3%] top-1/2 hidden -translate-y-1/2 flex-col items-center gap-3 xl:flex">
+              <span className="h-20 w-px bg-gradient-to-b from-transparent via-[#C9A646]/60 to-transparent" />
+              <span className="font-mono text-[7px] tracking-[0.25em] text-white/30 [writing-mode:vertical-rl]">
+                PRECISION WELLNESS
+              </span>
+            </div>
+          </div>
+
+          {/* =====================================================
+              SUPPORT + CTA
+          ===================================================== */}
+
+          <div className="mt-12 grid gap-10 md:grid-cols-12 md:items-end">
+            <motion.p
+              initial={{ opacity: 0, y: 25 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{
+                duration: 0.9,
+                delay: 0.95,
                 ease: [0.22, 1, 0.36, 1],
               }}
-              className="flex h-12 w-12 items-center justify-center rounded-full border border-white/40 transition-all duration-500 group-hover:border-[#C9A646] group-hover:bg-[#C9A646] group-hover:text-[#0B1D35]"
+              className="max-w-[510px] text-[13px] leading-6 text-[#A7A8AC] md:col-span-5 md:text-[15px] md:leading-7"
             >
-              →
-            </motion.span>
-          </a>
-        </motion.div>
-      </div>
-    </div>
+              Physician-led IV wellness and NAD+ experiences, built around
+              documented protocols, professional supervision and a
+              pharmaceutical-grade approach.
+            </motion.p>
 
-    {/* ---------------------------------------------------------
-        BOTTOM BAR
-    --------------------------------------------------------- */}
-    <div className="grid grid-cols-2 items-end gap-6 border-t border-white/20 pt-4 md:grid-cols-12">
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.8, delay: 1.1 }}
-        className="md:col-span-4"
-      >
-        <p className="text-[8px] uppercase leading-5 tracking-[0.22em] text-white/52">
-          Physician supervised use only
-          <br />
-          Professional clinical setting
-        </p>
+            <motion.div
+              initial={{ opacity: 0, y: 25 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{
+                duration: 0.9,
+                delay: 1.05,
+                ease: [0.22, 1, 0.36, 1],
+              }}
+              className="md:col-span-3 md:col-start-9"
+            >
+              <a
+                href="#about"
+                className="group relative flex w-fit items-center gap-5"
+              >
+                <span className="font-mono text-[9px] uppercase tracking-[0.25em] text-[#F4F2EC]">
+                  Explore DRIPLABS
+                </span>
+
+                <motion.span
+                  whileHover={{
+                    scale: 1.08,
+                  }}
+                  className="relative flex h-14 w-14 items-center justify-center rounded-full border border-white/30 bg-white/[0.035] backdrop-blur-xl transition-all duration-500 group-hover:border-[#C9A646] group-hover:bg-[#C9A646] group-hover:text-[#08090B]"
+                >
+                  <span className="text-lg transition-transform duration-500 group-hover:translate-x-1">
+                    →
+                  </span>
+
+                  <span className="absolute inset-[-7px] rounded-full border border-[#C9A646]/0 transition-all duration-500 group-hover:border-[#C9A646]/25" />
+                </motion.span>
+              </a>
+            </motion.div>
+          </div>
+        </div>
+
+        {/* =======================================================
+            DATA BAR
+        ======================================================= */}
+
+        <div className="relative mt-7 grid grid-cols-2 items-end border-t border-white/[0.12] pt-5 md:grid-cols-12">
+          <div className="md:col-span-4">
+            <p className="font-mono text-[7px] uppercase leading-5 tracking-[0.18em] text-[#6F7278] md:text-[8px]">
+              Physician supervised use only
+              <br />
+              Professional clinical setting
+            </p>
+          </div>
+
+          <div className="flex justify-end md:col-span-4 md:justify-center">
+            <a
+              href="#about"
+              className="group flex flex-col items-center gap-2 font-mono text-[7px] uppercase tracking-[0.25em] text-[#6F7278]"
+            >
+              <span className="transition-colors group-hover:text-[#F4F2EC]">
+                Scroll
+              </span>
+
+              <motion.span
+                animate={{
+                  y: [0, 5, 0],
+                  opacity: [0.3, 1, 0.3],
+                }}
+                transition={{
+                  repeat: Infinity,
+                  duration: 2,
+                  ease: "easeInOut",
+                }}
+                className="text-[#C9A646]"
+              >
+                ↓
+              </motion.span>
+            </a>
+          </div>
+
+          <div className="hidden text-right md:col-span-4 md:block">
+            <p className="font-mono text-[8px] uppercase leading-5 tracking-[0.18em] text-[#6F7278]">
+              19 commercial protocols
+              <br />
+              8 wellness families
+            </p>
+          </div>
+
+          {/* Animated system line */}
+
+          <motion.div
+            style={{ width: lineWidth }}
+            className="absolute -top-px left-0 h-px bg-gradient-to-r from-[#C9A646] via-[#C9A646]/50 to-transparent"
+          />
+        </div>
       </motion.div>
-
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.8, delay: 1.2 }}
-        className="flex justify-end md:col-span-4 md:justify-center"
-      >
-        <a
-          href="#about"
-          className="group flex flex-col items-center gap-2 text-[8px] uppercase tracking-[0.24em] text-white/55"
-        >
-          <span className="transition-colors duration-300 group-hover:text-white">
-            Scroll
-          </span>
-
-          <motion.span
-            animate={{
-              y: [0, 6, 0],
-              opacity: [0.55, 1, 0.55],
-            }}
-            transition={{
-              repeat: Infinity,
-              duration: 2.2,
-              ease: "easeInOut",
-            }}
-            className="text-[#E5D39A]"
-          >
-            ↓
-          </motion.span>
-        </a>
-      </motion.div>
-
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.8, delay: 1.3 }}
-        className="hidden text-right md:col-span-4 md:block"
-      >
-        <p className="text-[8px] uppercase leading-5 tracking-[0.22em] text-white/52">
-          19 commercial protocols
-          <br />
-          8 wellness families
-        </p>
-      </motion.div>
-    </div>
-  </motion.div>
-</section>
-
-);
+    </section>
+  );
 }
-
-
-
-
-
-
-
-
-
-
