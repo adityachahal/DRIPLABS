@@ -108,13 +108,19 @@ export default function Navbar() {
 
   return (
     <>
+      {/* =========================================================
+          DESKTOP / MOBILE HEADER
+          Desktop keeps 40px welcome-bar offset.
+          Mobile is raised slightly for better visual balance.
+      ========================================================= */}
       <header
-        className={`fixed inset-x-0 top-0 z-[100] transition-all duration-500 ${
+        className={`fixed inset-x-0 top-[32px] z-[100] transition-all duration-500 lg:top-[40px] ${
           scrolled
             ? "bg-[#F5F0E7]/95 text-[#0B1D35] shadow-[0_1px_0_rgba(11,29,53,0.08)] backdrop-blur-xl"
             : "bg-transparent text-[#F5F0E7]"
         }`}
       >
+        {/* Gold precision line */}
         <motion.div
           initial={{ scaleX: 0 }}
           animate={{ scaleX: 1 }}
@@ -131,7 +137,9 @@ export default function Navbar() {
             scrolled ? "py-4" : "py-6"
           }`}
         >
-          {/* LOGO */}
+          {/* =====================================================
+              LOGO
+          ===================================================== */}
           <a
             href="/"
             onClick={closeMenus}
@@ -150,7 +158,9 @@ export default function Navbar() {
             />
           </a>
 
-          {/* DESKTOP NAVIGATION */}
+          {/* =====================================================
+              DESKTOP NAVIGATION
+          ===================================================== */}
           <nav className="hidden items-center gap-4 lg:flex xl:gap-6">
             {mainNavigation.slice(0, 4).map((item) => (
               <NavLink key={item.label} item={item} scrolled={scrolled} />
@@ -326,7 +336,9 @@ export default function Navbar() {
             </div>
           </nav>
 
-          {/* DESKTOP CTA */}
+          {/* =====================================================
+              DESKTOP CTA
+          ===================================================== */}
           <div className="hidden lg:block">
             <motion.a
               href="/book"
@@ -361,7 +373,9 @@ export default function Navbar() {
             </motion.a>
           </div>
 
-          {/* MOBILE MENU BUTTON */}
+          {/* =====================================================
+              MOBILE MENU BUTTON
+          ===================================================== */}
           <button
             type="button"
             aria-label={menuOpen ? "Close navigation" : "Open navigation"}
@@ -398,7 +412,9 @@ export default function Navbar() {
         </div>
       </header>
 
-      {/* MOBILE NAVIGATION */}
+      {/* =========================================================
+          MOBILE NAVIGATION
+      ========================================================= */}
       <AnimatePresence>
         {menuOpen && (
           <motion.div
@@ -607,6 +623,3 @@ function NavLink({
     </a>
   );
 }
-
-
-

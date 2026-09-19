@@ -23,20 +23,55 @@ export default function NADExperience() {
   return (
     <section
       id="nad"
-      className="relative overflow-hidden bg-[#060F1F] text-[#F7F4EC]"
+      className="relative isolate overflow-hidden bg-[#060F1F] text-[#F7F4EC]"
     >
+      {/* ======================================================
+          FULL-BLEED NADx VIDEO BACKGROUND
+      ====================================================== */}
+
+      <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden">
+        <motion.video
+          src="/videos/NADx.mp4"
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="auto"
+          initial={reducedMotion ? { scale: 1 } : { scale: 1.04 }}
+          whileInView={{ scale: 1 }}
+          viewport={{ once: true }}
+          transition={{
+            duration: reducedMotion ? 0.01 : 2.2,
+            ease: [0.22, 1, 0.36, 1],
+          }}
+          className="absolute inset-0 h-full w-full object-cover"
+          aria-hidden="true"
+        />
+
+        {/* Main cinematic darkening */}
+        <div className="absolute inset-0 bg-[#060F1F]/65" />
+
+        {/* Stronger lower fade for readability */}
+        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(6,15,31,0.35)_0%,rgba(6,15,31,0.5)_38%,rgba(6,15,31,0.82)_78%,#060F1F_100%)]" />
+
+        {/* Side vignette */}
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_52%_32%,transparent_0%,rgba(6,15,31,0.08)_35%,rgba(6,15,31,0.65)_100%)]" />
+
+        {/* Subtle gold atmosphere */}
+        <div className="absolute left-[50%] top-[22%] h-[30rem] w-[30rem] -translate-x-1/2 rounded-full bg-[#C9A227]/[0.07] blur-[130px]" />
+
+        {/* Fine cinematic grain */}
+        <div className="absolute inset-0 opacity-[0.035] [background-image:url('/images/noise.png')]" />
+      </div>
+
       {/* ======================================================
           MOLECULAR ATMOSPHERE
       ====================================================== */}
 
-      <div className="pointer-events-none absolute inset-0 overflow-hidden">
-        <div className="absolute left-[58%] top-[20%] h-[26rem] w-[26rem] -translate-x-1/2 rounded-full bg-[#C9A227]/[0.05] blur-[120px]" />
-
-        <div className="absolute right-[-5%] bottom-[5%] h-[24rem] w-[24rem] rounded-full bg-[#E3CE8E]/[0.025] blur-[110px]" />
-
+      <div className="pointer-events-none absolute inset-0 z-[1] overflow-hidden">
         <svg
           viewBox="0 0 900 900"
-          className="absolute right-[-10%] top-[8%] h-[80vw] max-h-[900px] w-[80vw] max-w-[900px] opacity-[0.15] md:right-[-4%]"
+          className="absolute right-[-12%] top-[3%] h-[78vw] max-h-[900px] w-[78vw] max-w-[900px] opacity-[0.10] md:right-[-5%]"
           aria-hidden="true"
         >
           <defs>
@@ -76,11 +111,13 @@ export default function NADExperience() {
             <circle cx="712" cy="712" r="2.5" />
           </g>
         </svg>
-
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_63%_43%,transparent_0%,rgba(6,15,31,0.08)_45%,rgba(6,15,31,0.68)_100%)]" />
       </div>
 
-      <div className="relative mx-auto max-w-[1680px] px-5 py-24 md:px-10 md:py-36 lg:px-14">
+      {/* ======================================================
+          CONTENT
+      ====================================================== */}
+
+      <div className="relative z-10 mx-auto max-w-[1680px] px-5 py-28 md:px-10 md:py-40 lg:px-14">
         {/* ====================================================
             TOP LABEL
         ==================================================== */}
@@ -89,7 +126,7 @@ export default function NADExperience() {
           initial={
             reducedMotion
               ? { opacity: 1, y: 0 }
-              : { opacity: 0, y: 16 }
+              : { opacity: 0, y: 18 }
           }
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-10% 0px" }}
@@ -107,114 +144,146 @@ export default function NADExperience() {
         </motion.div>
 
         {/* ====================================================
-            MAIN
+            NADx HERO COPY
         ==================================================== */}
 
-        <div className="mt-10 grid gap-16 lg:grid-cols-12 lg:gap-10">
-          <div className="lg:col-span-7">
-            <motion.h2
-              initial={
-                reducedMotion
-                  ? { opacity: 1, y: 0 }
-                  : { opacity: 0, y: 16 }
-              }
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-10% 0px" }}
-              transition={{
-                duration: reducedMotion ? 0.01 : 0.95,
-                ease: [0.22, 1, 0.36, 1],
-              }}
-              className="max-w-6xl font-[var(--font-heading)] text-[clamp(3.4rem,7.6vw,8rem)] font-light leading-[0.83] tracking-[-0.065em]"
-            >
-              NADx —
-              <br />
-              the cellular
-              <br />
-              flagship.
-            </motion.h2>
+        <div className="mt-10 max-w-[1100px]">
+          <motion.h2
+            initial={
+              reducedMotion
+                ? { opacity: 1, y: 0 }
+                : { opacity: 0, y: 24 }
+            }
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-10% 0px" }}
+            transition={{
+              duration: reducedMotion ? 0.01 : 1,
+              ease: [0.22, 1, 0.36, 1],
+            }}
+            className="font-[var(--font-heading)] text-[clamp(4rem,9.5vw,9rem)] font-light leading-[0.82] tracking-[-0.07em]"
+          >
+            NADx —
+            <br />
+            the cellular
+            <br />
+            flagship.
+          </motion.h2>
 
-            <motion.p
-              initial={
-                reducedMotion
-                  ? { opacity: 1, y: 0 }
-                  : { opacity: 0, y: 16 }
-              }
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-10% 0px" }}
-              transition={{
-                duration: reducedMotion ? 0.01 : 0.8,
-                delay: reducedMotion ? 0 : 0.12,
-                ease: [0.22, 1, 0.36, 1],
-              }}
-              className="mt-9 max-w-2xl text-sm leading-7 text-white/58 md:text-base"
-            >
-              India&apos;s first physician-led, pharmacopoeia-documented
-              Nicotinamide Adenine Dinucleotide (NAD⁺) IV programme —
-              bringing a documented cellular-wellness experience into a
-              clinically supervised setting.
-            </motion.p>
+          <motion.p
+            initial={
+              reducedMotion
+                ? { opacity: 1, y: 0 }
+                : { opacity: 0, y: 18 }
+            }
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-10% 0px" }}
+            transition={{
+              duration: reducedMotion ? 0.01 : 0.85,
+              delay: reducedMotion ? 0 : 0.12,
+              ease: [0.22, 1, 0.36, 1],
+            }}
+            className="mt-10 max-w-2xl text-sm leading-7 text-white/65 md:text-base"
+          >
+            India&apos;s first physician-led, pharmacopoeia-documented
+            Nicotinamide Adenine Dinucleotide (NAD⁺) IV programme —
+            bringing a documented cellular-wellness experience into a
+            clinically supervised setting.
+          </motion.p>
 
-            <motion.div
-              initial={
-                reducedMotion
-                  ? { opacity: 1, y: 0 }
-                  : { opacity: 0, y: 16 }
-              }
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-10% 0px" }}
-              transition={{
-                duration: reducedMotion ? 0.01 : 0.8,
-                delay: reducedMotion ? 0 : 0.2,
-                ease: [0.22, 1, 0.36, 1],
-              }}
-              className="mt-9"
+          <motion.div
+            initial={
+              reducedMotion
+                ? { opacity: 1, y: 0 }
+                : { opacity: 0, y: 18 }
+            }
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-10% 0px" }}
+            transition={{
+              duration: reducedMotion ? 0.01 : 0.8,
+              delay: reducedMotion ? 0 : 0.22,
+              ease: [0.22, 1, 0.36, 1],
+            }}
+            className="mt-9"
+          >
+            <a
+              href="/nadx"
+              className="group inline-flex items-center gap-5 border-b border-[#C9A227]/60 pb-3 text-[8px] uppercase tracking-[0.24em] text-[#E3CE8E] transition-colors duration-300 hover:text-white md:text-[9px]"
             >
-              <a
-                href="/nadx"
-                className="group inline-flex items-center gap-5 border-b border-[#C9A227]/50 pb-3 text-[8px] uppercase tracking-[0.24em] text-[#E3CE8E] md:text-[9px]"
-              >
-                Explore NADx
+              Explore NADx
 
-                <span className="transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:translate-x-1">
-                  →
-                </span>
-              </a>
-            </motion.div>
+              <span className="transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:translate-x-2">
+                →
+              </span>
+            </a>
+          </motion.div>
+        </div>
+
+        {/* ====================================================
+            VIDEO STATUS / TECHNICAL MARKER
+        ==================================================== */}
+
+        <motion.div
+          initial={
+            reducedMotion
+              ? { opacity: 1 }
+              : { opacity: 0 }
+          }
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{
+            duration: reducedMotion ? 0.01 : 1,
+            delay: reducedMotion ? 0 : 0.35,
+          }}
+          className="mt-16 flex items-center justify-between border-t border-white/15 pt-4 md:mt-24"
+        >
+          <div className="flex items-center gap-3">
+            <span className="relative flex h-2 w-2">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#C9A227]/50" />
+              <span className="relative inline-flex h-2 w-2 rounded-full bg-[#C9A227]" />
+            </span>
+
+            <span className="text-[7px] uppercase tracking-[0.28em] text-white/45 md:text-[8px]">
+              NADx / Cellular Flagship
+            </span>
           </div>
 
-          {/* ==================================================
-              EVIDENCE
-          ================================================== */}
+          <span className="font-mono text-[7px] tracking-[0.2em] text-white/30 md:text-[8px]">
+            DRIPLABS / 01
+          </span>
+        </motion.div>
 
-          <div className="lg:col-span-4 lg:col-start-9">
-            <div className="border-t border-white/10">
-              {evidence.map((item, index) => (
-                <motion.div
-                  key={item.label}
-                  initial={
-                    reducedMotion
-                      ? { opacity: 1, y: 0 }
-                      : { opacity: 0, y: 16 }
-                  }
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: "-8% 0px" }}
-                  transition={{
-                    duration: reducedMotion ? 0.01 : 0.8,
-                    delay: reducedMotion ? 0 : index * 0.08,
-                    ease: [0.22, 1, 0.36, 1],
-                  }}
-                  className="border-b border-white/10 py-7 md:py-8"
-                >
-                  <div className="font-[var(--font-heading)] text-[clamp(3.3rem,5vw,5.5rem)] font-light leading-none tracking-[-0.06em] text-[#C9A227]">
-                    {item.value}
-                  </div>
+        {/* ====================================================
+            EVIDENCE
+        ==================================================== */}
 
-                  <p className="mt-4 max-w-xs text-[9px] uppercase leading-5 tracking-[0.18em] text-white/42">
-                    {item.label}
-                  </p>
-                </motion.div>
-              ))}
-            </div>
+        <div className="mt-14 border-t border-white/10 md:mt-20">
+          <div className="grid md:grid-cols-3">
+            {evidence.map((item, index) => (
+              <motion.div
+                key={item.label}
+                initial={
+                  reducedMotion
+                    ? { opacity: 1, y: 0 }
+                    : { opacity: 0, y: 18 }
+                }
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-8% 0px" }}
+                transition={{
+                  duration: reducedMotion ? 0.01 : 0.8,
+                  delay: reducedMotion ? 0 : index * 0.08,
+                  ease: [0.22, 1, 0.36, 1],
+                }}
+                className="border-b border-white/10 py-8 md:border-r md:px-8 md:py-10 md:last:border-r-0"
+              >
+                <div className="font-[var(--font-heading)] text-[clamp(3.3rem,5vw,5.5rem)] font-light leading-none tracking-[-0.06em] text-[#C9A227]">
+                  {item.value}
+                </div>
+
+                <p className="mt-4 max-w-xs text-[9px] uppercase leading-5 tracking-[0.18em] text-white/45">
+                  {item.label}
+                </p>
+              </motion.div>
+            ))}
           </div>
         </div>
 
@@ -301,7 +370,7 @@ export default function NADExperience() {
             duration: reducedMotion ? 0.01 : 0.8,
             ease: [0.22, 1, 0.36, 1],
           }}
-          className="mt-16 border border-[#C9A227]/20 bg-[#0B1B33]/60 p-6 md:mt-20 md:p-8"
+          className="mt-16 border border-[#C9A227]/20 bg-[#0B1B33]/70 p-6 backdrop-blur-sm md:mt-20 md:p-8"
         >
           <p className="text-[8px] uppercase tracking-[0.24em] text-[#C9A227]">
             Evidence framing

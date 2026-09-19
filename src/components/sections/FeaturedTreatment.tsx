@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { useEffect, useState } from "react";
 
 const featuredProtocols = [
@@ -39,51 +39,73 @@ const featuredProtocols = [
 
 export default function FeaturedTreatment() {
   const [activeIndex, setActiveIndex] = useState(0);
+  const shouldReduceMotion = useReducedMotion();
 
   const active = featuredProtocols[activeIndex];
 
   useEffect(() => {
+    if (shouldReduceMotion) {
+      return;
+    }
+
     const timer = window.setInterval(() => {
       setActiveIndex((current) =>
-        current === featuredProtocols.length - 1
-          ? 0
-          : current + 1,
+        current === featuredProtocols.length - 1 ? 0 : current + 1,
       );
     }, 6500);
 
     return () => window.clearInterval(timer);
-  }, []);
+  }, [shouldReduceMotion]);
 
   return (
     <section
       id="signature-protocols"
-      className="overflow-hidden bg-[#F5F0E7] text-[#0B1D35]"
+      className="relative overflow-hidden bg-[#0A0A0B] text-[#F2F0EA]"
     >
       {/* =========================================================
           INTRO
-      ========================================================= */}
-      <div className="mx-auto max-w-[1680px] px-6 pb-16 pt-28 md:px-10 md:pb-24 md:pt-40 lg:px-14">
+      ========================================================== */}
+
+      <div className="mx-auto max-w-[1500px] px-6 pb-16 pt-28 md:px-10 md:pb-24 md:pt-40 lg:px-14">
         <div className="grid gap-12 md:grid-cols-12 md:gap-8">
-          {/* Left metadata */}
+          {/* Metadata */}
+
           <div className="md:col-span-3">
-            <p className="driplabs-label text-[#77736A]">
-              Signature protocols
-            </p>
+            <div className="flex items-center gap-3">
+              <span className="h-px w-8 bg-[#D6C39A]" />
 
-            <div className="mt-6 h-px w-12 bg-[#C9A646]" />
+              <p className="text-[9px] uppercase tracking-[0.3em] text-white/45">
+                Signature protocols
+              </p>
+            </div>
 
-            <p className="mt-6 max-w-[190px] text-[9px] uppercase leading-5 tracking-[0.18em] text-[#99958C]">
+            <p className="mt-7 max-w-[190px] text-[9px] uppercase leading-5 tracking-[0.18em] text-white/30">
               A closer look at
               <br />
               the DRIPLABS system.
             </p>
           </div>
 
-          {/* Main heading */}
+          {/* Heading */}
+
           <div className="md:col-span-8 md:col-start-5">
             <motion.h2
-              initial={{ opacity: 0, y: 60 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              initial={
+                shouldReduceMotion
+                  ? false
+                  : {
+                      opacity: 0,
+                      y: 55,
+                    }
+              }
+              whileInView={
+                shouldReduceMotion
+                  ? undefined
+                  : {
+                      opacity: 1,
+                      y: 0,
+                    }
+              }
               viewport={{
                 once: true,
                 amount: 0.25,
@@ -92,7 +114,7 @@ export default function FeaturedTreatment() {
                 duration: 1,
                 ease: [0.22, 1, 0.36, 1],
               }}
-              className="max-w-[1050px] text-[clamp(4rem,7.8vw,8.8rem)] font-light leading-[0.78] tracking-[-0.075em]"
+              className="max-w-[1100px] text-[clamp(4rem,8vw,9rem)] font-light leading-[0.78] tracking-[-0.075em]"
             >
               Designed around
               <br />
@@ -102,14 +124,22 @@ export default function FeaturedTreatment() {
             </motion.h2>
 
             <motion.p
-              initial={{
-                opacity: 0,
-                y: 25,
-              }}
-              whileInView={{
-                opacity: 1,
-                y: 0,
-              }}
+              initial={
+                shouldReduceMotion
+                  ? false
+                  : {
+                      opacity: 0,
+                      y: 25,
+                    }
+              }
+              whileInView={
+                shouldReduceMotion
+                  ? undefined
+                  : {
+                      opacity: 1,
+                      y: 0,
+                    }
+              }
               viewport={{
                 once: true,
                 amount: 0.3,
@@ -118,7 +148,7 @@ export default function FeaturedTreatment() {
                 duration: 0.8,
                 delay: 0.15,
               }}
-              className="mt-9 max-w-xl text-sm leading-7 text-[#59616B] md:text-base"
+              className="mt-10 max-w-xl text-sm leading-7 text-white/45 md:text-base"
             >
               Explore selected protocols from across the DRIPLABS wellness
               system. Each protocol sits within a defined wellness family and
@@ -130,31 +160,41 @@ export default function FeaturedTreatment() {
 
       {/* =========================================================
           FEATURED EXPERIENCE
-      ========================================================= */}
-      <div className="mx-auto max-w-[1680px] px-6 pb-28 md:px-10 md:pb-40 lg:px-14">
-        <div className="relative overflow-hidden bg-[#0B1D35]">
+      ========================================================== */}
+
+      <div className="mx-auto max-w-[1500px] px-6 pb-28 md:px-10 md:pb-40 lg:px-14">
+        <div className="relative overflow-hidden border border-white/[0.08] bg-[#111214]">
           <div className="grid lg:grid-cols-12">
             {/* =====================================================
-                IMAGE
-            ===================================================== */}
-            <div className="relative min-h-[62vh] overflow-hidden lg:col-span-8 lg:min-h-[760px]">
+                IMAGE / CINEMATIC PANEL
+            ====================================================== */}
+
+            <div className="relative min-h-[65vh] overflow-hidden lg:col-span-8 lg:min-h-[760px]">
               <AnimatePresence mode="wait">
                 <motion.div
                   key={active.name}
-                  initial={{
-                    opacity: 0,
-                    scale: 1.045,
-                  }}
+                  initial={
+                    shouldReduceMotion
+                      ? false
+                      : {
+                          opacity: 0,
+                          scale: 1.06,
+                        }
+                  }
                   animate={{
                     opacity: 1,
                     scale: 1,
                   }}
-                  exit={{
-                    opacity: 0,
-                    scale: 1.015,
-                  }}
+                  exit={
+                    shouldReduceMotion
+                      ? undefined
+                      : {
+                          opacity: 0,
+                          scale: 1.025,
+                        }
+                  }
                   transition={{
-                    duration: 0.9,
+                    duration: shouldReduceMotion ? 0 : 1.15,
                     ease: [0.22, 1, 0.36, 1],
                   }}
                   className="absolute inset-0"
@@ -163,66 +203,98 @@ export default function FeaturedTreatment() {
                     src="/images/hero/driplabs-hero.jpg"
                     alt={`${active.name} protocol`}
                     fill
-                    priority
+                    priority={activeIndex === 0}
                     sizes="(max-width: 1024px) 100vw, 66vw"
                     className="object-cover"
                     style={{
-                      objectPosition:
-                        active.imagePosition,
+                      objectPosition: active.imagePosition,
                     }}
                   />
 
-                  <div className="absolute inset-0 bg-[#071525]/20" />
+                  {/* Cinematic image treatment */}
 
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#071525]/85 via-[#071525]/10 to-transparent" />
+                  <div className="absolute inset-0 bg-black/20" />
 
-                  <div className="absolute inset-0 bg-gradient-to-r from-[#071525]/20 via-transparent to-transparent" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-black/20" />
+
+                  <div className="absolute inset-0 bg-gradient-to-r from-black/40 via-transparent to-black/10" />
+
+                  {/* Soft atmospheric highlight */}
+
+                  <div className="absolute -left-[10%] top-[15%] h-[40vw] w-[40vw] rounded-full bg-[#D6C39A]/[0.035] blur-[120px]" />
                 </motion.div>
               </AnimatePresence>
 
+              {/* Image frame */}
+
+              <div className="pointer-events-none absolute inset-5 border border-white/[0.12] md:inset-8" />
+
               {/* Top metadata */}
-              <div className="absolute left-6 right-6 top-6 z-10 flex items-start justify-between md:left-10 md:right-10 md:top-10">
+
+              <div className="absolute left-7 right-7 top-7 z-10 flex items-start justify-between md:left-10 md:right-10 md:top-10">
                 <div>
-                  <p className="text-[8px] uppercase tracking-[0.28em] text-white/55">
+                  <p className="text-[8px] uppercase tracking-[0.3em] text-white/50">
                     DRIPLABS
                   </p>
 
-                  <p className="mt-2 text-[8px] uppercase tracking-[0.2em] text-[#C9A646]">
-                    Signature protocol
-                  </p>
+                  <div className="mt-3 flex items-center gap-2">
+                    <span className="h-px w-5 bg-[#D6C39A]" />
+
+                    <p className="text-[8px] uppercase tracking-[0.2em] text-[#D6C39A]">
+                      Signature protocol
+                    </p>
+                  </div>
                 </div>
 
-                <p className="text-[8px] uppercase tracking-[0.22em] text-white/45">
+                <p className="font-mono text-[8px] uppercase tracking-[0.22em] text-white/40">
                   {active.number} / 03
                 </p>
               </div>
 
-              {/* Bottom image text */}
+              {/* Protocol number */}
+
+              <div className="absolute bottom-7 right-7 z-10 md:bottom-10 md:right-10">
+                <p className="font-mono text-[8px] tracking-[0.22em] text-white/30">
+                  PROTOCOL / {active.number}
+                </p>
+              </div>
+
+              {/* Large protocol title */}
+
               <AnimatePresence mode="wait">
                 <motion.div
                   key={active.name}
-                  initial={{
-                    opacity: 0,
-                    y: 20,
-                  }}
+                  initial={
+                    shouldReduceMotion
+                      ? false
+                      : {
+                          opacity: 0,
+                          y: 25,
+                        }
+                  }
                   animate={{
                     opacity: 1,
                     y: 0,
                   }}
-                  exit={{
-                    opacity: 0,
-                    y: -15,
-                  }}
+                  exit={
+                    shouldReduceMotion
+                      ? undefined
+                      : {
+                          opacity: 0,
+                          y: -15,
+                        }
+                  }
                   transition={{
-                    duration: 0.55,
+                    duration: shouldReduceMotion ? 0 : 0.6,
+                    ease: [0.22, 1, 0.36, 1],
                   }}
-                  className="absolute bottom-7 left-6 right-6 z-10 md:bottom-10 md:left-10 md:right-10"
+                  className="absolute bottom-8 left-7 z-10 max-w-[85%] md:bottom-10 md:left-10"
                 >
-                  <p className="text-[8px] uppercase tracking-[0.22em] text-white/45">
+                  <p className="text-[8px] uppercase tracking-[0.25em] text-white/45">
                     {active.family}
                   </p>
 
-                  <h3 className="mt-3 text-[clamp(4rem,7vw,8rem)] font-light leading-[0.76] tracking-[-0.075em] text-[#F5F0E7]">
+                  <h3 className="mt-3 text-[clamp(4rem,8vw,8.5rem)] font-light leading-[0.72] tracking-[-0.08em] text-[#F2F0EA]">
                     {active.name}
                   </h3>
                 </motion.div>
@@ -231,66 +303,103 @@ export default function FeaturedTreatment() {
 
             {/* =====================================================
                 INFORMATION PANEL
-            ===================================================== */}
-            <div className="flex flex-col justify-between bg-[#122845] text-[#F5F0E7] lg:col-span-4">
+            ====================================================== */}
+
+            <div className="relative flex flex-col justify-between bg-[#111214] lg:col-span-4">
+              {/* Accent edge */}
+
+              <div className="absolute bottom-0 left-0 top-0 hidden w-px bg-white/[0.08] lg:block" />
+
               <div>
-                {/* Category */}
-                <div className="flex items-center justify-between border-b border-white/10 px-6 py-5 md:px-9">
-                  <p className="text-[8px] uppercase tracking-[0.24em] text-white/35">
+                {/* Protocol header */}
+
+                <div className="flex items-center justify-between border-b border-white/[0.08] px-7 py-6 md:px-9">
+                  <p className="text-[8px] uppercase tracking-[0.25em] text-white/30">
                     Protocol
                   </p>
 
-                  <p className="text-[8px] uppercase tracking-[0.2em] text-[#C9A646]">
+                  <p className="text-[8px] uppercase tracking-[0.2em] text-[#D6C39A]">
                     {active.tag}
                   </p>
                 </div>
 
-                {/* Main copy */}
+                {/* Information */}
+
                 <AnimatePresence mode="wait">
                   <motion.div
                     key={active.name}
-                    initial={{
-                      opacity: 0,
-                      y: 20,
-                    }}
+                    initial={
+                      shouldReduceMotion
+                        ? false
+                        : {
+                            opacity: 0,
+                            y: 18,
+                          }
+                    }
                     animate={{
                       opacity: 1,
                       y: 0,
                     }}
-                    exit={{
-                      opacity: 0,
-                      y: -12,
-                    }}
+                    exit={
+                      shouldReduceMotion
+                        ? undefined
+                        : {
+                            opacity: 0,
+                            y: -12,
+                          }
+                    }
                     transition={{
-                      duration: 0.45,
+                      duration: shouldReduceMotion ? 0 : 0.5,
+                      ease: [0.22, 1, 0.36, 1],
                     }}
-                    className="px-6 py-10 md:px-9 md:py-12 lg:px-10 lg:py-14"
+                    className="px-7 py-10 md:px-9 md:py-12 lg:px-10 lg:py-14"
                   >
-                    <p className="text-[8px] uppercase tracking-[0.22em] text-white/30">
-                      {active.number} / {active.family}
-                    </p>
+                    <div className="flex items-center gap-3">
+                      <span className="font-mono text-[8px] text-[#D6C39A]">
+                        {active.number}
+                      </span>
 
-                    <h4 className="mt-8 text-[clamp(2.8rem,4vw,4.8rem)] font-light leading-[0.86] tracking-[-0.06em]">
+                      <span className="h-px w-8 bg-white/15" />
+
+                      <span className="text-[8px] uppercase tracking-[0.2em] text-white/25">
+                        {active.family}
+                      </span>
+                    </div>
+
+                    <h4 className="mt-9 text-[clamp(2.8rem,4.5vw,5rem)] font-light leading-[0.86] tracking-[-0.065em] text-[#F2F0EA]">
                       {active.category}
                     </h4>
 
-                    <p className="mt-7 max-w-md text-sm leading-7 text-white/50">
+                    <p className="mt-8 max-w-md text-sm leading-7 text-white/45">
                       {active.description}
                     </p>
 
-                    {/* Tags */}
-                    <div className="mt-9 flex flex-wrap gap-2">
-                      <span className="border border-white/10 px-3 py-2 text-[7px] uppercase tracking-[0.18em] text-white/35">
-                        Physician supervised
-                      </span>
+                    {/* Protocol attributes */}
 
-                      <span className="border border-white/10 px-3 py-2 text-[7px] uppercase tracking-[0.18em] text-white/35">
-                        Documented protocol
-                      </span>
+                    <div className="mt-10 space-y-3 border-t border-white/[0.08] pt-7">
+                      <div className="flex items-center justify-between">
+                        <span className="text-[8px] uppercase tracking-[0.18em] text-white/25">
+                          Physician supervised
+                        </span>
 
-                      <span className="border border-white/10 px-3 py-2 text-[7px] uppercase tracking-[0.18em] text-white/35">
-                        Professional use
-                      </span>
+                        <span className="h-1 w-1 rounded-full bg-[#D6C39A]" />
+                      </div>
+
+                      <div className="flex items-center justify-between">
+                        <span className="text-[8px] uppercase tracking-[0.18em] text-white/25">
+                          Documented protocol
+                        </span>
+
+                        <span className="h-1 w-1 rounded-full bg-[#D6C39A]" />
+                      </div>
+
+                      <div className="flex items-center justify-between">
+                        <span className="text-[8px] uppercase tracking-[0.18em] text-white/25">
+                          Professional use
+                        </span>
+
+                        <span className="h-1 w-1 rounded-full bg-[#D6C39A]" />
+                      </div>
                     </div>
                   </motion.div>
                 </AnimatePresence>
@@ -299,11 +408,11 @@ export default function FeaturedTreatment() {
               {/* =================================================
                   NAVIGATION
               ================================================= */}
-              <div className="border-t border-white/10">
+
+              <div className="border-t border-white/[0.08]">
                 <div className="grid grid-cols-3">
                   {featuredProtocols.map((protocol, index) => {
-                    const selected =
-                      index === activeIndex;
+                    const selected = index === activeIndex;
 
                     return (
                       <button
@@ -312,35 +421,32 @@ export default function FeaturedTreatment() {
                         onClick={() => setActiveIndex(index)}
                         aria-label={`View ${protocol.name}`}
                         aria-pressed={selected}
-                        className="relative min-h-[105px] border-r border-white/10 px-4 py-5 text-left last:border-r-0"
-                        style={{
-                          backgroundColor: selected
-                            ? "rgba(245,240,231,0.06)"
-                            : "transparent",
-                        }}
+                        className="group relative min-h-[105px] border-r border-white/[0.08] px-4 py-5 text-left last:border-r-0"
                       >
-                        {selected && (
-                          <span className="absolute left-0 right-0 top-0 h-[2px] bg-[#C9A646]" />
-                        )}
+                        {/* Active progress */}
 
                         <span
-                          className="text-[8px] tracking-[0.2em]"
-                          style={{
-                            color: selected
-                              ? "#C9A646"
-                              : "rgba(245,240,231,0.28)",
-                          }}
+                          className={`absolute left-0 right-0 top-0 h-px origin-left transition-transform duration-500 ${
+                            selected ? "scale-x-100" : "scale-x-0"
+                          } bg-[#D6C39A]`}
+                        />
+
+                        <span
+                          className={`font-mono text-[8px] tracking-[0.2em] transition-colors duration-300 ${
+                            selected
+                              ? "text-[#D6C39A]"
+                              : "text-white/25 group-hover:text-white/50"
+                          }`}
                         >
                           {protocol.number}
                         </span>
 
                         <span
-                          className="mt-4 block text-[10px] uppercase tracking-[0.14em]"
-                          style={{
-                            color: selected
-                              ? "#F5F0E7"
-                              : "rgba(245,240,231,0.45)",
-                          }}
+                          className={`mt-4 block text-[10px] uppercase tracking-[0.14em] transition-colors duration-300 ${
+                            selected
+                              ? "text-[#F2F0EA]"
+                              : "text-white/35 group-hover:text-white/65"
+                          }`}
                         >
                           {protocol.name}
                         </span>
@@ -349,33 +455,37 @@ export default function FeaturedTreatment() {
                   })}
                 </div>
 
-                {/* Progress */}
-                <div className="h-px bg-white/10">
+                {/* Overall progress */}
+
+                <div className="relative h-px bg-white/[0.08]">
                   <motion.div
-                    className="h-px bg-[#C9A646]"
+                    className="absolute left-0 top-0 h-px bg-[#D6C39A]"
                     animate={{
-                      width: `${((activeIndex + 1) / featuredProtocols.length) * 100}%`,
+                      width: `${
+                        ((activeIndex + 1) / featuredProtocols.length) * 100
+                      }%`,
                     }}
                     transition={{
-                      duration: 0.25,
+                      duration: shouldReduceMotion ? 0 : 0.45,
                       ease: [0.22, 1, 0.36, 1],
                     }}
                   />
                 </div>
 
                 {/* CTA */}
-                <div className="px-6 py-6 md:px-9 lg:px-10">
+
+                <div className="px-7 py-6 md:px-9 lg:px-10">
                   <a
                     href="#protocol-system"
-                    className="group flex items-center justify-between text-[9px] uppercase tracking-[0.22em] text-white/65"
+                    className="group flex items-center justify-between text-[9px] uppercase tracking-[0.22em] text-white/55"
                   >
                     <span className="relative">
                       Explore all protocols
 
-                      <span className="absolute -bottom-2 left-0 h-px w-0 bg-[#C9A646] transition-all duration-500 group-hover:w-full" />
+                      <span className="absolute -bottom-2 left-0 h-px w-0 bg-[#D6C39A] transition-all duration-500 group-hover:w-full" />
                     </span>
 
-                    <span className="text-[#C9A646] transition-transform duration-300 group-hover:translate-x-1">
+                    <span className="text-[#D6C39A] transition-transform duration-500 group-hover:translate-x-1.5">
                       →
                     </span>
                   </a>
@@ -385,15 +495,18 @@ export default function FeaturedTreatment() {
           </div>
         </div>
 
-        {/* Supporting note */}
+        {/* =========================================================
+            SUPPORTING NOTE
+        ========================================================== */}
+
         <div className="mt-6 flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
-          <p className="max-w-3xl text-[8px] leading-5 text-[#99958C]">
+          <p className="max-w-3xl text-[8px] leading-5 text-white/25">
             Protocol selection, dosage and administration remain subject to
             physician assessment and the applicable DRIPLABS clinical
             framework.
           </p>
 
-          <p className="text-[8px] uppercase tracking-[0.2em] text-[#99958C]">
+          <p className="font-mono text-[8px] uppercase tracking-[0.2em] text-white/25">
             03 / Signature protocols
           </p>
         </div>
