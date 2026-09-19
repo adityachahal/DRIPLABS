@@ -1,0 +1,928 @@
+﻿@import "tailwindcss";
+
+/* ==========================================================
+   DRIPLABS — CLINICAL FUTURISM / QUIET LUXURY
+   ========================================================== */
+
+:root {
+  /* Core surfaces */
+  --dl-obsidian: #08090B;
+  --dl-graphite: #101216;
+  --dl-panel: #14171C;
+  --dl-panel-soft: #191C22;
+
+  /* Brand accent */
+  --dl-accent: #C9A646;
+  --dl-accent-soft: #E5D39A;
+  --dl-accent-dim: #92772D;
+
+  /* Typography */
+  --dl-white: #F4F2EC;
+  --dl-body: #A7A8AC;
+  --dl-muted: #6F7278;
+  --dl-dark: #0A0A0B;
+
+  /* Borders */
+  --dl-border: rgba(255, 255, 255, 0.085);
+  --dl-border-strong: rgba(255, 255, 255, 0.14);
+  --dl-border-accent: rgba(201, 166, 70, 0.38);
+
+  /* Legacy variables — preserved for existing components */
+  --dl-navy: #0B1B33;
+  --dl-navy-deep: #060F1F;
+  --dl-navy-soft: #122845;
+  --dl-gold: var(--dl-accent);
+  --dl-gold-soft: var(--dl-accent-soft);
+  --dl-gold-dark: var(--dl-accent-dim);
+  --dl-bone: #F4F2EC;
+  --dl-mist: #E9EAED;
+  --dl-slate: #6F7278;
+  --dl-ink: #111318;
+  --dl-ink-soft: #555C66;
+
+  --background: var(--dl-obsidian);
+  --foreground: var(--dl-white);
+  --cream: var(--dl-bone);
+  --charcoal: var(--dl-graphite);
+  --muted: var(--dl-muted);
+
+  /* Layout */
+  --border: var(--dl-border);
+  --border-strong: var(--dl-border-strong);
+  --container-width: 1380px;
+
+  --page-x: clamp(1.25rem, 4vw, 4.5rem);
+  --section-space: clamp(6rem, 11vw, 11rem);
+  --content-space: clamp(3rem, 6vw, 7rem);
+
+  /* Type */
+  --display-tracking: -0.065em;
+  --heading-tracking: -0.045em;
+  --body-size: 0.94rem;
+  --body-line: 1.72;
+
+  /* Geometry */
+  --radius-sm: 2px;
+  --radius-md: 4px;
+  --radius-lg: 8px;
+
+  /* Motion */
+  --ease-luxury: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-sharp: cubic-bezier(0.16, 1, 0.3, 1);
+
+  --duration-fast: 280ms;
+  --duration-normal: 600ms;
+  --duration-slow: 900ms;
+}
+
+/* ==========================================================
+   RESET
+   ========================================================== */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  margin: 0;
+  padding: 0;
+  background: var(--dl-obsidian);
+
+  scroll-behavior: smooth;
+
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  text-rendering: optimizeLegibility;
+
+  scrollbar-width: thin;
+  scrollbar-color: var(--dl-accent) var(--dl-obsidian);
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+
+  background:
+    radial-gradient(
+      circle at 50% -20%,
+      rgba(201, 166, 70, 0.035),
+      transparent 32%
+    ),
+    var(--dl-obsidian);
+
+  color: var(--foreground);
+
+  font-family:
+    var(--font-body),
+    Arial,
+    Helvetica,
+    sans-serif;
+
+  font-size: var(--body-size);
+  line-height: var(--body-line);
+
+  overflow-x: hidden;
+}
+
+section {
+  position: relative;
+}
+
+main {
+  width: 100%;
+}
+
+p {
+  margin: 0;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0;
+
+  font-family:
+    var(--font-heading),
+    Georgia,
+    "Times New Roman",
+    serif;
+
+  font-weight: 400;
+  letter-spacing: var(--heading-tracking);
+
+  text-wrap: balance;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+/* ==========================================================
+   SCROLLBAR
+   ========================================================== */
+
+html::-webkit-scrollbar {
+  width: 6px;
+}
+
+html::-webkit-scrollbar-track {
+  background: var(--dl-obsidian);
+}
+
+html::-webkit-scrollbar-thumb {
+  background: var(--dl-accent-dim);
+  border-radius: 0;
+}
+
+/* ==========================================================
+   SELECTION
+   ========================================================== */
+
+::selection {
+  background: var(--dl-accent);
+  color: var(--dl-obsidian);
+}
+
+/* ==========================================================
+   MEDIA
+   ========================================================== */
+
+img,
+svg,
+video,
+canvas {
+  display: block;
+  max-width: 100%;
+}
+
+img {
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+video {
+  backface-visibility: hidden;
+}
+
+/* ==========================================================
+   CONTAINERS
+   ========================================================== */
+
+.driplabs-container {
+  width: min(
+    calc(100% - (var(--page-x) * 2)),
+    var(--container-width)
+  );
+
+  margin-inline: auto;
+}
+
+.driplabs-section {
+  padding-block: var(--section-space);
+}
+
+.driplabs-content {
+  max-width: 1100px;
+}
+
+/* ==========================================================
+   12-COLUMN GRID
+   ========================================================== */
+
+.driplabs-grid {
+  width: min(
+    calc(100% - (var(--page-x) * 2)),
+    var(--container-width)
+  );
+
+  margin-inline: auto;
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(12, minmax(0, 1fr));
+
+  column-gap: clamp(1rem, 2vw, 2.25rem);
+}
+
+/* ==========================================================
+   TECHNICAL LABEL
+   ========================================================== */
+
+.driplabs-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+
+  font-family:
+    var(--font-body),
+    Arial,
+    Helvetica,
+    sans-serif;
+
+  font-size: 0.58rem;
+  line-height: 1.2;
+  letter-spacing: 0.22em;
+
+  text-transform: uppercase;
+
+  color: var(--dl-muted);
+}
+
+.driplabs-label::before {
+  content: "";
+
+  width: 16px;
+  height: 1px;
+
+  background: var(--dl-accent);
+
+  transform-origin: left;
+}
+
+/* ==========================================================
+   DISPLAY TYPE
+   ========================================================== */
+
+.driplabs-display {
+  font-family:
+    var(--font-heading),
+    Georgia,
+    "Times New Roman",
+    serif;
+
+  font-weight: 400;
+
+  letter-spacing: var(--display-tracking);
+  line-height: 0.88;
+}
+
+/* ==========================================================
+   MONOSPACE / DATA
+   ========================================================== */
+
+.driplabs-data,
+.driplabs-stat,
+[data-driplabs-data] {
+  font-family:
+    "JetBrains Mono",
+    "SFMono-Regular",
+    Consolas,
+    "Liberation Mono",
+    monospace;
+
+  font-variant-numeric: tabular-nums;
+}
+
+/* ==========================================================
+   RULES
+   ========================================================== */
+
+.driplabs-rule {
+  height: 1px;
+  width: 100%;
+
+  background: var(--dl-border);
+}
+
+.driplabs-rule-light {
+  height: 1px;
+  width: 100%;
+
+  background: var(--dl-border-strong);
+}
+
+.driplabs-rule-dark {
+  height: 1px;
+  width: 100%;
+
+  background: rgba(255, 255, 255, 0.11);
+}
+
+/* ==========================================================
+   GOLD / ACCENT
+   ========================================================== */
+
+.driplabs-gold {
+  color: var(--dl-accent);
+}
+
+.driplabs-gold-line {
+  height: 1px;
+  width: 100%;
+
+  background:
+    linear-gradient(
+      90deg,
+      var(--dl-accent),
+      rgba(201, 166, 70, 0.18)
+    );
+
+  transform-origin: left;
+}
+
+/* ==========================================================
+   GLASS SYSTEM
+   ========================================================== */
+
+.driplabs-glass {
+  background:
+    linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.055),
+      rgba(255, 255, 255, 0.018)
+    );
+
+  backdrop-filter: blur(22px);
+  -webkit-backdrop-filter: blur(22px);
+
+  border: 1px solid var(--dl-border);
+
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.035);
+}
+
+.driplabs-glass-dark {
+  background:
+    linear-gradient(
+      135deg,
+      rgba(18, 20, 24, 0.82),
+      rgba(8, 9, 11, 0.72)
+    );
+
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+
+  border: 1px solid var(--dl-border);
+}
+
+/* ==========================================================
+   PREMIUM IMAGE SYSTEM
+   ========================================================== */
+
+.driplabs-image {
+  position: relative;
+  overflow: hidden;
+  background: var(--dl-graphite);
+}
+
+.driplabs-image::after {
+  content: "";
+
+  position: absolute;
+  inset: 0;
+
+  pointer-events: none;
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(0, 0, 0, 0.02),
+      rgba(0, 0, 0, 0.22)
+    );
+
+  opacity: 0.7;
+}
+
+.driplabs-image img {
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+
+  transition:
+    transform 1.4s var(--ease-luxury),
+    filter 1.4s var(--ease-luxury);
+}
+
+.driplabs-image:hover img {
+  transform: scale(1.035);
+}
+
+/* ==========================================================
+   PREMIUM BUTTON
+   ========================================================== */
+
+.driplabs-button {
+  position: relative;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 1.1rem;
+
+  min-height: 3.35rem;
+  padding-inline: 1.55rem;
+
+  border: 1px solid rgba(255, 255, 255, 0.24);
+
+  background: rgba(255, 255, 255, 0.025);
+
+  color: inherit;
+
+  font-family:
+    var(--font-body),
+    Arial,
+    Helvetica,
+    sans-serif;
+
+  font-size: 0.58rem;
+  line-height: 1;
+
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+
+  overflow: hidden;
+
+  transition:
+    color var(--duration-normal) var(--ease-luxury),
+    border-color var(--duration-normal) var(--ease-luxury),
+    transform var(--duration-normal) var(--ease-luxury),
+    background var(--duration-normal) var(--ease-luxury),
+    box-shadow var(--duration-normal) var(--ease-luxury);
+}
+
+.driplabs-button::before {
+  content: "";
+
+  position: absolute;
+  inset: 0;
+
+  background:
+    linear-gradient(
+      105deg,
+      transparent 15%,
+      rgba(201, 166, 70, 0.14) 50%,
+      transparent 85%
+    );
+
+  transform: translateX(-110%);
+
+  transition: transform 900ms var(--ease-luxury);
+}
+
+.driplabs-button > * {
+  position: relative;
+  z-index: 1;
+}
+
+.driplabs-button:hover {
+  transform: translateY(-2px);
+
+  border-color: var(--dl-border-accent);
+
+  background: rgba(201, 166, 70, 0.055);
+
+  box-shadow:
+    0 0 0 1px rgba(201, 166, 70, 0.04),
+    0 0 32px rgba(201, 166, 70, 0.08);
+}
+
+.driplabs-button:hover::before {
+  transform: translateX(110%);
+}
+
+/* ==========================================================
+   NOISE / FILM GRAIN
+   ========================================================== */
+
+.driplabs-noise {
+  position: relative;
+  isolation: isolate;
+}
+
+.driplabs-noise::after {
+  content: "";
+
+  position: absolute;
+  inset: 0;
+
+  z-index: 50;
+
+  pointer-events: none;
+
+  opacity: 0.035;
+
+  background-image:
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.82' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.72'/%3E%3C/svg%3E");
+}
+
+/* ==========================================================
+   SCAN LINE
+   ========================================================== */
+
+.driplabs-scan {
+  position: relative;
+  overflow: hidden;
+}
+
+.driplabs-scan::after {
+  content: "";
+
+  position: absolute;
+
+  left: 0;
+  right: 0;
+
+  top: -20%;
+
+  height: 1px;
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      rgba(201, 166, 70, 0.7),
+      transparent
+    );
+
+  box-shadow:
+    0 0 14px rgba(201, 166, 70, 0.28);
+
+  animation: driplabs-scanline 5s var(--ease-luxury) infinite;
+}
+
+@keyframes driplabs-scanline {
+  0% {
+    top: -5%;
+    opacity: 0;
+  }
+
+  12% {
+    opacity: 1;
+  }
+
+  82% {
+    opacity: 0.55;
+  }
+
+  100% {
+    top: 105%;
+    opacity: 0;
+  }
+}
+
+/* ==========================================================
+   AMBIENT PULSE
+   ========================================================== */
+
+.driplabs-pulse {
+  animation: driplabs-pulse 3.8s ease-in-out infinite;
+}
+
+@keyframes driplabs-pulse {
+  0%,
+  100% {
+    opacity: 0.5;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 1;
+    transform: scale(1.04);
+  }
+}
+
+/* ==========================================================
+   HAIRLINE GLOW
+   ========================================================== */
+
+.driplabs-glow-line {
+  position: relative;
+}
+
+.driplabs-glow-line::after {
+  content: "";
+
+  position: absolute;
+
+  left: 0;
+  right: 0;
+  bottom: -0.75rem;
+
+  height: 1px;
+
+  background:
+    linear-gradient(
+      90deg,
+      var(--dl-accent),
+      rgba(201, 166, 70, 0.08)
+    );
+
+  box-shadow:
+    0 0 14px rgba(201, 166, 70, 0.2);
+}
+
+/* ==========================================================
+   INTERACTIVE CARD
+   ========================================================== */
+
+.driplabs-card {
+  position: relative;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255, 255, 255, 0.045),
+      rgba(255, 255, 255, 0.012)
+    );
+
+  border: 1px solid var(--dl-border);
+
+  transition:
+    transform 700ms var(--ease-luxury),
+    border-color 500ms var(--ease-luxury),
+    background 500ms var(--ease-luxury),
+    box-shadow 700ms var(--ease-luxury);
+}
+
+.driplabs-card::before {
+  content: "";
+
+  position: absolute;
+  inset: 0;
+
+  pointer-events: none;
+
+  opacity: 0;
+
+  background:
+    radial-gradient(
+      360px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+      rgba(201, 166, 70, 0.08),
+      transparent 70%
+    );
+
+  transition: opacity 500ms ease;
+}
+
+.driplabs-card:hover {
+  transform: translateY(-4px);
+
+  border-color: rgba(201, 166, 70, 0.25);
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255, 255, 255, 0.06),
+      rgba(255, 255, 255, 0.018)
+    );
+
+  box-shadow:
+    0 18px 60px rgba(0, 0, 0, 0.2);
+}
+
+.driplabs-card:hover::before {
+  opacity: 1;
+}
+
+/* ==========================================================
+   NAVIGATION UTILITIES
+   ========================================================== */
+
+.driplabs-nav-glass {
+  background:
+    linear-gradient(
+      180deg,
+      rgba(8, 9, 11, 0.82),
+      rgba(8, 9, 11, 0.52)
+    );
+
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+/* ==========================================================
+   HERO
+   ========================================================== */
+
+.driplabs-hero {
+  position: relative;
+  isolation: isolate;
+  background: var(--dl-obsidian);
+  color: var(--dl-white);
+}
+
+.driplabs-hero::before {
+  content: "";
+
+  position: absolute;
+  inset: 0;
+
+  z-index: 1;
+
+  pointer-events: none;
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(4, 5, 7, 0.78) 0%,
+      rgba(4, 5, 7, 0.34) 48%,
+      rgba(4, 5, 7, 0.58) 100%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(4, 5, 7, 0.12),
+      transparent 38%,
+      rgba(4, 5, 7, 0.62)
+    );
+}
+
+/* ==========================================================
+   RESPONSIVE
+   ========================================================== */
+
+@media (max-width: 1024px) {
+  :root {
+    --container-width: 1200px;
+    --section-space: clamp(5rem, 12vw, 8rem);
+  }
+}
+
+@media (max-width: 768px) {
+  :root {
+    --page-x: 1.125rem;
+    --section-space: clamp(4.5rem, 16vw, 6.5rem);
+    --content-space: 2.5rem;
+    --body-size: 0.88rem;
+  }
+
+  html {
+    overflow-x: clip;
+  }
+
+  body {
+    overflow-x: clip;
+  }
+
+  .driplabs-container {
+    width: calc(100% - (var(--page-x) * 2));
+  }
+
+  .driplabs-grid {
+    grid-template-columns:
+      repeat(4, minmax(0, 1fr));
+
+    column-gap: 0.875rem;
+  }
+
+  .driplabs-display {
+    line-height: 0.9;
+    letter-spacing: -0.06em;
+  }
+
+  .driplabs-label {
+    font-size: 0.54rem;
+    letter-spacing: 0.18em;
+  }
+
+  .driplabs-button {
+    min-height: 3.25rem;
+    padding-inline: 1.15rem;
+    font-size: 0.55rem;
+    letter-spacing: 0.17em;
+  }
+
+  .driplabs-card:hover {
+    transform: none;
+  }
+}
+
+/* ==========================================================
+   SMALL PHONES
+   ========================================================== */
+
+@media (max-width: 390px) {
+  :root {
+    --page-x: 1rem;
+  }
+
+  .driplabs-hero h1 {
+    font-size: clamp(3.6rem, 19vw, 5.2rem);
+    line-height: 0.82;
+  }
+}
+
+/* ==========================================================
+   TOUCH DEVICES
+   ========================================================== */
+
+@media (hover: none) {
+  .driplabs-image:hover img,
+  .driplabs-button:hover {
+    transform: none;
+  }
+
+  .driplabs-button:hover {
+    border-color: rgba(255, 255, 255, 0.24);
+    background: rgba(255, 255, 255, 0.025);
+    box-shadow: none;
+  }
+
+  .driplabs-button:hover::before {
+    transform: translateX(-110%);
+  }
+}
+
+/* ==========================================================
+   ACCESSIBILITY
+   ========================================================== */
+
+:focus-visible {
+  outline: 1px solid var(--dl-accent);
+  outline-offset: 4px;
+}
+
+/* ==========================================================
+   REDUCED MOTION
+   ========================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    animation-delay: 0ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ==========================================================
+   SAFE AREA
+   ========================================================== */
+
+@supports (padding: env(safe-area-inset-bottom)) {
+  @media (max-width: 768px) {
+    body {
+      padding-bottom: env(safe-area-inset-bottom);
+    }
+  }
+}
