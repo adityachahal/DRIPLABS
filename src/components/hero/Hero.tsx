@@ -17,14 +17,6 @@ export default function Hero() {
 
   const [protocolMenuOpen, setProtocolMenuOpen] = useState(false);
 
-  const trustPoints = [
-    "Indian Pharmacopoeia compliant",
-    "Pharma grade formulations",
-    "Third party lab tested",
-  ];
-
-  const [activeTrustPoint, setActiveTrustPoint] = useState(0);
-
   // Functional / Cellular rotation
   useEffect(() => {
     if (reducedMotion) return;
@@ -37,19 +29,6 @@ export default function Hero() {
 
     return () => window.clearInterval(interval);
   }, [reducedMotion]);
-
-  // Bottom-right trust point rotation
-  useEffect(() => {
-    if (reducedMotion) return;
-
-    const interval = window.setInterval(() => {
-      setActiveTrustPoint((current) =>
-        current === trustPoints.length - 1 ? 0 : current + 1
-      );
-    }, 3000);
-
-    return () => window.clearInterval(interval);
-  }, [reducedMotion, trustPoints.length]);
 
   return (
     <section className="driplabs-noise relative min-h-[100svh] overflow-hidden bg-[#071525] text-[#F5F0E7]">
@@ -141,7 +120,7 @@ export default function Hero() {
           className="flex items-start justify-end"
         >
           <div className="text-right text-[8px] uppercase tracking-[0.22em] text-white/45 sm:text-[9px]">
-            <p>Snnylo Life Sciences</p>
+            <p></p>
 
             <p className="mt-1 text-white/30">
               Made in India
@@ -173,7 +152,9 @@ export default function Hero() {
             NOURISH • RECHARGE • RESTORE •
           </motion.div>
 
-          {/* Main Heading */}
+          {/* =====================================================
+              MAIN HEADING
+          ===================================================== */}
           <motion.h1
             initial={{
               opacity: 0,
@@ -194,63 +175,79 @@ export default function Hero() {
             }}
             className="relative top-[45px] max-w-[850px] text-[clamp(2.2rem,4.2vw,5rem)] font-light leading-[0.9] tracking-[-0.05em] text-[#F5F0E7]"
           >
+            {/* Precision Nutrition */}
             <span className="block">
               Precision Nutrition.
             </span>
 
+            {/* =================================================
+                FUNCTIONAL / CELLULAR + WELLNESS
+            ================================================= */}
             <span className="block">
               <span className="inline-flex items-baseline">
-                {/* Functional / Cellular */}
-                <AnimatePresence
-                  mode="wait"
-                  initial={false}
-                >
-                  <motion.span
-                    key={activeWord}
-                    initial={
-                      reducedMotion
-                        ? {
-                            opacity: 1,
-                            y: 0,
-                          }
-                        : {
-                            opacity: 0,
-                            y: 18,
-                            filter: "blur(6px)",
-                          }
-                    }
-                    animate={{
-                      opacity: 1,
-                      y: 0,
-                      filter: "blur(0px)",
-                    }}
-                    exit={
-                      reducedMotion
-                        ? {
-                            opacity: 0,
-                          }
-                        : {
-                            opacity: 0,
-                            y: -18,
-                            filter: "blur(6px)",
-                          }
-                    }
-                    transition={{
-                      duration: reducedMotion ? 0.01 : 0.65,
-                      ease: [0.16, 1, 0.3, 1] as const,
-                    }}
-                    className="text-[#28B8C8]"
+                {/* Fixed-size word area */}
+                <span className="relative inline-block h-[1em] w-[10ch] shrink-0">
+                  <AnimatePresence
+                    mode="wait"
+                    initial={false}
                   >
-                    {activeWord}
-                  </motion.span>
-                </AnimatePresence>
+                    <motion.span
+                      key={activeWord}
+                      initial={
+                        reducedMotion
+                          ? {
+                              opacity: 1,
+                              y: 0,
+                            }
+                          : {
+                              opacity: 0,
+                              y: 18,
+                              filter: "blur(6px)",
+                            }
+                      }
+                      animate={{
+                        opacity: 1,
+                        y: 0,
+                        filter: "blur(0px)",
+                      }}
+                      exit={
+                        reducedMotion
+                          ? {
+                              opacity: 0,
+                            }
+                          : {
+                              opacity: 0,
+                              y: -18,
+                              filter: "blur(6px)",
+                            }
+                      }
+                      transition={{
+                        duration: reducedMotion
+                          ? 0.01
+                          : 0.65,
+                        ease: [0.16, 1, 0.3, 1] as const,
+                      }}
+                      className="absolute left-0 top-0 whitespace-nowrap text-[#28B8C8]"
+                    >
+                      {activeWord}
+                    </motion.span>
+                  </AnimatePresence>
 
-                <span className="text-[#F5F0E7]">
-                  &nbsp;Wellness.
+                  {/* Fixed ocean underline */}
+                  <span
+                    aria-hidden="true"
+                    className="absolute bottom-[-0.08em] left-0 h-[2px] w-[3.5ch] bg-[#28B8C8]"
+                  />
+                </span>
+
+                {/* Wellness */}
+                <span className="relative -ml-[1em] h-[0.02em] text-[#F5F0E7]">
+                  Wellness.
                 </span>
               </span>
             </span>
 
+            {/* Healthy Aging */}
             <span className="block pl-[4vw]">
               Healthy Aging.
             </span>
@@ -259,7 +256,7 @@ export default function Hero() {
           {/* =====================================================
               SUPPORTING COPY
           ===================================================== */}
-          <div className="mt-16 grid gap-8 md:grid-cols-12 md:items-end md:gap-8">
+          <div className="mt-18 grid gap-8 md:grid-cols-12 md:items-end md:gap-8">
             <motion.p
               initial={{
                 opacity: 0,
@@ -274,17 +271,24 @@ export default function Hero() {
                 duration: reducedMotion ? 0.01 : 0.7,
                 ease: [0.16, 1, 0.3, 1] as const,
               }}
-              className="mt-10 whitespace-nowrap text-[18px] font-light not-italic leading-none tracking-[-0.01em] text-white/75 sm:text-[16px] md:text-[16px]"
+              className="mt-18 whitespace-nowrap text-[19px] font-light not-italic leading-[1.10] tracking-[-0.01em] text-white/80 sm:text-[17px] md:text-[19px]"
             >
-              Physician-led Advanced{" "}
-              <span className="italic">
+              Physician-led advanced{" "}
+              <span className="font-semibold italic text-white">
                 IV wellness
               </span>{" "}
               and{" "}
-              <span className="italic">
+              <span className="font-semibold italic text-white">
                 NAD+
               </span>{" "}
-              experiences
+              experiences.
+
+              <span className="mt-3 block sm:text-[13px] md:text-[15px]">
+                {"Research & Science backed documented protocols with batch"}
+                <br />
+                {"traceability and third party lab tested."}
+                <br />
+              </span>
             </motion.p>
           </div>
         </div>
@@ -292,7 +296,7 @@ export default function Hero() {
         {/* =======================================================
             BOTTOM AREA
         ======================================================= */}
-        <div className="mt-auto grid grid-cols-2 items-end gap-6 pt-4 md:grid-cols-12">
+        <div className="mt-auto grid grid-cols-1 items-end gap-6 pt-4 md:grid-cols-12">
           {/* =====================================================
               BOTTOM LEFT — CTA
           ===================================================== */}
@@ -311,9 +315,11 @@ export default function Hero() {
                 duration: reducedMotion ? 0.01 : 0.7,
                 ease: [0.16, 1, 0.3, 1] as const,
               }}
-              className="mb-5 flex items-center gap-3"
+              className="mb-5 flex flex-wrap items-center gap-3"
             >
-              {/* BOOK YOUR DRIP */}
+              {/* =================================================
+                  BOOK YOUR DRIP
+              ================================================= */}
               <motion.a
                 href="#booking"
                 whileHover={
@@ -380,12 +386,12 @@ export default function Hero() {
                   duration: 0.35,
                   ease: [0.22, 1, 0.36, 1] as const,
                 }}
-                className="group inline-flex min-h-[44px] items-center justify-center rounded-full border border-white/35 bg-white/[0.06] px-6 text-[10px] font-medium uppercase tracking-[0.16em] text-white backdrop-blur-md transition-all duration-500 hover:border-white/60 hover:bg-white/[0.12] sm:px-7 sm:text-[11px]"
+                className="group inline-flex min-h-[44px] items-center justify-center rounded-full border border-white/35 bg-white/[0.06] px-6 text-[8px] font-medium uppercase tracking-[0.16em] text-white backdrop-blur-md transition-all duration-500 hover:border-white/60 hover:bg-white/[0.12] sm:px-7 sm:text-[9px]"
               >
                 <span className="flex items-center gap-3">
                   View IV Protocols
 
-                  <span className="text-[13px] transition-transform duration-500 group-hover:translate-x-1">
+                  <span className="text-[10px] transition-transform duration-500 group-hover:translate-x-1">
                     →
                   </span>
                 </span>
@@ -406,9 +412,9 @@ export default function Hero() {
               }}
               className="text-[7px] uppercase leading-[1.8] tracking-[0.22em] text-white/45 sm:text-[8px]"
             >
-              Physician supervised use only
+              
               <br />
-              Professional clinical setting
+             
             </motion.p>
           </div>
 
@@ -429,7 +435,7 @@ export default function Hero() {
               duration: reducedMotion ? 0.01 : 0.7,
               ease: [0.16, 1, 0.3, 1] as const,
             }}
-            className="flex justify-end md:col-span-3 md:justify-center"
+            className="hidden md:col-span-1 md:flex md:justify-center"
           >
             <a
               href="#about"
@@ -462,12 +468,12 @@ export default function Hero() {
           </motion.div>
 
           {/* =====================================================
-              BOTTOM RIGHT — ROTATING TRUST POINTS
+              BOTTOM RIGHT — VERIFICATION / TRUST STRIP
           ===================================================== */}
           <motion.div
             initial={{
               opacity: 0,
-              y: reducedMotion ? 0 : 10,
+              y: reducedMotion ? 0 : 12,
             }}
             animate={{
               opacity: 1,
@@ -475,54 +481,284 @@ export default function Hero() {
             }}
             transition={{
               delay: reducedMotion ? 0 : 0.8,
-              duration: reducedMotion ? 0.01 : 0.7,
+              duration: reducedMotion ? 0.01 : 0.8,
               ease: [0.16, 1, 0.3, 1] as const,
             }}
-            className="hidden text-right md:col-span-4 md:block"
+            className="md:col-span-6"
           >
-            <div className="flex min-h-[18px] items-center justify-end">
-              <AnimatePresence
-                mode="wait"
-                initial={false}
-              >
-                <motion.span
-                  key={activeTrustPoint}
-                  initial={
-                    reducedMotion
-                      ? {
-                          opacity: 1,
-                        }
-                      : {
-                          opacity: 0,
-                          y: 8,
-                          filter: "blur(4px)",
-                        }
-                  }
-                  animate={{
-                    opacity: 1,
-                    y: 0,
-                    filter: "blur(0px)",
-                  }}
-                  exit={
-                    reducedMotion
-                      ? {
-                          opacity: 0,
-                        }
-                      : {
-                          opacity: 0,
-                          y: -8,
-                          filter: "blur(4px)",
-                        }
-                  }
-                  transition={{
-                    duration: reducedMotion ? 0.01 : 0.5,
-                    ease: [0.16, 1, 0.3, 1] as const,
-                  }}
-                  className="text-[8px] uppercase tracking-[0.2em] text-white/55 sm:text-[9px]"
-                >
-                  {trustPoints[activeTrustPoint]}
-                </motion.span>
-              </AnimatePresence>
+            <div className="flex w-full items-stretch justify-between">
+              {/* =================================================
+                  01 — THIRD PARTY TESTED
+              ================================================= */}
+              <div className="flex min-w-0 flex-1 items-center justify-center px-2 sm:px-3">
+                <div className="flex flex-col items-center text-center">
+                  {/* Shield icon */}
+                  <svg
+                    width="30"
+                    height="30"
+                    viewBox="0 0 32 32"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="mb-2 h-7 w-7 text-white/65 sm:h-8 sm:w-8"
+                    aria-hidden="true"
+                  >
+                    <path
+                      d="M16 3.5L27 8V14.5C27 21.5 22.4 27 16 29C9.6 27 5 21.5 5 14.5V8L16 3.5Z"
+                      stroke="currentColor"
+                      strokeWidth="1.5"
+                      strokeLinejoin="round"
+                    />
+                    <path
+                      d="M11.5 16L14.5 19L20.8 12.7"
+                      stroke="currentColor"
+                      strokeWidth="1.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+
+                  <span className="whitespace-nowrap text-[7px] font-medium uppercase leading-[1.7] tracking-[0.12em] text-white/70 sm:text-[8px]">
+                    PHARMA-GRADE 
+                    <br />
+                    formulations
+                  </span>
+                </div>
+              </div>
+
+              {/* Divider */}
+              <div className="my-1 w-px bg-white/25" />
+
+              {/* =================================================
+                  02 — COA AVAILABLE PER BATCH
+              ================================================= */}
+              <div className="flex min-w-0 flex-1 items-center justify-center px-2 sm:px-3">
+                <div className="flex flex-col items-center text-center">
+                  {/* Document icon */}
+                  <svg
+                    width="30"
+                    height="30"
+                    viewBox="0 0 32 32"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="mb-2 h-7 w-7 text-white/65 sm:h-8 sm:w-8"
+                    aria-hidden="true"
+                  >
+                    <path
+                      d="M8 3.5H19L25 9.5V28.5H8V3.5Z"
+                      stroke="currentColor"
+                      strokeWidth="1.5"
+                      strokeLinejoin="round"
+                    />
+                    <path
+                      d="M19 3.5V9.5H25"
+                      stroke="currentColor"
+                      strokeWidth="1.5"
+                      strokeLinejoin="round"
+                    />
+                    <path
+                      d="M12 15H21"
+                      stroke="currentColor"
+                      strokeWidth="1.5"
+                      strokeLinecap="round"
+                    />
+                    <path
+                      d="M12 19H21"
+                      stroke="currentColor"
+                      strokeWidth="1.5"
+                      strokeLinecap="round"
+                    />
+                    <path
+                      d="M12 23H18"
+                      stroke="currentColor"
+                      strokeWidth="1.5"
+                      strokeLinecap="round"
+                    />
+                  </svg>
+
+                  <span className="whitespace-nowrap text-[7px] font-medium uppercase leading-[1.7] tracking-[0.12em] text-white/70 sm:text-[8px]">
+                    PHYSICIAN
+                    <br />
+                    guided
+                  </span>
+                </div>
+              </div>
+
+              {/* Divider */}
+              <div className="my-1 w-px bg-white/25" />
+
+              {/* =================================================
+                  03 — COLD CHAIN HANDLED
+              ================================================= */}
+              <div className="flex min-w-0 flex-1 items-center justify-center px-2 sm:px-3">
+                <div className="flex flex-col items-center text-center">
+                  {/* Snowflake icon */}
+                  <svg
+                    width="30"
+                    height="30"
+                    viewBox="0 0 32 32"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="mb-2 h-7 w-7 text-white/65 sm:h-8 sm:w-8"
+                    aria-hidden="true"
+                  >
+                    <path
+                      d="M16 3V29"
+                      stroke="currentColor"
+                      strokeWidth="1.4"
+                      strokeLinecap="round"
+                    />
+                    <path
+                      d="M4.74 9.5L27.26 22.5"
+                      stroke="currentColor"
+                      strokeWidth="1.4"
+                      strokeLinecap="round"
+                    />
+                    <path
+                      d="M4.74 22.5L27.26 9.5"
+                      stroke="currentColor"
+                      strokeWidth="1.4"
+                      strokeLinecap="round"
+                    />
+
+                    <path
+                      d="M16 3L13.5 6"
+                      stroke="currentColor"
+                      strokeWidth="1.4"
+                      strokeLinecap="round"
+                    />
+                    <path
+                      d="M16 3L18.5 6"
+                      stroke="currentColor"
+                      strokeWidth="1.4"
+                      strokeLinecap="round"
+                    />
+
+                    <path
+                      d="M16 29L13.5 26"
+                      stroke="currentColor"
+                      strokeWidth="1.4"
+                      strokeLinecap="round"
+                    />
+                    <path
+                      d="M16 29L18.5 26"
+                      stroke="currentColor"
+                      strokeWidth="1.4"
+                      strokeLinecap="round"
+                    />
+
+                    <path
+                      d="M4.74 9.5L8.5 9"
+                      stroke="currentColor"
+                      strokeWidth="1.4"
+                      strokeLinecap="round"
+                    />
+                    <path
+                      d="M4.74 9.5L6.5 12.5"
+                      stroke="currentColor"
+                      strokeWidth="1.4"
+                      strokeLinecap="round"
+                    />
+
+                    <path
+                      d="M27.26 22.5L23.5 23"
+                      stroke="currentColor"
+                      strokeWidth="1.4"
+                      strokeLinecap="round"
+                    />
+                    <path
+                      d="M27.26 22.5L25.5 19.5"
+                      stroke="currentColor"
+                      strokeWidth="1.4"
+                      strokeLinecap="round"
+                    />
+
+                    <path
+                      d="M27.26 9.5L23.5 9"
+                      stroke="currentColor"
+                      strokeWidth="1.4"
+                      strokeLinecap="round"
+                    />
+                    <path
+                      d="M27.26 9.5L25.5 12.5"
+                      stroke="currentColor"
+                      strokeWidth="1.4"
+                      strokeLinecap="round"
+                    />
+
+                    <path
+                      d="M4.74 22.5L8.5 23"
+                      stroke="currentColor"
+                      strokeWidth="1.4"
+                      strokeLinecap="round"
+                    />
+                    <path
+                      d="M4.74 22.5L6.5 19.5"
+                      stroke="currentColor"
+                      strokeWidth="1.4"
+                      strokeLinecap="round"
+                    />
+                  </svg>
+
+                  <span className="whitespace-nowrap text-[7px] font-medium uppercase leading-[1.7] tracking-[0.12em] text-white/70 sm:text-[8px]">
+                    INDIAN PHARMACOPEIA
+                    <br />
+                    compliant
+                  </span>
+                </div>
+              </div>
+
+              {/* Divider */}
+              <div className="my-1 w-px bg-white/25" />
+
+              {/* =================================================
+                  04 — RESEARCH USE ONLY
+              ================================================= */}
+              <div className="flex min-w-0 flex-1 items-center justify-center px-2 sm:px-3">
+                <div className="flex flex-col items-center text-center">
+                  {/* Flask icon */}
+                  <svg
+                    width="30"
+                    height="30"
+                    viewBox="0 0 32 32"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="mb-2 h-7 w-7 text-white/65 sm:h-8 sm:w-8"
+                    aria-hidden="true"
+                  >
+                    <path
+                      d="M12 4H20"
+                      stroke="currentColor"
+                      strokeWidth="1.5"
+                      strokeLinecap="round"
+                    />
+                    <path
+                      d="M14 4V12L7 24C6.1 25.55 7.22 27.5 9 27.5H23C24.78 27.5 25.9 25.55 25 24L18 12V4"
+                      stroke="currentColor"
+                      strokeWidth="1.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                    <path
+                      d="M10 21H22"
+                      stroke="currentColor"
+                      strokeWidth="1.5"
+                      strokeLinecap="round"
+                    />
+                    <path
+                      d="M11.5 18.5H20.5"
+                      stroke="currentColor"
+                      strokeWidth="1.5"
+                      strokeLinecap="round"
+                    />
+                  </svg>
+
+                  <span className="whitespace-nowrap text-[7px] font-medium uppercase leading-[1.7] tracking-[0.12em] text-white/70 sm:text-[8px]">
+                    WHO-GMP-GLP
+                    <br />
+                    certified
+                  </span>
+                </div>
+              </div>
             </div>
           </motion.div>
         </div>
