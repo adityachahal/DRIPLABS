@@ -307,7 +307,7 @@ function setSceneAppearance(
     wireframe?: boolean;
   }
 ) {
-  root.traverse((child) => {
+  root.traverse((child: THREE.Object3D) => {
     const mesh = child as THREE.Mesh;
 
     if (!mesh.isMesh) return;

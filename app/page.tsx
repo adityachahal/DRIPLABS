@@ -1,4 +1,4 @@
-﻿import Navbar from "@/components/navigation/Navbar";
+import Navbar from "@/components/navigation/Navbar";
 import Hero from "@/components/hero/Hero";
 
 import ExperienceSection from "@/components/home/ExperienceSection";
@@ -26,60 +26,58 @@ export default function Home() {
     <main className="bg-[#F7F4EC] text-[#111318]">
       <Navbar />
 
-      {/* 01 — Cinematic opening */}
+      {/* 01 â€” Cinematic opening */}
       <Hero />
 
-      {/* 02 — Choose how you experience DRIPLABS */}
+      {/* 02 â€” Choose how you experience DRIPLABS */}
       <ExperienceSection />
 
-      {/* 03 — Immediate proof */}
+      {/* 03 â€” Immediate proof */}
       <ProofBand />
 
-      {/* 04 — The trust moat */}
+      {/* 04 â€” The trust moat */}
       <CredibilitySection />
 
       
 
-      {/* 05 — Protocol system */}
+      {/* 05 â€” Protocol system */}
       <ProtocolObservatory />
 
-      {/* 06 — Geographic presence */}
+      {/* 06 â€” Geographic presence */}
       <LocationMarquee />
 
       <NADFeature />
 
-      <DecodeVial />
-
-      {/* 07 — NADx flagship */}
+      {/* 07 â€” NADx flagship */}
       <NADExperience />
 
-      {/* 08 — Human experience */}
+      {/* 08 â€” Human experience */}
       <ConsumerExperience />
 
-      {/* 09 — Brand philosophy */}
+      {/* 09 â€” Brand philosophy */}
       <BrandStatement />
 
       <NourishStatement />
 
-      {/* 10 — Featured protocol */}
+      {/* 10 â€” Featured protocol */}
       <FeaturedTreatment />
 
-      {/* 11 — Social proof */}
+      {/* 11 â€” Social proof */}
       <Testimonials />
 
-      {/* 12 — Circle / membership */}
+      {/* 12 â€” Circle / membership */}
       <Memberships />
 
-      {/* 13 — Locations */}
+      {/* 13 â€” Locations */}
       <Locations />
 
-      {/* 14 — Questions */}
+      {/* 14 â€” Questions */}
       <FAQ />
 
-      {/* 15 — Final conversion */}
+      {/* 15 â€” Final conversion */}
       <FinalCTA />
 
-      {/* 16 — Global footer */}
+      {/* 16 â€” Global footer */}
       <Footer />
     </main>
   );
