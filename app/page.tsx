@@ -1,6 +1,7 @@
 ﻿import Navbar from "@/components/navigation/Navbar";
 import Hero from "@/components/hero/Hero";
 
+import ExperienceSection from "@/components/home/ExperienceSection";
 import ProofBand from "@/components/home/ProofBand";
 import CredibilitySection from "@/components/sections/CredibilitySection";
 
@@ -18,6 +19,7 @@ import Locations from "@/components/sections/Locations";
 import FAQ from "@/components/sections/FAQ";
 import FinalCTA from "@/components/sections/FinalCTA";
 import Footer from "@/components/sections/Footer";
+import NADFeature from "@/components/home/NADFeature";
 
 export default function Home() {
   return (
@@ -27,16 +29,26 @@ export default function Home() {
       {/* 01 — Cinematic opening */}
       <Hero />
 
-      {/* 02 — Immediate proof */}
+      {/* 02 — Choose how you experience DRIPLABS */}
+      <ExperienceSection />
+
+      {/* 03 — Immediate proof */}
       <ProofBand />
-{/* 04 — The trust moat */}
+
+      {/* 04 — The trust moat */}
       <CredibilitySection />
 
-      {/* 05 — Geographic presence */}
+      
+
+      {/* 05 — Protocol system */}
+      <ProtocolObservatory />
+
+      {/* 06 — Geographic presence */}
       <LocationMarquee />
 
-      {/* 06 — Protocol system */}
-      <ProtocolObservatory />
+      <NADFeature />
+
+      <DecodeVial />
 
       {/* 07 — NADx flagship */}
       <NADExperience />
@@ -72,5 +84,3 @@ export default function Home() {
     </main>
   );
 }
-
-

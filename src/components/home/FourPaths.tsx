@@ -69,15 +69,15 @@ export default function FourPaths() {
       id="paths"
       className="relative overflow-hidden bg-[var(--dl-navy)] text-[var(--dl-bone)]"
     >
-      {/* Ambient field */}
+      {/* Ambient light */}
       <div className="pointer-events-none absolute inset-0">
-        <div className="absolute left-[-10%] top-[18%] h-[28rem] w-[28rem] rounded-full bg-[var(--dl-gold)]/[0.035] blur-[120px]" />
-        <div className="absolute bottom-[-15%] right-[-8%] h-[26rem] w-[26rem] rounded-full bg-white/[0.025] blur-[120px]" />
+        <div className="absolute left-[-12%] top-[10%] h-[26rem] w-[26rem] rounded-full bg-[var(--dl-gold)]/[0.035] blur-[120px]" />
+        <div className="absolute bottom-[-20%] right-[-8%] h-[24rem] w-[24rem] rounded-full bg-white/[0.02] blur-[120px]" />
       </div>
 
-      <div className="relative mx-auto max-w-[1680px] px-5 py-24 sm:px-8 md:px-10 md:py-32 lg:px-14 lg:py-40">
-        {/* Header */}
-        <div className="grid gap-10 border-b border-white/10 pb-12 md:grid-cols-12 md:pb-16">
+      <div className="relative mx-auto max-w-[1600px] px-5 py-20 sm:px-8 md:px-10 md:py-24 lg:px-14 lg:py-28">
+        {/* Section heading */}
+        <div className="grid items-end gap-8 border-b border-white/10 pb-8 md:grid-cols-12 md:gap-10 md:pb-10">
           <div className="md:col-span-8">
             <div className="flex items-center gap-4">
               <span className="h-px w-10 bg-[var(--dl-gold)]" />
@@ -87,30 +87,24 @@ export default function FourPaths() {
               </p>
             </div>
 
-            <h2 className="mt-8 max-w-5xl font-[var(--font-heading)] text-[clamp(3.8rem,8vw,8rem)] font-light leading-[0.82] tracking-[-0.065em]">
-              One institution.
+            <h2 className="mt-6 max-w-4xl font-[var(--font-heading)] text-[clamp(3rem,6vw,6.5rem)] font-light leading-[0.86] tracking-[-0.06em]">
+              Choose how you
               <br />
-              <span className="text-white/45">Four ways in.</span>
+              <span className="text-white/45">experience DRIPLABS.</span>
             </h2>
           </div>
 
-          <div className="flex items-end md:col-span-4 md:justify-end">
-            <div className="max-w-sm">
-              <p className="text-[9px] uppercase tracking-[0.24em] text-white/30">
-                Start here
-              </p>
-
-              <p className="mt-4 text-sm leading-7 text-white/55">
-                Whether you are entering DRIPLABS for yourself, your practice
-                or your territory, the standard remains the same.
-              </p>
-            </div>
+          <div className="md:col-span-4 md:pb-1">
+            <p className="max-w-sm text-[11px] leading-6 text-white/45 md:ml-auto">
+              Whether you are entering DRIPLABS for yourself, your practice or
+              your territory, the standard remains the same.
+            </p>
           </div>
         </div>
 
-        {/* Pathway navigation */}
-        <div className="mt-10 md:mt-14">
-          {paths.map((path, index) => {
+        {/* Pathways */}
+        <div className="mt-8 md:mt-10">
+          {paths.map((path) => {
             const isSelected = selected === path.number;
 
             return (
@@ -124,39 +118,40 @@ export default function FourPaths() {
                   prefersReducedMotion
                     ? undefined
                     : {
-                        opacity: isSelected ? 1 : 0.68,
+                        opacity: isSelected ? 1 : 0.58,
                       }
                 }
                 transition={{
-                  duration: 0.6,
+                  duration: 0.45,
                   ease: [0.22, 1, 0.36, 1],
                 }}
                 className="group relative block border-b border-white/10 first:border-t focus-visible:outline-none"
                 aria-current={isSelected ? "true" : undefined}
               >
-                {/* Active sweep */}
+                {/* Active gold marker */}
                 <motion.div
                   initial={false}
                   animate={
                     prefersReducedMotion
                       ? undefined
                       : {
+                          scaleY: isSelected ? 1 : 0,
                           opacity: isSelected ? 1 : 0,
                         }
                   }
                   transition={{
-                    duration: 0.55,
+                    duration: 0.45,
                     ease: [0.22, 1, 0.36, 1],
                   }}
-                  className="pointer-events-none absolute inset-y-0 left-0 w-[2px] bg-[var(--dl-gold)]"
+                  className="absolute inset-y-0 left-0 w-[2px] origin-center bg-[var(--dl-gold)]"
                 />
 
-                <div className="grid min-h-[150px] items-center gap-8 py-8 md:min-h-[180px] md:grid-cols-12 md:gap-6 md:py-10 lg:py-12">
+                <div className="grid min-h-[108px] items-center gap-5 py-6 md:min-h-[118px] md:grid-cols-12 md:gap-6 md:py-7 lg:min-h-[124px]">
                   {/* Number */}
                   <div className="md:col-span-1">
                     <span
                       className={[
-                        "font-[var(--font-heading)] text-3xl font-light tracking-[-0.04em] transition-colors duration-500 md:text-4xl",
+                        "font-[var(--font-heading)] text-2xl font-light tracking-[-0.04em] transition-colors duration-500 md:text-3xl",
                         isSelected
                           ? "text-[var(--dl-gold)]"
                           : "text-white/25",
@@ -166,8 +161,8 @@ export default function FourPaths() {
                     </span>
                   </div>
 
-                  {/* Main title */}
-                  <div className="md:col-span-6">
+                  {/* Title */}
+                  <div className="md:col-span-5">
                     <p
                       className={[
                         "text-[8px] uppercase tracking-[0.28em] transition-colors duration-500",
@@ -181,8 +176,8 @@ export default function FourPaths() {
 
                     <h3
                       className={[
-                        "mt-4 font-[var(--font-heading)] text-[clamp(2.4rem,4.5vw,5.2rem)] font-light leading-[0.88] tracking-[-0.055em] transition-colors duration-500",
-                        isSelected ? "text-white" : "text-white/60",
+                        "mt-2 font-[var(--font-heading)] text-[clamp(2rem,3.4vw,4rem)] font-light leading-[0.9] tracking-[-0.055em] transition-colors duration-500",
+                        isSelected ? "text-white" : "text-white/55",
                       ].join(" ")}
                     >
                       {path.title}
@@ -190,74 +185,70 @@ export default function FourPaths() {
                   </div>
 
                   {/* Description */}
-                  <div className="md:col-span-4">
+                  <div className="md:col-span-5">
                     <motion.div
                       initial={false}
                       animate={
                         prefersReducedMotion
                           ? undefined
                           : {
-                              opacity: isSelected ? 1 : 0.42,
-                              y: isSelected ? 0 : 4,
+                              opacity: isSelected ? 1 : 0.32,
+                              y: isSelected ? 0 : 3,
                             }
                       }
                       transition={{
-                        duration: 0.6,
+                        duration: 0.45,
                         ease: [0.22, 1, 0.36, 1],
                       }}
+                      className="max-w-xl"
                     >
-                      <p className="max-w-md text-xs leading-6 text-white/50 md:text-sm md:leading-7">
+                      <p className="text-[11px] leading-5 text-white/50 md:text-xs md:leading-6">
                         {path.description}
                       </p>
 
-                      <p className="mt-4 text-[8px] uppercase tracking-[0.2em] text-white/25">
-                        {path.detail}
-                      </p>
+                      <div className="mt-2 flex items-center justify-between gap-4">
+                        <p className="text-[7px] uppercase tracking-[0.18em] text-white/25">
+                          {path.detail}
+                        </p>
+
+                        <motion.span
+                          animate={
+                            prefersReducedMotion
+                              ? undefined
+                              : {
+                                  x: isSelected ? 5 : 0,
+                                  opacity: isSelected ? 1 : 0.35,
+                                }
+                          }
+                          transition={{
+                            duration: 0.4,
+                            ease: [0.22, 1, 0.36, 1],
+                          }}
+                          className="shrink-0 text-xl font-light text-[var(--dl-gold-soft)]"
+                        >
+                          →
+                        </motion.span>
+                      </div>
                     </motion.div>
-                  </div>
-
-                  {/* Arrow / action */}
-                  <div className="flex items-center justify-between md:col-span-1 md:justify-end">
-                    <span className="text-[8px] uppercase tracking-[0.22em] text-white/25 md:hidden">
-                      Enter
-                    </span>
-
-                    <motion.span
-                      animate={
-                        prefersReducedMotion
-                          ? undefined
-                          : {
-                              x: isSelected ? 4 : 0,
-                              opacity: isSelected ? 1 : 0.35,
-                            }
-                      }
-                      transition={{
-                        duration: 0.55,
-                        ease: [0.22, 1, 0.36, 1],
-                      }}
-                      className="text-2xl font-light text-[var(--dl-gold-soft)]"
-                    >
-                      →
-                    </motion.span>
                   </div>
                 </div>
 
-                {/* Gold progress line */}
+                {/* Active progress line */}
                 <motion.div
                   initial={false}
                   animate={
                     prefersReducedMotion
                       ? undefined
                       : {
-                          width: isSelected ? "100%" : "0%",
+                          scaleX: isSelected ? 1 : 0,
                           opacity: isSelected ? 1 : 0,
                         }
                   }
                   transition={{
-                    duration: 0.8,
+                    duration: 0.6,
                     ease: [0.22, 1, 0.36, 1],
                   }}
-                  className="absolute bottom-0 left-0 h-px bg-[var(--dl-gold)]"
+                  className="absolute bottom-0 left-0 h-px w-full origin-left bg-[var(--dl-gold)]"
                 />
               </motion.a>
             );
@@ -265,7 +256,7 @@ export default function FourPaths() {
         </div>
 
         {/* Footer cue */}
-        <div className="mt-10 flex flex-col gap-4 text-[8px] uppercase tracking-[0.2em] text-white/25 sm:flex-row sm:items-center sm:justify-between">
+        <div className="mt-7 flex flex-col gap-3 text-[7px] uppercase tracking-[0.2em] text-white/25 sm:flex-row sm:items-center sm:justify-between">
           <span>Physician-led · considered · traceable</span>
 
           <span>

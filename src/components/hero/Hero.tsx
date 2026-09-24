@@ -17,7 +17,10 @@ export default function Hero() {
 
   const [protocolMenuOpen, setProtocolMenuOpen] = useState(false);
 
-  // Functional / Cellular rotation
+  // =========================================================
+  // FUNCTIONAL / CELLULAR ROTATION
+  // =========================================================
+
   useEffect(() => {
     if (reducedMotion) return;
 
@@ -35,6 +38,7 @@ export default function Hero() {
       {/* =========================================================
           BACKGROUND
       ========================================================= */}
+
       <div className="absolute inset-0 overflow-hidden">
         <video
           className="absolute inset-0 h-full w-full object-cover object-[60%_center] brightness-[1.1] saturate-[1.08] contrast-[1.02]"
@@ -80,6 +84,7 @@ export default function Hero() {
       {/* =========================================================
           TOP GOLD ACCENT
       ========================================================= */}
+
       <motion.div
         initial={{
           scaleX: reducedMotion ? 1 : 0,
@@ -99,10 +104,12 @@ export default function Hero() {
       {/* =========================================================
           MAIN CONTENT
       ========================================================= */}
+
       <div className="relative z-10 mx-auto flex min-h-[100svh] max-w-[1600px] flex-col justify-start px-5 pb-6 pt-[2rem] sm:px-6 md:px-10 md:pb-8 md:pt-[2.5rem] lg:px-14">
         {/* =======================================================
             TOP RIGHT BRAND DETAIL
         ======================================================= */}
+
         <motion.div
           initial={{
             opacity: 0,
@@ -122,17 +129,19 @@ export default function Hero() {
           <div className="text-right text-[8px] uppercase tracking-[0.22em] text-white/45 sm:text-[9px]">
             <p></p>
 
-            <p className="mt-1 text-white/30">
-              Made in India
-            </p>
+            <p className="mt-1 text-white/30"></p>
           </div>
         </motion.div>
 
         {/* =======================================================
             HERO COPY
         ======================================================= */}
+
         <div className="mt-16 pb-5 md:mt-20 md:pb-7">
-          {/* Eyebrow */}
+          {/* =====================================================
+              EYEBROW
+          ===================================================== */}
+
           <motion.div
             initial={{
               opacity: 0,
@@ -147,14 +156,35 @@ export default function Hero() {
               duration: reducedMotion ? 0.01 : 0.8,
               ease: [0.16, 1, 0.3, 1] as const,
             }}
-            className="mb-5 text-[8px] font-medium uppercase tracking-[0.3em] text-white/55 sm:text-[9px]"
+            className="mb-7 w-fit"
           >
-            NOURISH • RECHARGE • RESTORE •
+            <div className="text-[8px] font-medium uppercase tracking-[0.3em] text-white/55 sm:text-[9px]">
+              NOURISH • RECHARGE • RESTORE •
+            </div>
+
+            {/* Luxury gold line */}
+            <motion.div
+              initial={{
+                scaleX: reducedMotion ? 1 : 0,
+                opacity: reducedMotion ? 1 : 0,
+              }}
+              animate={{
+                scaleX: 1,
+                opacity: 1,
+              }}
+              transition={{
+                delay: reducedMotion ? 0 : 0.25,
+                duration: reducedMotion ? 0.01 : 0.8,
+                ease: [0.16, 1, 0.3, 1] as const,
+              }}
+              className="mt-3 h-px w-full origin-left bg-[#C9A646]"
+            />
           </motion.div>
 
           {/* =====================================================
               MAIN HEADING
           ===================================================== */}
+
           <motion.h1
             initial={{
               opacity: 0,
@@ -173,7 +203,7 @@ export default function Hero() {
               fontFamily:
                 '"Inter", "Helvetica Neue", Arial, sans-serif',
             }}
-            className="relative top-[45px] max-w-[850px] text-[clamp(2.2rem,4.2vw,5rem)] font-light leading-[0.9] tracking-[-0.05em] text-[#F5F0E7]"
+            className="mt-5 relative top-[18px] flex max-w-[850px] flex-col gap-[0.10em] text-[clamp(2.2rem,4.2vw,5rem)] font-light leading-[0.9] tracking-[-0.05em] text-[#F5F0E7]"
           >
             {/* Precision Nutrition */}
             <span className="block">
@@ -183,10 +213,11 @@ export default function Hero() {
             {/* =================================================
                 FUNCTIONAL / CELLULAR + WELLNESS
             ================================================= */}
+
             <span className="block">
               <span className="inline-flex items-baseline">
-                {/* Fixed-size word area */}
-                <span className="relative inline-block h-[1em] w-[10ch] shrink-0">
+                {/* Animated word */}
+                <span className="relative inline-block h-[1em] w-[10ch] shrink-0 align-baseline">
                   <AnimatePresence
                     mode="wait"
                     initial={false}
@@ -241,22 +272,23 @@ export default function Hero() {
                 </span>
 
                 {/* Wellness */}
-                <span className="relative -ml-[1em] h-[0.02em] text-[#F5F0E7]">
+                <span className="relative -ml-[0.85em] inline-flex items-baseline -translate-y-[0.20em] text-[#F5F0E7]">
                   Wellness.
                 </span>
               </span>
             </span>
 
-            {/* Healthy Aging */}
-            <span className="block pl-[4vw]">
-              Healthy Aging.
+            {/* Longevity */}
+            <span className="block pl-[0vw]">
+              Longevity.
             </span>
           </motion.h1>
 
           {/* =====================================================
               SUPPORTING COPY
           ===================================================== */}
-          <div className="mt-18 grid gap-8 md:grid-cols-12 md:items-end md:gap-8">
+
+          <div className="mt-25 grid gap-8 md:grid-cols-12 md:items-end md:gap-8">
             <motion.p
               initial={{
                 opacity: 0,
@@ -271,8 +303,9 @@ export default function Hero() {
                 duration: reducedMotion ? 0.01 : 0.7,
                 ease: [0.16, 1, 0.3, 1] as const,
               }}
-              className="mt-18 whitespace-nowrap text-[19px] font-light not-italic leading-[1.10] tracking-[-0.01em] text-white/80 sm:text-[17px] md:text-[19px]"
+              className="mt-25 whitespace-nowrap text-[19px] font-light not-italic leading-[1.10] tracking-[-0.01em] text-white/80 sm:text-[17px] md:text-[19px]"
             >
+              {/* First supporting line */}
               Physician-led advanced{" "}
               <span className="font-semibold italic text-white">
                 IV wellness
@@ -281,13 +314,21 @@ export default function Hero() {
               <span className="font-semibold italic text-white">
                 NAD+
               </span>{" "}
-              experiences.
+              personalised experiences
 
-              <span className="mt-3 block sm:text-[13px] md:text-[15px]">
+              {/* Clinical environment / home line */}
+              <span className="mt-2 block text-white/75 sm:text-[13px] md:text-[15px]">
+  Delivered in a considered{" "}
+  <span className="font-semibold text-white">clinical environment</span>{" "}
+  or at your{" "}
+  <span className="font-semibold text-white"> home</span>.
+</span>
+
+              {/* Research / science line */}
+              <span className="mt-7 block sm:text-[13px] md:text-[15px]">
                 {"Research & Science backed documented protocols with batch"}
                 <br />
                 {"traceability and third party lab tested."}
-                <br />
               </span>
             </motion.p>
           </div>
@@ -296,10 +337,12 @@ export default function Hero() {
         {/* =======================================================
             BOTTOM AREA
         ======================================================= */}
+
         <div className="mt-auto grid grid-cols-1 items-end gap-6 pt-4 md:grid-cols-12">
           {/* =====================================================
               BOTTOM LEFT — CTA
           ===================================================== */}
+
           <div className="md:col-span-5">
             <motion.div
               initial={{
@@ -315,18 +358,19 @@ export default function Hero() {
                 duration: reducedMotion ? 0.01 : 0.7,
                 ease: [0.16, 1, 0.3, 1] as const,
               }}
-              className="mb-5 flex flex-wrap items-center gap-3"
+              className="mb-0 flex flex-wrap items-center gap-3 md:translate-y-[0px]"
             >
               {/* =================================================
-                  BOOK YOUR DRIP
+                  BEGIN YOUR JOURNEY
               ================================================= */}
+
               <motion.a
                 href="#booking"
                 whileHover={
                   reducedMotion
                     ? undefined
                     : {
-                        y: -3,
+                        y: 0,
                         scale: 1.02,
                       }
                 }
@@ -341,7 +385,7 @@ export default function Hero() {
                   duration: 0.35,
                   ease: [0.22, 1, 0.36, 1] as const,
                 }}
-                className="group relative inline-flex min-h-[44px] items-center justify-center overflow-hidden rounded-full bg-[linear-gradient(135deg,#67E8E8_0%,#28C7D5_38%,#159BBF_72%,#08749F_100%)] px-6 text-[10px] font-medium uppercase tracking-[0.16em] text-[#071525] shadow-[0_8px_35px_rgba(35,190,210,0.24)] sm:px-7 sm:text-[11px]"
+                className="group relative inline-flex min-h-[44px] items-center justify-center overflow-hidden rounded-full bg-[linear-gradient(135deg,#67E8E8_0%,#28C7D5_38%,#159BBF_72%,#08749F_100%)] px-6 text-[12px] font-medium uppercase tracking-[0.16em] text-[#071525] shadow-[0_8px_35px_rgba(35,190,210,0.24)] sm:px-7 sm:text-[13px]"
               >
                 {/* Hover shine */}
                 <span className="pointer-events-none absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/35 to-transparent transition-transform duration-700 ease-out group-hover:translate-x-full" />
@@ -353,7 +397,7 @@ export default function Hero() {
                 <span className="pointer-events-none absolute inset-x-0 bottom-0 h-1/2 rounded-full bg-gradient-to-t from-[#075F86]/20 to-transparent" />
 
                 <span className="relative z-10 flex items-center gap-3">
-                  Book Your Drip
+                  BEGIN YOUR JOURNEY
 
                   <span className="text-[13px] transition-transform duration-500 group-hover:translate-x-1">
                     →
@@ -362,8 +406,9 @@ export default function Hero() {
               </motion.a>
 
               {/* =================================================
-                  VIEW IV PROTOCOLS
+                  EXPLORE PROTOCOLS
               ================================================= */}
+
               <motion.button
                 type="button"
                 onClick={() => setProtocolMenuOpen(true)}
@@ -371,7 +416,7 @@ export default function Hero() {
                   reducedMotion
                     ? undefined
                     : {
-                        y: -3,
+                        y: 0,
                         scale: 1.02,
                       }
                 }
@@ -386,10 +431,10 @@ export default function Hero() {
                   duration: 0.35,
                   ease: [0.22, 1, 0.36, 1] as const,
                 }}
-                className="group inline-flex min-h-[44px] items-center justify-center rounded-full border border-white/35 bg-white/[0.06] px-6 text-[8px] font-medium uppercase tracking-[0.16em] text-white backdrop-blur-md transition-all duration-500 hover:border-white/60 hover:bg-white/[0.12] sm:px-7 sm:text-[9px]"
+                className="group inline-flex min-h-[44px] items-center justify-center rounded-full border border-white/35 bg-white/[0.06] px-6 text-[8px] font-medium uppercase tracking-[0.16em] text-white backdrop-blur-md transition-all duration-500 hover:border-white/60 hover:bg-white/[0.12] sm:px-7 sm:text-[10px]"
               >
                 <span className="flex items-center gap-3">
-                  View IV Protocols
+                  EXPLORE PROTOCOLS
 
                   <span className="text-[10px] transition-transform duration-500 group-hover:translate-x-1">
                     →
@@ -397,30 +442,12 @@ export default function Hero() {
                 </span>
               </motion.button>
             </motion.div>
-
-            {/* Physician / legal line */}
-            <motion.p
-              initial={{
-                opacity: 0,
-              }}
-              animate={{
-                opacity: 1,
-              }}
-              transition={{
-                delay: reducedMotion ? 0 : 0.7,
-                duration: reducedMotion ? 0.01 : 0.7,
-              }}
-              className="text-[7px] uppercase leading-[1.8] tracking-[0.22em] text-white/45 sm:text-[8px]"
-            >
-              
-              <br />
-             
-            </motion.p>
           </div>
 
           {/* =====================================================
               CENTER — SCROLL
           ===================================================== */}
+
           <motion.div
             initial={{
               opacity: 0,
@@ -470,6 +497,7 @@ export default function Hero() {
           {/* =====================================================
               BOTTOM RIGHT — VERIFICATION / TRUST STRIP
           ===================================================== */}
+
           <motion.div
             initial={{
               opacity: 0,
@@ -488,11 +516,11 @@ export default function Hero() {
           >
             <div className="flex w-full items-stretch justify-between">
               {/* =================================================
-                  01 — THIRD PARTY TESTED
+                  01 — PHARMA-GRADE FORMULATIONS
               ================================================= */}
+
               <div className="flex min-w-0 flex-1 items-center justify-center px-2 sm:px-3">
                 <div className="flex flex-col items-center text-center">
-                  {/* Shield icon */}
                   <svg
                     width="30"
                     height="30"
@@ -508,6 +536,7 @@ export default function Hero() {
                       strokeWidth="1.5"
                       strokeLinejoin="round"
                     />
+
                     <path
                       d="M11.5 16L14.5 19L20.8 12.7"
                       stroke="currentColor"
@@ -518,22 +547,21 @@ export default function Hero() {
                   </svg>
 
                   <span className="whitespace-nowrap text-[7px] font-medium uppercase leading-[1.7] tracking-[0.12em] text-white/70 sm:text-[8px]">
-                    PHARMA-GRADE 
+                    PHARMA-GRADE
                     <br />
                     formulations
                   </span>
                 </div>
               </div>
 
-              {/* Divider */}
               <div className="my-1 w-px bg-white/25" />
 
               {/* =================================================
-                  02 — COA AVAILABLE PER BATCH
+                  02 — PHYSICIAN GUIDED
               ================================================= */}
+
               <div className="flex min-w-0 flex-1 items-center justify-center px-2 sm:px-3">
                 <div className="flex flex-col items-center text-center">
-                  {/* Document icon */}
                   <svg
                     width="30"
                     height="30"
@@ -549,24 +577,28 @@ export default function Hero() {
                       strokeWidth="1.5"
                       strokeLinejoin="round"
                     />
+
                     <path
                       d="M19 3.5V9.5H25"
                       stroke="currentColor"
                       strokeWidth="1.5"
                       strokeLinejoin="round"
                     />
+
                     <path
                       d="M12 15H21"
                       stroke="currentColor"
                       strokeWidth="1.5"
                       strokeLinecap="round"
                     />
+
                     <path
                       d="M12 19H21"
                       stroke="currentColor"
                       strokeWidth="1.5"
                       strokeLinecap="round"
                     />
+
                     <path
                       d="M12 23H18"
                       stroke="currentColor"
@@ -583,15 +615,14 @@ export default function Hero() {
                 </div>
               </div>
 
-              {/* Divider */}
               <div className="my-1 w-px bg-white/25" />
 
               {/* =================================================
-                  03 — COLD CHAIN HANDLED
+                  03 — INDIAN PHARMACOPOEIA
               ================================================= */}
+
               <div className="flex min-w-0 flex-1 items-center justify-center px-2 sm:px-3">
                 <div className="flex flex-col items-center text-center">
-                  {/* Snowflake icon */}
                   <svg
                     width="30"
                     height="30"
@@ -607,12 +638,14 @@ export default function Hero() {
                       strokeWidth="1.4"
                       strokeLinecap="round"
                     />
+
                     <path
                       d="M4.74 9.5L27.26 22.5"
                       stroke="currentColor"
                       strokeWidth="1.4"
                       strokeLinecap="round"
                     />
+
                     <path
                       d="M4.74 22.5L27.26 9.5"
                       stroke="currentColor"
@@ -626,6 +659,7 @@ export default function Hero() {
                       strokeWidth="1.4"
                       strokeLinecap="round"
                     />
+
                     <path
                       d="M16 3L18.5 6"
                       stroke="currentColor"
@@ -639,6 +673,7 @@ export default function Hero() {
                       strokeWidth="1.4"
                       strokeLinecap="round"
                     />
+
                     <path
                       d="M16 29L18.5 26"
                       stroke="currentColor"
@@ -652,6 +687,7 @@ export default function Hero() {
                       strokeWidth="1.4"
                       strokeLinecap="round"
                     />
+
                     <path
                       d="M4.74 9.5L6.5 12.5"
                       stroke="currentColor"
@@ -665,6 +701,7 @@ export default function Hero() {
                       strokeWidth="1.4"
                       strokeLinecap="round"
                     />
+
                     <path
                       d="M27.26 22.5L25.5 19.5"
                       stroke="currentColor"
@@ -678,6 +715,7 @@ export default function Hero() {
                       strokeWidth="1.4"
                       strokeLinecap="round"
                     />
+
                     <path
                       d="M27.26 9.5L25.5 12.5"
                       stroke="currentColor"
@@ -691,6 +729,7 @@ export default function Hero() {
                       strokeWidth="1.4"
                       strokeLinecap="round"
                     />
+
                     <path
                       d="M4.74 22.5L6.5 19.5"
                       stroke="currentColor"
@@ -700,22 +739,21 @@ export default function Hero() {
                   </svg>
 
                   <span className="whitespace-nowrap text-[7px] font-medium uppercase leading-[1.7] tracking-[0.12em] text-white/70 sm:text-[8px]">
-                    INDIAN PHARMACOPEIA
+                    INDIAN PHARMACOPOEIA
                     <br />
                     compliant
                   </span>
                 </div>
               </div>
 
-              {/* Divider */}
               <div className="my-1 w-px bg-white/25" />
 
               {/* =================================================
-                  04 — RESEARCH USE ONLY
+                  04 — WHO-GMP-GLP
               ================================================= */}
+
               <div className="flex min-w-0 flex-1 items-center justify-center px-2 sm:px-3">
                 <div className="flex flex-col items-center text-center">
-                  {/* Flask icon */}
                   <svg
                     width="30"
                     height="30"
@@ -731,6 +769,7 @@ export default function Hero() {
                       strokeWidth="1.5"
                       strokeLinecap="round"
                     />
+
                     <path
                       d="M14 4V12L7 24C6.1 25.55 7.22 27.5 9 27.5H23C24.78 27.5 25.9 25.55 25 24L18 12V4"
                       stroke="currentColor"
@@ -738,12 +777,14 @@ export default function Hero() {
                       strokeLinecap="round"
                       strokeLinejoin="round"
                     />
+
                     <path
                       d="M10 21H22"
                       stroke="currentColor"
                       strokeWidth="1.5"
                       strokeLinecap="round"
                     />
+
                     <path
                       d="M11.5 18.5H20.5"
                       stroke="currentColor"
@@ -767,6 +808,7 @@ export default function Hero() {
       {/* =========================================================
           PRODUCTS / PROTOCOL MENU
       ========================================================= */}
+
       <ProtocolMenu
         open={protocolMenuOpen}
         onClose={() => setProtocolMenuOpen(false)}
