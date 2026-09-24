@@ -1172,7 +1172,13 @@ export default function ProtocolObservatory() {
     }
   }
 
-  function handleFamilyClick(family: Exclude<Family, "Neutral">) {
+  function handleFamilyClick(family: Family) {
+    if (family === "Neutral") {
+      setSelectedFamily("Neutral");
+      setHoveredFamily("Neutral");
+      return;
+    }
+
     if (selectedFamily === family) {
       setSelectedFamily("Neutral");
       setHoveredFamily("Neutral");
