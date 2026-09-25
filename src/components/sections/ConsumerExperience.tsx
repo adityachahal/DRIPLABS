@@ -1,8 +1,8 @@
 ﻿"use client";
 
-import Image from "next/image";
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import Link from "next/link";
 
 const steps = [
   {
@@ -13,6 +13,7 @@ const steps = [
       "A physician reviews your goals, health history and suitability before any protocol is confirmed.",
     detail:
       "Every DRIPLABS journey begins with professional assessment. Your goals, relevant health information and suitability are reviewed before a protocol is confirmed.",
+    image: "/images/journey/step-01-consultation.jpg",
     imagePosition: "60% center",
   },
   {
@@ -23,6 +24,7 @@ const steps = [
       "Your protocol is selected around your profile, body weight and wellness goals.",
     detail:
       "Following assessment, the treating physician determines the appropriate protocol, dosage and treatment plan for your individual profile.",
+    image: "/images/journey/step-02-recommendation.jpg",
     imagePosition: "48% center",
   },
   {
@@ -33,6 +35,7 @@ const steps = [
       "Your treatment is administered by trained medical professionals in a comfortable, monitored setting.",
     detail:
       "Your selected protocol is administered by trained medical professionals in a carefully monitored environment designed around comfort and care.",
+    image: "/images/journey/step-03-iv-session.jpg",
     imagePosition: "55% center",
   },
   {
@@ -43,585 +46,589 @@ const steps = [
       "Your experience continues with structured recovery guidance and follow-up.",
     detail:
       "DRIPLABS considers the journey beyond the infusion, with appropriate recovery guidance and structured follow-up forming part of the experience.",
+    image: "/images/journey/step-04-follow-up.jpg",
     imagePosition: "66% center",
   },
 ];
 
-const reveal = {
-  hidden: {
-    opacity: 0,
-    y: 24,
-    filter: "blur(6px)",
-  },
-  visible: {
-    opacity: 1,
-    y: 0,
-    filter: "blur(0px)",
-  },
-};
+const FALLBACK_IMAGE = "/images/hero/driplabs-hero.jpg";
+const AUTO_ADVANCE = 6500;
 
 export default function ConsumerExperience() {
-  const reducedMotion = useReducedMotion();
   const [activeStep, setActiveStep] = useState(0);
+  const [paused, setPaused] = useState(false);
+  const [imageSrc, setImageSrc] = useState(steps[0].image);
 
   const active = steps[activeStep];
 
+  /*
+   * Automatically move through the roadmap.
+   * Pauses while the user is interacting with the section.
+   */
+  useEffect(() => {
+    if (paused) return;
+
+    const interval = window.setInterval(() => {
+      setActiveStep((current) => (current + 1) % steps.length);
+    }, AUTO_ADVANCE);
+
+    return () => window.clearInterval(interval);
+  }, [paused]);
+
+  /*
+   * Update image whenever roadmap step changes.
+   */
+  useEffect(() => {
+    setImageSrc(active.image);
+  }, [active]);
+
+  const selectStep = (index: number) => {
+    setActiveStep(index);
+    setImageSrc(steps[index].image);
+  };
+
   return (
     <section
-      id="how-it-works"
-      className="relative overflow-hidden bg-[#F7F4EC] text-[#0B1B33]"
+      className="relative overflow-hidden bg-[#f5f1e8] text-[#0b1b33]"
+      onMouseEnter={() => setPaused(true)}
+      onMouseLeave={() => setPaused(false)}
     >
-      {/* ======================================================
+      {/* ============================================================
           ATMOSPHERE
-      ====================================================== */}
+      ============================================================ */}
 
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-0"
-      >
-        <div className="absolute -left-[15%] top-[15%] h-[500px] w-[500px] rounded-full bg-[#C9A227]/[0.035] blur-[130px]" />
+      <div className="pointer-events-none absolute inset-0 overflow-hidden">
+        <div className="absolute left-[8%] top-[15%] h-[300px] w-[300px] rounded-full bg-[#c9a227]/[0.045] blur-[100px]" />
 
-        <div className="absolute -right-[10%] bottom-[15%] h-[550px] w-[550px] rounded-full bg-[#73849A]/[0.035] blur-[140px]" />
-
-        <div
-          className="absolute inset-0 opacity-[0.025]"
-          style={{
-            backgroundImage:
-              "linear-gradient(rgba(11,27,51,0.3) 1px, transparent 1px), linear-gradient(90deg, rgba(11,27,51,0.3) 1px, transparent 1px)",
-            backgroundSize: "100px 100px",
-          }}
-        />
+        <div className="absolute bottom-[5%] right-[8%] h-[280px] w-[280px] rounded-full bg-[#10233c]/[0.035] blur-[100px]" />
       </div>
 
-      {/* ======================================================
-          ENTRY RULE
-      ====================================================== */}
+      {/* ============================================================
+          MAIN CONTAINER
+      ============================================================ */}
 
-      <motion.div
-        initial={{ scaleX: reducedMotion ? 1 : 0 }}
-        whileInView={{ scaleX: 1 }}
-        viewport={{ once: true }}
-        transition={{
-          duration: reducedMotion ? 0.01 : 1.1,
-          ease: [0.22, 1, 0.36, 1],
-        }}
-        className="relative z-10 h-px w-full origin-left bg-[#C9A227]"
-      />
+      <div className="relative mx-auto flex min-h-[calc(100vh-80px)] max-w-[1500px] flex-col px-6 py-12 sm:px-8 md:px-10 lg:px-14 lg:py-14 xl:px-16">
 
-      <div className="relative z-10 mx-auto max-w-[1480px] px-5 pb-28 pt-28 sm:px-8 md:pb-40 md:pt-40 lg:px-12 xl:px-16">
-        {/* ======================================================
-            INTRO
-        ====================================================== */}
+        {/* ============================================================
+            HEADER
+        ============================================================ */}
 
-        <div className="grid gap-14 lg:grid-cols-12 lg:gap-12">
-          <motion.div
-            variants={reveal}
-            initial={reducedMotion ? "visible" : "hidden"}
-            whileInView="visible"
-            viewport={{ once: true, margin: "-12% 0px" }}
-            transition={{
-              duration: reducedMotion ? 0.01 : 0.8,
-              ease: [0.22, 1, 0.36, 1],
-            }}
-            className="lg:col-span-3"
-          >
-            <div className="flex items-center gap-3">
-              <span className="h-px w-8 bg-[#C9A227]" />
+        <header className="grid gap-5 lg:grid-cols-[0.45fr_1.55fr] lg:items-end">
 
-              <p className="text-[8px] uppercase tracking-[0.3em] text-[#B8901F] md:text-[9px]">
-                How it works
-              </p>
-            </div>
+          {/* Section label */}
 
-            <div className="mt-10 hidden lg:block">
-              <div className="flex items-center gap-4">
-                <span className="font-mono text-[7px] uppercase tracking-[0.2em] text-[#0B1B33]/30">
-                  JOURNEY / 04
-                </span>
+          <div className="flex items-center gap-3">
 
-                <span className="h-px w-12 bg-[#0B1B33]/10" />
-              </div>
+            <span className="h-px w-8 bg-[#b69757]" />
 
-              <p className="mt-7 max-w-[220px] text-xs leading-6 text-[#5A6B82]">
-                Four steps. One considered experience — from first conversation
-                through follow-up.
-              </p>
-            </div>
-          </motion.div>
+            <span className="font-mono text-[9px] uppercase tracking-[0.3em] text-[#77766f]">
+              Your journey
+            </span>
 
-          <div className="lg:col-span-8 lg:col-start-5">
-            <motion.h2
-              variants={reveal}
-              initial={reducedMotion ? "visible" : "hidden"}
-              whileInView="visible"
-              viewport={{ once: true, margin: "-12% 0px" }}
-              transition={{
-                duration: reducedMotion ? 0.01 : 0.95,
-                ease: [0.22, 1, 0.36, 1],
-              }}
-              className="max-w-6xl font-[var(--font-heading)] text-[clamp(3.5rem,7.5vw,8.2rem)] font-light leading-[0.82] tracking-[-0.07em]"
-            >
-              From first
-              <br />
-              conversation
-              <br />
+            <span className="font-mono text-[9px] tracking-[0.18em] text-[#9a9890]">
+              04
+            </span>
+
+          </div>
+
+          {/* Main heading */}
+
+          <h2 className="font-serif text-[clamp(2.8rem,5.3vw,5.8rem)] font-light leading-[0.88] tracking-[-0.055em]">
+            From first conversation{" "}
+            <span className="text-[#7d7c75]">
               to follow-up.
-            </motion.h2>
+            </span>
+          </h2>
+
+        </header>
+
+        {/* ============================================================
+            ROADMAP
+        ============================================================ */}
+
+        <div className="mt-10 lg:mt-12">
+
+          {/* ========================================================
+              DESKTOP ROADMAP
+          ======================================================== */}
+
+          <div className="relative hidden md:block">
+
+            {/* Base roadmap line */}
+
+            <div className="absolute left-[6.5%] right-[6.5%] top-[24px] h-px bg-[#0b1b33]/10" />
+
+            {/* Active roadmap progress */}
 
             <motion.div
-              initial={{
-                opacity: reducedMotion ? 1 : 0,
-                scaleX: reducedMotion ? 1 : 0,
+              className="absolute left-[6.5%] top-[24px] h-px bg-[#b69757]"
+              animate={{
+                width: `${activeStep * 29.1}%`,
               }}
-              whileInView={{
-                opacity: 1,
-                scaleX: 1,
-              }}
-              viewport={{ once: true }}
               transition={{
-                duration: reducedMotion ? 0.01 : 0.9,
-                delay: reducedMotion ? 0 : 0.15,
+                duration: 0.65,
                 ease: [0.22, 1, 0.36, 1],
               }}
-              className="mt-10 h-px max-w-[600px] origin-left bg-[#0B1B33]/10"
             />
 
-            <motion.p
-              variants={reveal}
-              initial={reducedMotion ? "visible" : "hidden"}
-              whileInView="visible"
-              viewport={{ once: true }}
-              transition={{
-                duration: reducedMotion ? 0.01 : 0.8,
-                delay: reducedMotion ? 0 : 0.2,
-                ease: [0.22, 1, 0.36, 1],
-              }}
-              className="mt-9 max-w-xl text-sm leading-7 text-[#5A6B82] md:text-base"
-            >
-              A physician-led journey designed to keep assessment,
-              recommendation, treatment and follow-up connected.
-            </motion.p>
+            {/* Milestones */}
+
+            <div className="grid grid-cols-4">
+
+              {steps.map((step, index) => {
+                const isActive = index === activeStep;
+                const isCompleted = index < activeStep;
+
+                return (
+                  <button
+                    key={step.number}
+                    type="button"
+                    onMouseEnter={() => selectStep(index)}
+                    onClick={() => selectStep(index)}
+                    className="group relative text-left focus:outline-none"
+                    aria-label={`View ${step.title}`}
+                  >
+
+                    {/* Node */}
+
+                    <div className="relative z-10 flex h-[48px] items-center justify-center">
+
+                      <motion.div
+                        animate={{
+                          scale: isActive ? 1 : 0.8,
+                        }}
+                        transition={{
+                          duration: 0.35,
+                          ease: [0.22, 1, 0.36, 1],
+                        }}
+                        className={[
+                          "relative flex h-12 w-12 items-center justify-center rounded-full border bg-[#f5f1e8]",
+                          isActive
+                            ? "border-[#b69757]"
+                            : "border-[#0b1b33]/15",
+                        ].join(" ")}
+                      >
+
+                        {isActive && (
+                          <motion.span
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            className="absolute inset-[5px] rounded-full border border-[#b69757]/30"
+                          />
+                        )}
+
+                        <span
+                          className={[
+                            "relative z-10 font-mono text-[9px] tracking-[0.18em]",
+                            isActive || isCompleted
+                              ? "text-[#8d7139]"
+                              : "text-[#99978f]",
+                          ].join(" ")}
+                        >
+                          {step.number}
+                        </span>
+
+                        {isActive && (
+                          <motion.span
+                            initial={{
+                              opacity: 0,
+                              scale: 0,
+                            }}
+                            animate={{
+                              opacity: 1,
+                              scale: 1,
+                            }}
+                            className="absolute -right-1 -top-1 h-2 w-2 rounded-full bg-[#b69757]"
+                          />
+                        )}
+
+                      </motion.div>
+
+                    </div>
+
+                    {/* Step label */}
+
+                    <div className="mt-4 px-2 text-center">
+
+                      <div className="font-mono text-[8px] uppercase tracking-[0.25em] text-[#9b9991]">
+                        Stage {step.number}
+                      </div>
+
+                      <motion.div
+                        animate={{
+                          color: isActive
+                            ? "#0b1b33"
+                            : "#85847e",
+                        }}
+                        transition={{
+                          duration: 0.3,
+                        }}
+                        className="mt-2 font-serif text-[clamp(1.35rem,1.8vw,1.9rem)] font-light leading-none tracking-[-0.03em]"
+                      >
+                        {step.shortTitle}
+                      </motion.div>
+
+                    </div>
+
+                  </button>
+                );
+              })}
+
+            </div>
           </div>
-        </div>
 
-        {/* ======================================================
-            EXPERIENCE SYSTEM
-        ====================================================== */}
+          {/* ========================================================
+              MOBILE ROADMAP
+          ======================================================== */}
 
-        <div className="relative mt-20 overflow-hidden border border-[#0B1B33]/10 lg:mt-28">
-          <div className="grid lg:grid-cols-12">
-            {/* ==================================================
-                JOURNEY NAVIGATION
-            ================================================== */}
+          <div className="md:hidden">
 
-            <div className="relative overflow-hidden bg-[#080E16] lg:col-span-5">
-              {/* subtle grid */}
-              <div
-                aria-hidden="true"
-                className="pointer-events-none absolute inset-0 opacity-[0.055]"
-                style={{
-                  backgroundImage:
-                    "linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)",
-                  backgroundSize: "70px 70px",
-                }}
-              />
+            <div className="relative">
 
-              <div className="relative z-10 flex items-center justify-between border-b border-white/10 px-6 py-6 md:px-9">
-                <div>
-                  <p className="text-[8px] uppercase tracking-[0.28em] text-white/35">
-                    Your DRIPLABS journey
-                  </p>
+              {/* Vertical line */}
 
-                  <div className="mt-3 h-px w-8 bg-[#C9A227]" />
-                </div>
+              <div className="absolute left-[23px] top-5 h-[calc(100%-40px)] w-px bg-[#0b1b33]/10" />
 
-                <span className="font-mono text-[8px] uppercase tracking-[0.22em] text-[#E3CE8E]">
-                  {active.number} / 04
-                </span>
-              </div>
+              <div className="space-y-6">
 
-              <div className="relative z-10">
                 {steps.map((step, index) => {
-                  const selected = activeStep === index;
+                  const isActive = index === activeStep;
 
                   return (
                     <button
                       key={step.number}
                       type="button"
-                      onClick={() => setActiveStep(index)}
-                      aria-pressed={selected}
-                      className={[
-                        "group relative w-full border-b border-white/10 px-6 py-8 text-left last:border-b-0 md:px-9 md:py-9",
-                        "transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)]",
-                        selected
-                          ? "bg-[#101E2D]"
-                          : "bg-[#080E16] hover:bg-[#0D1722]",
-                      ].join(" ")}
+                      onClick={() => selectStep(index)}
+                      className="relative flex w-full items-center gap-5 text-left"
                     >
-                      {/* active rail */}
-                      <motion.span
+
+                      {/* Node */}
+
+                      <motion.div
                         animate={{
-                          scaleY: selected ? 1 : 0,
-                          opacity: selected ? 1 : 0,
+                          scale: isActive ? 1 : 0.85,
                         }}
-                        transition={{
-                          duration: reducedMotion ? 0.01 : 0.55,
-                          ease: [0.22, 1, 0.36, 1],
-                        }}
-                        className="absolute bottom-0 left-0 top-0 w-[2px] origin-top bg-[#C9A227]"
-                      />
-
-                      {/* hover sweep */}
-                      <span className="pointer-events-none absolute inset-y-0 left-0 w-0 bg-[#C9A227]/[0.025] transition-all duration-700 group-hover:w-full" />
-
-                      <div className="relative z-10 flex items-start justify-between gap-6">
-                        <div>
-                          <div className="flex items-center gap-3">
-                            <span
-                              className={[
-                                "font-mono text-[8px] tracking-[0.24em]",
-                                selected
-                                  ? "text-[#C9A227]"
-                                  : "text-white/25",
-                              ].join(" ")}
-                            >
-                              {step.number}
-                            </span>
-
-                            {selected && (
-                              <span className="flex items-center gap-2">
-                                <span className="h-px w-4 bg-[#C9A227]/50" />
-
-                                <span className="font-mono text-[6px] uppercase tracking-[0.18em] text-[#E3CE8E]/60">
-                                  Active
-                                </span>
-                              </span>
-                            )}
-                          </div>
-
-                          <h3
-                            className={[
-                              "mt-5 max-w-md font-[var(--font-heading)] text-[1.8rem] font-light leading-[0.94] tracking-[-0.045em] md:text-[2.15rem]",
-                              "transition-colors duration-500",
-                              selected
-                                ? "text-[#F7F4EC]"
-                                : "text-white/45 group-hover:text-white/80",
-                            ].join(" ")}
-                          >
-                            {step.title}
-                          </h3>
-
-                          <p
-                            className={[
-                              "mt-4 max-w-md text-xs leading-6",
-                              "transition-colors duration-500",
-                              selected
-                                ? "text-white/62"
-                                : "text-white/28 group-hover:text-white/42",
-                            ].join(" ")}
-                          >
-                            {step.description}
-                          </p>
-                        </div>
-
+                        className={[
+                          "relative z-10 flex h-12 w-12 shrink-0 items-center justify-center rounded-full border bg-[#f5f1e8]",
+                          isActive
+                            ? "border-[#b69757]"
+                            : "border-[#0b1b33]/15",
+                        ].join(" ")}
+                      >
                         <span
                           className={[
-                            "mt-1 flex h-8 w-8 shrink-0 items-center justify-center rounded-full border transition-all duration-500",
-                            selected
-                              ? "border-[#C9A227]/60 bg-[#C9A227] text-[#080E16]"
-                              : "border-white/10 text-white/20 group-hover:border-white/25 group-hover:text-white/60",
+                            "font-mono text-[9px] tracking-[0.18em]",
+                            isActive
+                              ? "text-[#8d7139]"
+                              : "text-[#99978f]",
                           ].join(" ")}
                         >
-                          <span
-                            className={[
-                              "transition-transform duration-500",
-                              selected
-                                ? "translate-x-0.5"
-                                : "group-hover:translate-x-0.5",
-                            ].join(" ")}
-                          >
-                            →
-                          </span>
+                          {step.number}
                         </span>
+                      </motion.div>
+
+                      {/* Label */}
+
+                      <div>
+
+                        <span className="font-mono text-[8px] uppercase tracking-[0.25em] text-[#9b9991]">
+                          Stage {step.number}
+                        </span>
+
+                        <div
+                          className={[
+                            "mt-1 font-serif text-[1.7rem] font-light leading-none",
+                            isActive
+                              ? "text-[#0b1b33]"
+                              : "text-[#77766f]",
+                          ].join(" ")}
+                        >
+                          {step.shortTitle}
+                        </div>
+
                       </div>
+
                     </button>
                   );
                 })}
-              </div>
 
-              {/* system footer */}
-              <div className="relative z-10 border-t border-white/10 px-6 py-7 md:px-9">
-                <div className="grid grid-cols-3 gap-4">
-                  <div>
-                    <p className="font-mono text-[6px] uppercase leading-4 tracking-[0.15em] text-white/30">
-                      Physician
-                      <br />
-                      assessment
-                    </p>
-                  </div>
-
-                  <div className="border-l border-white/10 pl-4">
-                    <p className="font-mono text-[6px] uppercase leading-4 tracking-[0.15em] text-white/30">
-                      Professional
-                      <br />
-                      supervision
-                    </p>
-                  </div>
-
-                  <div className="border-l border-white/10 pl-4">
-                    <p className="font-mono text-[6px] uppercase leading-4 tracking-[0.15em] text-white/30">
-                      Structured
-                      <br />
-                      follow-up
-                    </p>
-                  </div>
-                </div>
               </div>
             </div>
+          </div>
+        </div>
 
-            {/* ==================================================
-                CINEMATIC EXPERIENCE STAGE
-            ================================================== */}
+        {/* ============================================================
+            ACTIVE EXPERIENCE
+        ============================================================ */}
 
-            <div className="relative min-h-[540px] overflow-hidden bg-[#0B1B33] lg:col-span-7 lg:min-h-[760px]">
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={active.number}
-                  initial={
-                    reducedMotion
-                      ? { opacity: 1, scale: 1 }
-                      : { opacity: 0, scale: 1.035 }
-                  }
-                  animate={{
-                    opacity: 1,
-                    scale: 1,
-                  }}
-                  exit={
-                    reducedMotion
-                      ? { opacity: 0 }
-                      : { opacity: 0, scale: 1.015 }
-                  }
-                  transition={{
-                    duration: reducedMotion ? 0.01 : 0.9,
-                    ease: [0.22, 1, 0.36, 1],
-                  }}
-                  className="absolute inset-0"
-                >
-                  <Image
-                    src="/images/hero/driplabs-hero.jpg"
-                    alt="DRIPLABS wellness experience"
-                    fill
-                    sizes="(max-width: 1024px) 100vw, 58vw"
-                    className="object-cover"
+        <div className="mt-9 flex-1 lg:mt-10">
+
+          <AnimatePresence mode="wait">
+
+            <motion.div
+              key={active.number}
+              initial={{
+                opacity: 0,
+                y: 10,
+              }}
+              animate={{
+                opacity: 1,
+                y: 0,
+              }}
+              exit={{
+                opacity: 0,
+                y: -10,
+              }}
+              transition={{
+                duration: 0.45,
+                ease: [0.22, 1, 0.36, 1],
+              }}
+              className="grid min-h-[330px] overflow-hidden border-y border-[#0b1b33]/10 lg:grid-cols-[0.9fr_1.1fr]"
+            >
+
+              {/* ======================================================
+                  LEFT — ACTIVE STEP
+              ====================================================== */}
+
+              <div className="flex flex-col justify-between py-7 lg:py-8 lg:pr-12">
+
+                <div>
+
+                  {/* Current stage */}
+
+                  <div className="flex items-center gap-3">
+
+                    <span className="font-mono text-[8px] uppercase tracking-[0.28em] text-[#99978f]">
+                      Current stage
+                    </span>
+
+                    <span className="h-px w-6 bg-[#b69757]" />
+
+                    <span className="font-mono text-[8px] tracking-[0.2em] text-[#99978f]">
+                      {active.number} / 04
+                    </span>
+
+                  </div>
+
+                  {/* Title */}
+
+                  <div className="relative mt-5">
+
+                    {/* Oversized number */}
+
+                    <div className="pointer-events-none absolute -left-1 top-[-16px] font-mono text-[clamp(4rem,7vw,7rem)] font-light leading-none tracking-[-0.08em] text-[#0b1b33]/[0.055]">
+                      {active.number}
+                    </div>
+
+                    <h3 className="relative max-w-[580px] font-serif text-[clamp(2.25rem,3.8vw,4.2rem)] font-light leading-[0.9] tracking-[-0.045em]">
+                      {active.title}
+                    </h3>
+
+                  </div>
+
+                  {/* Detail */}
+
+                  <p className="mt-5 max-w-[510px] text-[13px] leading-6 text-[#5c5e59] lg:text-[14px] lg:leading-6">
+                    {active.detail}
+                  </p>
+
+                </div>
+
+                {/* Treatment metadata */}
+
+                <div className="mt-6 flex flex-wrap items-center gap-x-7 gap-y-3">
+
+                  <div>
+
+                    <div className="font-mono text-[7px] uppercase tracking-[0.25em] text-[#9b9991]">
+                      Standard IV
+                    </div>
+
+                    <div className="mt-1 font-serif text-[15px]">
+                      45–60 min
+                    </div>
+
+                  </div>
+
+                  <div className="h-7 w-px bg-[#0b1b33]/10" />
+
+                  <div>
+
+                    <div className="font-mono text-[7px] uppercase tracking-[0.25em] text-[#9b9991]">
+                      NADx
+                    </div>
+
+                    <div className="mt-1 font-serif text-[15px]">
+                      3–4 hrs
+                    </div>
+
+                  </div>
+
+                  <div className="h-7 w-px bg-[#0b1b33]/10" />
+
+                  <div>
+
+                    <div className="font-mono text-[7px] uppercase tracking-[0.25em] text-[#9b9991]">
+                      Setting
+                    </div>
+
+                    <div className="mt-1 font-serif text-[15px]">
+                      Monitored care
+                    </div>
+
+                  </div>
+
+                </div>
+
+              </div>
+
+              {/* ======================================================
+                  RIGHT — CINEMATIC IMAGE
+              ====================================================== */}
+
+              <div className="relative min-h-[260px] overflow-hidden lg:min-h-0">
+
+                <AnimatePresence mode="wait">
+
+                  <motion.img
+                    key={active.image}
+                    src={imageSrc}
+                    alt={active.title}
+                    initial={{
+                      opacity: 0,
+                      scale: 1.06,
+                    }}
+                    animate={{
+                      opacity: 1,
+                      scale: 1,
+                    }}
+                    exit={{
+                      opacity: 0,
+                      scale: 1.02,
+                    }}
+                    transition={{
+                      duration: 0.65,
+                      ease: [0.22, 1, 0.36, 1],
+                    }}
+                    onError={() => {
+                      if (imageSrc !== FALLBACK_IMAGE) {
+                        setImageSrc(FALLBACK_IMAGE);
+                      }
+                    }}
+                    className="absolute inset-0 h-full w-full object-cover"
                     style={{
                       objectPosition: active.imagePosition,
                     }}
                   />
 
-                  {/* cinematic grade */}
-                  <div className="absolute inset-0 bg-[#050B13]/25" />
+                </AnimatePresence>
 
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#050B13] via-[#050B13]/25 to-transparent" />
+                {/* Dark luxury overlay */}
 
-                  <div className="absolute inset-0 bg-gradient-to-r from-[#050B13]/35 via-transparent to-transparent" />
+                <div className="absolute inset-0 bg-[#08111c]/20" />
 
-                  {/* subtle image movement */}
-                  {!reducedMotion && (
-                    <motion.div
-                      initial={{ scale: 1.04 }}
-                      animate={{ scale: 1 }}
-                      transition={{
-                        duration: 7,
-                        ease: [0.22, 1, 0.36, 1],
-                      }}
-                      className="absolute inset-0"
-                    />
-                  )}
-                </motion.div>
-              </AnimatePresence>
+                {/* Gradient */}
 
-              {/* scan line */}
-              {!reducedMotion && (
-                <motion.div
-                  aria-hidden="true"
-                  animate={{
-                    y: ["0%", "700%", "0%"],
-                  }}
-                  transition={{
-                    duration: 12,
-                    repeat: Infinity,
-                    ease: "easeInOut",
-                  }}
-                  className="pointer-events-none absolute left-0 right-0 top-[8%] z-10 h-px bg-gradient-to-r from-transparent via-[#C9A227]/50 to-transparent"
-                />
-              )}
+                <div className="absolute inset-0 bg-gradient-to-r from-[#0b1b33]/30 via-transparent to-transparent" />
 
-              {/* top metadata */}
-              <div className="absolute left-6 right-6 top-6 z-20 flex items-start justify-between md:left-9 md:right-9 md:top-9">
-                <div>
-                  <p className="text-[8px] uppercase tracking-[0.28em] text-white/55">
-                    DRIPLABS
-                  </p>
+                {/* Fine architectural frame */}
 
-                  <p className="mt-2 text-[8px] uppercase tracking-[0.2em] text-[#E3CE8E]">
-                    The experience
-                  </p>
+                <div className="absolute inset-5 border border-white/25 lg:inset-6" />
+
+                {/* Top technical label */}
+
+                <div className="absolute left-8 top-8 font-mono text-[7px] uppercase tracking-[0.3em] text-white/75">
+                  DRIPLABS / JOURNEY
                 </div>
 
-                <span className="font-mono text-[8px] uppercase tracking-[0.22em] text-white/40">
-                  {active.number} / 04
-                </span>
+                {/* Step number */}
+
+                <div className="absolute bottom-8 right-8 font-mono text-[8px] tracking-[0.25em] text-white/70">
+                  {active.number}
+                </div>
+
+                {/* Image crosshair */}
+
+                <div className="absolute left-1/2 top-1/2 h-10 w-10 -translate-x-1/2 -translate-y-1/2">
+
+                  <span className="absolute left-1/2 top-0 h-2 w-px -translate-x-1/2 bg-white/55" />
+
+                  <span className="absolute bottom-0 left-1/2 h-2 w-px -translate-x-1/2 bg-white/55" />
+
+                  <span className="absolute left-0 top-1/2 h-px w-2 -translate-y-1/2 bg-white/55" />
+
+                  <span className="absolute right-0 top-1/2 h-px w-2 -translate-y-1/2 bg-white/55" />
+
+                </div>
+
               </div>
 
-              {/* corner markers */}
-              <span className="absolute right-6 top-24 z-20 h-5 w-5 border-r border-t border-white/20 md:right-9" />
+            </motion.div>
 
-              <span className="absolute bottom-32 left-6 z-20 h-5 w-5 border-b border-l border-white/20 md:left-9" />
+          </AnimatePresence>
 
-              {/* active content */}
-              <div className="absolute inset-x-0 bottom-0 z-20 p-6 md:p-10 lg:p-12">
-                <AnimatePresence mode="wait">
-                  <motion.div
-                    key={active.number}
-                    initial={
-                      reducedMotion
-                        ? { opacity: 1, y: 0 }
-                        : { opacity: 0, y: 18, filter: "blur(5px)" }
-                    }
-                    animate={{
-                      opacity: 1,
-                      y: 0,
-                      filter: "blur(0px)",
-                    }}
-                    exit={
-                      reducedMotion
-                        ? { opacity: 0 }
-                        : { opacity: 0, y: -12 }
-                    }
-                    transition={{
-                      duration: reducedMotion ? 0.01 : 0.7,
-                      ease: [0.22, 1, 0.36, 1],
-                    }}
-                  >
-                    <div className="flex items-center gap-3">
-                      <span className="h-px w-7 bg-[#C9A227]" />
-
-                      <p className="font-mono text-[7px] uppercase tracking-[0.24em] text-white/45">
-                        Step {active.number}
-                      </p>
-                    </div>
-
-                    <h3 className="mt-5 max-w-2xl font-[var(--font-heading)] text-[clamp(3.3rem,6vw,6.5rem)] font-light leading-[0.8] tracking-[-0.07em] text-[#F7F4EC]">
-                      {active.shortTitle}
-                    </h3>
-
-                    <p className="mt-7 max-w-xl border-t border-white/20 pt-5 text-sm leading-7 text-white/65 md:text-base">
-                      {active.detail}
-                    </p>
-                  </motion.div>
-                </AnimatePresence>
-              </div>
-            </div>
-          </div>
         </div>
 
-        {/* ======================================================
-            SESSION TIMING
-        ====================================================== */}
+        {/* ============================================================
+            FOOTER
+        ============================================================ */}
 
-        <div className="mt-20 border-t border-[#0B1B33]/10 pt-10 md:mt-28 md:pt-14">
-          <div className="grid gap-10 md:grid-cols-12">
-            <div className="md:col-span-3">
-              <div className="flex items-center gap-3">
-                <span className="h-px w-7 bg-[#C9A227]" />
+        <div className="mt-6 flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
 
-                <p className="text-[8px] uppercase tracking-[0.26em] text-[#B8901F]">
-                  Session timing
-                </p>
-              </div>
-            </div>
+          {/* Progress */}
 
-            <div className="md:col-span-8 md:col-start-5">
-              <div className="grid border-t border-[#0B1B33]/10 sm:grid-cols-2">
-                <motion.div
-                  whileHover={reducedMotion ? undefined : { y: -2 }}
-                  transition={{
-                    duration: 0.5,
-                    ease: [0.22, 1, 0.36, 1],
-                  }}
-                  className="group border-b border-[#0B1B33]/10 py-8 sm:border-b-0 sm:border-r sm:pr-10"
-                >
-                  <p className="font-mono text-[7px] uppercase tracking-[0.2em] text-[#77736A]">
-                    Standard IV
-                  </p>
+          <div className="flex items-center gap-3">
 
-                  <p className="mt-4 font-[var(--font-heading)] text-[clamp(3.5rem,5vw,5.5rem)] font-light leading-none tracking-[-0.065em]">
-                    45–60
-                    <span className="ml-2 text-xl tracking-normal text-[#77736A]">
-                      min
-                    </span>
-                  </p>
-
-                  <div className="mt-6 h-px w-0 bg-[#C9A227] transition-all duration-700 group-hover:w-full" />
-                </motion.div>
-
-                <motion.div
-                  whileHover={reducedMotion ? undefined : { y: -2 }}
-                  transition={{
-                    duration: 0.5,
-                    ease: [0.22, 1, 0.36, 1],
-                  }}
-                  className="group py-8 sm:pl-10"
-                >
-                  <p className="font-mono text-[7px] uppercase tracking-[0.2em] text-[#77736A]">
-                    NADx
-                  </p>
-
-                  <p className="mt-4 font-[var(--font-heading)] text-[clamp(3.5rem,5vw,5.5rem)] font-light leading-none tracking-[-0.065em]">
-                    3–4
-                    <span className="ml-2 text-xl tracking-normal text-[#77736A]">
-                      hrs
-                    </span>
-                  </p>
-
-                  <div className="mt-6 h-px w-0 bg-[#C9A227] transition-all duration-700 group-hover:w-full" />
-                </motion.div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* ======================================================
-            CTA
-        ====================================================== */}
-
-        <motion.div
-          initial={
-            reducedMotion
-              ? { opacity: 1, y: 0 }
-              : { opacity: 0, y: 16 }
-          }
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{
-            duration: reducedMotion ? 0.01 : 0.8,
-            ease: [0.22, 1, 0.36, 1],
-          }}
-          className="mt-12 flex justify-end"
-        >
-          <a
-            href="/book"
-            className="group inline-flex items-center gap-5 border-b border-[#C9A227]/50 pb-3 text-[8px] uppercase tracking-[0.23em] text-[#B8901F]"
-          >
-            Begin with a consultation
-
-            <span className="relative flex h-9 w-9 items-center justify-center overflow-hidden rounded-full border border-[#C9A227]/30 transition-all duration-500 group-hover:border-[#C9A227] group-hover:bg-[#C9A227] group-hover:text-[#0B1B33]">
-              <span className="transition-transform duration-500 group-hover:translate-x-0.5">
-                →
-              </span>
+            <span className="font-mono text-[8px] uppercase tracking-[0.28em] text-[#99978f]">
+              {paused ? "Paused" : "Auto progression"}
             </span>
-          </a>
-        </motion.div>
+
+            <span className="h-1 w-1 rounded-full bg-[#b69757]" />
+
+            <div className="flex items-center gap-1">
+
+              {steps.map((step, index) => (
+                <button
+                  key={step.number}
+                  type="button"
+                  onClick={() => selectStep(index)}
+                  className="p-1"
+                  aria-label={`Go to step ${step.number}`}
+                >
+                  <span
+                    className={[
+                      "block h-px transition-all duration-300",
+                      index === activeStep
+                        ? "w-7 bg-[#b69757]"
+                        : "w-2 bg-[#0b1b33]/20",
+                    ].join(" ")}
+                  />
+                </button>
+              ))}
+
+            </div>
+
+          </div>
+
+          {/* CTA */}
+
+          <Link
+            href="/book"
+            className="group inline-flex items-center gap-7 border-b border-[#0b1b33] pb-2 transition-colors duration-300 hover:border-[#b69757]"
+          >
+
+            <span className="font-mono text-[9px] uppercase tracking-[0.25em]">
+              Begin your journey
+            </span>
+
+            <span className="text-lg text-[#8d7139] transition-transform duration-300 group-hover:translate-x-1">
+              →
+            </span>
+
+          </Link>
+
+        </div>
+
       </div>
     </section>
   );

@@ -1,55 +1,93 @@
 "use client";
 
-import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
+import {
+  motion,
+  useMotionValue,
+  useSpring,
+  useTransform,
+} from "framer-motion";
 import { useRef } from "react";
 import Link from "next/link";
 
 const molecularNodes = [
-  { x: 18, y: 30, size: 5, delay: 0 },
-  { x: 31, y: 18, size: 3, delay: 0.8 },
-  { x: 44, y: 28, size: 4, delay: 1.4 },
-  { x: 57, y: 16, size: 3, delay: 0.3 },
-  { x: 70, y: 29, size: 5, delay: 1.1 },
-  { x: 82, y: 21, size: 3, delay: 0.6 },
-  { x: 22, y: 65, size: 3, delay: 1.6 },
-  { x: 35, y: 76, size: 5, delay: 0.4 },
-  { x: 51, y: 67, size: 3, delay: 1.2 },
-  { x: 66, y: 78, size: 4, delay: 0.7 },
-  { x: 80, y: 65, size: 3, delay: 1.8 },
+  { x: 15, y: 27, size: 4, delay: 0 },
+  { x: 27, y: 18, size: 3, delay: 0.6 },
+  { x: 40, y: 25, size: 5, delay: 1.1 },
+  { x: 53, y: 15, size: 3, delay: 0.3 },
+  { x: 66, y: 27, size: 4, delay: 0.9 },
+  { x: 79, y: 20, size: 3, delay: 0.5 },
+  { x: 20, y: 67, size: 3, delay: 1.4 },
+  { x: 34, y: 78, size: 4, delay: 0.4 },
+  { x: 49, y: 69, size: 3, delay: 1 },
+  { x: 65, y: 78, size: 5, delay: 0.7 },
+  { x: 81, y: 65, size: 3, delay: 1.7 },
 ];
 
-const rings = [
-  { size: 360, duration: 28, direction: 1 },
-  { size: 285, duration: 22, direction: -1 },
-  { size: 215, duration: 17, direction: 1 },
+const orbitalRings = [
+  {
+    size: 390,
+    duration: 30,
+    direction: 1,
+    opacity: 0.11,
+  },
+  {
+    size: 315,
+    duration: 23,
+    direction: -1,
+    opacity: 0.09,
+  },
+  {
+    size: 245,
+    duration: 18,
+    direction: 1,
+    opacity: 0.13,
+  },
+];
+
+const clinicalPrinciples = [
+  ["01", "PHYSICIAN\nGUIDED"],
+  ["02", "PRECISION\nDOSING"],
+  ["03", "TRACEABLE\nCARE"],
 ];
 
 export default function NADFeature() {
-  const ref = useRef<HTMLDivElement>(null);
+  const sectionRef = useRef<HTMLDivElement>(null);
 
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
 
   const smoothX = useSpring(mouseX, {
-    stiffness: 70,
-    damping: 20,
+    stiffness: 65,
+    damping: 22,
+    mass: 0.7,
   });
 
   const smoothY = useSpring(mouseY, {
-    stiffness: 70,
-    damping: 20,
+    stiffness: 65,
+    damping: 22,
+    mass: 0.7,
   });
 
-  const visualX = useTransform(smoothX, [-500, 500], [-12, 12]);
-  const visualY = useTransform(smoothY, [-500, 500], [-10, 10]);
+  const objectX = useTransform(smoothX, [-600, 600], [-18, 18]);
+  const objectY = useTransform(smoothY, [-600, 600], [-14, 14]);
 
-  const handleMouseMove = (event: React.MouseEvent<HTMLDivElement>) => {
-    if (!ref.current) return;
+  const glowX = useTransform(smoothX, [-600, 600], [-40, 40]);
+  const glowY = useTransform(smoothY, [-600, 600], [-30, 30]);
 
-    const rect = ref.current.getBoundingClientRect();
+  const handleMouseMove = (
+    event: React.MouseEvent<HTMLDivElement>
+  ) => {
+    if (!sectionRef.current) return;
 
-    mouseX.set(event.clientX - (rect.left + rect.width / 2));
-    mouseY.set(event.clientY - (rect.top + rect.height / 2));
+    const rect = sectionRef.current.getBoundingClientRect();
+
+    mouseX.set(
+      event.clientX - (rect.left + rect.width / 2)
+    );
+
+    mouseY.set(
+      event.clientY - (rect.top + rect.height / 2)
+    );
   };
 
   const handleMouseLeave = () => {
@@ -59,306 +97,532 @@ export default function NADFeature() {
 
   return (
     <section
-      ref={ref}
+      ref={sectionRef}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      className="relative overflow-hidden bg-[#050b11] text-white"
+      className="relative overflow-hidden bg-[#04080c] text-white"
     >
-      {/* Ambient background */}
-      <div className="pointer-events-none absolute inset-0">
-        <div className="absolute left-[-15%] top-[10%] h-[500px] w-[500px] rounded-full bg-cyan-400/[0.035] blur-[120px]" />
-        <div className="absolute right-[-10%] bottom-[-20%] h-[600px] w-[600px] rounded-full bg-amber-200/[0.025] blur-[140px]" />
+      {/* =========================================================
+          ATMOSPHERE
+      ========================================================= */}
 
+      <div className="pointer-events-none absolute inset-0">
+        {/* Primary cyan atmosphere */}
+        <motion.div
+          style={{
+            x: glowX,
+            y: glowY,
+          }}
+          className="absolute left-[48%] top-[35%] h-[620px] w-[620px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-cyan-300/[0.035] blur-[150px]"
+        />
+
+        {/* Secondary warm atmosphere */}
+        <div className="absolute right-[-15%] top-[5%] h-[650px] w-[650px] rounded-full bg-amber-100/[0.018] blur-[170px]" />
+
+        {/* Lower atmosphere */}
+        <div className="absolute bottom-[-30%] left-[15%] h-[600px] w-[600px] rounded-full bg-cyan-500/[0.018] blur-[150px]" />
+
+        {/* Fine grid */}
         <div
-          className="absolute inset-0 opacity-[0.035]"
+          className="absolute inset-0 opacity-[0.018]"
           style={{
             backgroundImage:
-              "linear-gradient(rgba(255,255,255,.5) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.5) 1px, transparent 1px)",
-            backgroundSize: "70px 70px",
+              "linear-gradient(rgba(255,255,255,.65) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.65) 1px, transparent 1px)",
+            backgroundSize: "80px 80px",
           }}
         />
+
+        {/* Top gradient */}
+        <div className="absolute inset-x-0 top-0 h-[220px] bg-gradient-to-b from-black/25 to-transparent" />
+
+        {/* Bottom fade */}
+        <div className="absolute inset-x-0 bottom-0 h-[220px] bg-gradient-to-t from-black/30 to-transparent" />
       </div>
 
-      <div className="relative mx-auto min-h-[720px] max-w-[1600px] px-6 py-20 sm:px-10 lg:px-16 lg:py-24">
-        {/* Section marker */}
+      {/* =========================================================
+          MAIN CONTAINER
+      ========================================================= */}
+
+      <div className="relative mx-auto max-w-[1680px] px-6 py-20 sm:px-10 md:py-24 lg:px-16 lg:py-28 xl:px-20">
+        {/* =======================================================
+            SECTION HEADER
+        ======================================================= */}
+
         <motion.div
-          initial={{ opacity: 0, y: 15 }}
+          initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.7 }}
-          className="mb-10 flex items-center gap-4"
+          transition={{
+            duration: 0.8,
+            ease: [0.22, 1, 0.36, 1],
+          }}
+          className="mb-14 flex items-center gap-4 md:mb-20"
         >
-          <span className="font-mono text-[10px] tracking-[0.28em] text-white/40">
+          <span className="font-mono text-[9px] tracking-[0.3em] text-white/35">
             06 — CELLULAR LONGEVITY
           </span>
 
-          <span className="h-px w-20 bg-white/10" />
+          <span className="h-px w-12 bg-white/10 md:w-20" />
 
-          <span className="font-mono text-[9px] tracking-[0.2em] text-cyan-200/50">
+          <span className="font-mono text-[8px] tracking-[0.24em] text-cyan-100/45">
             NAD+ / CELLULAR ENERGY
           </span>
         </motion.div>
 
-        <div className="grid min-h-[570px] items-center gap-12 lg:grid-cols-[0.82fr_1.18fr] lg:gap-4">
-          {/* LEFT — Editorial content */}
-          <div className="relative z-10 max-w-[590px]">
+        {/* =======================================================
+            EDITORIAL GRID
+        ======================================================= */}
+
+        <div className="grid items-center gap-12 lg:grid-cols-[0.82fr_1.18fr] lg:gap-0">
+          {/* =====================================================
+              LEFT — EDITORIAL
+          ===================================================== */}
+
+          <div className="relative z-20 max-w-[620px]">
             <motion.p
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 18 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.7 }}
-              className="mb-6 text-[11px] uppercase tracking-[0.28em] text-amber-100/60"
+              transition={{
+                duration: 0.8,
+                ease: [0.22, 1, 0.36, 1],
+              }}
+              className="mb-5 text-[10px] uppercase tracking-[0.32em] text-amber-100/55"
             >
               The molecule
             </motion.p>
 
-            <motion.h2
+            {/* NAD+ */}
+            <motion.div
               initial={{ opacity: 0, y: 35 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.9, delay: 0.1 }}
-              className="font-serif text-[clamp(4rem,8vw,8.5rem)] font-light leading-[0.78] tracking-[-0.055em]"
+              transition={{
+                duration: 1,
+                ease: [0.16, 1, 0.3, 1],
+              }}
+              className="relative"
             >
-              NAD
-              <span className="relative -top-[0.08em] ml-1 text-[0.48em] align-top text-cyan-100/80">
-                +
-              </span>
-            </motion.h2>
+              <h2 className="font-serif text-[clamp(5.5rem,11vw,11rem)] font-light leading-[0.72] tracking-[-0.07em] text-white">
+                NAD
+                <span className="relative -top-[0.12em] ml-2 align-top text-[0.34em] tracking-[-0.04em] text-cyan-100/75">
+                  +
+                </span>
+              </h2>
 
+              {/* tiny molecular designation */}
+              <div className="absolute bottom-[5%] left-[2px] hidden translate-y-full items-center gap-3 pt-5 sm:flex">
+                <span className="h-px w-8 bg-cyan-100/20" />
+                <span className="font-mono text-[7px] tracking-[0.25em] text-white/25">
+                  NICOTINAMIDE ADENINE DINUCLEOTIDE
+                </span>
+              </div>
+            </motion.div>
+
+            {/* Headline */}
             <motion.h3
               initial={{ opacity: 0, y: 25 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              className="mt-7 max-w-[500px] text-[clamp(1.7rem,3vw,3rem)] font-light leading-[1.05] tracking-[-0.035em] text-white/90"
+              transition={{
+                duration: 0.9,
+                delay: 0.12,
+                ease: [0.22, 1, 0.36, 1],
+              }}
+              className="mt-16 max-w-[540px] text-[clamp(1.8rem,3.3vw,3.35rem)] font-light leading-[1.03] tracking-[-0.045em] text-white/90"
             >
               The molecule behind
               <br />
-              cellular energy.
+              <span className="text-white/45">
+                cellular energy.
+              </span>
             </motion.h3>
 
+            {/* Description */}
             <motion.p
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.8, delay: 0.3 }}
-              className="mt-7 max-w-[470px] text-sm leading-7 text-white/45"
+              transition={{
+                duration: 0.8,
+                delay: 0.22,
+              }}
+              className="mt-8 max-w-[480px] text-[13px] leading-7 text-white/40"
             >
-              NAD+ is a naturally occurring coenzyme involved in cellular
-              energy metabolism and redox processes. DRIPLABS approaches NAD+
-              through physician-guided wellness protocols and a precision-led
-              clinical experience.
+              NAD+ is a naturally occurring coenzyme involved in
+              cellular energy metabolism and redox processes.
+              DRIPLABS approaches NAD+ through physician-guided
+              wellness protocols and a precision-led clinical
+              experience.
             </motion.p>
 
-            {/* Clinical principles */}
+            {/* =================================================
+                CLINICAL PRINCIPLES
+            ================================================= */}
+
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 18 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.8, delay: 0.45 }}
-              className="mt-9 grid max-w-[500px] grid-cols-3 border-y border-white/10"
+              transition={{
+                duration: 0.8,
+                delay: 0.35,
+              }}
+              className="mt-10 grid max-w-[510px] grid-cols-3 border-y border-white/[0.09]"
             >
-              {[
-                ["01", "PHYSICIAN\nGUIDED"],
-                ["02", "PRECISION\nDOSING"],
-                ["03", "TRACEABLE\nCARE"],
-              ].map(([number, label]) => (
+              {clinicalPrinciples.map(([number, label], index) => (
                 <div
                   key={number}
-                  className="border-r border-white/10 px-3 py-4 first:pl-0 last:border-r-0"
+                  className={[
+                    "group relative px-3 py-5",
+                    index !== 2
+                      ? "border-r border-white/[0.08]"
+                      : "",
+                    index === 0 ? "pl-0" : "",
+                  ].join(" ")}
                 >
-                  <span className="block font-mono text-[8px] tracking-[0.2em] text-cyan-200/50">
+                  <span className="font-mono text-[8px] tracking-[0.22em] text-cyan-100/45">
                     {number}
                   </span>
 
-                  <span className="mt-2 block whitespace-pre-line text-[9px] leading-4 tracking-[0.13em] text-white/55">
+                  <span className="mt-2 block whitespace-pre-line text-[8px] leading-4 tracking-[0.16em] text-white/50 transition-colors duration-500 group-hover:text-white/80">
                     {label}
                   </span>
+
+                  <span className="absolute bottom-0 left-0 h-px w-0 bg-cyan-100/40 transition-all duration-700 group-hover:w-full" />
                 </div>
               ))}
             </motion.div>
 
+            {/* CTA */}
             <motion.div
-              initial={{ opacity: 0, y: 15 }}
+              initial={{ opacity: 0, y: 14 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.7, delay: 0.55 }}
-              className="mt-8"
+              transition={{
+                duration: 0.8,
+                delay: 0.48,
+              }}
+              className="mt-9"
             >
               <Link
                 href="/protocols"
                 className="group inline-flex items-center gap-4"
               >
-                <span className="flex h-11 w-11 items-center justify-center rounded-full border border-amber-100/25 transition-all duration-500 group-hover:border-amber-100/60 group-hover:bg-amber-100/10">
-                  <span className="text-sm transition-transform duration-500 group-hover:translate-x-0.5">
+                <span className="relative flex h-12 w-12 items-center justify-center overflow-hidden rounded-full border border-amber-100/20 transition-all duration-700 group-hover:border-amber-100/55 group-hover:bg-amber-100/[0.06]">
+                  <span className="absolute inset-0 scale-0 rounded-full bg-amber-100/[0.08] transition-transform duration-700 group-hover:scale-100" />
+
+                  <span className="relative text-sm text-white/80 transition-transform duration-500 group-hover:translate-x-1">
                     →
                   </span>
                 </span>
 
-                <span className="text-[10px] tracking-[0.2em] text-white/70 transition-colors group-hover:text-white">
+                <span className="text-[9px] tracking-[0.24em] text-white/55 transition-colors duration-500 group-hover:text-white">
                   EXPLORE NAD+ PROTOCOLS
                 </span>
               </Link>
             </motion.div>
           </div>
 
-          {/* RIGHT — Biotech visual */}
+          {/* =====================================================
+              RIGHT — MOLECULAR ARTWORK
+          ===================================================== */}
+
           <motion.div
             style={{
-              x: visualX,
-              y: visualY,
+              x: objectX,
+              y: objectY,
             }}
-            className="relative mx-auto h-[480px] w-full max-w-[700px] lg:h-[600px]"
+            className="relative mx-auto mt-4 h-[500px] w-full max-w-[760px] sm:h-[620px] lg:mt-0 lg:h-[700px]"
           >
-            {/* Technical frame */}
-            <div className="absolute inset-[7%] border border-white/[0.07]" />
+            {/* Outer technical frame */}
+            <div className="absolute inset-[5%] border border-white/[0.055]" />
 
-            <div className="absolute left-[7%] top-[7%] h-3 w-3 border-l border-t border-cyan-100/30" />
-            <div className="absolute right-[7%] top-[7%] h-3 w-3 border-r border-t border-cyan-100/30" />
-            <div className="absolute bottom-[7%] left-[7%] h-3 w-3 border-b border-l border-cyan-100/30" />
-            <div className="absolute bottom-[7%] right-[7%] h-3 w-3 border-b border-r border-cyan-100/30" />
+            {/* Frame corners */}
+            <div className="absolute left-[5%] top-[5%] h-4 w-4 border-l border-t border-cyan-100/20" />
+            <div className="absolute right-[5%] top-[5%] h-4 w-4 border-r border-t border-cyan-100/20" />
+            <div className="absolute bottom-[5%] left-[5%] h-4 w-4 border-b border-l border-cyan-100/20" />
+            <div className="absolute bottom-[5%] right-[5%] h-4 w-4 border-b border-r border-cyan-100/20" />
 
-            {/* Molecular particles */}
-            {molecularNodes.map((node, index) => (
-              <motion.div
-                key={index}
-                className="absolute rounded-full bg-cyan-100/50 shadow-[0_0_16px_rgba(150,240,255,.35)]"
-                style={{
-                  left: `${node.x}%`,
-                  top: `${node.y}%`,
-                  width: node.size,
-                  height: node.size,
-                }}
-                animate={{
-                  opacity: [0.25, 0.9, 0.25],
-                  scale: [0.8, 1.25, 0.8],
-                }}
-                transition={{
-                  duration: 3.5,
-                  delay: node.delay,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                }}
-              />
-            ))}
+            {/* Technical vertical axis */}
+            <div className="absolute left-1/2 top-[5%] h-[90%] w-px -translate-x-1/2 bg-gradient-to-b from-transparent via-white/[0.035] to-transparent" />
 
-            {/* Connecting molecular lines */}
-            <svg
-              className="pointer-events-none absolute inset-0 h-full w-full opacity-20"
-              viewBox="0 0 700 600"
-              fill="none"
-              preserveAspectRatio="none"
-            >
-              <path d="M125 180 L215 110 L310 168 L400 95 L490 175 L575 125" stroke="rgba(190,240,255,.5)" />
-              <path d="M155 390 L250 455 L355 400 L465 470 L560 390" stroke="rgba(190,240,255,.5)" />
-              <path d="M215 110 L250 455" stroke="rgba(190,240,255,.25)" />
-              <path d="M310 168 L355 400" stroke="rgba(190,240,255,.25)" />
-              <path d="M490 175 L465 470" stroke="rgba(190,240,255,.25)" />
-            </svg>
+            {/* Technical horizontal axis */}
+            <div className="absolute left-[5%] top-1/2 h-px w-[90%] -translate-y-1/2 bg-gradient-to-r from-transparent via-white/[0.035] to-transparent" />
 
-            {/* Central molecular field */}
-            <div className="absolute left-1/2 top-1/2 h-[390px] w-[390px] -translate-x-1/2 -translate-y-1/2 sm:h-[470px] sm:w-[470px]">
-              {/* Glow */}
-              <div className="absolute inset-[22%] rounded-full bg-cyan-300/[0.045] blur-[65px]" />
+            {/* =================================================
+                MOLECULAR FIELD
+            ================================================= */}
 
-              {/* Rotating rings */}
-              {rings.map((ring, index) => (
+            <div className="absolute inset-0">
+              {/* ambient glow */}
+              <div className="absolute left-1/2 top-1/2 h-[480px] w-[480px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-cyan-300/[0.025] blur-[100px]" />
+
+              {/* warmer inner glow */}
+              <div className="absolute left-1/2 top-1/2 h-[250px] w-[250px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-amber-100/[0.018] blur-[80px]" />
+
+              {/* =================================================
+                  MOLECULAR NODES
+              ================================================= */}
+
+              {molecularNodes.map((node, index) => (
                 <motion.div
-                  key={ring.size}
-                  className="absolute left-1/2 top-1/2 rounded-full border border-cyan-100/[0.12]"
+                  key={index}
+                  className="absolute rounded-full bg-cyan-100/50 shadow-[0_0_18px_rgba(170,235,255,.32)]"
                   style={{
-                    width: ring.size,
-                    height: ring.size,
-                    marginLeft: -ring.size / 2,
-                    marginTop: -ring.size / 2,
+                    left: `${node.x}%`,
+                    top: `${node.y}%`,
+                    width: node.size,
+                    height: node.size,
                   }}
                   animate={{
-                    rotate: ring.direction * 360,
+                    opacity: [0.2, 0.85, 0.2],
+                    scale: [0.8, 1.2, 0.8],
                   }}
                   transition={{
-                    duration: ring.duration,
+                    duration: 3.8,
+                    delay: node.delay,
+                    repeat: Infinity,
+                    ease: "easeInOut",
+                  }}
+                />
+              ))}
+
+              {/* =================================================
+                  CONNECTING MOLECULAR STRUCTURE
+              ================================================= */}
+
+              <svg
+                className="pointer-events-none absolute inset-0 h-full w-full opacity-[0.24]"
+                viewBox="0 0 700 700"
+                fill="none"
+                preserveAspectRatio="none"
+              >
+                <path
+                  d="M115 205 L205 125 L305 180 L405 105 L510 185 L600 130"
+                  stroke="rgba(185,235,255,.45)"
+                  strokeWidth="0.7"
+                />
+
+                <path
+                  d="M140 470 L235 540 L350 475 L465 545 L570 455"
+                  stroke="rgba(185,235,255,.4)"
+                  strokeWidth="0.7"
+                />
+
+                <path
+                  d="M205 125 L235 540"
+                  stroke="rgba(185,235,255,.2)"
+                  strokeWidth="0.6"
+                />
+
+                <path
+                  d="M305 180 L350 475"
+                  stroke="rgba(185,235,255,.2)"
+                  strokeWidth="0.6"
+                />
+
+                <path
+                  d="M510 185 L465 545"
+                  stroke="rgba(185,235,255,.2)"
+                  strokeWidth="0.6"
+                />
+              </svg>
+
+              {/* =================================================
+                  ORBITAL SYSTEM
+              ================================================= */}
+
+              <div className="absolute left-1/2 top-1/2 h-[420px] w-[420px] -translate-x-1/2 -translate-y-1/2 sm:h-[510px] sm:w-[510px]">
+                {/* outer orbit */}
+                {orbitalRings.map((ring) => (
+                  <motion.div
+                    key={ring.size}
+                    className="absolute left-1/2 top-1/2 rounded-full border"
+                    style={{
+                      width: ring.size,
+                      height: ring.size,
+                      marginLeft: -ring.size / 2,
+                      marginTop: -ring.size / 2,
+                      borderColor: `rgba(190,235,255,${ring.opacity})`,
+                    }}
+                    animate={{
+                      rotate: ring.direction * 360,
+                    }}
+                    transition={{
+                      duration: ring.duration,
+                      repeat: Infinity,
+                      ease: "linear",
+                    }}
+                  >
+                    {/* orbital point */}
+                    <span className="absolute left-1/2 top-0 h-1.5 w-1.5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-cyan-100/75 shadow-[0_0_14px_rgba(170,240,255,.75)]" />
+                  </motion.div>
+                ))}
+
+                {/* elliptical orbit 1 */}
+                <motion.div
+                  animate={{
+                    rotate: [25, 385],
+                  }}
+                  transition={{
+                    duration: 26,
                     repeat: Infinity,
                     ease: "linear",
                   }}
+                  className="absolute left-1/2 top-1/2 h-[185px] w-[365px] -translate-x-1/2 -translate-y-1/2 rounded-[50%] border border-amber-100/[0.11]"
+                />
+
+                {/* elliptical orbit 2 */}
+                <motion.div
+                  animate={{
+                    rotate: [-35, -395],
+                  }}
+                  transition={{
+                    duration: 22,
+                    repeat: Infinity,
+                    ease: "linear",
+                  }}
+                  className="absolute left-1/2 top-1/2 h-[320px] w-[175px] -translate-x-1/2 -translate-y-1/2 rounded-[50%] border border-cyan-100/[0.09]"
+                />
+
+                {/* =================================================
+                    CENTRAL OBJECT
+                ================================================= */}
+
+                <motion.div
+                  animate={{
+                    scale: [1, 1.018, 1],
+                  }}
+                  transition={{
+                    duration: 5,
+                    repeat: Infinity,
+                    ease: "easeInOut",
+                  }}
+                  className="absolute left-1/2 top-1/2 h-[170px] w-[170px] -translate-x-1/2 -translate-y-1/2 sm:h-[205px] sm:w-[205px]"
                 >
-                  <span
-                    className="absolute left-1/2 top-0 h-1.5 w-1.5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-cyan-100/70 shadow-[0_0_12px_rgba(170,240,255,.7)]"
-                  />
+                  {/* outer glow */}
+                  <div className="absolute inset-[-25px] rounded-full bg-cyan-200/[0.025] blur-[35px]" />
+
+                  {/* glass shell */}
+                  <div className="absolute inset-0 rounded-full border border-white/[0.13] bg-[#071118]/80 shadow-[0_0_100px_rgba(90,210,240,.08)] backdrop-blur-2xl" />
+
+                  {/* inner ring */}
+                  <div className="absolute inset-[10px] rounded-full border border-cyan-100/[0.12]" />
+
+                  {/* warm inner ring */}
+                  <div className="absolute inset-[27px] rounded-full border border-amber-100/[0.08]" />
+
+                  {/* subtle crosshair */}
+                  <div className="absolute left-1/2 top-[12px] h-[calc(100%-24px)] w-px -translate-x-1/2 bg-white/[0.035]" />
+
+                  <div className="absolute left-[12px] top-1/2 h-px w-[calc(100%-24px)] -translate-y-1/2 bg-white/[0.035]" />
+
+                  {/* central content */}
+                  <div className="absolute inset-0 flex flex-col items-center justify-center">
+                    <div className="font-serif text-[3.4rem] font-light leading-none tracking-[-0.08em] text-white sm:text-[4.2rem]">
+                      NAD
+                      <span className="relative -top-5 ml-1 text-[1.35rem] tracking-normal text-cyan-100/80">
+                        +
+                      </span>
+                    </div>
+
+                    <div className="mt-4 h-px w-8 bg-cyan-100/20" />
+
+                    <div className="mt-3 font-mono text-[6px] tracking-[0.32em] text-white/30">
+                      MOLECULAR FIELD
+                    </div>
+                  </div>
                 </motion.div>
-              ))}
 
-              {/* Inner orbital rings */}
-              <div className="absolute left-1/2 top-1/2 h-[180px] w-[180px] -translate-x-1/2 -translate-y-1/2 rotate-[25deg] rounded-[45%] border border-amber-100/15" />
-              <div className="absolute left-1/2 top-1/2 h-[150px] w-[220px] -translate-x-1/2 -translate-y-1/2 -rotate-[35deg] rounded-[50%] border border-cyan-100/10" />
+                {/* =================================================
+                    FLOATING LABELS
+                ================================================= */}
 
-              {/* Central NAD+ core */}
-              <motion.div
-                animate={{
-                  scale: [1, 1.025, 1],
-                }}
-                transition={{
-                  duration: 4,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                }}
-                className="absolute left-1/2 top-1/2 flex h-[135px] w-[135px] -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-cyan-100/20 bg-[#07121a]/90 shadow-[0_0_80px_rgba(110,220,255,.10)] backdrop-blur-xl"
-              >
-                <div className="absolute inset-3 rounded-full border border-amber-100/10" />
+                <div className="absolute left-[-3%] top-[26%] border-l border-cyan-100/[0.18] pl-3">
+                  <span className="block font-mono text-[6px] tracking-[0.22em] text-white/25">
+                    CELLULAR
+                  </span>
 
-                <div className="text-center">
-                  <div className="font-serif text-4xl font-light tracking-[-0.05em]">
-                    NAD<span className="align-top text-lg">+</span>
-                  </div>
-
-                  <div className="mt-1 font-mono text-[7px] tracking-[0.3em] text-cyan-100/40">
-                    MOLECULAR FIELD
-                  </div>
+                  <span className="mt-1 block text-[9px] tracking-[0.1em] text-white/55">
+                    ENERGY
+                  </span>
                 </div>
-              </motion.div>
 
-              {/* Floating data labels */}
-              <div className="absolute left-[3%] top-[27%] border-l border-cyan-100/20 pl-3">
-                <span className="block font-mono text-[7px] tracking-[0.18em] text-white/30">
-                  CELLULAR
-                </span>
-                <span className="mt-1 block text-[10px] tracking-[0.08em] text-white/60">
-                  ENERGY
-                </span>
+                <div className="absolute right-[-3%] top-[38%] border-r border-cyan-100/[0.18] pr-3 text-right">
+                  <span className="block font-mono text-[6px] tracking-[0.22em] text-white/25">
+                    REDOX
+                  </span>
+
+                  <span className="mt-1 block text-[9px] tracking-[0.1em] text-white/55">
+                    PATHWAYS
+                  </span>
+                </div>
+
+                <div className="absolute bottom-[12%] left-[10%] border-l border-amber-100/[0.18] pl-3">
+                  <span className="block font-mono text-[6px] tracking-[0.22em] text-white/25">
+                    METABOLIC
+                  </span>
+
+                  <span className="mt-1 block text-[9px] tracking-[0.1em] text-white/55">
+                    SUPPORT
+                  </span>
+                </div>
               </div>
 
-              <div className="absolute right-[-3%] top-[39%] border-r border-cyan-100/20 pr-3 text-right">
-                <span className="block font-mono text-[7px] tracking-[0.18em] text-white/30">
-                  REDOX
-                </span>
-                <span className="mt-1 block text-[10px] tracking-[0.08em] text-white/60">
-                  PATHWAYS
-                </span>
+              {/* =================================================
+                  TECHNICAL INFORMATION
+              ================================================= */}
+
+              <div className="absolute left-[8%] top-[10%] font-mono text-[6px] leading-4 tracking-[0.2em] text-white/[0.22]">
+                28.6139° N
+                <br />
+                77.2090° E
               </div>
 
-              <div className="absolute bottom-[12%] left-[17%] border-l border-amber-100/20 pl-3">
-                <span className="block font-mono text-[7px] tracking-[0.18em] text-white/30">
-                  METABOLIC
-                </span>
-                <span className="mt-1 block text-[10px] tracking-[0.08em] text-white/60">
-                  SUPPORT
-                </span>
+              <div className="absolute right-[8%] top-[10%] text-right font-mono text-[6px] leading-4 tracking-[0.2em] text-white/[0.2]">
+                DRIPLABS
+                <br />
+                CELLULAR SYSTEM
               </div>
-            </div>
 
-            {/* Technical coordinates */}
-            <div className="absolute left-[8%] top-[12%] font-mono text-[7px] tracking-[0.18em] text-white/20">
-              28.6139° N
-              <br />
-              77.2090° E
-            </div>
+              <div className="absolute bottom-[10%] right-[8%] text-right font-mono text-[6px] leading-4 tracking-[0.2em] text-white/[0.2]">
+                NAD+
+                <br />
+                06 / 08
+              </div>
 
-            <div className="absolute bottom-[10%] right-[8%] text-right font-mono text-[7px] tracking-[0.18em] text-white/20">
-              DRIPLABS / NAD+
-              <br />
-              CELLULAR SYSTEM
+              <div className="absolute bottom-[10%] left-[8%] font-mono text-[6px] tracking-[0.2em] text-white/[0.2]">
+                PRECISION
+                <br />
+                WELLNESS
+              </div>
             </div>
           </motion.div>
         </div>
+
+        {/* =======================================================
+            BOTTOM SIGNATURE
+        ======================================================= */}
+
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{
+            duration: 1,
+            delay: 0.5,
+          }}
+          className="mt-10 flex items-center justify-between border-t border-white/[0.07] pt-5"
+        >
+          <span className="font-mono text-[7px] tracking-[0.25em] text-white/20">
+            DRIPLABS / CELLULAR LONGEVITY
+          </span>
+
+          <span className="font-mono text-[7px] tracking-[0.25em] text-white/20">
+            NAD+ / PRECISION PROTOCOL
+          </span>
+        </motion.div>
       </div>
     </section>
   );

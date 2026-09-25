@@ -10,8 +10,6 @@ import ProtocolObservatory from "@/components/home/ProtocolObservatory";
 import NADExperience from "@/components/sections/NADExperience";
 import ConsumerExperience from "@/components/sections/ConsumerExperience";
 
-import BrandStatement from "@/components/sections/BrandStatement";
-import NourishStatement from "@/components/sections/NourishStatement";
 import FeaturedTreatment from "@/components/sections/FeaturedTreatment";
 import Testimonials from "@/components/sections/Testimonials";
 import Memberships from "@/components/sections/Memberships";
@@ -20,6 +18,9 @@ import FAQ from "@/components/sections/FAQ";
 import FinalCTA from "@/components/sections/FinalCTA";
 import Footer from "@/components/sections/Footer";
 import NADFeature from "@/components/home/NADFeature";
+import DecodeVial from "@/components/home/DecodeVial";
+import EvidenceResearch from "@/components/sections/EvidenceResearch";
+import BuildingPartnership from "@/components/sections/BuildingPartnership";
 
 export default function Home() {
   return (
@@ -47,6 +48,8 @@ export default function Home() {
       <LocationMarquee />
 
       <NADFeature />
+      
+      <DecodeVial />
 
       {/* 07 â€” NADx flagship */}
       <NADExperience />
@@ -54,10 +57,8 @@ export default function Home() {
       {/* 08 â€” Human experience */}
       <ConsumerExperience />
 
-      {/* 09 â€” Brand philosophy */}
-      <BrandStatement />
+      <EvidenceResearch />
 
-      <NourishStatement />
 
       {/* 10 â€” Featured protocol */}
       <FeaturedTreatment />
@@ -70,6 +71,8 @@ export default function Home() {
 
       {/* 13 â€” Locations */}
       <Locations />
+
+      <BuildingPartnership />
 
       {/* 14 â€” Questions */}
       <FAQ />
