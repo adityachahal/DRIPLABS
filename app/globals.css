@@ -1,79 +1,118 @@
 ﻿@import "tailwindcss";
 
 /* ==========================================================
-   DRIPLABS — CLINICAL FUTURISM / QUIET LUXURY
+   DRIPLABS — GLOBAL DESIGN SYSTEM
+   Clinical futurism / quiet luxury
    ========================================================== */
 
 :root {
-  /* Core surfaces */
-  --dl-obsidian: #08090B;
-  --dl-graphite: #101216;
-  --dl-panel: #14171C;
-  --dl-panel-soft: #191C22;
+  /* --------------------------------------------------------
+     CORE PALETTE
+     -------------------------------------------------------- */
 
-  /* Brand accent */
-  --dl-accent: #C9A646;
-  --dl-accent-soft: #E5D39A;
-  --dl-accent-dim: #92772D;
+  --dl-ink: #141414;
+  --dl-ink-soft: #252525;
+  --dl-ink-muted: #66635e;
 
-  /* Typography */
-  --dl-white: #F4F2EC;
-  --dl-body: #A7A8AC;
-  --dl-muted: #6F7278;
-  --dl-dark: #0A0A0B;
+  --dl-paper: #faf9f7;
+  --dl-paper-warm: #f5f4f1;
+  --dl-paper-deep: #eeece7;
 
-  /* Borders */
-  --dl-border: rgba(255, 255, 255, 0.085);
-  --dl-border-strong: rgba(255, 255, 255, 0.14);
-  --dl-border-accent: rgba(201, 166, 70, 0.38);
+  --dl-bronze: #b8965a;
+  --dl-bronze-soft: #c8ae7b;
+  --dl-bronze-dark: #8f7040;
 
-  /* Legacy variables — preserved for existing components */
-  --dl-navy: #0B1B33;
-  --dl-navy-deep: #060F1F;
-  --dl-navy-soft: #122845;
-  --dl-gold: var(--dl-accent);
-  --dl-gold-soft: var(--dl-accent-soft);
-  --dl-gold-dark: var(--dl-accent-dim);
-  --dl-bone: #F4F2EC;
-  --dl-mist: #E9EAED;
-  --dl-slate: #6F7278;
-  --dl-ink: #111318;
-  --dl-ink-soft: #555C66;
+  --dl-white-soft: #fdfcf9;
 
-  --background: var(--dl-obsidian);
-  --foreground: var(--dl-white);
-  --cream: var(--dl-bone);
-  --charcoal: var(--dl-graphite);
-  --muted: var(--dl-muted);
+  /* --------------------------------------------------------
+     SEMANTIC TOKENS
+     -------------------------------------------------------- */
 
-  /* Layout */
-  --border: var(--dl-border);
-  --border-strong: var(--dl-border-strong);
-  --container-width: 1380px;
+  --background: var(--dl-paper);
+  --foreground: var(--dl-ink);
 
-  --page-x: clamp(1.25rem, 4vw, 4.5rem);
-  --section-space: clamp(6rem, 11vw, 11rem);
-  --content-space: clamp(3rem, 6vw, 7rem);
+  --cream: var(--dl-paper);
+  --charcoal: var(--dl-ink);
 
-  /* Type */
-  --display-tracking: -0.065em;
-  --heading-tracking: -0.045em;
-  --body-size: 0.94rem;
-  --body-line: 1.72;
+  --muted: var(--dl-ink-muted);
 
-  /* Geometry */
-  --radius-sm: 2px;
-  --radius-md: 4px;
-  --radius-lg: 8px;
+  --border: rgba(20, 20, 20, 0.09);
+  --border-strong: rgba(20, 20, 20, 0.15);
+  --border-bronze: rgba(184, 150, 90, 0.42);
 
-  /* Motion */
-  --ease-luxury: cubic-bezier(0.22, 1, 0.36, 1);
-  --ease-sharp: cubic-bezier(0.16, 1, 0.3, 1);
+  /* --------------------------------------------------------
+     LAYOUT
+     -------------------------------------------------------- */
 
-  --duration-fast: 280ms;
-  --duration-normal: 600ms;
-  --duration-slow: 900ms;
+  --container-width: 1440px;
+
+  --page-x: clamp(1.25rem, 4vw, 4rem);
+
+  --section-space: clamp(6rem, 8vw, 7.5rem);
+  --section-space-tight: clamp(4.5rem, 6vw, 6rem);
+  --content-space: clamp(3rem, 5vw, 5rem);
+
+  --grid-gap: clamp(1.5rem, 2.2vw, 2rem);
+
+  /* --------------------------------------------------------
+     8PX SPACING SYSTEM
+     -------------------------------------------------------- */
+
+  --space-1: 0.5rem;
+  --space-2: 1rem;
+  --space-3: 1.5rem;
+  --space-4: 2rem;
+  --space-5: 3rem;
+  --space-6: 4rem;
+  --space-7: 6rem;
+  --space-8: 8rem;
+  --space-9: 10rem;
+
+  /* --------------------------------------------------------
+     TYPOGRAPHY
+     -------------------------------------------------------- */
+
+  --display-tracking: -0.055em;
+  --heading-tracking: -0.035em;
+  --body-tracking: -0.008em;
+
+  --body-size: 1rem;
+  --body-line: 1.6;
+
+  --micro-size: 0.6875rem;
+  --micro-tracking: 0.18em;
+
+  /* --------------------------------------------------------
+     RADII
+     -------------------------------------------------------- */
+
+  --radius-sm: 0.25rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.875rem;
+  --radius-pill: 999px;
+
+  /* --------------------------------------------------------
+     MOTION
+     -------------------------------------------------------- */
+
+  --ease-editorial: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-standard: cubic-bezier(0.22, 1, 0.36, 1);
+
+  --duration-fast: 200ms;
+  --duration-normal: 500ms;
+  --duration-slow: 700ms;
+
+  /* --------------------------------------------------------
+     SHADOWS
+     -------------------------------------------------------- */
+
+  --shadow-soft:
+    0 10px 40px rgba(20, 20, 20, 0.06);
+
+  --shadow-luxury:
+    0 18px 60px rgba(20, 20, 20, 0.09);
 }
+
 
 /* ==========================================================
    RESET
@@ -88,7 +127,8 @@
 html {
   margin: 0;
   padding: 0;
-  background: var(--dl-obsidian);
+
+  background: var(--dl-paper);
 
   scroll-behavior: smooth;
 
@@ -98,7 +138,7 @@ html {
   text-rendering: optimizeLegibility;
 
   scrollbar-width: thin;
-  scrollbar-color: var(--dl-accent) var(--dl-obsidian);
+  scrollbar-color: var(--dl-bronze) var(--dl-paper);
 }
 
 body {
@@ -106,12 +146,11 @@ body {
   min-height: 100vh;
 
   background:
-    radial-gradient(
-      circle at 50% -20%,
-      rgba(201, 166, 70, 0.035),
-      transparent 32%
-    ),
-    var(--dl-obsidian);
+    linear-gradient(
+      180deg,
+      var(--dl-paper) 0%,
+      var(--dl-paper-warm) 100%
+    );
 
   color: var(--foreground);
 
@@ -123,16 +162,17 @@ body {
 
   font-size: var(--body-size);
   line-height: var(--body-line);
+  letter-spacing: var(--body-tracking);
 
   overflow-x: hidden;
 }
 
-section {
-  position: relative;
-}
-
 main {
   width: 100%;
+}
+
+section {
+  position: relative;
 }
 
 p {
@@ -150,18 +190,28 @@ h6 {
   font-family:
     var(--font-heading),
     Georgia,
-    "Times New Roman",
     serif;
 
   font-weight: 400;
+
   letter-spacing: var(--heading-tracking);
 
   text-wrap: balance;
 }
 
-a {
-  color: inherit;
-  text-decoration: none;
+h1 {
+  font-size: clamp(2.75rem, 6vw, 5rem);
+  line-height: 1.04;
+}
+
+h2 {
+  font-size: clamp(2.25rem, 4vw, 3rem);
+  line-height: 1.06;
+}
+
+h3 {
+  font-size: clamp(1.5rem, 2.2vw, 1.75rem);
+  line-height: 1.1;
 }
 
 button,
@@ -171,61 +221,58 @@ select {
   font: inherit;
 }
 
-button,
-a {
-  -webkit-tap-highlight-color: transparent;
-  touch-action: manipulation;
+button {
+  color: inherit;
 }
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+img,
+video {
+  height: auto;
+}
+
+::selection {
+  background: rgba(184, 150, 90, 0.22);
+  color: var(--dl-ink);
+}
+
 
 /* ==========================================================
    SCROLLBAR
    ========================================================== */
 
 html::-webkit-scrollbar {
-  width: 6px;
+  width: 8px;
 }
 
 html::-webkit-scrollbar-track {
-  background: var(--dl-obsidian);
+  background: var(--dl-paper);
 }
 
 html::-webkit-scrollbar-thumb {
-  background: var(--dl-accent-dim);
-  border-radius: 0;
+  background: var(--dl-bronze);
+  border-radius: var(--radius-pill);
 }
+
+html::-webkit-scrollbar-thumb:hover {
+  background: var(--dl-bronze-dark);
+}
+
 
 /* ==========================================================
-   SELECTION
-   ========================================================== */
-
-::selection {
-  background: var(--dl-accent);
-  color: var(--dl-obsidian);
-}
-
-/* ==========================================================
-   MEDIA
-   ========================================================== */
-
-img,
-svg,
-video,
-canvas {
-  display: block;
-  max-width: 100%;
-}
-
-img {
-  user-select: none;
-  -webkit-user-drag: none;
-}
-
-video {
-  backface-visibility: hidden;
-}
-
-/* ==========================================================
-   CONTAINERS
+   GLOBAL CONTAINER
    ========================================================== */
 
 .driplabs-container {
@@ -237,227 +284,112 @@ video {
   margin-inline: auto;
 }
 
+
+/* ==========================================================
+   GLOBAL SECTION
+   ========================================================== */
+
 .driplabs-section {
   padding-block: var(--section-space);
 }
 
-.driplabs-content {
-  max-width: 1100px;
+.driplabs-section-tight {
+  padding-block: var(--section-space-tight);
 }
+
 
 /* ==========================================================
-   12-COLUMN GRID
-   ========================================================== */
-
-.driplabs-grid {
-  width: min(
-    calc(100% - (var(--page-x) * 2)),
-    var(--container-width)
-  );
-
-  margin-inline: auto;
-
-  display: grid;
-
-  grid-template-columns:
-    repeat(12, minmax(0, 1fr));
-
-  column-gap: clamp(1rem, 2vw, 2.25rem);
-}
-
-/* ==========================================================
-   TECHNICAL LABEL
-   ========================================================== */
-
-.driplabs-label {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.65rem;
-
-  font-family:
-    var(--font-body),
-    Arial,
-    Helvetica,
-    sans-serif;
-
-  font-size: 0.58rem;
-  line-height: 1.2;
-  letter-spacing: 0.22em;
-
-  text-transform: uppercase;
-
-  color: var(--dl-muted);
-}
-
-.driplabs-label::before {
-  content: "";
-
-  width: 16px;
-  height: 1px;
-
-  background: var(--dl-accent);
-
-  transform-origin: left;
-}
-
-/* ==========================================================
-   DISPLAY TYPE
+   EDITORIAL DISPLAY
    ========================================================== */
 
 .driplabs-display {
   font-family:
     var(--font-heading),
     Georgia,
-    "Times New Roman",
     serif;
 
-  font-weight: 400;
+  font-size: clamp(3rem, 7vw, 6.25rem);
+
+  font-weight: 300;
+
+  line-height: 0.96;
 
   letter-spacing: var(--display-tracking);
-  line-height: 0.88;
+
+  text-wrap: balance;
 }
 
+
 /* ==========================================================
-   MONOSPACE / DATA
+   SECTION HEADINGS
    ========================================================== */
 
-.driplabs-data,
-.driplabs-stat,
-[data-driplabs-data] {
+.driplabs-heading {
+  max-width: 820px;
+
   font-family:
-    "JetBrains Mono",
-    "SFMono-Regular",
-    Consolas,
-    "Liberation Mono",
-    monospace;
+    var(--font-heading),
+    Georgia,
+    serif;
 
-  font-variant-numeric: tabular-nums;
+  font-size: clamp(2.5rem, 4.5vw, 4rem);
+
+  font-weight: 300;
+
+  line-height: 1.03;
+
+  letter-spacing: -0.045em;
 }
+
 
 /* ==========================================================
-   RULES
+   MICRO LABEL
    ========================================================== */
 
-.driplabs-rule {
-  height: 1px;
-  width: 100%;
+.driplabs-label {
+  display: inline-flex;
+  align-items: center;
 
-  background: var(--dl-border);
+  font-family:
+    var(--font-body),
+    Arial,
+    sans-serif;
+
+  font-size: var(--micro-size);
+
+  font-weight: 500;
+
+  line-height: 1;
+
+  letter-spacing: var(--micro-tracking);
+
+  text-transform: uppercase;
+
+  color: var(--dl-ink-muted);
 }
 
-.driplabs-rule-light {
-  height: 1px;
-  width: 100%;
-
-  background: var(--dl-border-strong);
-}
-
-.driplabs-rule-dark {
-  height: 1px;
-  width: 100%;
-
-  background: rgba(255, 255, 255, 0.11);
-}
 
 /* ==========================================================
-   GOLD / ACCENT
+   BODY COPY
    ========================================================== */
 
-.driplabs-gold {
-  color: var(--dl-accent);
+.driplabs-copy {
+  max-width: 680px;
+
+  font-family:
+    var(--font-body),
+    Arial,
+    sans-serif;
+
+  font-size: clamp(1rem, 1.2vw, 1.125rem);
+
+  font-weight: 300;
+
+  line-height: 1.6;
+
+  color: var(--dl-ink-muted);
 }
 
-.driplabs-gold-line {
-  height: 1px;
-  width: 100%;
-
-  background:
-    linear-gradient(
-      90deg,
-      var(--dl-accent),
-      rgba(201, 166, 70, 0.18)
-    );
-
-  transform-origin: left;
-}
-
-/* ==========================================================
-   GLASS SYSTEM
-   ========================================================== */
-
-.driplabs-glass {
-  background:
-    linear-gradient(
-      135deg,
-      rgba(255, 255, 255, 0.055),
-      rgba(255, 255, 255, 0.018)
-    );
-
-  backdrop-filter: blur(22px);
-  -webkit-backdrop-filter: blur(22px);
-
-  border: 1px solid var(--dl-border);
-
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.035);
-}
-
-.driplabs-glass-dark {
-  background:
-    linear-gradient(
-      135deg,
-      rgba(18, 20, 24, 0.82),
-      rgba(8, 9, 11, 0.72)
-    );
-
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
-
-  border: 1px solid var(--dl-border);
-}
-
-/* ==========================================================
-   PREMIUM IMAGE SYSTEM
-   ========================================================== */
-
-.driplabs-image {
-  position: relative;
-  overflow: hidden;
-  background: var(--dl-graphite);
-}
-
-.driplabs-image::after {
-  content: "";
-
-  position: absolute;
-  inset: 0;
-
-  pointer-events: none;
-
-  background:
-    linear-gradient(
-      180deg,
-      rgba(0, 0, 0, 0.02),
-      rgba(0, 0, 0, 0.22)
-    );
-
-  opacity: 0.7;
-}
-
-.driplabs-image img {
-  width: 100%;
-  height: 100%;
-
-  object-fit: cover;
-
-  transition:
-    transform 1.4s var(--ease-luxury),
-    filter 1.4s var(--ease-luxury);
-}
-
-.driplabs-image:hover img {
-  transform: scale(1.035);
-}
 
 /* ==========================================================
    PREMIUM BUTTON
@@ -467,347 +399,250 @@ video {
   position: relative;
 
   display: inline-flex;
+
+  min-height: 44px;
+
   align-items: center;
   justify-content: center;
 
-  gap: 1.1rem;
+  gap: 0.75rem;
 
-  min-height: 3.35rem;
-  padding-inline: 1.55rem;
+  padding-inline: 1.5rem;
 
-  border: 1px solid rgba(255, 255, 255, 0.24);
+  border: 1px solid rgba(20, 20, 20, 0.18);
 
-  background: rgba(255, 255, 255, 0.025);
+  border-radius: var(--radius-pill);
 
-  color: inherit;
+  background: transparent;
+
+  color: var(--dl-ink);
 
   font-family:
     var(--font-body),
     Arial,
-    Helvetica,
     sans-serif;
 
-  font-size: 0.58rem;
+  font-size: 0.6875rem;
+
+  font-weight: 500;
+
   line-height: 1;
 
-  letter-spacing: 0.2em;
+  letter-spacing: 0.16em;
+
   text-transform: uppercase;
 
-  overflow: hidden;
-
   transition:
-    color var(--duration-normal) var(--ease-luxury),
-    border-color var(--duration-normal) var(--ease-luxury),
-    transform var(--duration-normal) var(--ease-luxury),
-    background var(--duration-normal) var(--ease-luxury),
-    box-shadow var(--duration-normal) var(--ease-luxury);
-}
-
-.driplabs-button::before {
-  content: "";
-
-  position: absolute;
-  inset: 0;
-
-  background:
-    linear-gradient(
-      105deg,
-      transparent 15%,
-      rgba(201, 166, 70, 0.14) 50%,
-      transparent 85%
-    );
-
-  transform: translateX(-110%);
-
-  transition: transform 900ms var(--ease-luxury);
-}
-
-.driplabs-button > * {
-  position: relative;
-  z-index: 1;
+    transform var(--duration-fast) var(--ease-editorial),
+    border-color var(--duration-fast) ease,
+    background-color var(--duration-fast) ease,
+    box-shadow var(--duration-fast) ease;
 }
 
 .driplabs-button:hover {
-  transform: translateY(-2px);
+  transform: translateY(-1px);
 
-  border-color: var(--dl-border-accent);
+  border-color: var(--dl-bronze);
 
-  background: rgba(201, 166, 70, 0.055);
+  background: rgba(184, 150, 90, 0.06);
 
-  box-shadow:
-    0 0 0 1px rgba(201, 166, 70, 0.04),
-    0 0 32px rgba(201, 166, 70, 0.08);
+  box-shadow: var(--shadow-soft);
 }
 
-.driplabs-button:hover::before {
-  transform: translateX(110%);
+.driplabs-button:active {
+  transform: translateY(0);
 }
+
+.driplabs-button:focus-visible {
+  outline: 2px solid var(--dl-bronze);
+  outline-offset: 4px;
+}
+
 
 /* ==========================================================
-   NOISE / FILM GRAIN
+   BRONZE BUTTON
    ========================================================== */
 
-.driplabs-noise {
-  position: relative;
-  isolation: isolate;
+.driplabs-button-primary {
+  border-color: var(--dl-bronze);
+
+  background: var(--dl-ink);
+
+  color: var(--dl-white-soft);
 }
 
-.driplabs-noise::after {
-  content: "";
+.driplabs-button-primary:hover {
+  border-color: var(--dl-ink-soft);
 
-  position: absolute;
-  inset: 0;
+  background: var(--dl-ink-soft);
 
-  z-index: 50;
-
-  pointer-events: none;
-
-  opacity: 0.035;
-
-  background-image:
-    url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.82' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.72'/%3E%3C/svg%3E");
+  color: var(--dl-white-soft);
 }
+
 
 /* ==========================================================
-   SCAN LINE
+   SUBTLE DIVIDER
    ========================================================== */
 
-.driplabs-scan {
-  position: relative;
-  overflow: hidden;
-}
-
-.driplabs-scan::after {
-  content: "";
-
-  position: absolute;
-
-  left: 0;
-  right: 0;
-
-  top: -20%;
-
+.driplabs-divider {
+  width: 100%;
   height: 1px;
 
   background:
     linear-gradient(
       90deg,
       transparent,
-      rgba(201, 166, 70, 0.7),
+      var(--border-strong),
       transparent
     );
-
-  box-shadow:
-    0 0 14px rgba(201, 166, 70, 0.28);
-
-  animation: driplabs-scanline 5s var(--ease-luxury) infinite;
 }
 
-@keyframes driplabs-scanline {
-  0% {
-    top: -5%;
-    opacity: 0;
-  }
-
-  12% {
-    opacity: 1;
-  }
-
-  82% {
-    opacity: 0.55;
-  }
-
-  100% {
-    top: 105%;
-    opacity: 0;
-  }
-}
 
 /* ==========================================================
-   AMBIENT PULSE
+   BRONZE RULE
    ========================================================== */
 
-.driplabs-pulse {
-  animation: driplabs-pulse 3.8s ease-in-out infinite;
-}
-
-@keyframes driplabs-pulse {
-  0%,
-  100% {
-    opacity: 0.5;
-    transform: scale(1);
-  }
-
-  50% {
-    opacity: 1;
-    transform: scale(1.04);
-  }
-}
-
-/* ==========================================================
-   HAIRLINE GLOW
-   ========================================================== */
-
-.driplabs-glow-line {
-  position: relative;
-}
-
-.driplabs-glow-line::after {
-  content: "";
-
-  position: absolute;
-
-  left: 0;
-  right: 0;
-  bottom: -0.75rem;
-
+.driplabs-rule {
+  width: 40px;
   height: 1px;
 
-  background:
-    linear-gradient(
-      90deg,
-      var(--dl-accent),
-      rgba(201, 166, 70, 0.08)
-    );
-
-  box-shadow:
-    0 0 14px rgba(201, 166, 70, 0.2);
+  background: var(--dl-bronze);
 }
 
+
 /* ==========================================================
-   INTERACTIVE CARD
+   IMAGE SYSTEM
    ========================================================== */
 
-.driplabs-card {
-  position: relative;
+.driplabs-image {
+  overflow: hidden;
+}
 
-  background:
-    linear-gradient(
-      145deg,
-      rgba(255, 255, 255, 0.045),
-      rgba(255, 255, 255, 0.012)
-    );
+.driplabs-image img {
+  width: 100%;
+  height: 100%;
 
-  border: 1px solid var(--dl-border);
+  object-fit: cover;
 
   transition:
-    transform 700ms var(--ease-luxury),
-    border-color 500ms var(--ease-luxury),
-    background 500ms var(--ease-luxury),
-    box-shadow 700ms var(--ease-luxury);
+    transform 700ms var(--ease-editorial);
 }
 
-.driplabs-card::before {
-  content: "";
-
-  position: absolute;
-  inset: 0;
-
-  pointer-events: none;
-
-  opacity: 0;
-
-  background:
-    radial-gradient(
-      360px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
-      rgba(201, 166, 70, 0.08),
-      transparent 70%
-    );
-
-  transition: opacity 500ms ease;
+.driplabs-image:hover img {
+  transform: scale(1.02);
 }
 
-.driplabs-card:hover {
-  transform: translateY(-4px);
-
-  border-color: rgba(201, 166, 70, 0.25);
-
-  background:
-    linear-gradient(
-      145deg,
-      rgba(255, 255, 255, 0.06),
-      rgba(255, 255, 255, 0.018)
-    );
-
-  box-shadow:
-    0 18px 60px rgba(0, 0, 0, 0.2);
-}
-
-.driplabs-card:hover::before {
-  opacity: 1;
-}
 
 /* ==========================================================
-   NAVIGATION UTILITIES
+   PREMIUM SURFACE
    ========================================================== */
 
-.driplabs-nav-glass {
-  background:
-    linear-gradient(
-      180deg,
-      rgba(8, 9, 11, 0.82),
-      rgba(8, 9, 11, 0.52)
-    );
+.driplabs-surface {
+  background: rgba(255, 255, 255, 0.32);
 
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
+  border: 1px solid var(--border);
 
-  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+  box-shadow: var(--shadow-soft);
 }
 
+
 /* ==========================================================
-   HERO
+   DARK EDITORIAL SURFACE
    ========================================================== */
 
-.driplabs-hero {
-  position: relative;
-  isolation: isolate;
-  background: var(--dl-obsidian);
-  color: var(--dl-white);
+.driplabs-dark {
+  background: var(--dl-ink);
+
+  color: var(--dl-white-soft);
 }
 
-.driplabs-hero::before {
-  content: "";
-
-  position: absolute;
-  inset: 0;
-
-  z-index: 1;
-
-  pointer-events: none;
-
-  background:
-    linear-gradient(
-      90deg,
-      rgba(4, 5, 7, 0.78) 0%,
-      rgba(4, 5, 7, 0.34) 48%,
-      rgba(4, 5, 7, 0.58) 100%
-    ),
-    linear-gradient(
-      180deg,
-      rgba(4, 5, 7, 0.12),
-      transparent 38%,
-      rgba(4, 5, 7, 0.62)
-    );
+.driplabs-dark .driplabs-label {
+  color: rgba(253, 252, 249, 0.58);
 }
+
+.driplabs-dark .driplabs-copy {
+  color: rgba(253, 252, 249, 0.68);
+}
+
 
 /* ==========================================================
-   RESPONSIVE
+   ANIMATION UTILITIES
+   ========================================================== */
+
+.driplabs-reveal {
+  animation:
+    driplabs-reveal
+    650ms var(--ease-editorial)
+    both;
+}
+
+@keyframes driplabs-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+/* ==========================================================
+   ACCESSIBILITY
+   ========================================================== */
+
+:focus-visible {
+  outline: 2px solid var(--dl-bronze);
+  outline-offset: 4px;
+}
+
+
+/* ==========================================================
+   TABLET
    ========================================================== */
 
 @media (max-width: 1024px) {
   :root {
-    --container-width: 1200px;
-    --section-space: clamp(5rem, 12vw, 8rem);
+    --page-x: 2rem;
+
+    --section-space: clamp(
+      5rem,
+      8vw,
+      6.5rem
+    );
+  }
+
+  .driplabs-display {
+    font-size: clamp(
+      3.25rem,
+      8vw,
+      5.5rem
+    );
   }
 }
 
+
+/* ==========================================================
+   MOBILE
+   ========================================================== */
+
 @media (max-width: 768px) {
   :root {
-    --page-x: 1.125rem;
-    --section-space: clamp(4.5rem, 16vw, 6.5rem);
-    --content-space: 2.5rem;
-    --body-size: 0.88rem;
+    --page-x: 1.5rem;
+
+    --section-space: clamp(
+      4.5rem,
+      14vw,
+      6rem
+    );
+
+    --section-space-tight: 4rem;
+
+    --body-size: 0.9375rem;
+
+    --grid-gap: 1.5rem;
   }
 
   html {
@@ -822,34 +657,43 @@ video {
     width: calc(100% - (var(--page-x) * 2));
   }
 
-  .driplabs-grid {
-    grid-template-columns:
-      repeat(4, minmax(0, 1fr));
+  .driplabs-display {
+    font-size: clamp(
+      2.75rem,
+      13vw,
+      4rem
+    );
 
-    column-gap: 0.875rem;
+    line-height: 0.98;
   }
 
-  .driplabs-display {
-    line-height: 0.9;
-    letter-spacing: -0.06em;
+  .driplabs-heading {
+    font-size: clamp(
+      2.25rem,
+      9vw,
+      3.25rem
+    );
   }
 
   .driplabs-label {
-    font-size: 0.54rem;
-    letter-spacing: 0.18em;
+    font-size: 0.625rem;
+
+    letter-spacing: 0.16em;
   }
 
   .driplabs-button {
-    min-height: 3.25rem;
-    padding-inline: 1.15rem;
-    font-size: 0.55rem;
-    letter-spacing: 0.17em;
+    min-height: 44px;
+
+    padding-inline: 1.25rem;
+
+    font-size: 0.625rem;
   }
 
-  .driplabs-card:hover {
+  .driplabs-image:hover img {
     transform: none;
   }
 }
+
 
 /* ==========================================================
    SMALL PHONES
@@ -857,14 +701,20 @@ video {
 
 @media (max-width: 390px) {
   :root {
-    --page-x: 1rem;
+    --color-accent-primary: #28B8C8;
+  --color-accent-primary-rgb: 40, 184, 200;
+    --page-x: 1.25rem;
   }
 
-  .driplabs-hero h1 {
-    font-size: clamp(3.6rem, 19vw, 5.2rem);
-    line-height: 0.82;
+  .driplabs-display {
+    font-size: clamp(
+      2.5rem,
+      14vw,
+      3.5rem
+    );
   }
 }
+
 
 /* ==========================================================
    TOUCH DEVICES
@@ -875,26 +725,8 @@ video {
   .driplabs-button:hover {
     transform: none;
   }
-
-  .driplabs-button:hover {
-    border-color: rgba(255, 255, 255, 0.24);
-    background: rgba(255, 255, 255, 0.025);
-    box-shadow: none;
-  }
-
-  .driplabs-button:hover::before {
-    transform: translateX(-110%);
-  }
 }
 
-/* ==========================================================
-   ACCESSIBILITY
-   ========================================================== */
-
-:focus-visible {
-  outline: 1px solid var(--dl-accent);
-  outline-offset: 4px;
-}
 
 /* ==========================================================
    REDUCED MOTION
@@ -913,7 +745,12 @@ video {
     animation-delay: 0ms !important;
     transition-duration: 0.01ms !important;
   }
+
+  .driplabs-image img {
+    transition: none;
+  }
 }
+
 
 /* ==========================================================
    SAFE AREA
@@ -924,1085 +761,5 @@ video {
     body {
       padding-bottom: env(safe-area-inset-bottom);
     }
-  }
-}
-
-/* ==========================================================
-   DRIPLABS — ULTRA-LUXURY INTERACTION SYSTEM
-   ========================================================== */
-
-:root {
-  --dl-motion-fast: 280ms;
-  --dl-motion-normal: 520ms;
-  --dl-motion-slow: 900ms;
-
-  --dl-motion-ease: cubic-bezier(0.22, 1, 0.36, 1);
-  --dl-motion-smooth: cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-/* ==========================================================
-   INTERACTIVE MEDIA
-   ========================================================== */
-
-.driplabs-interactive-media {
-  --dl-pointer-x: 50%;
-  --dl-pointer-y: 50%;
-  --dl-rotate-x: 0deg;
-  --dl-rotate-y: 0deg;
-  --dl-shift-x: 0px;
-  --dl-shift-y: 0px;
-
-  position: relative;
-  isolation: isolate;
-
-  overflow: hidden;
-
-  transform:
-    perspective(1200px)
-    rotateX(var(--dl-rotate-x))
-    rotateY(var(--dl-rotate-y));
-
-  transform-style: preserve-3d;
-
-  transition:
-    transform var(--dl-motion-normal) var(--dl-motion-ease),
-    border-color var(--dl-motion-normal) var(--dl-motion-ease),
-    background-color var(--dl-motion-normal) var(--dl-motion-ease);
-
-  will-change: transform;
-}
-
-/* Cursor-following light */
-
-.driplabs-interactive-media::before {
-  content: "";
-
-  position: absolute;
-  z-index: 20;
-  pointer-events: none;
-
-  width: 24rem;
-  height: 24rem;
-
-  left: var(--dl-pointer-x);
-  top: var(--dl-pointer-y);
-
-  transform: translate(-50%, -50%);
-
-  border-radius: 999px;
-
-  background:
-    radial-gradient(
-      circle,
-      rgba(201, 166, 70, 0.11) 0%,
-      rgba(201, 166, 70, 0.045) 24%,
-      transparent 68%
-    );
-
-  opacity: 0;
-
-  transition:
-    opacity var(--dl-motion-normal) var(--dl-motion-ease),
-    left 180ms ease-out,
-    top 180ms ease-out;
-
-  mix-blend-mode: screen;
-}
-
-.driplabs-interactive-media.is-hovered::before {
-  opacity: 1;
-}
-
-/* Precision border */
-
-.driplabs-interactive-media::after {
-  content: "";
-
-  position: absolute;
-  z-index: 21;
-  pointer-events: none;
-  inset: 0;
-
-  border: 1px solid rgba(255, 255, 255, 0.08);
-
-  transition:
-    border-color var(--dl-motion-normal) var(--dl-motion-ease),
-    box-shadow var(--dl-motion-normal) var(--dl-motion-ease);
-}
-
-.driplabs-interactive-media.is-hovered::after {
-  border-color: rgba(201, 166, 70, 0.28);
-
-  box-shadow:
-    inset 0 0 0 1px rgba(255, 255, 255, 0.025),
-    0 0 50px rgba(201, 166, 70, 0.045);
-}
-
-/* ==========================================================
-   MEDIA INSIDE INTERACTIVE CONTAINERS
-   ========================================================== */
-
-.driplabs-interactive-media img,
-.driplabs-interactive-media video {
-  display: block;
-
-  width: 100%;
-  height: 100%;
-
-  object-fit: cover;
-
-  transform:
-    translate3d(
-      var(--dl-shift-x),
-      var(--dl-shift-y),
-      0
-    )
-    scale(1.015);
-
-  transition:
-    transform 1100ms var(--dl-motion-ease),
-    filter 900ms var(--dl-motion-ease);
-
-  will-change: transform;
-}
-
-.driplabs-interactive-media.is-hovered img,
-.driplabs-interactive-media.is-hovered video {
-  transform:
-    translate3d(
-      var(--dl-shift-x),
-      var(--dl-shift-y),
-      0
-    )
-    scale(1.055);
-
-  filter:
-    brightness(1.035)
-    saturate(1.025);
-}
-
-/* ==========================================================
-   IMAGE WRAPPER
-   ========================================================== */
-
-.driplabs-image {
-  position: relative;
-  overflow: hidden;
-}
-
-.driplabs-image img {
-  transition:
-    transform 1100ms var(--dl-motion-ease),
-    filter 900ms var(--dl-motion-ease);
-}
-
-.driplabs-image:hover img {
-  transform: scale(1.045);
-}
-
-/* ==========================================================
-   LUXURY CARD
-   ========================================================== */
-
-.driplabs-card {
-  position: relative;
-  isolation: isolate;
-
-  overflow: hidden;
-
-  border: 1px solid rgba(255, 255, 255, 0.075);
-
-  background:
-    linear-gradient(
-      135deg,
-      rgba(255, 255, 255, 0.045),
-      rgba(255, 255, 255, 0.018)
-    );
-
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
-
-  transition:
-    transform 600ms var(--dl-motion-ease),
-    border-color 600ms var(--dl-motion-ease),
-    background-color 600ms var(--dl-motion-ease),
-    box-shadow 600ms var(--dl-motion-ease);
-}
-
-.driplabs-card::before {
-  content: "";
-
-  position: absolute;
-  z-index: -1;
-  inset: 0;
-
-  opacity: 0;
-
-  background:
-    radial-gradient(
-      circle at var(--dl-pointer-x, 50%) var(--dl-pointer-y, 50%),
-      rgba(201, 166, 70, 0.075),
-      transparent 38%
-    );
-
-  transition:
-    opacity 600ms var(--dl-motion-ease);
-}
-
-.driplabs-card:hover {
-  transform: translateY(-5px);
-
-  border-color: rgba(201, 166, 70, 0.22);
-
-  background:
-    linear-gradient(
-      135deg,
-      rgba(255, 255, 255, 0.06),
-      rgba(255, 255, 255, 0.022)
-    );
-
-  box-shadow:
-    0 20px 70px rgba(0, 0, 0, 0.18);
-}
-
-.driplabs-card:hover::before {
-  opacity: 1;
-}
-
-/* ==========================================================
-   PREMIUM MEDIA FRAME
-   ========================================================== */
-
-.driplabs-media-frame {
-  position: relative;
-  overflow: hidden;
-
-  background: var(--dl-panel, #14171C);
-}
-
-.driplabs-media-frame::after {
-  content: "";
-
-  position: absolute;
-  inset: 0;
-
-  pointer-events: none;
-
-  background:
-    linear-gradient(
-      180deg,
-      transparent 55%,
-      rgba(0, 0, 0, 0.24)
-    );
-
-  opacity: 0.65;
-
-  transition:
-    opacity 700ms var(--dl-motion-ease);
-}
-
-.driplabs-media-frame:hover::after {
-  opacity: 0.35;
-}
-
-/* ==========================================================
-   MAGNETIC-LIKE BUTTON
-   ========================================================== */
-
-.driplabs-magnetic {
-  position: relative;
-
-  transition:
-    transform 450ms var(--dl-motion-ease),
-    border-color 450ms var(--dl-motion-ease),
-    background-color 450ms var(--dl-motion-ease);
-}
-
-.driplabs-magnetic:hover {
-  transform: translateY(-2px);
-}
-
-/* ==========================================================
-   IMAGE REVEAL
-   ========================================================== */
-
-.driplabs-reveal {
-  clip-path: inset(0 0 0 0);
-
-  transition:
-    clip-path 1200ms var(--dl-motion-smooth);
-}
-
-.driplabs-reveal:hover {
-  clip-path: inset(2% 2% 2% 2%);
-}
-
-/* ==========================================================
-   TECHNICAL HOVER LINE
-   ========================================================== */
-
-.driplabs-hover-line {
-  position: relative;
-}
-
-.driplabs-hover-line::after {
-  content: "";
-
-  position: absolute;
-  left: 0;
-  bottom: -0.45rem;
-
-  width: 0;
-  height: 1px;
-
-  background:
-    linear-gradient(
-      90deg,
-      var(--dl-accent, #C9A646),
-      transparent
-    );
-
-  transition:
-    width 650ms var(--dl-motion-ease);
-}
-
-.driplabs-hover-line:hover::after {
-  width: 100%;
-}
-
-/* ==========================================================
-   TOUCH DEVICES
-   ========================================================== */
-
-@media (hover: none), (pointer: coarse) {
-  .driplabs-interactive-media {
-    transform: none !important;
-  }
-
-  .driplabs-interactive-media::before {
-    display: none;
-  }
-
-  .driplabs-interactive-media img,
-  .driplabs-interactive-media video {
-    transform: scale(1.015) !important;
-  }
-
-  .driplabs-card:hover {
-    transform: none;
-    box-shadow: none;
-  }
-}
-
-/* ==========================================================
-   REDUCED MOTION
-   ========================================================== */
-
-@media (prefers-reduced-motion: reduce) {
-  .driplabs-interactive-media,
-  .driplabs-interactive-media img,
-  .driplabs-interactive-media video,
-  .driplabs-card,
-  .driplabs-image img,
-  .driplabs-magnetic {
-    transition: none !important;
-    transform: none !important;
-  }
-
-  .driplabs-interactive-media::before {
-    display: none;
-  }
-}
-
-/* =========================================================
-   DRIPLABS — Animated Section Divider
-   ========================================================= */
-
-.driplabs-gradient-divider {
-  position: relative;
-  width: 100%;
-  height: 1px;
-  overflow: hidden;
-  background: rgba(255, 255, 255, 0.08);
-}
-
-.driplabs-gradient-divider::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  width: 42%;
-  background: linear-gradient(
-    90deg,
-    transparent 0%,
-    rgba(201, 166, 70, 0.15) 18%,
-    rgba(244, 242, 236, 0.9) 50%,
-    rgba(201, 166, 70, 0.15) 82%,
-    transparent 100%
-  );
-  filter: blur(0.4px);
-  transform: translateX(-120%);
-  animation: driplabs-divider-sweep 6s
-    cubic-bezier(0.22, 1, 0.36, 1)
-    infinite;
-}
-
-.driplabs-gradient-divider::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 1px;
-  height: 5px;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(201, 166, 70, 0.08),
-    transparent
-  );
-  filter: blur(4px);
-}
-
-@keyframes driplabs-divider-sweep {
-  0% {
-    transform: translateX(-120%);
-    opacity: 0;
-  }
-
-  12% {
-    opacity: 1;
-  }
-
-  50% {
-    opacity: 1;
-  }
-
-  88% {
-    opacity: 1;
-  }
-
-  100% {
-    transform: translateX(260%);
-    opacity: 0;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .driplabs-gradient-divider::before {
-    animation: none;
-    transform: translateX(70%);
-    opacity: 0.7;
-  }
-}
-
-/* =========================================================
-   DRIPLABS — Global Animated Luxury Rail
-   Visible across the entire website
-   ========================================================= */
-
-.driplabs-global-rail {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 9999;
-  height: 2px;
-  pointer-events: none;
-  overflow: hidden;
-  background: rgba(255, 255, 255, 0.07);
-}
-
-.driplabs-global-rail::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: -30%;
-  width: 30%;
-  height: 100%;
-
-  background: linear-gradient(
-    90deg,
-    transparent 0%,
-    rgba(201, 166, 70, 0.25) 20%,
-    rgba(244, 242, 236, 0.95) 50%,
-    rgba(201, 166, 70, 0.25) 80%,
-    transparent 100%
-  );
-
-  box-shadow:
-    0 0 8px rgba(201, 166, 70, 0.35),
-    0 0 20px rgba(201, 166, 70, 0.12);
-
-  animation:
-    driplabs-global-rail-sweep
-    7s
-    cubic-bezier(0.22, 1, 0.36, 1)
-    infinite;
-}
-
-.driplabs-global-rail::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background:
-    linear-gradient(
-      90deg,
-      transparent,
-      rgba(201, 166, 70, 0.035),
-      transparent
-    );
-}
-
-@keyframes driplabs-global-rail-sweep {
-  0% {
-    transform: translateX(0);
-    opacity: 0;
-  }
-
-  10% {
-    opacity: 1;
-  }
-
-  50% {
-    opacity: 1;
-  }
-
-  90% {
-    opacity: 1;
-  }
-
-  100% {
-    transform: translateX(430%);
-    opacity: 0;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .driplabs-global-rail::before {
-    animation: none;
-    left: 35%;
-    opacity: 0.65;
-  }
-}
-
-
-/* =========================================================
-   DRIPLABS — GLOBAL WELCOME RAIL
-   ========================================================= */
-
-.driplabs-global-rail {
-  position: fixed !important;
-  top: 0 !important;
-  left: 0 !important;
-  right: 0 !important;
-
-  width: 100% !important;
-  height: 30px !important;
-
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-
-  z-index: 2147483647 !important;
-  pointer-events: none !important;
-
-  overflow: hidden !important;
-
-  background: #08090b !important;
-
-  border-bottom: 1px solid rgba(201, 166, 70, 0.35) !important;
-
-  box-shadow:
-    0 1px 18px rgba(201, 166, 70, 0.12) !important;
-}
-
-.driplabs-global-rail::before {
-  content: "" !important;
-
-  position: absolute !important;
-  top: 0 !important;
-  left: -30% !important;
-
-  width: 30% !important;
-  height: 2px !important;
-
-  background: linear-gradient(
-    90deg,
-    transparent,
-    #c9a646 30%,
-    #fff8dc 50%,
-    #c9a646 70%,
-    transparent
-  ) !important;
-
-  box-shadow:
-    0 0 8px #c9a646,
-    0 0 20px rgba(201, 166, 70, 0.65) !important;
-
-  animation: driplabs-welcome-sweep 4s linear infinite !important;
-}
-
-.driplabs-global-rail-text {
-  position: relative !important;
-  z-index: 3 !important;
-
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-
-  gap: 12px !important;
-
-  white-space: nowrap !important;
-
-  font-family: var(--font-body) !important;
-  font-size: 8px !important;
-  font-weight: 500 !important;
-
-  letter-spacing: 0.3em !important;
-  text-transform: uppercase !important;
-
-  color: #f4f2ec !important;
-
-  text-shadow:
-    0 0 12px rgba(201, 166, 70, 0.35) !important;
-}
-
-.driplabs-global-rail-text strong {
-  color: #e3ce8e !important;
-  font-weight: 600 !important;
-}
-
-.driplabs-global-rail-dot {
-  width: 3px !important;
-  height: 3px !important;
-
-  flex: 0 0 auto !important;
-
-  border-radius: 999px !important;
-
-  background: #c9a646 !important;
-
-  box-shadow:
-    0 0 7px #c9a646 !important;
-}
-
-@keyframes driplabs-welcome-sweep {
-  0% {
-    transform: translateX(0);
-    opacity: 0;
-  }
-
-  10% {
-    opacity: 1;
-  }
-
-  50% {
-    opacity: 1;
-  }
-
-  90% {
-    opacity: 1;
-  }
-
-  100% {
-    transform: translateX(435%);
-    opacity: 0;
-  }
-}
-
-@media (max-width: 640px) {
-  .driplabs-global-rail {
-    height: 26px !important;
-  }
-
-  .driplabs-global-rail-text {
-    font-size: 6px !important;
-    letter-spacing: 0.18em !important;
-    gap: 7px !important;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .driplabs-global-rail::before {
-    animation: none !important;
-    left: 35% !important;
-    opacity: 0.8 !important;
-  }
-}
-
-/* =========================================================
-   DRIPLABS — FULL WIDTH WELCOME MARQUEE
-   ========================================================= */
-
-.driplabs-global-rail {
-  position: fixed !important;
-  top: 0 !important;
-  left: 0 !important;
-  right: 0 !important;
-
-  width: 100vw !important;
-  height: 34px !important;
-
-  z-index: 2147483647 !important;
-  overflow: hidden !important;
-
-  display: flex !important;
-  align-items: center !important;
-
-  pointer-events: none !important;
-
-  background:
-    linear-gradient(
-      180deg,
-      rgba(8, 9, 11, 0.98),
-      rgba(8, 9, 11, 0.94)
-    ) !important;
-
-  border-bottom:
-    1px solid rgba(201, 166, 70, 0.28) !important;
-
-  box-shadow:
-    0 1px 20px rgba(201, 166, 70, 0.12) !important;
-}
-
-/* Moving gold light */
-.driplabs-global-rail::before {
-  content: "" !important;
-
-  position: absolute !important;
-  top: 0 !important;
-  left: -20vw !important;
-
-  width: 20vw !important;
-  min-width: 260px !important;
-  height: 2px !important;
-
-  background:
-    linear-gradient(
-      90deg,
-      transparent 0%,
-      rgba(201, 166, 70, 0.25) 20%,
-      #fff8dc 50%,
-      rgba(201, 166, 70, 0.25) 80%,
-      transparent 100%
-    ) !important;
-
-  box-shadow:
-    0 0 8px rgba(255, 248, 220, 0.9),
-    0 0 18px rgba(201, 166, 70, 0.65),
-    0 0 35px rgba(201, 166, 70, 0.28) !important;
-
-  animation:
-    driplabs-global-light-sweep
-    5s
-    cubic-bezier(0.22, 1, 0.36, 1)
-    infinite !important;
-}
-
-/* Subtle bottom architectural line */
-.driplabs-global-rail::after {
-  content: "" !important;
-
-  position: absolute !important;
-  left: 0 !important;
-  right: 0 !important;
-  bottom: 0 !important;
-
-  height: 1px !important;
-
-  background:
-    linear-gradient(
-      90deg,
-      transparent,
-      rgba(201, 166, 70, 0.22) 25%,
-      rgba(244, 242, 236, 0.38) 50%,
-      rgba(201, 166, 70, 0.22) 75%,
-      transparent
-    ) !important;
-}
-
-/* Full-width moving text track */
-.driplabs-global-rail-track {
-  position: relative !important;
-  z-index: 5 !important;
-
-  display: flex !important;
-  align-items: center !important;
-
-  width: max-content !important;
-  min-width: max-content !important;
-
-  animation:
-    driplabs-marquee
-    28s
-    linear
-    infinite !important;
-}
-
-/* Individual repeated text groups */
-.driplabs-global-rail-text {
-  display: flex !important;
-  align-items: center !important;
-
-  gap: 18px !important;
-
-  padding-right: 18px !important;
-
-  white-space: nowrap !important;
-
-  font-family: var(--font-body) !important;
-  font-size: 8px !important;
-  font-weight: 500 !important;
-
-  letter-spacing: 0.28em !important;
-  text-transform: uppercase !important;
-
-  color: rgba(244, 242, 236, 0.78) !important;
-
-  text-shadow:
-    0 0 12px rgba(201, 166, 70, 0.18) !important;
-}
-
-.driplabs-global-rail-text strong {
-  color: #e3ce8e !important;
-  font-weight: 600 !important;
-
-  text-shadow:
-    0 0 14px rgba(201, 166, 70, 0.45) !important;
-}
-
-/* Gold separator dots */
-.driplabs-global-rail-text span:nth-child(even) {
-  color: #c9a646 !important;
-
-  text-shadow:
-    0 0 8px rgba(201, 166, 70, 0.75) !important;
-}
-
-@keyframes driplabs-marquee {
-  from {
-    transform: translate3d(0, 0, 0);
-  }
-
-  to {
-    transform: translate3d(-50%, 0, 0);
-  }
-}
-
-@keyframes driplabs-global-light-sweep {
-  0% {
-    transform: translateX(0);
-    opacity: 0;
-  }
-
-  8% {
-    opacity: 1;
-  }
-
-  50% {
-    opacity: 1;
-  }
-
-  92% {
-    opacity: 1;
-  }
-
-  100% {
-    transform: translateX(600vw);
-    opacity: 0;
-  }
-}
-
-@media (max-width: 640px) {
-  .driplabs-global-rail {
-    height: 28px !important;
-  }
-
-  .driplabs-global-rail-text {
-    gap: 11px !important;
-    padding-right: 11px !important;
-    font-size: 6px !important;
-    letter-spacing: 0.18em !important;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .driplabs-global-rail-track {
-    animation: none !important;
-    transform: translate3d(-25%, 0, 0) !important;
-  }
-
-  .driplabs-global-rail::before {
-    animation: none !important;
-    left: 40% !important;
-    opacity: 0.7 !important;
-  }
-}
-
-/* =========================================================
-   DRIPLABS — FINAL GLOBAL WELCOME MARQUEE
-   ========================================================= */
-
-.driplabs-global-rail {
-  position: fixed !important;
-  top: 0 !important;
-  left: 0 !important;
-  right: 0 !important;
-
-  width: 100vw !important;
-  height: 36px !important;
-
-  display: block !important;
-
-  z-index: 2147483647 !important;
-  pointer-events: none !important;
-  overflow: hidden !important;
-
-  background: #08090b !important;
-
-  border-bottom: 1px solid rgba(201, 166, 70, 0.3) !important;
-
-  box-shadow:
-    0 2px 18px rgba(201, 166, 70, 0.14) !important;
-}
-
-/* Moving luminous line */
-.driplabs-global-rail::before {
-  content: "" !important;
-
-  position: absolute !important;
-  top: 0 !important;
-  left: -25vw !important;
-
-  width: 25vw !important;
-  min-width: 260px !important;
-  height: 2px !important;
-
-  background: linear-gradient(
-    90deg,
-    transparent 0%,
-    rgba(201, 166, 70, 0.3) 25%,
-    #fff8dc 50%,
-    rgba(201, 166, 70, 0.3) 75%,
-    transparent 100%
-  ) !important;
-
-  box-shadow:
-    0 0 7px rgba(255, 248, 220, 0.95),
-    0 0 18px rgba(201, 166, 70, 0.7),
-    0 0 35px rgba(201, 166, 70, 0.25) !important;
-
-  animation:
-    driplabs-final-light-sweep
-    4.5s
-    cubic-bezier(0.22, 1, 0.36, 1)
-    infinite !important;
-}
-
-/*
-  We deliberately render the message through CSS so it
-  remains visible even if the React rail contains no text.
-*/
-.driplabs-global-rail::after {
-  content:
-    "DRIPLABS®   ·   WELCOME TO A NEW STANDARD OF WELLNESS   ·   PHYSICIAN-LED WELLNESS   ·   MADE IN INDIA   ·   DRIPLABS®   ·   WELCOME TO A NEW STANDARD OF WELLNESS   ·   PHYSICIAN-LED WELLNESS   ·   MADE IN INDIA";
-
-  position: absolute !important;
-  inset: 0 !important;
-
-  display: flex !important;
-  align-items: center !important;
-
-  width: max-content !important;
-
-  padding-left: 0 !important;
-
-  white-space: nowrap !important;
-
-  font-family: var(--font-body) !important;
-  font-size: 8px !important;
-  font-weight: 500 !important;
-
-  letter-spacing: 0.28em !important;
-  text-transform: uppercase !important;
-
-  color: rgba(244, 242, 236, 0.78) !important;
-
-  text-shadow:
-    0 0 12px rgba(201, 166, 70, 0.2) !important;
-
-  animation:
-    driplabs-final-marquee
-    32s
-    linear
-    infinite !important;
-}
-
-/* =========================================================
-   ANIMATIONS
-   ========================================================= */
-
-@keyframes driplabs-final-marquee {
-  0% {
-    transform: translate3d(100vw, 0, 0);
-  }
-
-  100% {
-    transform: translate3d(-100%, 0, 0);
-  }
-}
-
-@keyframes driplabs-final-light-sweep {
-  0% {
-    transform: translateX(0);
-    opacity: 0;
-  }
-
-  8% {
-    opacity: 1;
-  }
-
-  50% {
-    opacity: 1;
-  }
-
-  92% {
-    opacity: 1;
-  }
-
-  100% {
-    transform: translateX(600vw);
-    opacity: 0;
-  }
-}
-
-/* =========================================================
-   MOBILE
-   ========================================================= */
-
-@media (max-width: 640px) {
-  .driplabs-global-rail {
-    height: 30px !important;
-  }
-
-  .driplabs-global-rail::after {
-    font-size: 6px !important;
-    letter-spacing: 0.18em !important;
-  }
-}
-
-/* =========================================================
-   REDUCED MOTION
-   ========================================================= */
-
-@media (prefers-reduced-motion: reduce) {
-  .driplabs-global-rail::after {
-    animation: none !important;
-    transform: translate3d(0, 0, 0) !important;
-  }
-
-  .driplabs-global-rail::before {
-    animation: none !important;
-    left: 40% !important;
-    opacity: 0.7 !important;
   }
 }

@@ -213,7 +213,7 @@ export default function NADFeature() {
               {/* tiny molecular designation */}
               <div className="absolute bottom-[5%] left-[2px] hidden translate-y-full items-center gap-3 pt-5 sm:flex">
                 <span className="h-px w-8 bg-cyan-100/20" />
-                <span className="font-mono text-[7px] tracking-[0.25em] text-white/25">
+                <span className="font-mono text-[18px] tracking-[0.25em] text-white/25">
                   NICOTINAMIDE ADENINE DINUCLEOTIDE
                 </span>
               </div>
@@ -229,10 +229,13 @@ export default function NADFeature() {
                 delay: 0.12,
                 ease: [0.22, 1, 0.36, 1],
               }}
-              className="mt-16 max-w-[540px] text-[clamp(1.8rem,3.3vw,3.35rem)] font-light leading-[1.03] tracking-[-0.045em] text-white/90"
-            >
-              The molecule behind
+              className="mt-4 max-w-[700px] text-[clamp(1.8rem,3.3vw,3.35rem)] font-light leading-[1.03] tracking-[-0.045em] text-white/90"
+            ><br />
               <br />
+
+              The molecule behind
+               <br />
+              
               <span className="text-white/45">
                 cellular energy.
               </span>
@@ -247,7 +250,7 @@ export default function NADFeature() {
                 duration: 0.8,
                 delay: 0.22,
               }}
-              className="mt-8 max-w-[480px] text-[13px] leading-7 text-white/40"
+              className="mt-10 max-w-[480px] text-[20px] leading-7 text-white/40"
             >
               NAD+ is a naturally occurring coenzyme involved in
               cellular energy metabolism and redox processes.

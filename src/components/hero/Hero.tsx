@@ -174,7 +174,7 @@ export default function Hero() {
       delay: reducedMotion ? 0 : 0.18,
       duration: reducedMotion ? 0.01 : 0.5,
     }}
-    className="relative top-[24px] mr-2 flex items-center"
+    className="relative top-[32px] mr-2 flex items-center"
     aria-hidden="true"
   >
     <span className="h-px w-5 bg-gradient-to-r from-transparent to-[#28B8C8]/70" />
@@ -185,7 +185,7 @@ export default function Hero() {
   </motion.span>
 
   {/* EYEBROW */}
-  <span className="relative top-[25px] whitespace-nowrap text-[8px] font-medium uppercase tracking-[0.32em] text-white/60 sm:text-[9px]">
+  <span className="relative top-[32px] whitespace-nowrap text-[8px] font-medium uppercase tracking-[0.32em] text-white/60 sm:text-[9px]">
   NOURISH • RECHARGE • RESTORE
 </span>
 
@@ -203,7 +203,7 @@ export default function Hero() {
       delay: reducedMotion ? 0 : 0.18,
       duration: reducedMotion ? 0.01 : 0.5,
     }}
-    className="relative top-[24px] ml-2 flex items-center"
+    className="relative top-[32px] ml-2 flex items-center"
     aria-hidden="true"
   >
     <span className="mr-[-1px] text-[15px] font-light leading-none text-[#28B8C8]">
@@ -236,7 +236,7 @@ export default function Hero() {
               fontFamily:
                 '"Inter", "Helvetica Neue", Arial, sans-serif',
             }}
-            className="mt-5 relative top-[18px] flex max-w-[850px] flex-col gap-[0.10em] text-[clamp(2.2rem,4.2vw,5rem)] font-light leading-[0.9] tracking-[-0.05em] text-[#F5F0E7]"
+            className="mt-6 relative top-[24px] flex max-w-[px] flex-col gap-[0.10em] text-[clamp(2.2rem,4.2vw,5rem)] font-light leading-[0.9] tracking-[-0.05em] text-[#F5F0E7]"
           >
             {/* Precision Nutrition */}
             <span className="block">
@@ -321,7 +321,7 @@ export default function Hero() {
               SUPPORTING COPY
           ===================================================== */}
 
-          <div className="mt-25 grid gap-8 md:grid-cols-12 md:items-end md:gap-8">
+          <div className="mt-13 grid gap-8 md:grid-cols-12 md:items-end md:gap-8">
             <motion.p
               initial={{
                 opacity: 0,
@@ -336,7 +336,7 @@ export default function Hero() {
                 duration: reducedMotion ? 0.01 : 0.7,
                 ease: [0.16, 1, 0.3, 1] as const,
               }}
-              className="mt-25 whitespace-nowrap text-[19px] font-light not-italic leading-[1.10] tracking-[-0.01em] text-white/80 sm:text-[17px] md:text-[19px]"
+              className="mt-0 whitespace-nowrap text-[19px] font-light not-italic leading-[1.10] tracking-[-0.01em] text-white/80 sm:text-[17px] md:text-[19px]"
             >
               {/* First supporting line */}
               Physician-led advanced{" "}
@@ -403,7 +403,7 @@ export default function Hero() {
         reducedMotion
           ? undefined
           : {
-              y:1,
+              y:8,
               scale: 1.02,
             }
       }
@@ -449,7 +449,7 @@ export default function Hero() {
         reducedMotion
           ? undefined
           : {
-              y: 1,
+              y: 8,
               scale: 1.02,
             }
       }
@@ -469,7 +469,7 @@ export default function Hero() {
       <span className="flex items-center gap-3">
         EXPLORE PROTOCOLS
 
-        <span className="text-[13px] transition-transform duration-500 group-hover:translate-x-1">
+        <span className="text-[12px] transition-transform duration-500 group-hover:translate-x-1">
           →
         </span>
       </span>

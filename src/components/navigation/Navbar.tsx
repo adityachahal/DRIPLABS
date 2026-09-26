@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { useEffect, useRef, useState, type ReactNode } from "react";
 
 /* =========================================================
@@ -12,19 +12,19 @@ import { useEffect, useRef, useState, type ReactNode } from "react";
 function ChevronDown({ open = false }: { open?: boolean }) {
   return (
     <svg
-      width="9"
-      height="9"
+      width="10"
+      height="10"
       viewBox="0 0 12 12"
       fill="none"
       aria-hidden="true"
-      className={`shrink-0 transition-transform duration-200 ${
+      className={`shrink-0 transition-transform duration-300 ${
         open ? "rotate-180" : ""
       }`}
     >
       <path
         d="M3 4.5L6 7.5L9 4.5"
         stroke="currentColor"
-        strokeWidth="1.2"
+        strokeWidth="1.15"
         strokeLinecap="round"
         strokeLinejoin="round"
       />
@@ -35,8 +35,8 @@ function ChevronDown({ open = false }: { open?: boolean }) {
 function ChevronRight() {
   return (
     <svg
-      width="10"
-      height="10"
+      width="11"
+      height="11"
       viewBox="0 0 12 12"
       fill="none"
       aria-hidden="true"
@@ -55,8 +55,8 @@ function ChevronRight() {
 function ArrowRight() {
   return (
     <svg
-      width="12"
-      height="12"
+      width="13"
+      height="13"
       viewBox="0 0 13 13"
       fill="none"
       aria-hidden="true"
@@ -75,8 +75,8 @@ function ArrowRight() {
 function SearchIcon() {
   return (
     <svg
-      width="15"
-      height="15"
+      width="16"
+      height="16"
       viewBox="0 0 18 18"
       fill="none"
       aria-hidden="true"
@@ -101,8 +101,8 @@ function SearchIcon() {
 function MapPinIcon() {
   return (
     <svg
-      width="14"
-      height="14"
+      width="15"
+      height="15"
       viewBox="0 0 18 18"
       fill="none"
       aria-hidden="true"
@@ -125,22 +125,22 @@ function MapPinIcon() {
 
 function MenuIcon({ open }: { open: boolean }) {
   return (
-    <span className="relative block h-4 w-5" aria-hidden="true">
+    <span className="relative block h-5 w-6" aria-hidden="true">
       <span
-        className={`absolute left-0 h-px w-5 bg-current transition-all duration-200 ${
-          open ? "top-[7px] rotate-45" : "top-[2px]"
+        className={`absolute left-0 h-px w-6 bg-current transition-all duration-300 ${
+          open ? "top-[9px] rotate-45" : "top-[3px]"
         }`}
       />
 
       <span
-        className={`absolute left-0 top-[7px] h-px w-5 bg-current transition-opacity duration-150 ${
+        className={`absolute left-0 top-[9px] h-px w-6 bg-current transition-opacity duration-200 ${
           open ? "opacity-0" : "opacity-100"
         }`}
       />
 
       <span
-        className={`absolute left-0 h-px w-5 bg-current transition-all duration-200 ${
-          open ? "top-[7px] -rotate-45" : "top-[12px]"
+        className={`absolute left-0 h-px w-6 bg-current transition-all duration-300 ${
+          open ? "top-[9px] -rotate-45" : "top-[15px]"
         }`}
       />
     </span>
@@ -162,11 +162,7 @@ const wellnessPaths = [
   "Women's Wellness",
 ];
 
-const featuredLinks = [
-  "NADx",
-  "Signature Protocols",
-  "Membership",
-];
+const featuredLinks = ["NADx", "Signature Protocols", "Membership"];
 
 const experienceItems = [
   {
@@ -275,33 +271,19 @@ type MenuKey =
 ========================================================= */
 
 export default function Navbar() {
-  const [activeMenu, setActiveMenu] =
-    useState<MenuKey | null>(null);
+  const [activeMenu, setActiveMenu] = useState<MenuKey | null>(null);
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const [mobileSection, setMobileSection] = useState<MenuKey | null>(null);
+  const [scrolled, setScrolled] = useState(false);
 
-  const [mobileOpen, setMobileOpen] =
-    useState(false);
+  const openTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  const [mobileSection, setMobileSection] =
-    useState<MenuKey | null>(null);
-
-  const [scrolled, setScrolled] =
-    useState(false);
-
-  const openTimer = useRef<ReturnType<typeof setTimeout> | null>(
-    null,
-  );
-
-  const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(
-    null,
-  );
-
-  /* =======================================================
-     SCROLL
-  ======================================================= */
+  const reducedMotion = useReducedMotion();
 
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
+      setScrolled(window.scrollY > 40);
     };
 
     handleScroll();
@@ -315,10 +297,6 @@ export default function Navbar() {
     };
   }, []);
 
-  /* =======================================================
-     MOBILE BODY LOCK
-  ======================================================= */
-
   useEffect(() => {
     document.body.style.overflow = mobileOpen ? "hidden" : "";
 
@@ -327,9 +305,19 @@ export default function Navbar() {
     };
   }, [mobileOpen]);
 
-  /* =======================================================
-     HOVER TIMERS
-  ======================================================= */
+  useEffect(() => {
+    const handleEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        closeAll();
+      }
+    };
+
+    window.addEventListener("keydown", handleEscape);
+
+    return () => {
+      window.removeEventListener("keydown", handleEscape);
+    };
+  }, []);
 
   const clearTimers = () => {
     if (openTimer.current) {
@@ -346,17 +334,23 @@ export default function Navbar() {
   const openMenu = (menu: MenuKey) => {
     clearTimers();
 
-    openTimer.current = setTimeout(() => {
-      setActiveMenu(menu);
-    }, 100);
+    openTimer.current = setTimeout(
+      () => {
+        setActiveMenu(menu);
+      },
+      reducedMotion ? 0 : 80,
+    );
   };
 
   const closeMenu = () => {
     clearTimers();
 
-    closeTimer.current = setTimeout(() => {
-      setActiveMenu(null);
-    }, 110);
+    closeTimer.current = setTimeout(
+      () => {
+        setActiveMenu(null);
+      },
+      reducedMotion ? 0 : 120,
+    );
   };
 
   const keepMenuOpen = () => {
@@ -384,23 +378,29 @@ export default function Navbar() {
 
       <header
         className={[
-          "fixed inset-x-0 top-[40px] z-[100]",
-          "transition-all duration-300",
+          "fixed inset-x-0 top-0 z-[100]",
+          "transition-all duration-500",
           scrolled
-            ? "border-b border-white/10 bg-white/[0.72] shadow-[0_1px_18px_rgba(0,0,0,0.04)] backdrop-blur-xl"
-            : "border-b border-white/10 bg-transparent",
+            ? "border-b border-[#241B16]/10 bg-[#F4F0E8]/90 text-[#241B16] shadow-[0_8px_30px_rgba(36,27,22,0.05)] backdrop-blur-xl"
+            : "border-b border-white/10 bg-transparent text-white",
         ].join(" ")}
       >
-        <div className="mx-auto flex h-[52px] max-w-[1800px] items-start px-5 pt-1.5 sm:px-7 lg:px-10 xl:px-12">
-          {/* =================================================
-              LOGO
-          ================================================= */}
+        <div
+          className={[
+            "mx-auto flex max-w-[1800px] items-center",
+            "px-5 sm:px-7 lg:px-10 xl:px-12",
+            "h-[72px] lg:h-[78px]",
+            "transition-all duration-500",
+            scrolled ? "lg:h-[70px]" : "",
+          ].join(" ")}
+        >
+          {/* LOGO */}
 
           <Link
             href="/"
             onClick={closeAll}
             aria-label="DRIPLABS home"
-            className="group flex shrink-0 items-center pt-[2px]"
+            className="group flex shrink-0 items-center"
           >
             <Image
               src="/images/brand/driplabs-logo.webp"
@@ -408,7 +408,13 @@ export default function Navbar() {
               width={130}
               height={44}
               priority
-              className="h-auto w-[108px] object-contain transition-opacity duration-200 group-hover:opacity-80 sm:w-[116px]"
+              className={[
+                "h-auto w-[108px] object-contain",
+                "transition-all duration-300",
+                "sm:w-[116px]",
+                scrolled ? "brightness-[0.65]" : "",
+                "group-hover:opacity-70",
+              ].join(" ")}
             />
           </Link>
 
@@ -418,9 +424,9 @@ export default function Navbar() {
 
           <nav
             aria-label="Primary navigation"
-            className="ml-auto hidden h-[50px] items-start lg:flex"
+            className="ml-auto hidden lg:flex"
           >
-            <div className="flex h-full items-start gap-4 pt-[7px] xl:gap-5">
+            <div className="flex items-center gap-5 xl:gap-6 2xl:gap-7">
               <DesktopNavItem
                 label="EXPLORE"
                 menu="explore"
@@ -428,6 +434,7 @@ export default function Navbar() {
                 openMenu={openMenu}
                 closeMenu={closeMenu}
                 keepMenuOpen={keepMenuOpen}
+                scrolled={scrolled}
               >
                 <ExploreDropdown onClose={closeAll} />
               </DesktopNavItem>
@@ -439,6 +446,7 @@ export default function Navbar() {
                 openMenu={openMenu}
                 closeMenu={closeMenu}
                 keepMenuOpen={keepMenuOpen}
+                scrolled={scrolled}
               >
                 <ExperienceDropdown onClose={closeAll} />
               </DesktopNavItem>
@@ -450,6 +458,7 @@ export default function Navbar() {
                 openMenu={openMenu}
                 closeMenu={closeMenu}
                 keepMenuOpen={keepMenuOpen}
+                scrolled={scrolled}
               >
                 <ScienceDropdown onClose={closeAll} />
               </DesktopNavItem>
@@ -461,6 +470,7 @@ export default function Navbar() {
                 openMenu={openMenu}
                 closeMenu={closeMenu}
                 keepMenuOpen={keepMenuOpen}
+                scrolled={scrolled}
               >
                 <CircleDropdown onClose={closeAll} />
               </DesktopNavItem>
@@ -472,6 +482,7 @@ export default function Navbar() {
                 openMenu={openMenu}
                 closeMenu={closeMenu}
                 keepMenuOpen={keepMenuOpen}
+                scrolled={scrolled}
               >
                 <LocationsDropdown onClose={closeAll} />
               </DesktopNavItem>
@@ -483,69 +494,68 @@ export default function Navbar() {
                 openMenu={openMenu}
                 closeMenu={closeMenu}
                 keepMenuOpen={keepMenuOpen}
+                scrolled={scrolled}
               >
                 <PartnersDropdown onClose={closeAll} />
               </DesktopNavItem>
             </div>
           </nav>
 
-          {/* =================================================
-              DESKTOP ACTIONS
-          ================================================= */}
+          {/* DESKTOP ACTIONS */}
 
-          <div className="ml-5 hidden items-start gap-4 pt-[5px] lg:flex xl:ml-6">
+          <div className="ml-5 hidden items-center gap-3 lg:flex xl:ml-6">
+            <Link
+              href="/#locations"
+              onClick={closeAll}
+              aria-label="Find a DRIPLABS location"
+              className="transition-opacity duration-300 hover:opacity-60"
+            >
+              <MapPinIcon />
+            </Link>
+
             <button
               type="button"
               aria-label="Search"
-              className="pt-[2px] text-white transition-opacity duration-200 hover:opacity-55"
+              className="transition-opacity duration-300 hover:opacity-60"
             >
               <SearchIcon />
             </button>
 
             <Link
-              href="/book"
+              href="/contact"
               onClick={closeAll}
-              className="group inline-flex h-[30px] items-center gap-2 rounded-full bg-[#1d1d1f] px-[15px] text-[7px] font-medium uppercase tracking-[0.14em] text-white transition-all duration-200 hover:scale-[1.015] hover:bg-[#333]"
+              className={[
+                "group inline-flex items-center gap-2",
+                "border border-current px-4 py-2",
+                "text-[8px] font-medium uppercase tracking-[0.16em]",
+                "transition-all duration-300",
+                "hover:bg-current hover:text-[#F4F0E8]",
+              ].join(" ")}
             >
-              <span>BEGIN YOUR JOURNEY</span>
-
-              <span className="transition-transform duration-200 group-hover:translate-x-0.5">
-                <ArrowRight />
-              </span>
+              Begin Your Journey
+              <ArrowRight />
             </Link>
-
-            <button
-              type="button"
-              aria-label="Open navigation"
-              onClick={() => setMobileOpen(true)}
-              className="pt-[1px] text-white transition-opacity duration-200 hover:opacity-55"
-            >
-              <MenuIcon open={false} />
-            </button>
           </div>
 
-          {/* =================================================
-              MOBILE
-          ================================================= */}
+          {/* MOBILE MENU BUTTON */}
 
-          <div className="ml-auto flex items-center gap-4 lg:hidden">
-            <Link
-              href="/book"
-              onClick={closeAll}
-              className="hidden h-[32px] items-center rounded-full bg-[#1d1d1f] px-4 text-[7px] font-medium uppercase tracking-[0.14em] text-white sm:inline-flex"
-            >
-              BEGIN YOUR JOURNEY
-            </Link>
-
-            <button
-              type="button"
-              aria-label="Open navigation"
-              onClick={() => setMobileOpen(true)}
-              className="text-white"
-            >
-              <MenuIcon open={mobileOpen} />
-            </button>
-          </div>
+          <button
+            type="button"
+            aria-label={
+              mobileOpen ? "Close menu" : "Open menu"
+            }
+            aria-expanded={mobileOpen}
+            onClick={() => {
+              setMobileOpen((current) => !current);
+              setActiveMenu(null);
+            }}
+            className={[
+              "ml-auto flex items-center justify-center lg:hidden",
+              "transition-opacity duration-300 hover:opacity-60",
+            ].join(" ")}
+          >
+            <MenuIcon open={mobileOpen} />
+          </button>
         </div>
       </header>
 
@@ -556,61 +566,51 @@ export default function Navbar() {
       <AnimatePresence>
         {mobileOpen && (
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.2 }}
-            className="fixed inset-0 z-[200] bg-white lg:hidden"
+            initial={{
+              opacity: 0,
+            }}
+            animate={{
+              opacity: 1,
+            }}
+            exit={{
+              opacity: 0,
+            }}
+            transition={{
+              duration: reducedMotion ? 0 : 0.35,
+              ease: [0.22, 1, 0.36, 1],
+            }}
+            className="fixed inset-0 z-[90] overflow-y-auto bg-[#F4F0E8] text-[#241B16] lg:hidden"
           >
-            <div className="flex h-full flex-col">
-              <div className="flex h-[58px] shrink-0 items-center justify-between border-b border-black/[0.08] px-5 sm:px-7">
-                <Link
-                  href="/"
-                  onClick={closeAll}
-                  aria-label="DRIPLABS home"
-                >
-                  <Image
-                    src="/images/brand/driplabs-logo.webp"
-                    alt="DRIPLABS"
-                    width={130}
-                    height={44}
-                    className="h-auto w-[104px] object-contain"
-                  />
-                </Link>
-
-                <button
-                  type="button"
-                  aria-label="Close navigation"
-                  onClick={() => setMobileOpen(false)}
-                  className="text-[#1d1d1f]"
-                >
-                  <MenuIcon open={true} />
-                </button>
-              </div>
-
-              <div className="flex-1 overflow-y-auto px-5 pb-8 sm:px-7">
+            <div className="min-h-screen px-5 pb-12 pt-[96px] sm:px-7">
+              <div className="mx-auto max-w-[760px]">
                 <MobileAccordion
-                  title="EXPLORE"
+                  title="Explore"
                   open={mobileSection === "explore"}
                   onClick={() =>
                     toggleMobileSection("explore")
                   }
                 >
-                  <MobileExplore onClose={closeAll} />
+                  <MobileExplore
+                    onClose={closeAll}
+                    large
+                  />
                 </MobileAccordion>
 
                 <MobileAccordion
-                  title="EXPERIENCE"
+                  title="Experience"
                   open={mobileSection === "experience"}
                   onClick={() =>
                     toggleMobileSection("experience")
                   }
                 >
-                  <MobileExperience onClose={closeAll} />
+                  <MobileExperience
+                    onClose={closeAll}
+                    large
+                  />
                 </MobileAccordion>
 
                 <MobileAccordion
-                  title="SCIENCE"
+                  title="Science"
                   open={mobileSection === "science"}
                   onClick={() =>
                     toggleMobileSection("science")
@@ -620,11 +620,12 @@ export default function Navbar() {
                     links={scienceLinks}
                     href="/science"
                     onClose={closeAll}
+                    large
                   />
                 </MobileAccordion>
 
                 <MobileAccordion
-                  title="CIRCLE"
+                  title="Circle"
                   open={mobileSection === "circle"}
                   onClick={() =>
                     toggleMobileSection("circle")
@@ -634,37 +635,55 @@ export default function Navbar() {
                     links={circleLinks}
                     href="/circle"
                     onClose={closeAll}
+                    large
                   />
                 </MobileAccordion>
 
                 <MobileAccordion
-                  title="LOCATIONS"
+                  title="Locations"
                   open={mobileSection === "locations"}
                   onClick={() =>
                     toggleMobileSection("locations")
                   }
                 >
-                  <MobileLocations onClose={closeAll} />
+                  <MobileLocations
+                    onClose={closeAll}
+                    large
+                  />
                 </MobileAccordion>
 
                 <MobileAccordion
-                  title="FOR PARTNERS"
+                  title="For Partners"
                   open={mobileSection === "partners"}
                   onClick={() =>
                     toggleMobileSection("partners")
                   }
                 >
-                  <MobilePartners onClose={closeAll} />
+                  <MobilePartners
+                    onClose={closeAll}
+                    large
+                  />
                 </MobileAccordion>
 
-                <Link
-                  href="/book"
-                  onClick={closeAll}
-                  className="mt-7 flex h-[48px] items-center justify-between rounded-full bg-[#1d1d1f] px-5 text-[9px] font-medium uppercase tracking-[0.17em] text-white"
-                >
-                  BEGIN YOUR JOURNEY
-                  <ArrowRight />
-                </Link>
+                <div className="mt-8 grid gap-3 border-t border-[#241B16]/10 pt-8">
+                  <Link
+                    href="/contact"
+                    onClick={closeAll}
+                    className="inline-flex min-h-[54px] items-center justify-between border border-[#241B16] px-5 text-[11px] font-medium uppercase tracking-[0.14em]"
+                  >
+                    Begin Your Journey
+                    <ArrowRight />
+                  </Link>
+
+                  <Link
+                    href="/#locations"
+                    onClick={closeAll}
+                    className="inline-flex min-h-[54px] items-center justify-between border border-[#241B16]/10 px-5 text-[11px] font-medium uppercase tracking-[0.14em]"
+                  >
+                    Find Your Nearest
+                    <MapPinIcon />
+                  </Link>
+                </div>
               </div>
             </div>
           </motion.div>
@@ -685,6 +704,7 @@ function DesktopNavItem({
   openMenu,
   closeMenu,
   keepMenuOpen,
+  scrolled,
   children,
 }: {
   label: string;
@@ -693,87 +713,68 @@ function DesktopNavItem({
   openMenu: (menu: MenuKey) => void;
   closeMenu: () => void;
   keepMenuOpen: () => void;
+  scrolled: boolean;
   children: ReactNode;
 }) {
-  const isActive = activeMenu === menu;
+  const open = activeMenu === menu;
 
   return (
     <div
-      className="relative flex h-full items-start"
+      className="relative"
       onMouseEnter={() => openMenu(menu)}
       onMouseLeave={closeMenu}
     >
       <button
         type="button"
-        aria-expanded={isActive}
-        onClick={() => {
-          if (isActive) {
-            closeMenu();
-          } else {
-            openMenu(menu);
-          }
-        }}
+        aria-expanded={open}
+        aria-haspopup="true"
+        onFocus={() => openMenu(menu)}
+        onBlur={closeMenu}
         className={[
-          "relative flex items-center gap-1",
-          "text-[7px] font-medium uppercase tracking-[0.12em]",
-          "text-white",
-          "transition-opacity duration-200",
-          isActive
-            ? "opacity-100"
-            : "opacity-85 hover:opacity-100",
+          "group flex items-center gap-[3px]",
+          "h-7 whitespace-nowrap",
+          "text-[8px] xl:text-[8.5px] 2xl:text-[9px]",
+          "font-normal uppercase tracking-[0.19em]",
+          "leading-none",
+          "transition-colors duration-300",
+
+          scrolled
+            ? "text-[#241B16] hover:text-[#006F8F]"
+            : "text-white hover:text-white/65",
         ].join(" ")}
       >
-        <span>{label}</span>
+        {label}
 
-        <span className="scale-[0.72] text-white/80">
-          <ChevronDown open={isActive} />
+        <span className="scale-[0.7] opacity-80">
+          <ChevronDown open={open} />
         </span>
-
-        <span
-          className={[
-            "absolute -bottom-[7px] left-0 h-px bg-white",
-            "transition-all duration-200",
-            isActive ? "w-full" : "w-0",
-          ].join(" ")}
-        />
       </button>
 
-      {/* Hover bridge */}
-
-      {isActive && (
-        <div
-          className="absolute left-1/2 top-full h-3 w-full -translate-x-1/2"
-          aria-hidden="true"
-        />
-      )}
-
-      {/* Isolated dropdown */}
-
       <AnimatePresence>
-        {isActive && (
+        {open && (
           <motion.div
             initial={{
               opacity: 0,
-              y: 5,
-              scale: 0.985,
+              y: 8,
+              filter: "blur(4px)",
             }}
             animate={{
               opacity: 1,
               y: 0,
-              scale: 1,
+              filter: "blur(0px)",
             }}
             exit={{
               opacity: 0,
-              y: -3,
-              scale: 0.99,
+              y: 6,
+              filter: "blur(3px)",
             }}
             transition={{
-              duration: 0.17,
+              duration: 0.25,
               ease: [0.22, 1, 0.36, 1],
             }}
             onMouseEnter={keepMenuOpen}
             onMouseLeave={closeMenu}
-            className="absolute left-1/2 top-[calc(100%+10px)] -translate-x-1/2"
+            className="absolute left-1/2 top-full -translate-x-1/2 pt-3"
           >
             {children}
           </motion.div>
@@ -797,9 +798,9 @@ function DropdownFrame({
   return (
     <div
       className={[
-        "rounded-[14px] border border-black/[0.07]",
-        "bg-white/95 backdrop-blur-xl",
-        "shadow-[0_18px_50px_rgba(0,0,0,0.10),0_2px_8px_rgba(0,0,0,0.04)]",
+        "border border-white/30",
+        "bg-[#F4EEE4]/[0.95] backdrop-blur-2xl",
+        "shadow-[0_20px_60px_rgba(28,18,12,0.18),0_4px_16px_rgba(28,18,12,0.08)]",
         className,
       ].join(" ")}
     >
@@ -820,12 +821,12 @@ function DropdownHeader({
   subtitle: string;
 }) {
   return (
-    <div className="mb-5">
-      <h3 className="text-[12px] font-medium tracking-[-0.01em] text-[#1d1d1f]">
+    <div className="mb-6">
+      <h3 className="font-[var(--font-heading)] text-[24px] leading-none tracking-[-0.025em] text-[#006F8F]">
         {title}
       </h3>
 
-      <p className="mt-1.5 text-[9px] leading-4 text-[#86868b]">
+      <p className="mt-1.5 text-[10px] leading-4 tracking-[0.02em] text-[#6F5747]">
         {subtitle}
       </p>
     </div>
@@ -833,7 +834,7 @@ function DropdownHeader({
 }
 
 /* =========================================================
-   EXPLORE
+   EXPLORE DROPDOWN
 ========================================================= */
 
 function ExploreDropdown({
@@ -842,50 +843,58 @@ function ExploreDropdown({
   onClose: () => void;
 }) {
   return (
-    <DropdownFrame className="w-[310px] p-5">
+    <DropdownFrame className="w-[295px] p-4">
       <DropdownHeader
         title="Explore"
-        subtitle="Discover your wellness path"
+        subtitle="Find your path to better living"
       />
 
       <div>
-        <div className="mb-3 flex items-center justify-between border-t border-black/[0.08] pt-4">
-          <span className="text-[10px] font-medium text-[#1d1d1f]">
+        <div className="mb-4 flex items-center justify-between border-t border-[#241B16]/10 pt-4">
+          <span className="text-[11px] font-medium uppercase tracking-[0.16em] text-[#756C64]">
             Wellness Paths
           </span>
 
           <ChevronRight />
         </div>
 
-        <div className="grid grid-cols-2 gap-x-5 gap-y-2">
+        <div className="grid grid-cols-2 gap-x-7 gap-y-3">
           {wellnessPaths.map((item) => (
-            <DropdownLink
+            <Link
               key={item}
-              label={item}
               href="/protocols"
-              onClose={onClose}
-            />
+              onClick={onClose}
+              className="text-[10px] leading-4 text-[#241B16] transition-colors duration-200 hover:text-[#F8FAF8]"
+            >
+              {item}
+            </Link>
           ))}
         </div>
       </div>
 
-      <div className="mt-5 border-t border-black/[0.08] pt-4">
-        <div className="mb-3 flex items-center justify-between">
-          <span className="text-[10px] font-medium text-[#1d1d1f]">
+      <div className="mt-6 border-t border-[#241B16]/10 pt-4">
+        <div className="mb-4 flex items-center justify-between">
+          <span className="text-[11px] font-medium uppercase tracking-[0.16em] text-[#756C64]">
             Featured
           </span>
 
           <ChevronRight />
         </div>
 
-        <div className="space-y-2">
+        <div className="space-y-3">
           {featuredLinks.map((item) => (
-            <DropdownLink
+            <Link
               key={item}
-              label={item}
               href="/protocols"
-              onClose={onClose}
-            />
+              onClick={onClose}
+              className="group flex items-center justify-between gap-3 text-[10px] leading-4 text-[#241B16] transition-colors duration-200 hover:text-[#6F5747]"
+            >
+              <span>{item}</span>
+
+              <span className="translate-x-[-3px] opacity-0 transition-all duration-200 group-hover:translate-x-0 group-hover:opacity-100">
+                <ChevronRight />
+              </span>
+            </Link>
           ))}
         </div>
       </div>
@@ -894,7 +903,7 @@ function ExploreDropdown({
 }
 
 /* =========================================================
-   EXPERIENCE
+   EXPERIENCE DROPDOWN
 ========================================================= */
 
 function ExperienceDropdown({
@@ -903,7 +912,7 @@ function ExperienceDropdown({
   onClose: () => void;
 }) {
   return (
-    <DropdownFrame className="w-[325px] p-5">
+    <DropdownFrame className="w-[305px] p-4">
       <DropdownHeader
         title="Experience"
         subtitle="How you can experience DRIPLABS"
@@ -917,11 +926,17 @@ function ExperienceDropdown({
             onClick={onClose}
             className="group block"
           >
-            <span className="block text-[10px] font-medium text-[#1d1d1f] transition-colors duration-200 group-hover:text-[#555]">
-              {item.title}
-            </span>
+            <div className="flex items-center justify-between gap-3">
+              <span className="text-[11px] font-medium text-[#241B16] transition-colors duration-200 group-hover:text-[#6F5747]">
+                {item.title}
+              </span>
 
-            <span className="mt-1 block text-[8px] leading-3.5 text-[#86868b]">
+              <span className="translate-x-[-3px] opacity-0 transition-all duration-200 group-hover:translate-x-0 group-hover:opacity-100">
+                <ChevronRight />
+              </span>
+            </div>
+
+            <span className="mt-1 block text-[9px] leading-4 text-[#6F5747]">
               {item.description}
             </span>
           </Link>
@@ -932,7 +947,7 @@ function ExperienceDropdown({
 }
 
 /* =========================================================
-   SCIENCE
+   SCIENCE DROPDOWN
 ========================================================= */
 
 function ScienceDropdown({
@@ -941,19 +956,19 @@ function ScienceDropdown({
   onClose: () => void;
 }) {
   return (
-    <DropdownFrame className="w-[255px] p-5">
+    <DropdownFrame className="w-[240px] p-4">
       <DropdownHeader
         title="Science"
-        subtitle="Evidence. Transparency. Trust."
+        subtitle="The thinking behind the experience"
       />
 
-      <div className="space-y-2.5">
+      <div className="space-y-3">
         {scienceLinks.map((item) => (
           <DropdownLink
             key={item}
             label={item}
             href="/science"
-            onClose={onClose}
+            onClick={onClose}
           />
         ))}
       </div>
@@ -962,7 +977,7 @@ function ScienceDropdown({
 }
 
 /* =========================================================
-   CIRCLE
+   CIRCLE DROPDOWN
 ========================================================= */
 
 function CircleDropdown({
@@ -971,19 +986,19 @@ function CircleDropdown({
   onClose: () => void;
 }) {
   return (
-    <DropdownFrame className="w-[235px] p-5">
+    <DropdownFrame className="w-[220px] p-4">
       <DropdownHeader
         title="Circle"
-        subtitle="More than a membership"
+        subtitle="Membership, access & benefits"
       />
 
-      <div className="space-y-2.5">
+      <div className="space-y-3">
         {circleLinks.map((item) => (
           <DropdownLink
             key={item}
             label={item}
             href="/circle"
-            onClose={onClose}
+            onClick={onClose}
           />
         ))}
       </div>
@@ -992,7 +1007,7 @@ function CircleDropdown({
 }
 
 /* =========================================================
-   LOCATIONS
+   LOCATIONS DROPDOWN
 ========================================================= */
 
 function LocationsDropdown({
@@ -1001,38 +1016,31 @@ function LocationsDropdown({
   onClose: () => void;
 }) {
   return (
-    <DropdownFrame className="w-[220px] p-5">
+    <DropdownFrame className="w-[205px] p-4">
       <DropdownHeader
         title="Locations"
         subtitle="Find DRIPLABS near you"
       />
 
-      <div className="space-y-2.5">
+      <div className="space-y-3">
         {locationLinks.map((item) => (
           <DropdownLink
             key={item.label}
             label={item.label}
             href={item.href}
-            onClose={onClose}
+            onClick={onClose}
           />
         ))}
       </div>
 
-      <div className="mt-5 border-t border-black/[0.08] pt-4">
+      <div className="mt-5 border-t border-[#241B16]/10 pt-4">
         <Link
           href="/#locations"
           onClick={onClose}
-          className="group flex items-center gap-2 text-[9px] font-medium text-[#1d1d1f]"
+          className="flex items-center gap-3 text-[10px] font-medium uppercase tracking-[0.14em] text-[#241B16] transition-colors duration-200 hover:text-[#6F5747]"
         >
           <MapPinIcon />
-
-          <span className="transition-colors group-hover:text-[#666]">
-            Find Your Nearest
-          </span>
-
-          <span className="ml-auto transition-transform duration-200 group-hover:translate-x-0.5">
-            <ArrowRight />
-          </span>
+          Find Your Nearest
         </Link>
       </div>
     </DropdownFrame>
@@ -1040,7 +1048,7 @@ function LocationsDropdown({
 }
 
 /* =========================================================
-   PARTNERS
+   PARTNERS DROPDOWN
 ========================================================= */
 
 function PartnersDropdown({
@@ -1049,53 +1057,57 @@ function PartnersDropdown({
   onClose: () => void;
 }) {
   return (
-    <DropdownFrame className="w-[300px] p-5">
+    <DropdownFrame className="w-[280px] p-4">
       <DropdownHeader
         title="For Partners"
-        subtitle="Build the future with us"
+        subtitle="Build with DRIPLABS"
       />
 
-      <PartnerDropdownGroup
-        title="Physicians"
-        links={physicianLinks}
-        href="/physicians"
-        onClose={onClose}
-      />
+      <div className="space-y-5">
+        <PartnerDropdownGroup
+          title="Physicians"
+          links={physicianLinks}
+          href="/physicians"
+          onClose={onClose}
+        />
 
-      <PartnerDivider />
+        <PartnerDivider />
 
-      <PartnerDropdownGroup
-        title="Clinics & Centres"
-        links={clinicLinks}
-        href="/physicians"
-        onClose={onClose}
-      />
+        <PartnerDropdownGroup
+          title="Clinics & Centres"
+          links={clinicLinks}
+          href="/physicians"
+          onClose={onClose}
+        />
 
-      <PartnerDivider />
+        <PartnerDivider />
 
-      <PartnerDropdownGroup
-        title="Distributors"
-        links={distributorLinks}
-        href="/distributors"
-        onClose={onClose}
-      />
+        <PartnerDropdownGroup
+          title="Distributors"
+          links={distributorLinks}
+          href="/distributors"
+          onClose={onClose}
+        />
 
-      <PartnerDivider />
+        <PartnerDivider />
 
-      <PartnerDropdownGroup
-        title="Franchise"
-        links={franchiseLinks}
-        href="/partners"
-        onClose={onClose}
-      />
+        <PartnerDropdownGroup
+          title="Franchise"
+          links={franchiseLinks}
+          href="/partners"
+          onClose={onClose}
+        />
+      </div>
 
-      <Link
-        href="/contact"
-        onClick={onClose}
-        className="mt-4 inline-flex text-[9px] font-medium uppercase tracking-[0.12em] text-[#1d1d1f] underline decoration-black/20 underline-offset-4 transition-colors hover:decoration-black"
-      >
-        Enquire Now
-      </Link>
+      <div className="mt-5 border-t border-[#241B16]/10 pt-4">
+        <Link
+          href="/contact"
+          onClick={onClose}
+          className="inline-flex text-[10px] font-medium uppercase tracking-[0.14em] text-[#241B16] underline decoration-[#241B16]/20 underline-offset-4 transition-colors duration-200 hover:text-[#6F5747]"
+        >
+          Enquire Now
+        </Link>
+      </div>
     </DropdownFrame>
   );
 }
@@ -1107,25 +1119,39 @@ function PartnersDropdown({
 function DropdownLink({
   label,
   href,
-  onClose,
+  onClick,
 }: {
   label: string;
   href: string;
-  onClose: () => void;
+  onClick: () => void;
 }) {
   return (
     <Link
       href={href}
-      onClick={onClose}
-      className="group block text-[9px] leading-4 text-[#1d1d1f] transition-colors duration-150 hover:text-[#777]"
+      onClick={onClick}
+      className="group flex items-center justify-between gap-3 text-[10px] leading-4 text-[#241B16] transition-colors duration-200 hover:text-[#6F5747]"
     >
-      {label}
+      <span>{label}</span>
+
+      <span className="translate-x-[-3px] opacity-0 transition-all duration-200 group-hover:translate-x-0 group-hover:opacity-100">
+        <ChevronRight />
+      </span>
     </Link>
   );
 }
 
 /* =========================================================
-   PARTNER GROUP
+   PARTNER DIVIDER
+========================================================= */
+
+function PartnerDivider() {
+  return (
+    <div className="my-5 h-px bg-[#241B16]/8" />
+  );
+}
+
+/* =========================================================
+   PARTNER DROPDOWN GROUP
 ========================================================= */
 
 function PartnerDropdownGroup({
@@ -1144,18 +1170,18 @@ function PartnerDropdownGroup({
       <Link
         href={href}
         onClick={onClose}
-        className="text-[10px] font-medium text-[#1d1d1f]"
+        className="text-[11px] font-medium uppercase tracking-[0.14em] text-[#40362F] transition-colors duration-200 hover:text-[#6F5747]"
       >
         {title}
       </Link>
 
-      <div className="mt-2 space-y-1.5 pl-3">
+      <div className="mt-2 grid gap-1 pl-3">
         {links.map((item) => (
           <Link
             key={item}
             href={href}
             onClick={onClose}
-            className="block text-[8px] leading-3.5 text-[#86868b] transition-colors hover:text-[#1d1d1f]"
+            className="text-[9px] leading-4 text-[#6F5747] transition-colors duration-200 hover:text-[#241B16]"
           >
             {item}
           </Link>
@@ -1165,9 +1191,45 @@ function PartnerDropdownGroup({
   );
 }
 
-function PartnerDivider() {
+/* =========================================================
+   EDITORIAL MENU LINK
+========================================================= */
+
+function EditorialMenuLink({
+  href,
+  label,
+  description,
+  onClick,
+}: {
+  href: string;
+  label: string;
+  description?: string;
+  onClick?: () => void;
+}) {
   return (
-    <div className="my-4 h-px bg-black/[0.07]" />
+    <Link
+      href={href}
+      onClick={onClick}
+      className="group block border-b border-[#241B16]/10 py-4 transition-colors duration-300 last:border-b-0"
+    >
+      <div className="flex items-center justify-between gap-5">
+        <div>
+          <span className="block font-[var(--font-heading)] text-[clamp(1.8rem,4vw,3rem)] leading-none tracking-[-0.035em] text-[#241B16] transition-colors duration-300 group-hover:text-[#6F5747]">
+            {label}
+          </span>
+
+          {description ? (
+            <span className="mt-2 block max-w-[480px] text-[10px] leading-5 text-[#756C64]">
+              {description}
+            </span>
+          ) : null}
+        </div>
+
+        <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-[#241B16]/15 text-[#241B16] transition-all duration-300 group-hover:translate-x-1 group-hover:border-[#241B16]">
+          <ArrowRight />
+        </span>
+      </div>
+    </Link>
   );
 }
 
@@ -1187,18 +1249,20 @@ function MobileAccordion({
   children: ReactNode;
 }) {
   return (
-    <div className="border-b border-black/[0.08]">
+    <div className="border-b border-[#241B16]/10">
       <button
         type="button"
         onClick={onClick}
         aria-expanded={open}
-        className="flex min-h-[52px] w-full items-center justify-between text-left"
+        className="flex min-h-[76px] w-full items-center justify-between text-left"
       >
-        <span className="text-[11px] font-medium uppercase tracking-[0.15em] text-[#1d1d1f]">
+        <span className="font-[var(--font-heading)] text-[clamp(2rem,8vw,3rem)] leading-none tracking-[-0.035em]">
           {title}
         </span>
 
-        <ChevronDown open={open} />
+        <span className="flex h-9 w-9 items-center justify-center rounded-full border border-[#241B16]/15">
+          <ChevronDown open={open} />
+        </span>
       </button>
 
       <AnimatePresence initial={false}>
@@ -1217,12 +1281,12 @@ function MobileAccordion({
               opacity: 0,
             }}
             transition={{
-              duration: 0.2,
+              duration: 0.35,
               ease: [0.22, 1, 0.36, 1],
             }}
             className="overflow-hidden"
           >
-            <div className="pb-6 pt-1">
+            <div className="pb-7 pt-1">
               {children}
             </div>
           </motion.div>
@@ -1238,31 +1302,43 @@ function MobileAccordion({
 
 function MobileExplore({
   onClose,
+  large = false,
 }: {
   onClose: () => void;
+  large?: boolean;
 }) {
   return (
     <div>
-      <p className="mb-5 text-[9px] leading-4 text-[#86868b]">
+      <p className="mb-7 max-w-[360px] text-[10px] leading-5 text-[#756C64]">
         Discover your wellness path
       </p>
 
       <div>
-        <div className="mb-3 flex items-center justify-between border-t border-black/[0.08] pt-4">
-          <span className="text-[10px] font-medium">
+        <div className="mb-5 flex items-center justify-between border-t border-[#241B16]/10 pt-5">
+          <span className="text-[11px] font-medium uppercase tracking-[0.14em]">
             Wellness Paths
           </span>
 
           <ChevronRight />
         </div>
 
-        <div className="grid gap-3">
+        <div
+          className={
+            large
+              ? "grid grid-cols-2 gap-x-10 gap-y-4"
+              : "grid gap-3"
+          }
+        >
           {wellnessPaths.map((item) => (
             <Link
               key={item}
               href="/protocols"
               onClick={onClose}
-              className="text-[11px] text-[#1d1d1f]"
+              className={
+                large
+                  ? "text-[14px] leading-5 text-[#40362F] transition-colors hover:text-[#241B16]"
+                  : "text-[11px] text-[#40362F]"
+              }
             >
               {item}
             </Link>
@@ -1270,22 +1346,30 @@ function MobileExplore({
         </div>
       </div>
 
-      <div className="mt-5 border-t border-black/[0.08] pt-4">
-        <div className="mb-3 flex items-center justify-between">
-          <span className="text-[10px] font-medium">
+      <div className="mt-8 border-t border-[#241B16]/10 pt-5">
+        <div className="mb-5 flex items-center justify-between">
+          <span className="text-[11px] font-medium uppercase tracking-[0.14em]">
             Featured
           </span>
 
           <ChevronRight />
         </div>
 
-        <div className="grid gap-3">
+        <div
+          className={
+            large ? "grid gap-4" : "grid gap-3"
+          }
+        >
           {featuredLinks.map((item) => (
             <Link
               key={item}
               href="/protocols"
               onClick={onClose}
-              className="text-[11px] text-[#1d1d1f]"
+              className={
+                large
+                  ? "text-[14px] text-[#40362F]"
+                  : "text-[11px] text-[#40362F]"
+              }
             >
               {item}
             </Link>
@@ -1302,12 +1386,14 @@ function MobileExplore({
 
 function MobileExperience({
   onClose,
+  large = false,
 }: {
   onClose: () => void;
+  large?: boolean;
 }) {
   return (
-    <div className="space-y-5">
-      <p className="text-[9px] leading-4 text-[#86868b]">
+    <div className="space-y-6">
+      <p className="text-[10px] leading-5 text-[#756C64]">
         How you can experience DRIPLABS
       </p>
 
@@ -1316,13 +1402,25 @@ function MobileExperience({
           key={item.title}
           href={item.href}
           onClick={onClose}
-          className="block min-h-[44px]"
+          className="group block"
         >
-          <span className="block text-[11px] font-medium text-[#1d1d1f]">
+          <span
+            className={
+              large
+                ? "block text-[17px] font-medium text-[#241B16]"
+                : "block text-[11px] font-medium text-[#241B16]"
+            }
+          >
             {item.title}
           </span>
 
-          <span className="mt-1 block text-[9px] leading-4 text-[#86868b]">
+          <span
+            className={
+              large
+                ? "mt-1.5 block max-w-[420px] text-[11px] leading-5 text-[#756C64]"
+                : "mt-1 block text-[9px] leading-4 text-[#756C64]"
+            }
+          >
             {item.description}
           </span>
         </Link>
@@ -1339,10 +1437,12 @@ function MobileSimpleLinks({
   links,
   href,
   onClose,
+  large = false,
 }: {
   links: string[];
   href: string;
   onClose: () => void;
+  large?: boolean;
 }) {
   return (
     <div className="grid gap-1">
@@ -1351,7 +1451,12 @@ function MobileSimpleLinks({
           key={item}
           href={href}
           onClick={onClose}
-          className="flex min-h-[44px] items-center text-[11px] text-[#1d1d1f]"
+          className={[
+            "flex items-center transition-colors hover:text-[#756C64]",
+            large
+              ? "min-h-[48px] text-[17px]"
+              : "min-h-[44px] text-[11px]",
+          ].join(" ")}
         >
           {item}
         </Link>
@@ -1366,12 +1471,14 @@ function MobileSimpleLinks({
 
 function MobileLocations({
   onClose,
+  large = false,
 }: {
   onClose: () => void;
+  large?: boolean;
 }) {
   return (
     <div>
-      <p className="mb-4 text-[9px] leading-4 text-[#86868b]">
+      <p className="mb-5 text-[10px] leading-5 text-[#756C64]">
         Find DRIPLABS near you
       </p>
 
@@ -1381,18 +1488,28 @@ function MobileLocations({
             key={item.label}
             href={item.href}
             onClick={onClose}
-            className="flex min-h-[44px] items-center text-[11px] text-[#1d1d1f]"
+            className={[
+              "flex items-center",
+              large
+                ? "min-h-[48px] text-[17px]"
+                : "min-h-[44px] text-[11px]",
+            ].join(" ")}
           >
             {item.label}
           </Link>
         ))}
       </div>
 
-      <div className="mt-4 border-t border-black/[0.08] pt-4">
+      <div className="mt-5 border-t border-[#241B16]/10 pt-4">
         <Link
           href="/#locations"
           onClick={onClose}
-          className="flex min-h-[44px] items-center gap-3 text-[10px] font-medium text-[#1d1d1f]"
+          className={[
+            "flex items-center gap-3 font-medium",
+            large
+              ? "min-h-[48px] text-[11px]"
+              : "min-h-[44px] text-[10px]",
+          ].join(" ")}
         >
           <MapPinIcon />
           Find Your Nearest
@@ -1408,16 +1525,19 @@ function MobileLocations({
 
 function MobilePartners({
   onClose,
+  large = false,
 }: {
   onClose: () => void;
+  large?: boolean;
 }) {
   return (
-    <div className="space-y-6">
+    <div className="space-y-7">
       <MobilePartnerGroup
         title="Physicians"
         links={physicianLinks}
         href="/physicians"
         onClose={onClose}
+        large={large}
       />
 
       <MobilePartnerGroup
@@ -1425,6 +1545,7 @@ function MobilePartners({
         links={clinicLinks}
         href="/physicians"
         onClose={onClose}
+        large={large}
       />
 
       <MobilePartnerGroup
@@ -1432,6 +1553,7 @@ function MobilePartners({
         links={distributorLinks}
         href="/distributors"
         onClose={onClose}
+        large={large}
       />
 
       <MobilePartnerGroup
@@ -1439,12 +1561,13 @@ function MobilePartners({
         links={franchiseLinks}
         href="/partners"
         onClose={onClose}
+        large={large}
       />
 
       <Link
         href="/contact"
         onClick={onClose}
-        className="inline-flex min-h-[44px] items-center text-[9px] font-medium uppercase tracking-[0.14em] text-[#1d1d1f] underline decoration-black/20 underline-offset-4"
+        className="inline-flex min-h-[44px] items-center text-[11px] font-medium uppercase tracking-[0.14em] underline decoration-[#241B16]/20 underline-offset-4"
       >
         Enquire Now
       </Link>
@@ -1461,29 +1584,44 @@ function MobilePartnerGroup({
   links,
   href,
   onClose,
+  large = false,
 }: {
   title: string;
   links: string[];
   href: string;
   onClose: () => void;
+  large?: boolean;
 }) {
   return (
     <div>
       <Link
         href={href}
         onClick={onClose}
-        className="text-[11px] font-medium text-[#1d1d1f]"
+        className={
+          large
+            ? "text-[18px] font-medium"
+            : "text-[11px] font-medium"
+        }
       >
         {title}
       </Link>
 
-      <div className="mt-2 grid gap-1 pl-3">
+      <div
+        className={[
+          "mt-2 grid pl-3",
+          large ? "gap-1.5" : "gap-1",
+        ].join(" ")}
+      >
         {links.map((item) => (
           <Link
             key={item}
             href={href}
             onClick={onClose}
-            className="flex min-h-[40px] items-center text-[10px] text-[#86868b]"
+            className={
+              large
+                ? "flex min-h-[36px] items-center text-[13px] text-[#756C64]"
+                : "flex min-h-[40px] items-center text-[10px] text-[#756C64]"
+            }
           >
             {item}
           </Link>

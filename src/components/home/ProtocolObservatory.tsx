@@ -4,16 +4,13 @@ import {
   Suspense,
   useEffect,
   useMemo,
-  useRef,
   useState,
 } from "react";
 
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 
-import { Canvas, useFrame } from "@react-three/fiber";
+import { Canvas } from "@react-three/fiber";
 import {
-  Line,
-  OrbitControls,
   PerspectiveCamera,
   useGLTF,
 } from "@react-three/drei";
@@ -136,14 +133,14 @@ const allFamily = {
 };
 
 const familyColors: Record<WellnessFamily, string> = {
-  "Skin & Beauty": "#E7D49A",
-  "Cellular & Longevity": "#9BD9D7",
-  "Metabolic & Performance": "#D6B56D",
-  "Digestive & Systemic": "#A7D3C0",
-  "Women's Wellness": "#D8B8C8",
-  "Recovery & Immune": "#A7D0E8",
-  "Cognitive & Neuro": "#A9B7E8",
-  Musculoskeletal: "#D4C4A1",
+  "Skin & Beauty": "var(--color-accent-primary)",
+  "Cellular & Longevity": "var(--color-accent-primary)",
+  "Metabolic & Performance": "var(--color-accent-primary)",
+  "Digestive & Systemic": "var(--color-accent-primary)",
+  "Women's Wellness": "var(--color-accent-primary)",
+  "Recovery & Immune": "var(--color-accent-primary)",
+  "Cognitive & Neuro": "var(--color-accent-primary)",
+  Musculoskeletal: "var(--color-accent-primary)",
 };
 
 const familyKeywords: Record<WellnessFamily, string[]> = {
@@ -396,53 +393,31 @@ function AnatomyAsset({
 function PhysiologyParticles({
   active,
   color,
-  count = 100,
+  count = 46,
 }: {
   active: boolean;
   color: string;
   count?: number;
 }) {
-  const ref = useRef<THREE.Points>(null);
-
   const positions = useMemo(() => {
     const array = new Float32Array(count * 3);
 
-    for (let i = 0; i < count; i++) {
+    for (let i = 0; i < count; i += 1) {
       const theta = Math.random() * Math.PI * 2;
-      const radius = 0.65 + Math.random() * 1.55;
-      const y =
-        -2.1 + Math.random() * 4.2;
+      const radius = 0.7 + Math.random() * 1.45;
+      const y = -2 + Math.random() * 4;
 
-      array[i * 3] =
-        Math.cos(theta) * radius;
-
+      array[i * 3] = Math.cos(theta) * radius;
       array[i * 3 + 1] = y;
-
       array[i * 3 + 2] =
-        Math.sin(theta) * radius * 0.55;
+        Math.sin(theta) * radius * 0.5;
     }
 
     return array;
   }, [count]);
 
-  useFrame((state) => {
-    if (!ref.current) return;
-
-    ref.current.rotation.y =
-      state.clock.elapsedTime * (active ? 0.12 : 0.025);
-
-    const material =
-      ref.current.material as THREE.PointsMaterial;
-
-    material.opacity = THREE.MathUtils.lerp(
-      material.opacity,
-      active ? 0.72 : 0.08,
-      0.035
-    );
-  });
-
   return (
-    <points ref={ref}>
+    <points>
       <bufferGeometry>
         <bufferAttribute
           attach="attributes-position"
@@ -452,9 +427,9 @@ function PhysiologyParticles({
 
       <pointsMaterial
         color={color}
-        size={active ? 0.035 : 0.018}
+        size={active ? 0.026 : 0.012}
         transparent
-        opacity={active ? 0.72 : 0.08}
+        opacity={active ? 0.5 : 0.035}
         depthWrite={false}
         sizeAttenuation
       />
@@ -471,53 +446,51 @@ function NeuralField({
 }: {
   active: boolean;
 }) {
-  const group = useRef<THREE.Group>(null);
-
-  useFrame((state) => {
-    if (!group.current) return;
-
-    group.current.rotation.z =
-      Math.sin(state.clock.elapsedTime * 0.35) *
-      0.04;
-  });
-
   const lines = useMemo(() => {
-    return Array.from({ length: 12 }).map(
+    return Array.from({ length: 8 }).map(
       (_, index) => {
-        const y = 1.15 - index * 0.18;
+        const y = 1.05 - index * 0.22;
 
         return [
-          new THREE.Vector3(
-            -0.38,
-            y,
-            0.52
-          ),
-          new THREE.Vector3(
-            0,
-            y + 0.08,
-            0.68
-          ),
-          new THREE.Vector3(
-            0.38,
-            y - 0.03,
-            0.52
-          ),
+          new THREE.Vector3(-0.35, y, 0.52),
+          new THREE.Vector3(0, y + 0.07, 0.66),
+          new THREE.Vector3(0.35, y - 0.02, 0.52),
         ];
-      }
+      },
     );
   }, []);
 
+  if (!active) return null;
+
   return (
-    <group ref={group}>
+    <group>
       {lines.map((points, index) => (
-        <Line
-          key={index}
-          points={points}
-          color="#9BD9D7"
-          transparent
-          opacity={active ? 0.6 : 0}
-          lineWidth={1}
-        />
+        <line key={index}>
+          <bufferGeometry>
+            <bufferAttribute
+              attach="attributes-position"
+              args={[
+                new Float32Array([
+                  points[0].x,
+                  points[0].y,
+                  points[0].z,
+                  points[1].x,
+                  points[1].y,
+                  points[1].z,
+                  points[2].x,
+                  points[2].y,
+                  points[2].z,
+                ]),
+                3,
+              ]}
+            />
+          </bufferGeometry>
+          <lineBasicMaterial
+            color="var(--color-accent-primary)"
+            transparent
+            opacity={0.48}
+          />
+        </line>
       ))}
     </group>
   );
@@ -532,43 +505,28 @@ function MetabolicCore({
 }: {
   active: boolean;
 }) {
-  const group = useRef<THREE.Group>(null);
-
-  useFrame((state) => {
-    if (!group.current) return;
-
-    group.current.rotation.z =
-      state.clock.elapsedTime * 0.25;
-  });
+  if (!active) return null;
 
   return (
-    <group
-      ref={group}
-      position={[0, -0.45, 0.75]}
-    >
+    <group position={[0, -0.45, 0.75]}>
       {[0.45, 0.62, 0.78].map(
         (radius, index) => (
           <mesh key={index}>
             <torusGeometry
               args={[
                 radius,
-                0.012,
+                index === 0 ? 0.014 : 0.009,
                 8,
-                80,
+                48,
               ]}
             />
-
             <meshBasicMaterial
-              color="#D6B56D"
+              color="var(--color-accent-primary)"
               transparent
-              opacity={
-                active
-                  ? 0.4 - index * 0.08
-                  : 0
-              }
+              opacity={0.34 - index * 0.07}
             />
           </mesh>
-        )
+        ),
       )}
     </group>
   );
@@ -583,51 +541,29 @@ function WomensCycle({
 }: {
   active: boolean;
 }) {
-  const group = useRef<THREE.Group>(null);
-
-  useFrame((state) => {
-    if (!group.current) return;
-
-    group.current.rotation.z =
-      state.clock.elapsedTime * 0.16;
-  });
+  if (!active) return null;
 
   return (
-    <group
-      ref={group}
-      position={[0, -1.05, 0.7]}
-    >
+    <group position={[0, -1.05, 0.7]}>
       <mesh>
         <torusGeometry
-          args={[
-            0.5,
-            0.018,
-            8,
-            64,
-          ]}
+          args={[0.5, 0.018, 8, 48]}
         />
-
         <meshBasicMaterial
-          color="#D8B8C8"
+          color="var(--color-accent-primary)"
           transparent
-          opacity={active ? 0.7 : 0}
+          opacity={0.6}
         />
       </mesh>
 
       <mesh>
         <torusGeometry
-          args={[
-            0.78,
-            0.008,
-            8,
-            64,
-          ]}
+          args={[0.78, 0.008, 8, 48]}
         />
-
         <meshBasicMaterial
-          color="#D8B8C8"
+          color="var(--color-accent-primary)"
           transparent
-          opacity={active ? 0.35 : 0}
+          opacity={0.28}
         />
       </mesh>
     </group>
@@ -645,65 +581,38 @@ function HUDRings({
   active: boolean;
   color: string;
 }) {
-  const group = useRef<THREE.Group>(null);
-
-  useFrame((state) => {
-    if (!group.current) return;
-
-    group.current.rotation.z =
-      state.clock.elapsedTime * 0.06;
-  });
-
   return (
-    <group ref={group}>
+    <group>
       <mesh>
         <torusGeometry
-          args={[
-            2.15,
-            0.006,
-            8,
-            128,
-          ]}
+          args={[2.15, 0.005, 8, 72]}
         />
-
         <meshBasicMaterial
           color={color}
           transparent
-          opacity={active ? 0.38 : 0.13}
+          opacity={active ? 0.28 : 0.1}
         />
       </mesh>
 
       <mesh rotation={[Math.PI / 2, 0, 0]}>
         <torusGeometry
-          args={[
-            1.78,
-            0.004,
-            8,
-            128,
-          ]}
+          args={[1.78, 0.0035, 8, 72]}
         />
-
         <meshBasicMaterial
           color={color}
           transparent
-          opacity={active ? 0.25 : 0.08}
+          opacity={active ? 0.18 : 0.055}
         />
       </mesh>
 
       <mesh rotation={[0.3, 0.8, 0]}>
         <torusGeometry
-          args={[
-            2.5,
-            0.003,
-            8,
-            128,
-          ]}
+          args={[2.5, 0.0025, 8, 72]}
         />
-
         <meshBasicMaterial
           color={color}
           transparent
-          opacity={active ? 0.2 : 0.06}
+          opacity={active ? 0.14 : 0.04}
         />
       </mesh>
     </group>
@@ -784,7 +693,6 @@ function AnatomyScene({
         }
         opacity={skinOpacity}
         scale={1}
-        key={`skin-${activeFamily}`}
       />
 
       <AnatomyAsset
@@ -792,7 +700,6 @@ function AnatomyScene({
         color={color}
         opacity={internalOpacity}
         scale={1}
-        key={`heart-${activeFamily}`}
       />
 
       <AnatomyAsset
@@ -800,7 +707,6 @@ function AnatomyScene({
         color={color}
         opacity={internalOpacity}
         scale={1}
-        key={`lungs-${activeFamily}`}
       />
 
       <AnatomyAsset
@@ -808,7 +714,6 @@ function AnatomyScene({
         color={color}
         opacity={internalOpacity * 0.85}
         scale={1}
-        key={`liver-${activeFamily}`}
       />
 
       <AnatomyAsset
@@ -816,12 +721,11 @@ function AnatomyScene({
         color={
           activeFamily ===
           "Recovery & Immune"
-            ? "#A7D0E8"
-            : "#9BD9D7"
+            ? "var(--color-accent-primary)"
+            : "var(--color-accent-primary)"
         }
         opacity={vesselsOpacity}
         scale={1}
-        key={`vessels-${activeFamily}`}
       />
 
       <PhysiologyParticles
@@ -855,12 +759,6 @@ function AnatomyScene({
           activeFamily ===
           "Women's Wellness"
         }
-      />
-
-      <OrbitControls
-        enableZoom={false}
-        enablePan={false}
-        enableRotate={false}
       />
 
       <PerspectiveCamera
@@ -899,30 +797,24 @@ function ProtocolCard({
       onClick={onClick}
       initial={{
         opacity: 0,
-        x: side === "left" ? 36 : -36,
-        scale: 0.92,
-        filter: "blur(8px)",
+        x: side === "left" ? 22 : -22,
       }}
       animate={{
         opacity: 1,
         x: 0,
-        scale: active ? 1.025 : 1,
-        filter: "blur(0px)",
+        scale: 1,
       }}
       exit={{
         opacity: 0,
-        x: side === "left" ? -28 : 28,
-        scale: 0.94,
-        filter: "blur(8px)",
+        x: side === "left" ? -18 : 18,
       }}
       transition={{
-        duration: 0.48,
-        delay: index * 0.055,
+        duration: 0.32,
+        delay: index * 0.035,
         ease: [0.22, 1, 0.36, 1],
       }}
       whileHover={{
-        y: -4,
-        scale: 1.035,
+        y: -2,
       }}
       className={`dl-protocol-card ${side}`}
       style={{
@@ -936,6 +828,8 @@ function ProtocolCard({
           <img
             src={image}
             alt=""
+            loading="lazy"
+            decoding="async"
           />
         </div>
       )}
@@ -1192,7 +1086,7 @@ export default function ProtocolObservatory() {
 
   const accent =
     activeFamily === "Neutral" || activeFamily === "All"
-      ? "#D6C58C"
+      ? "var(--color-accent-primary)"
       : familyColors[activeFamily as WellnessFamily];
 
   /* -------------------------------------------------------
@@ -1202,17 +1096,17 @@ export default function ProtocolObservatory() {
   const leftAnchors: Anchor[] = [
     {
       x: 0,
-      y: 28,
+      y: 33,
       side: "left",
     },
     {
       x: 0,
-      y: 50,
+      y: 52,
       side: "left",
     },
     {
       x: 0,
-      y: 72,
+      y: 71,
       side: "left",
     },
   ];
@@ -1220,17 +1114,17 @@ export default function ProtocolObservatory() {
   const rightAnchors: Anchor[] = [
     {
       x: 0,
-      y: 28,
+      y: 33,
       side: "right",
     },
     {
       x: 0,
-      y: 50,
+      y: 52,
       side: "right",
     },
     {
       x: 0,
-      y: 72,
+      y: 71,
       side: "right",
     },
   ];
@@ -1362,10 +1256,17 @@ export default function ProtocolObservatory() {
 
           <div className="dl-canvas">
             <Canvas
-              dpr={[1, 1.6]}
+              dpr={[1, 1.25]}
+              frameloop="demand"
               gl={{
-                antialias: true,
+                antialias: false,
                 alpha: true,
+                powerPreference: "high-performance",
+              }}
+              performance={{
+                min: 0.5,
+                max: 1,
+                debounce: 180,
               }}
             >
               <Suspense fallback={null}>
@@ -1702,7 +1603,7 @@ export default function ProtocolObservatory() {
           inset: 0;
           z-index: -2;
           pointer-events: none;
-          opacity: 0.035;
+          opacity: 0.018;
           background-image:
             url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.5'/%3E%3C/svg%3E");
         }
@@ -1728,7 +1629,7 @@ export default function ProtocolObservatory() {
             clamp(24px, 4vw, 70px);
 
           top:
-            clamp(70px, 10vh, 105px);
+            clamp(115px, 15vh, 155px);
 
           width:
             clamp(180px, 14vw, 235px);
@@ -1799,13 +1700,13 @@ export default function ProtocolObservatory() {
           width: 1px;
 
           background:
-            var(--family-accent, #d6c58c);
+            var(--family-accent, var(--color-accent-primary));
 
           box-shadow:
             0 0 10px
               var(
                 --family-accent,
-                #d6c58c
+                var(--color-accent-primary)
               );
         }
 
@@ -1831,19 +1732,19 @@ export default function ProtocolObservatory() {
         }
 
         .dl-family-item.all .dl-family-name {
-          color: #d6c58c;
+          color: var(--color-accent-primary);
           letter-spacing: 0.11em;
         }
 
         .dl-family-item.all .dl-family-code {
-          color: #d6c58c;
+          color: var(--color-accent-primary);
           opacity: 0.75;
         }
 
         .dl-family-indicator {
           text-align: right;
           font-size: 8px;
-          color: #d6c58c;
+          color: var(--color-accent-primary);
         }
 
         /* =================================================
@@ -2046,51 +1947,56 @@ export default function ProtocolObservatory() {
 
         .dl-anatomy-caption {
           position: absolute;
-          z-index: 20;
+          z-index: 60;
 
-          left: 50%;
-          bottom:
-            clamp(70px, 8vh, 90px);
+          left: clamp(28px, 3.5vw, 58px);
+          top: clamp(52px, 7vh, 78px);
 
-          transform:
-            translateX(-50%);
+          transform: none;
 
           display: flex;
           align-items: flex-start;
 
-          width:
-            min(310px, 25vw);
+          width: min(520px, 38vw);
 
-          gap: 12px;
+          gap: 16px;
         }
 
         .dl-caption-line {
           width: 1px;
           min-width: 1px;
-          height: 43px;
+          height: 62px;
         }
 
         .dl-anatomy-caption span {
           display: block;
 
-          margin-bottom: 5px;
+          margin-bottom: 10px;
 
-          font-size: 8px;
-          letter-spacing: 0.16em;
+          font-size: clamp(22px, 2.25vw, 36px);
+          line-height: 0.98;
+          font-weight: 700;
+          letter-spacing: -0.045em;
           text-transform: uppercase;
+
+          color: rgba(241, 245, 247, 0.96);
         }
 
         .dl-anatomy-caption p {
           margin: 0;
 
-          font-size: 8px;
-          line-height: 1.55;
+          max-width: 430px;
+
+          font-size: 13px;
+          line-height: 1.5;
+          font-weight: 400;
+          letter-spacing: 0.005em;
 
           color: rgba(
             220,
             230,
             237,
-            0.42
+            0.58
           );
         }
 
@@ -2243,16 +2149,13 @@ export default function ProtocolObservatory() {
               )
             );
 
-          backdrop-filter:
-            blur(18px);
-
           box-shadow:
-            0 15px 50px
+            0 14px 42px
               rgba(
                 0,
                 0,
                 0,
-                0.28
+                0.24
               );
 
           color: #f1f4f5;
@@ -2347,20 +2250,20 @@ export default function ProtocolObservatory() {
             contrast(1.08);
 
           transition:
-            transform 0.6s
+            transform 0.45s
               cubic-bezier(
                 0.22,
                 1,
                 0.36,
                 1
               ),
-            opacity 0.35s ease;
+            opacity 0.25s ease;
         }
 
         .dl-protocol-card:hover
           .dl-protocol-image
           img {
-          transform: scale(1.08);
+          transform: scale(1.045);
           opacity: 0.92;
         }
 
@@ -2645,8 +2548,18 @@ export default function ProtocolObservatory() {
           }
 
           .dl-anatomy-caption {
-            bottom: 35px;
-            width: 70vw;
+            left: 20px;
+            top: 18px;
+            width: calc(100% - 40px);
+          }
+
+          .dl-anatomy-caption span {
+            font-size: 22px;
+          }
+
+          .dl-anatomy-caption p {
+            font-size: 9px;
+            max-width: 300px;
           }
 
           .dl-protocol-zone {

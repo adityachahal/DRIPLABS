@@ -46,7 +46,10 @@ export default function ExperienceSection() {
     >
       <div className="mx-auto max-w-[1680px]">
 
-        {/* SECTION HEADER */}
+        {/* =====================================================
+            SECTION HEADER
+        ===================================================== */}
+
         <motion.div
           initial={
             reducedMotion
@@ -75,6 +78,7 @@ export default function ExperienceSection() {
           className="mb-10 grid gap-6 md:mb-14 md:grid-cols-12 md:items-end"
         >
           {/* LEFT LABEL */}
+
           <div className="md:col-span-5">
             <div className="flex items-center gap-4">
               <span className="h-px w-10 bg-[#B79A58]" />
@@ -86,6 +90,7 @@ export default function ExperienceSection() {
           </div>
 
           {/* RIGHT TITLE */}
+
           <div className="md:col-span-7 md:text-right">
             <h2 className="font-[var(--font-heading)] text-[clamp(2.4rem,4.5vw,5rem)] font-light leading-[0.94] tracking-[-0.045em]">
               Your wellness.
@@ -97,7 +102,10 @@ export default function ExperienceSection() {
           </div>
         </motion.div>
 
-        {/* EXPERIENCE CARDS */}
+        {/* =====================================================
+            EXPERIENCE CARDS
+        ===================================================== */}
+
         <div className="grid gap-3 lg:grid-cols-3">
           {experiences.map((experience, index) => (
             <motion.div
@@ -127,16 +135,20 @@ export default function ExperienceSection() {
                 delay: index * 0.1,
                 ease: [0.22, 1, 0.36, 1],
               }}
-              className="group relative min-h-[500px] overflow-hidden bg-[#111318] sm:min-h-[560px] lg:min-h-[620px]"
+              className="group relative min-h-[400px] overflow-hidden bg-[#111318] sm:min-h-[440px] lg:min-h-[480px]"
             >
               {/* WHOLE CARD LINK */}
+
               <Link
                 href={experience.href}
                 className="absolute inset-0 z-30"
                 aria-label={experience.cta}
               />
 
-              {/* IMAGE */}
+              {/* =================================================
+                  IMAGE
+              ================================================= */}
+
               <motion.div
                 className="absolute inset-0"
                 initial={false}
@@ -160,22 +172,38 @@ export default function ExperienceSection() {
                 />
               </motion.div>
 
-              {/* IMAGE DARKENING */}
+              {/* =================================================
+                  IMAGE DARKENING
+              ================================================= */}
+
               <div className="absolute inset-0 bg-black/20 transition-all duration-700 group-hover:bg-black/5" />
 
-              {/* MAIN GRADIENT */}
+              {/* =================================================
+                  MAIN GRADIENT
+              ================================================= */}
+
               <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/5 to-black/90" />
 
-              {/* SIDE GRADIENT */}
+              {/* =================================================
+                  SIDE GRADIENT
+              ================================================= */}
+
               <div className="absolute inset-0 bg-gradient-to-r from-black/30 via-transparent to-transparent" />
 
-              {/* GOLD TOP LINE */}
+              {/* =================================================
+                  GOLD TOP LINE
+              ================================================= */}
+
               <div className="absolute inset-x-0 top-0 z-10 h-px bg-gradient-to-r from-transparent via-[#D6BD78]/80 to-transparent opacity-80" />
 
-              {/* CARD CONTENT */}
-              <div className="relative z-20 flex h-full min-h-[500px] flex-col justify-between p-6 text-white sm:min-h-[560px] sm:p-8 lg:min-h-[620px] lg:p-9">
+              {/* =================================================
+                  CARD CONTENT
+              ================================================= */}
+
+              <div className="relative z-20 flex h-full min-h-[400px] flex-col justify-between p-5 text-white sm:min-h-[440px] sm:p-7 lg:min-h-[480px] lg:p-8">
 
                 {/* TOP META */}
+
                 <div className="flex items-start justify-between">
                   <span className="text-[10px] font-medium tracking-[0.22em] text-white/65">
                     {experience.number}
@@ -186,10 +214,14 @@ export default function ExperienceSection() {
                   </span>
                 </div>
 
-                {/* BOTTOM CONTENT */}
+                {/* =================================================
+                    BOTTOM CONTENT
+                ================================================= */}
+
                 <div>
 
                   {/* EYEBROW */}
+
                   <div className="mb-4 flex items-center gap-3">
                     <span className="h-px w-7 bg-[#D6BD78]" />
 
@@ -199,11 +231,13 @@ export default function ExperienceSection() {
                   </div>
 
                   {/* TITLE */}
+
                   <h3 className="max-w-[430px] font-[var(--font-heading)] text-[clamp(2rem,3vw,3.4rem)] font-light leading-[0.96] tracking-[-0.035em]">
                     {experience.title}
                   </h3>
 
                   {/* DESCRIPTION */}
+
                   <div className="mt-5 max-w-[350px]">
                     <p className="text-sm leading-6 text-white/68">
                       {experience.description}
@@ -211,9 +245,11 @@ export default function ExperienceSection() {
                   </div>
 
                   {/* CTA */}
+
                   <div className="mt-7 flex items-center gap-4">
 
                     {/* INTERACTIVE CIRCLE */}
+
                     <span className="relative flex h-11 w-11 items-center justify-center overflow-hidden rounded-full border border-white/30 bg-white/5 backdrop-blur-md transition-all duration-500 group-hover:border-[#D6BD78] group-hover:bg-[#D6BD78]">
 
                       <span className="absolute h-2 w-2 rounded-full bg-white transition-all duration-500 group-hover:scale-[5] group-hover:bg-[#111318]" />
@@ -234,6 +270,7 @@ export default function ExperienceSection() {
                     </span>
 
                     {/* CTA TEXT */}
+
                     <span className="text-[9px] font-medium uppercase tracking-[0.24em] text-white/75 transition-colors duration-500 group-hover:text-white">
                       {experience.cta}
                     </span>
@@ -241,7 +278,10 @@ export default function ExperienceSection() {
                 </div>
               </div>
 
-              {/* HOVER LIGHT SWEEP */}
+              {/* =================================================
+                  HOVER LIGHT SWEEP
+              ================================================= */}
+
               <div className="pointer-events-none absolute inset-0 z-10 overflow-hidden opacity-0 transition-opacity duration-700 group-hover:opacity-100">
                 <div className="absolute -left-[30%] top-0 h-full w-[35%] rotate-[18deg] bg-white/10 blur-2xl transition-transform duration-[1400ms] group-hover:translate-x-[390%]" />
               </div>
@@ -249,7 +289,10 @@ export default function ExperienceSection() {
           ))}
         </div>
 
-        {/* BOTTOM MICRO INFORMATION */}
+        {/* =====================================================
+            BOTTOM MICRO INFORMATION
+        ===================================================== */}
+
         <motion.div
           initial={
             reducedMotion
@@ -282,6 +325,7 @@ export default function ExperienceSection() {
             India
           </p>
         </motion.div>
+
       </div>
     </section>
   );
