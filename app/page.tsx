@@ -1,4 +1,4 @@
-import Navbar from "@/components/navigation/Navbar";
+﻿import Navbar from "@/components/navigation/Navbar";
 import Hero from "@/components/hero/Hero";
 
 import ExperienceSection from "@/components/home/ExperienceSection";
@@ -17,7 +17,6 @@ import Locations from "@/components/sections/Locations";
 import FAQ from "@/components/sections/FAQ";
 import FinalCTA from "@/components/sections/FinalCTA";
 import Footer from "@/components/sections/Footer";
-import NADFeature from "@/components/home/NADFeature";
 import DecodeVial from "@/components/home/DecodeVial";
 import EvidenceResearch from "@/components/sections/EvidenceResearch";
 import BuildingPartnership from "@/components/sections/BuildingPartnership";
@@ -47,7 +46,7 @@ export default function Home() {
       {/* 06 â€” Geographic presence */}
       <LocationMarquee />
 
-      <NADFeature />
+      
       
       <DecodeVial />
 

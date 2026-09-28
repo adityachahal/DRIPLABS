@@ -1,279 +1,210 @@
 ﻿@import "tailwindcss";
 
-/* ==========================================================
+/* =========================================================
    DRIPLABS — GLOBAL DESIGN SYSTEM
-   Clinical futurism / quiet luxury
-   ========================================================== */
+   ELECTRIC BLUE / MIDNIGHT / WHITE
+========================================================= */
 
 :root {
-  /* --------------------------------------------------------
-     CORE PALETTE
-     -------------------------------------------------------- */
+  /* -------------------------------------------------------
+     CORE COLORS
+  ------------------------------------------------------- */
 
-  --dl-ink: #141414;
-  --dl-ink-soft: #252525;
-  --dl-ink-muted: #66635e;
+  --dl-midnight: #020812;
+  --dl-deep: #06152b;
+  --dl-ocean-deep: #01050b;
+  --dl-ocean: #08203a;
 
-  --dl-paper: #faf9f7;
-  --dl-paper-warm: #f5f4f1;
-  --dl-paper-deep: #eeece7;
+  --dl-blue: #0066ff;
+  --dl-blue-bright: #1683ff;
+  --dl-blue-soft: #4d9bff;
+  --dl-blue-ice: #8ccbff;
 
-  --dl-bronze: #b8965a;
-  --dl-bronze-soft: #c8ae7b;
-  --dl-bronze-dark: #8f7040;
+  --dl-white: #f7faff;
 
-  --dl-white-soft: #fdfcf9;
+  --dl-white-68: rgba(247, 250, 255, 0.68);
+  --dl-white-55: rgba(247, 250, 255, 0.55);
+  --dl-white-42: rgba(247, 250, 255, 0.42);
+  --dl-white-30: rgba(247, 250, 255, 0.30);
+  --dl-white-18: rgba(247, 250, 255, 0.18);
+  --dl-white-14: rgba(247, 250, 255, 0.14);
+  --dl-white-10: rgba(247, 250, 255, 0.10);
+  --dl-white-06: rgba(247, 250, 255, 0.06);
 
-  /* --------------------------------------------------------
-     SEMANTIC TOKENS
-     -------------------------------------------------------- */
+  /* -------------------------------------------------------
+     SEMANTIC COLORS
+  ------------------------------------------------------- */
 
-  --background: var(--dl-paper);
-  --foreground: var(--dl-ink);
+  --background: var(--dl-midnight);
+  --foreground: var(--dl-white);
 
-  --cream: var(--dl-paper);
-  --charcoal: var(--dl-ink);
+  --surface: var(--dl-deep);
+  --surface-deep: var(--dl-ocean-deep);
+  --surface-soft: var(--dl-ocean);
 
-  --muted: var(--dl-ink-muted);
+  --text-primary: var(--dl-white);
+  --text-secondary: var(--dl-white-68);
+  --text-muted: var(--dl-white-42);
+  --text-faint: var(--dl-white-30);
 
-  --border: rgba(20, 20, 20, 0.09);
-  --border-strong: rgba(20, 20, 20, 0.15);
-  --border-bronze: rgba(184, 150, 90, 0.42);
+  --accent: var(--dl-blue);
+  --accent-bright: var(--dl-blue-bright);
+  --accent-soft: var(--dl-blue-soft);
+  --accent-ice: var(--dl-blue-ice);
 
-  /* --------------------------------------------------------
+  --border: var(--dl-white-10);
+  --border-strong: var(--dl-white-18);
+
+  /* -------------------------------------------------------
+     LEGACY ALIASES
+     These prevent older components from breaking while
+     we migrate them.
+  ------------------------------------------------------- */
+
+  --dl-navy: var(--dl-deep);
+  --dl-navy-deep: var(--dl-midnight);
+  --dl-navy-soft: var(--dl-ocean);
+
+  --dl-gold: var(--dl-blue);
+  --dl-gold-soft: var(--dl-blue-ice);
+  --dl-gold-dark: var(--dl-blue-bright);
+
+  --dl-bone: var(--dl-white);
+  --dl-mist: #edf4ff;
+  --dl-slate: #73849d;
+
+  --dl-ink: #06152b;
+  --dl-ink-soft: #52637a;
+
+  --cream: var(--dl-white);
+  --charcoal: var(--dl-midnight);
+  --muted: var(--dl-white-42);
+
+  /* -------------------------------------------------------
      LAYOUT
-     -------------------------------------------------------- */
+  ------------------------------------------------------- */
 
-  --container-width: 1440px;
+  --container-width: 1800px;
 
-  --page-x: clamp(1.25rem, 4vw, 4rem);
+  --page-x: clamp(1.25rem, 4vw, 4.75rem);
 
-  --section-space: clamp(6rem, 8vw, 7.5rem);
-  --section-space-tight: clamp(4.5rem, 6vw, 6rem);
-  --content-space: clamp(3rem, 5vw, 5rem);
+  --section-space: clamp(5rem, 10vw, 11rem);
 
-  --grid-gap: clamp(1.5rem, 2.2vw, 2rem);
+  --content-space: clamp(3rem, 6vw, 7rem);
 
-  /* --------------------------------------------------------
-     8PX SPACING SYSTEM
-     -------------------------------------------------------- */
-
-  --space-1: 0.5rem;
-  --space-2: 1rem;
-  --space-3: 1.5rem;
-  --space-4: 2rem;
-  --space-5: 3rem;
-  --space-6: 4rem;
-  --space-7: 6rem;
-  --space-8: 8rem;
-  --space-9: 10rem;
-
-  /* --------------------------------------------------------
+  /* -------------------------------------------------------
      TYPOGRAPHY
-     -------------------------------------------------------- */
+  ------------------------------------------------------- */
 
-  --display-tracking: -0.055em;
-  --heading-tracking: -0.035em;
-  --body-tracking: -0.008em;
+  --display-tracking: -0.065em;
+  --heading-tracking: -0.045em;
 
-  --body-size: 1rem;
-  --body-line: 1.6;
+  --body-size: 0.95rem;
+  --body-line: 1.75;
 
-  --micro-size: 0.6875rem;
-  --micro-tracking: 0.18em;
+  /* -------------------------------------------------------
+     RADIUS
+  ------------------------------------------------------- */
 
-  /* --------------------------------------------------------
-     RADII
-     -------------------------------------------------------- */
+  --radius-sm: 2px;
+  --radius-md: 6px;
+  --radius-lg: 12px;
 
-  --radius-sm: 0.25rem;
-  --radius-md: 0.5rem;
-  --radius-lg: 0.875rem;
-  --radius-pill: 999px;
-
-  /* --------------------------------------------------------
+  /* -------------------------------------------------------
      MOTION
-     -------------------------------------------------------- */
+  ------------------------------------------------------- */
 
-  --ease-editorial: cubic-bezier(0.16, 1, 0.3, 1);
-  --ease-standard: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-luxury: cubic-bezier(0.22, 1, 0.36, 1);
 
-  --duration-fast: 200ms;
-  --duration-normal: 500ms;
-  --duration-slow: 700ms;
-
-  /* --------------------------------------------------------
-     SHADOWS
-     -------------------------------------------------------- */
-
-  --shadow-soft:
-    0 10px 40px rgba(20, 20, 20, 0.06);
-
-  --shadow-luxury:
-    0 18px 60px rgba(20, 20, 20, 0.09);
+  --duration-fast: 300ms;
+  --duration-normal: 600ms;
+  --duration-slow: 900ms;
 }
 
 
-/* ==========================================================
+/* =========================================================
    RESET
-   ========================================================== */
-
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-}
+========================================================= */
 
 html {
-  margin: 0;
-  padding: 0;
-
-  background: var(--dl-paper);
-
   scroll-behavior: smooth;
-
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-
-  text-rendering: optimizeLegibility;
-
-  scrollbar-width: thin;
-  scrollbar-color: var(--dl-bronze) var(--dl-paper);
+  background: var(--dl-midnight);
 }
 
 body {
   margin: 0;
-  min-height: 100vh;
-
-  background:
-    linear-gradient(
-      180deg,
-      var(--dl-paper) 0%,
-      var(--dl-paper-warm) 100%
-    );
-
-  color: var(--foreground);
-
-  font-family:
-    var(--font-body),
-    Arial,
-    Helvetica,
-    sans-serif;
+  background: var(--dl-midnight);
+  color: var(--dl-white);
 
   font-size: var(--body-size);
   line-height: var(--body-line);
-  letter-spacing: var(--body-tracking);
+
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 
   overflow-x: hidden;
 }
 
-main {
-  width: 100%;
+
+/* =========================================================
+   SELECTION
+========================================================= */
+
+::selection {
+  background: var(--dl-blue);
+  color: white;
 }
 
-section {
-  position: relative;
-}
 
-p {
-  margin: 0;
-}
-
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  margin: 0;
-
-  font-family:
-    var(--font-heading),
-    Georgia,
-    serif;
-
-  font-weight: 400;
-
-  letter-spacing: var(--heading-tracking);
-
-  text-wrap: balance;
-}
-
-h1 {
-  font-size: clamp(2.75rem, 6vw, 5rem);
-  line-height: 1.04;
-}
-
-h2 {
-  font-size: clamp(2.25rem, 4vw, 3rem);
-  line-height: 1.06;
-}
-
-h3 {
-  font-size: clamp(1.5rem, 2.2vw, 1.75rem);
-  line-height: 1.1;
-}
-
-button,
-input,
-textarea,
-select {
-  font: inherit;
-}
-
-button {
-  color: inherit;
-}
+/* =========================================================
+   LINKS
+========================================================= */
 
 a {
   color: inherit;
-  text-decoration: none;
-}
-
-img,
-video,
-canvas,
-svg {
-  display: block;
-  max-width: 100%;
-}
-
-img,
-video {
-  height: auto;
-}
-
-::selection {
-  background: rgba(184, 150, 90, 0.22);
-  color: var(--dl-ink);
 }
 
 
-/* ==========================================================
+/* =========================================================
+   BUTTONS
+========================================================= */
+
+button {
+  font: inherit;
+}
+
+
+/* =========================================================
    SCROLLBAR
-   ========================================================== */
+========================================================= */
 
-html::-webkit-scrollbar {
-  width: 8px;
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--dl-blue) var(--dl-midnight);
 }
 
-html::-webkit-scrollbar-track {
-  background: var(--dl-paper);
+*::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
 }
 
-html::-webkit-scrollbar-thumb {
-  background: var(--dl-bronze);
-  border-radius: var(--radius-pill);
+*::-webkit-scrollbar-track {
+  background: var(--dl-midnight);
 }
 
-html::-webkit-scrollbar-thumb:hover {
-  background: var(--dl-bronze-dark);
+*::-webkit-scrollbar-thumb {
+  background: var(--dl-blue);
+  border-radius: 999px;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: var(--dl-blue-bright);
 }
 
 
-/* ==========================================================
+/* =========================================================
    GLOBAL CONTAINER
-   ========================================================== */
+========================================================= */
 
 .driplabs-container {
   width: min(
@@ -285,452 +216,232 @@ html::-webkit-scrollbar-thumb:hover {
 }
 
 
-/* ==========================================================
+/* =========================================================
    GLOBAL SECTION
-   ========================================================== */
+========================================================= */
 
 .driplabs-section {
+  position: relative;
+  width: 100%;
   padding-block: var(--section-space);
 }
 
-.driplabs-section-tight {
-  padding-block: var(--section-space-tight);
-}
 
-
-/* ==========================================================
-   EDITORIAL DISPLAY
-   ========================================================== */
-
-.driplabs-display {
-  font-family:
-    var(--font-heading),
-    Georgia,
-    serif;
-
-  font-size: clamp(3rem, 7vw, 6.25rem);
-
-  font-weight: 300;
-
-  line-height: 0.96;
-
-  letter-spacing: var(--display-tracking);
-
-  text-wrap: balance;
-}
-
-
-/* ==========================================================
-   SECTION HEADINGS
-   ========================================================== */
-
-.driplabs-heading {
-  max-width: 820px;
-
-  font-family:
-    var(--font-heading),
-    Georgia,
-    serif;
-
-  font-size: clamp(2.5rem, 4.5vw, 4rem);
-
-  font-weight: 300;
-
-  line-height: 1.03;
-
-  letter-spacing: -0.045em;
-}
-
-
-/* ==========================================================
-   MICRO LABEL
-   ========================================================== */
+/* =========================================================
+   GLOBAL LABEL
+========================================================= */
 
 .driplabs-label {
-  display: inline-flex;
-  align-items: center;
-
-  font-family:
-    var(--font-body),
-    Arial,
-    sans-serif;
-
-  font-size: var(--micro-size);
-
-  font-weight: 500;
-
+  font-size: 9px;
   line-height: 1;
-
-  letter-spacing: var(--micro-tracking);
-
   text-transform: uppercase;
-
-  color: var(--dl-ink-muted);
+  letter-spacing: 0.28em;
+  color: var(--dl-blue-soft);
 }
 
 
-/* ==========================================================
-   BODY COPY
-   ========================================================== */
+/* =========================================================
+   BLUE DIVIDER
+========================================================= */
 
-.driplabs-copy {
-  max-width: 680px;
-
-  font-family:
-    var(--font-body),
-    Arial,
-    sans-serif;
-
-  font-size: clamp(1rem, 1.2vw, 1.125rem);
-
-  font-weight: 300;
-
-  line-height: 1.6;
-
-  color: var(--dl-ink-muted);
+.driplabs-divider {
+  width: 48px;
+  height: 1px;
+  background: var(--dl-blue);
 }
 
 
-/* ==========================================================
-   PREMIUM BUTTON
-   ========================================================== */
+/* =========================================================
+   BLUE GLOW
+========================================================= */
+
+.driplabs-glow {
+  position: relative;
+}
+
+.driplabs-glow::after {
+  content: "";
+  position: absolute;
+  inset: auto;
+  width: 420px;
+  height: 420px;
+
+  border-radius: 999px;
+
+  background: rgba(0, 102, 255, 0.12);
+
+  filter: blur(100px);
+
+  pointer-events: none;
+}
+
+
+/* =========================================================
+   GLOBAL GRID
+========================================================= */
+
+.driplabs-grid {
+  background-image:
+    linear-gradient(
+      to right,
+      rgba(140, 203, 255, 0.035) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      to bottom,
+      rgba(140, 203, 255, 0.035) 1px,
+      transparent 1px
+    );
+
+  background-size: 80px 80px;
+}
+
+
+/* =========================================================
+   GLASS
+========================================================= */
+
+.driplabs-glass {
+  background: rgba(6, 21, 43, 0.72);
+
+  border: 1px solid rgba(247, 250, 255, 0.10);
+
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+}
+
+
+/* =========================================================
+   ELECTRIC BUTTON
+========================================================= */
 
 .driplabs-button {
-  position: relative;
-
   display: inline-flex;
 
-  min-height: 44px;
+  min-height: 48px;
 
   align-items: center;
   justify-content: center;
 
-  gap: 0.75rem;
+  padding-inline: 28px;
 
-  padding-inline: 1.5rem;
+  background: var(--dl-blue);
 
-  border: 1px solid rgba(20, 20, 20, 0.18);
+  color: white;
 
-  border-radius: var(--radius-pill);
-
-  background: transparent;
-
-  color: var(--dl-ink);
-
-  font-family:
-    var(--font-body),
-    Arial,
-    sans-serif;
-
-  font-size: 0.6875rem;
-
+  font-size: 9px;
   font-weight: 500;
 
-  line-height: 1;
-
-  letter-spacing: 0.16em;
-
   text-transform: uppercase;
+  letter-spacing: 0.22em;
 
   transition:
-    transform var(--duration-fast) var(--ease-editorial),
-    border-color var(--duration-fast) ease,
-    background-color var(--duration-fast) ease,
-    box-shadow var(--duration-fast) ease;
+    background var(--duration-fast) var(--ease-luxury),
+    transform var(--duration-fast) var(--ease-luxury),
+    box-shadow var(--duration-fast) var(--ease-luxury);
 }
 
 .driplabs-button:hover {
+  background: var(--dl-blue-bright);
+
   transform: translateY(-1px);
 
-  border-color: var(--dl-bronze);
-
-  background: rgba(184, 150, 90, 0.06);
-
-  box-shadow: var(--shadow-soft);
-}
-
-.driplabs-button:active {
-  transform: translateY(0);
-}
-
-.driplabs-button:focus-visible {
-  outline: 2px solid var(--dl-bronze);
-  outline-offset: 4px;
+  box-shadow:
+    0 12px 40px rgba(0, 102, 255, 0.20);
 }
 
 
-/* ==========================================================
-   BRONZE BUTTON
-   ========================================================== */
+/* =========================================================
+   OUTLINE BUTTON
+========================================================= */
 
-.driplabs-button-primary {
-  border-color: var(--dl-bronze);
+.driplabs-button-outline {
+  display: inline-flex;
 
-  background: var(--dl-ink);
+  min-height: 48px;
 
-  color: var(--dl-white-soft);
+  align-items: center;
+  justify-content: center;
+
+  padding-inline: 28px;
+
+  border: 1px solid var(--dl-white-18);
+
+  color: var(--dl-white-68);
+
+  font-size: 9px;
+  font-weight: 500;
+
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+
+  transition:
+    border-color var(--duration-fast) var(--ease-luxury),
+    color var(--duration-fast) var(--ease-luxury),
+    background var(--duration-fast) var(--ease-luxury);
 }
 
-.driplabs-button-primary:hover {
-  border-color: var(--dl-ink-soft);
+.driplabs-button-outline:hover {
+  border-color: var(--dl-blue-soft);
 
-  background: var(--dl-ink-soft);
+  color: white;
 
-  color: var(--dl-white-soft);
+  background: rgba(0, 102, 255, 0.06);
 }
 
 
-/* ==========================================================
-   SUBTLE DIVIDER
-   ========================================================== */
+/* =========================================================
+   IMAGE TREATMENT
+========================================================= */
 
-.driplabs-divider {
-  width: 100%;
-  height: 1px;
+.driplabs-image {
+  transition:
+    transform 1200ms var(--ease-luxury),
+    filter 800ms var(--ease-luxury);
+}
+
+.group:hover .driplabs-image {
+  transform: scale(1.045);
+}
+
+
+/* =========================================================
+   CINEMATIC OVERLAY
+========================================================= */
+
+.driplabs-overlay {
+  position: absolute;
+  inset: 0;
 
   background:
     linear-gradient(
-      90deg,
-      transparent,
-      var(--border-strong),
-      transparent
+      to bottom,
+      rgba(2, 8, 18, 0.08),
+      rgba(2, 8, 18, 0.78)
+    );
+
+  pointer-events: none;
+}
+
+
+/* =========================================================
+   BLUE VIGNETTE
+========================================================= */
+
+.driplabs-vignette {
+  background:
+    radial-gradient(
+      circle at 50% 20%,
+      transparent 0%,
+      rgba(2, 8, 18, 0.25) 55%,
+      rgba(2, 8, 18, 0.92) 100%
     );
 }
 
 
-/* ==========================================================
-   BRONZE RULE
-   ========================================================== */
-
-.driplabs-rule {
-  width: 40px;
-  height: 1px;
-
-  background: var(--dl-bronze);
-}
-
-
-/* ==========================================================
-   IMAGE SYSTEM
-   ========================================================== */
-
-.driplabs-image {
-  overflow: hidden;
-}
-
-.driplabs-image img {
-  width: 100%;
-  height: 100%;
-
-  object-fit: cover;
-
-  transition:
-    transform 700ms var(--ease-editorial);
-}
-
-.driplabs-image:hover img {
-  transform: scale(1.02);
-}
-
-
-/* ==========================================================
-   PREMIUM SURFACE
-   ========================================================== */
-
-.driplabs-surface {
-  background: rgba(255, 255, 255, 0.32);
-
-  border: 1px solid var(--border);
-
-  box-shadow: var(--shadow-soft);
-}
-
-
-/* ==========================================================
-   DARK EDITORIAL SURFACE
-   ========================================================== */
-
-.driplabs-dark {
-  background: var(--dl-ink);
-
-  color: var(--dl-white-soft);
-}
-
-.driplabs-dark .driplabs-label {
-  color: rgba(253, 252, 249, 0.58);
-}
-
-.driplabs-dark .driplabs-copy {
-  color: rgba(253, 252, 249, 0.68);
-}
-
-
-/* ==========================================================
-   ANIMATION UTILITIES
-   ========================================================== */
-
-.driplabs-reveal {
-  animation:
-    driplabs-reveal
-    650ms var(--ease-editorial)
-    both;
-}
-
-@keyframes driplabs-reveal {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-
-/* ==========================================================
-   ACCESSIBILITY
-   ========================================================== */
-
-:focus-visible {
-  outline: 2px solid var(--dl-bronze);
-  outline-offset: 4px;
-}
-
-
-/* ==========================================================
-   TABLET
-   ========================================================== */
-
-@media (max-width: 1024px) {
-  :root {
-    --page-x: 2rem;
-
-    --section-space: clamp(
-      5rem,
-      8vw,
-      6.5rem
-    );
-  }
-
-  .driplabs-display {
-    font-size: clamp(
-      3.25rem,
-      8vw,
-      5.5rem
-    );
-  }
-}
-
-
-/* ==========================================================
-   MOBILE
-   ========================================================== */
-
-@media (max-width: 768px) {
-  :root {
-    --page-x: 1.5rem;
-
-    --section-space: clamp(
-      4.5rem,
-      14vw,
-      6rem
-    );
-
-    --section-space-tight: 4rem;
-
-    --body-size: 0.9375rem;
-
-    --grid-gap: 1.5rem;
-  }
-
-  html {
-    overflow-x: clip;
-  }
-
-  body {
-    overflow-x: clip;
-  }
-
-  .driplabs-container {
-    width: calc(100% - (var(--page-x) * 2));
-  }
-
-  .driplabs-display {
-    font-size: clamp(
-      2.75rem,
-      13vw,
-      4rem
-    );
-
-    line-height: 0.98;
-  }
-
-  .driplabs-heading {
-    font-size: clamp(
-      2.25rem,
-      9vw,
-      3.25rem
-    );
-  }
-
-  .driplabs-label {
-    font-size: 0.625rem;
-
-    letter-spacing: 0.16em;
-  }
-
-  .driplabs-button {
-    min-height: 44px;
-
-    padding-inline: 1.25rem;
-
-    font-size: 0.625rem;
-  }
-
-  .driplabs-image:hover img {
-    transform: none;
-  }
-}
-
-
-/* ==========================================================
-   SMALL PHONES
-   ========================================================== */
-
-@media (max-width: 390px) {
-  :root {
-    --color-accent-primary: #28B8C8;
-  --color-accent-primary-rgb: 40, 184, 200;
-    --page-x: 1.25rem;
-  }
-
-  .driplabs-display {
-    font-size: clamp(
-      2.5rem,
-      14vw,
-      3.5rem
-    );
-  }
-}
-
-
-/* ==========================================================
-   TOUCH DEVICES
-   ========================================================== */
-
-@media (hover: none) {
-  .driplabs-image:hover img,
-  .driplabs-button:hover {
-    transform: none;
-  }
-}
-
-
-/* ==========================================================
+/* =========================================================
    REDUCED MOTION
-   ========================================================== */
+========================================================= */
 
 @media (prefers-reduced-motion: reduce) {
   html {
@@ -742,24 +453,6 @@ html::-webkit-scrollbar-thumb:hover {
   *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
-    animation-delay: 0ms !important;
     transition-duration: 0.01ms !important;
-  }
-
-  .driplabs-image img {
-    transition: none;
-  }
-}
-
-
-/* ==========================================================
-   SAFE AREA
-   ========================================================== */
-
-@supports (padding: env(safe-area-inset-bottom)) {
-  @media (max-width: 768px) {
-    body {
-      padding-bottom: env(safe-area-inset-bottom);
-    }
   }
 }

@@ -2,14 +2,44 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
-import { useEffect, useRef, useState, type ReactNode } from "react";
+
+import {
+  AnimatePresence,
+  motion,
+  useReducedMotion,
+} from "framer-motion";
+
+import {
+  useEffect,
+  useRef,
+  useState,
+  type ReactNode,
+} from "react";
+
+/* =========================================================
+   DRIPLABS NAVBAR
+   GLOBAL THEME
+
+   MIDNIGHT       #020812
+   DEEP NAVY      #06152B
+   OCEAN          #08203A
+   ELECTRIC BLUE  #0066FF
+   BRIGHT BLUE    #1683FF
+   SOFT BLUE      #4D9BFF
+   ICE BLUE       #8CCBFF
+   WHITE          #F7FAFF
+========================================================= */
+
 
 /* =========================================================
    ICONS
 ========================================================= */
 
-function ChevronDown({ open = false }: { open?: boolean }) {
+function ChevronDown({
+  open = false,
+}: {
+  open?: boolean;
+}) {
   return (
     <svg
       width="10"
@@ -17,9 +47,10 @@ function ChevronDown({ open = false }: { open?: boolean }) {
       viewBox="0 0 12 12"
       fill="none"
       aria-hidden="true"
-      className={`shrink-0 transition-transform duration-300 ${
-        open ? "rotate-180" : ""
-      }`}
+      className={[
+        "shrink-0 transition-transform duration-300",
+        open ? "rotate-180" : "",
+      ].join(" ")}
     >
       <path
         d="M3 4.5L6 7.5L9 4.5"
@@ -31,6 +62,7 @@ function ChevronDown({ open = false }: { open?: boolean }) {
     </svg>
   );
 }
+
 
 function ChevronRight() {
   return (
@@ -52,6 +84,7 @@ function ChevronRight() {
   );
 }
 
+
 function ArrowRight() {
   return (
     <svg
@@ -72,6 +105,7 @@ function ArrowRight() {
   );
 }
 
+
 function SearchIcon() {
   return (
     <svg
@@ -88,6 +122,7 @@ function SearchIcon() {
         stroke="currentColor"
         strokeWidth="1.15"
       />
+
       <path
         d="M12 12L16 16"
         stroke="currentColor"
@@ -97,6 +132,7 @@ function SearchIcon() {
     </svg>
   );
 }
+
 
 function MapPinIcon() {
   return (
@@ -112,6 +148,7 @@ function MapPinIcon() {
         stroke="currentColor"
         strokeWidth="1.1"
       />
+
       <circle
         cx="9"
         cy="7.3"
@@ -123,29 +160,50 @@ function MapPinIcon() {
   );
 }
 
-function MenuIcon({ open }: { open: boolean }) {
+
+function MenuIcon({
+  open,
+}: {
+  open: boolean;
+}) {
   return (
-    <span className="relative block h-5 w-6" aria-hidden="true">
+    <span
+      className="relative block h-5 w-6"
+      aria-hidden="true"
+    >
       <span
-        className={`absolute left-0 h-px w-6 bg-current transition-all duration-300 ${
-          open ? "top-[9px] rotate-45" : "top-[3px]"
-        }`}
+        className={[
+          "absolute left-0 h-px w-6 bg-current",
+          "transition-all duration-300",
+          open
+            ? "top-[9px] rotate-45"
+            : "top-[3px]",
+        ].join(" ")}
       />
 
       <span
-        className={`absolute left-0 top-[9px] h-px w-6 bg-current transition-opacity duration-200 ${
-          open ? "opacity-0" : "opacity-100"
-        }`}
+        className={[
+          "absolute left-0 top-[9px] h-px w-6 bg-current",
+          "transition-opacity duration-200",
+          open
+            ? "opacity-0"
+            : "opacity-100",
+        ].join(" ")}
       />
 
       <span
-        className={`absolute left-0 h-px w-6 bg-current transition-all duration-300 ${
-          open ? "top-[9px] -rotate-45" : "top-[15px]"
-        }`}
+        className={[
+          "absolute left-0 h-px w-6 bg-current",
+          "transition-all duration-300",
+          open
+            ? "top-[9px] -rotate-45"
+            : "top-[15px]",
+        ].join(" ")}
       />
     </span>
   );
 }
+
 
 /* =========================================================
    DATA
@@ -162,72 +220,159 @@ const wellnessPaths = [
   "Women's Wellness",
 ];
 
-const featuredLinks = ["NADx", "Signature Protocols", "Membership"];
+
+const featuredLinks = [
+  {
+    label: "NADx",
+    href: "/nadx",
+  },
+  {
+    label: "Signature Protocols",
+    href: "/protocols",
+  },
+  {
+    label: "Membership",
+    href: "/circle",
+  },
+];
+
 
 const experienceItems = [
   {
     title: "In-Centre",
-    description: "Physician-led wellness at our centres",
+    description:
+      "Physician-led wellness at our centres",
     href: "/experience",
   },
+
   {
     title: "DRIPLABS Home",
-    description: "IV wellness, delivered to your home",
+    description:
+      "IV wellness, delivered to your home",
     href: "/experience",
   },
+
   {
     title: "Women's Wellness",
-    description: "A dedicated pathway for women",
-    href: "/experience",
+    description:
+      "A dedicated pathway for women",
+    href: "/protocols/femme",
   },
+
   {
     title: "Your Journey",
     description:
       "Consultation → Personalisation → Experience → Follow-up",
     href: "/experience",
   },
+
   {
     title: "Membership",
-    description: "Exclusive benefits & priority access",
+    description:
+      "Exclusive benefits & priority access",
     href: "/circle",
   },
 ];
 
+
 const scienceLinks = [
-  "The DRIPLABS Standard",
-  "NADx",
-  "Evidence & Research",
-  "Ingredients",
-  "Quality & Traceability",
-  "COA Library",
-  "Decode a Vial",
-  "Physician Dossier",
+  {
+    label: "The DRIPLABS Standard",
+    href: "/science#standard",
+  },
+
+  {
+    label: "NADx",
+    href: "/science#nadx",
+  },
+
+  {
+    label: "Evidence & Research",
+    href: "/science#evidence",
+  },
+
+  {
+    label: "Ingredients",
+    href: "/science#ingredients",
+  },
+
+  {
+    label: "Quality & Traceability",
+    href: "/science#traceability",
+  },
+
+  {
+    label: "COA Library",
+    href: "/science#coa",
+  },
+
+  {
+    label: "Decode a Vial",
+    href: "/science#decode",
+  },
+
+  {
+    label: "Physician Dossier",
+    href: "/science#dossier",
+  },
 ];
 
+
 const circleLinks = [
-  "Membership Plans",
-  "Benefits",
-  "Priority Access",
-  "Home Services",
-  "Wellness Journeys",
-  "Concierge",
-  "Member Events",
+  {
+    label: "Membership Plans",
+    href: "/circle",
+  },
+
+  {
+    label: "Benefits",
+    href: "/circle",
+  },
+
+  {
+    label: "Priority Access",
+    href: "/circle",
+  },
+
+  {
+    label: "Home Services",
+    href: "/experience",
+  },
+
+  {
+    label: "Wellness Journeys",
+    href: "/experience",
+  },
+
+  {
+    label: "Concierge",
+    href: "/circle",
+  },
+
+  {
+    label: "Member Events",
+    href: "/circle",
+  },
 ];
+
 
 const locationLinks = [
   {
     label: "Centres",
-    href: "/#locations",
+    href: "/locations",
   },
+
   {
     label: "DRIPLABS Home",
     href: "/experience",
   },
+
   {
     label: "Coming Soon",
-    href: "/#locations",
+    href: "/locations",
   },
 ];
+
 
 const physicianLinks = [
   "Physician Network",
@@ -236,11 +381,13 @@ const physicianLinks = [
   "Medical Affairs",
 ];
 
+
 const clinicLinks = [
   "Become a Partner",
   "Authorized Centre",
   "Clinical Collaboration",
 ];
+
 
 const distributorLinks = [
   "Distribution Network",
@@ -248,11 +395,13 @@ const distributorLinks = [
   "Territory",
 ];
 
+
 const franchiseLinks = [
   "Franchise Opportunity",
   "The Model",
   "Training & Support",
 ];
+
 
 /* =========================================================
    TYPES
@@ -266,58 +415,105 @@ type MenuKey =
   | "locations"
   | "partners";
 
+
 /* =========================================================
    NAVBAR
 ========================================================= */
 
 export default function Navbar() {
-  const [activeMenu, setActiveMenu] = useState<MenuKey | null>(null);
-  const [mobileOpen, setMobileOpen] = useState(false);
-  const [mobileSection, setMobileSection] = useState<MenuKey | null>(null);
-  const [scrolled, setScrolled] = useState(false);
+  const [activeMenu, setActiveMenu] =
+    useState<MenuKey | null>(null);
 
-  const openTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const [mobileOpen, setMobileOpen] =
+    useState(false);
+
+  const [mobileSection, setMobileSection] =
+    useState<MenuKey | null>(null);
+
+  const [scrolled, setScrolled] =
+    useState(false);
+
+  const openTimer =
+    useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const closeTimer =
+    useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const reducedMotion = useReducedMotion();
 
+
+  /* =======================================================
+     SCROLL STATE
+  ======================================================= */
+
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 40);
+      setScrolled(window.scrollY > 30);
     };
 
     handleScroll();
 
-    window.addEventListener("scroll", handleScroll, {
-      passive: true,
-    });
+    window.addEventListener(
+      "scroll",
+      handleScroll,
+      {
+        passive: true,
+      },
+    );
 
     return () => {
-      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener(
+        "scroll",
+        handleScroll,
+      );
     };
   }, []);
 
+
+  /* =======================================================
+     MOBILE BODY LOCK
+  ======================================================= */
+
   useEffect(() => {
-    document.body.style.overflow = mobileOpen ? "hidden" : "";
+    document.body.style.overflow =
+      mobileOpen ? "hidden" : "";
 
     return () => {
       document.body.style.overflow = "";
     };
   }, [mobileOpen]);
 
+
+  /* =======================================================
+     ESCAPE KEY
+  ======================================================= */
+
   useEffect(() => {
-    const handleEscape = (event: KeyboardEvent) => {
+    const handleEscape = (
+      event: KeyboardEvent,
+    ) => {
       if (event.key === "Escape") {
         closeAll();
       }
     };
 
-    window.addEventListener("keydown", handleEscape);
+    window.addEventListener(
+      "keydown",
+      handleEscape,
+    );
 
     return () => {
-      window.removeEventListener("keydown", handleEscape);
+      window.removeEventListener(
+        "keydown",
+        handleEscape,
+      );
     };
   }, []);
+
+
+  /* =======================================================
+     MENU TIMERS
+  ======================================================= */
 
   const clearTimers = () => {
     if (openTimer.current) {
@@ -331,49 +527,69 @@ export default function Navbar() {
     }
   };
 
-  const openMenu = (menu: MenuKey) => {
+
+  const openMenu = (
+    menu: MenuKey,
+  ) => {
     clearTimers();
 
-    openTimer.current = setTimeout(
-      () => {
-        setActiveMenu(menu);
-      },
-      reducedMotion ? 0 : 80,
-    );
+    openTimer.current =
+      setTimeout(
+        () => {
+          setActiveMenu(menu);
+        },
+        reducedMotion ? 0 : 70,
+      );
   };
+
 
   const closeMenu = () => {
     clearTimers();
 
-    closeTimer.current = setTimeout(
-      () => {
-        setActiveMenu(null);
-      },
-      reducedMotion ? 0 : 120,
-    );
+    closeTimer.current =
+      setTimeout(
+        () => {
+          setActiveMenu(null);
+        },
+        reducedMotion ? 0 : 130,
+      );
   };
+
 
   const keepMenuOpen = () => {
     clearTimers();
   };
 
+
   const closeAll = () => {
     clearTimers();
+
     setActiveMenu(null);
     setMobileOpen(false);
     setMobileSection(null);
   };
 
-  const toggleMobileSection = (menu: MenuKey) => {
-    setMobileSection((current) =>
-      current === menu ? null : menu,
+
+  const toggleMobileSection = (
+    menu: MenuKey,
+  ) => {
+    setMobileSection(
+      (current) =>
+        current === menu
+          ? null
+          : menu,
     );
   };
+
+
+  /* =======================================================
+     RENDER
+  ======================================================= */
 
   return (
     <>
       {/* =====================================================
-          MAIN NAVIGATION
+          DESKTOP / MOBILE HEADER
       ===================================================== */}
 
       <header
@@ -381,20 +597,54 @@ export default function Navbar() {
           "fixed inset-x-0 top-0 z-[100]",
           "transition-all duration-500",
           scrolled
-            ? "border-b border-[#241B16]/10 bg-[#F4F0E8]/90 text-[#241B16] shadow-[0_8px_30px_rgba(36,27,22,0.05)] backdrop-blur-xl"
-            : "border-b border-white/10 bg-transparent text-white",
+            ? [
+                "border-b border-white/10",
+                "bg-[#020812]/88",
+                "text-[#F7FAFF]",
+                "shadow-[0_12px_50px_rgba(0,0,0,0.22)]",
+                "backdrop-blur-2xl",
+              ].join(" ")
+            : [
+                "border-b border-transparent",
+                "bg-[#020812]/35",
+                "text-white",
+                "backdrop-blur-md",
+              ].join(" "),
         ].join(" ")}
       >
+
+        {/* subtle electric line */}
         <div
           className={[
-            "mx-auto flex max-w-[1800px] items-center",
+            "absolute bottom-0 left-0 right-0 h-px",
+            "bg-gradient-to-r",
+            "from-transparent",
+            "via-[#1683FF]/50",
+            "to-transparent",
+            "transition-opacity duration-500",
+            scrolled
+              ? "opacity-100"
+              : "opacity-0",
+          ].join(" ")}
+        />
+
+
+        <div
+          className={[
+            "mx-auto flex max-w-[1800px]",
+            "items-center",
             "px-5 sm:px-7 lg:px-10 xl:px-12",
             "h-[72px] lg:h-[78px]",
             "transition-all duration-500",
-            scrolled ? "lg:h-[70px]" : "",
+            scrolled
+              ? "lg:h-[70px]"
+              : "",
           ].join(" ")}
         >
-          {/* LOGO */}
+
+          {/* =================================================
+              LOGO
+          ================================================= */}
 
           <Link
             href="/"
@@ -409,24 +659,34 @@ export default function Navbar() {
               height={44}
               priority
               className={[
-                "h-auto w-[108px] object-contain",
-                "transition-all duration-300",
+                "h-auto w-[108px]",
+                "object-contain",
+                "transition-all duration-500",
                 "sm:w-[116px]",
-                scrolled ? "brightness-[0.65]" : "",
-                "group-hover:opacity-70",
+                scrolled
+                  ? "brightness-0 invert"
+                  : "",
+                "group-hover:opacity-75",
               ].join(" ")}
             />
           </Link>
 
+
           {/* =================================================
-              DESKTOP NAV
+              DESKTOP NAVIGATION
           ================================================= */}
 
           <nav
             aria-label="Primary navigation"
             className="ml-auto hidden lg:flex"
           >
-            <div className="flex items-center gap-5 xl:gap-6 2xl:gap-7">
+            <div
+              className={[
+                "flex items-center",
+                "gap-6 xl:gap-8",
+              ].join(" ")}
+            >
+
               <DesktopNavItem
                 label="EXPLORE"
                 menu="explore"
@@ -434,10 +694,12 @@ export default function Navbar() {
                 openMenu={openMenu}
                 closeMenu={closeMenu}
                 keepMenuOpen={keepMenuOpen}
-                scrolled={scrolled}
               >
-                <ExploreDropdown onClose={closeAll} />
+                <ExploreDropdown
+                  onClose={closeAll}
+                />
               </DesktopNavItem>
+
 
               <DesktopNavItem
                 label="EXPERIENCE"
@@ -446,10 +708,12 @@ export default function Navbar() {
                 openMenu={openMenu}
                 closeMenu={closeMenu}
                 keepMenuOpen={keepMenuOpen}
-                scrolled={scrolled}
               >
-                <ExperienceDropdown onClose={closeAll} />
+                <ExperienceDropdown
+                  onClose={closeAll}
+                />
               </DesktopNavItem>
+
 
               <DesktopNavItem
                 label="SCIENCE"
@@ -458,10 +722,44 @@ export default function Navbar() {
                 openMenu={openMenu}
                 closeMenu={closeMenu}
                 keepMenuOpen={keepMenuOpen}
-                scrolled={scrolled}
               >
-                <ScienceDropdown onClose={closeAll} />
+                <ScienceDropdown
+                  onClose={closeAll}
+                />
               </DesktopNavItem>
+
+
+              <Link
+                href="/nadx"
+                onClick={closeAll}
+                className={[
+                  "group relative flex",
+                  "items-center",
+                  "py-3",
+                  "text-[14px]",
+                  "font-medium",
+                  "uppercase",
+                  "tracking-[0.17em]",
+                  "text-white/75",
+                  "transition-colors duration-300",
+                  "hover:text-white",
+                ].join(" ")}
+              >
+                <span>NADx</span>
+
+                <span
+                  className={[
+                    "absolute bottom-[2px]",
+                    "left-0 h-px",
+                    "bg-[#1683FF]",
+                    "w-0 opacity-0",
+                    "transition-all duration-300",
+                    "group-hover:w-full",
+                    "group-hover:opacity-100",
+                  ].join(" ")}
+                />
+              </Link>
+
 
               <DesktopNavItem
                 label="CIRCLE"
@@ -470,10 +768,12 @@ export default function Navbar() {
                 openMenu={openMenu}
                 closeMenu={closeMenu}
                 keepMenuOpen={keepMenuOpen}
-                scrolled={scrolled}
               >
-                <CircleDropdown onClose={closeAll} />
+                <CircleDropdown
+                  onClose={closeAll}
+                />
               </DesktopNavItem>
+
 
               <DesktopNavItem
                 label="LOCATIONS"
@@ -482,10 +782,12 @@ export default function Navbar() {
                 openMenu={openMenu}
                 closeMenu={closeMenu}
                 keepMenuOpen={keepMenuOpen}
-                scrolled={scrolled}
               >
-                <LocationsDropdown onClose={closeAll} />
+                <LocationsDropdown
+                  onClose={closeAll}
+                />
               </DesktopNavItem>
+
 
               <DesktopNavItem
                 label="FOR PARTNERS"
@@ -494,204 +796,823 @@ export default function Navbar() {
                 openMenu={openMenu}
                 closeMenu={closeMenu}
                 keepMenuOpen={keepMenuOpen}
-                scrolled={scrolled}
               >
-                <PartnersDropdown onClose={closeAll} />
+                <PartnersDropdown
+                  onClose={closeAll}
+                />
               </DesktopNavItem>
+
             </div>
           </nav>
 
-          {/* DESKTOP ACTIONS */}
 
-          <div className="ml-5 hidden items-center gap-3 lg:flex xl:ml-6">
+          {/* =================================================
+              DESKTOP ACTIONS
+          ================================================= */}
+
+          <div
+            className={[
+              "ml-6 hidden items-center",
+              "gap-5 lg:flex xl:ml-8",
+            ].join(" ")}
+          >
+
+            {/* LOCATION */}
+
             <Link
-              href="/#locations"
+              href="/locations"
               onClick={closeAll}
               aria-label="Find a DRIPLABS location"
-              className="transition-opacity duration-300 hover:opacity-60"
+              className={[
+                "relative flex h-8 w-8",
+                "items-center justify-center",
+                "rounded-full",
+                "border border-white/10",
+                "text-white/65",
+                "transition-all duration-300",
+                "hover:border-[#4D9BFF]/60",
+                "hover:bg-[#0066FF]/10",
+                "hover:text-[#8CCBFF]",
+              ].join(" ")}
             >
               <MapPinIcon />
             </Link>
 
+
+            {/* SEARCH */}
+
             <button
               type="button"
               aria-label="Search"
-              className="transition-opacity duration-300 hover:opacity-60"
+              className={[
+                "relative flex h-8 w-8",
+                "items-center justify-center",
+                "rounded-full",
+                "text-white/60",
+                "transition-all duration-300",
+                "hover:bg-[#0066FF]/10",
+                "hover:text-[#8CCBFF]",
+              ].join(" ")}
             >
               <SearchIcon />
             </button>
 
+
+            {/* CTA */}
+
             <Link
-              href="/contact"
+              href="/book"
               onClick={closeAll}
               className={[
-                "group inline-flex items-center gap-2",
-                "border border-current px-4 py-2",
-                "text-[8px] font-medium uppercase tracking-[0.16em]",
-                "transition-all duration-300",
-                "hover:bg-current hover:text-[#F4F0E8]",
+                "group relative inline-flex",
+                "h-[40px] items-center gap-3",
+                "overflow-hidden",
+                "border border-[#1683FF]/70",
+                "bg-[#0066FF]",
+                "px-5",
+                "text-[8px]",
+                "font-medium",
+                "uppercase",
+                "tracking-[0.17em]",
+                "text-white",
+                "transition-all duration-500",
+                "hover:bg-[#1683FF]",
+                "hover:shadow-[0_10px_35px_rgba(0,102,255,.25)]",
               ].join(" ")}
             >
-              Begin Your Journey
-              <ArrowRight />
+
+              <span>
+                BEGIN YOUR JOURNEY
+              </span>
+
+              <span
+                className={[
+                  "transition-transform duration-300",
+                  "group-hover:translate-x-1",
+                ].join(" ")}
+              >
+                <ArrowRight />
+              </span>
+
             </Link>
+
+
+            
           </div>
 
-          {/* MOBILE MENU BUTTON */}
 
-          <button
-            type="button"
-            aria-label={
-              mobileOpen ? "Close menu" : "Open menu"
-            }
-            aria-expanded={mobileOpen}
-            onClick={() => {
-              setMobileOpen((current) => !current);
-              setActiveMenu(null);
-            }}
+          {/* =================================================
+              MOBILE ACTIONS
+          ================================================= */}
+
+          <div
             className={[
-              "ml-auto flex items-center justify-center lg:hidden",
-              "transition-opacity duration-300 hover:opacity-60",
+              "ml-auto flex items-center",
+              "gap-3 lg:hidden",
             ].join(" ")}
           >
-            <MenuIcon open={mobileOpen} />
-          </button>
+
+            <Link
+              href="/book"
+              onClick={closeAll}
+              className={[
+                "hidden sm:inline-flex",
+                "h-[34px] items-center",
+                "border border-[#1683FF]/70",
+                "bg-[#0066FF]",
+                "px-4",
+                "text-[8px]",
+                "font-medium",
+                "uppercase",
+                "tracking-[0.15em]",
+                "text-white",
+                "transition-colors duration-300",
+                "hover:bg-[#1683FF]",
+              ].join(" ")}
+            >
+              BEGIN YOUR JOURNEY
+            </Link>
+
+
+            <button
+              type="button"
+              aria-label="Open navigation"
+              aria-expanded={mobileOpen}
+              onClick={() =>
+                setMobileOpen(true)
+              }
+              className={[
+                "flex h-9 w-9",
+                "items-center justify-center",
+                "rounded-full",
+                "border border-white/10",
+                "text-white",
+                "transition-all duration-300",
+                "hover:border-[#4D9BFF]/60",
+                "hover:bg-[#0066FF]/10",
+              ].join(" ")}
+            >
+              <MenuIcon open={mobileOpen} />
+            </button>
+
+          </div>
+
         </div>
       </header>
 
+
       {/* =====================================================
-          MOBILE OVERLAY
+          FULL SCREEN MENU
       ===================================================== */}
 
       <AnimatePresence>
         {mobileOpen && (
-          <motion.div
-            initial={{
-              opacity: 0,
-            }}
-            animate={{
-              opacity: 1,
-            }}
-            exit={{
-              opacity: 0,
-            }}
-            transition={{
-              duration: reducedMotion ? 0 : 0.35,
-              ease: [0.22, 1, 0.36, 1],
-            }}
-            className="fixed inset-0 z-[90] overflow-y-auto bg-[#F4F0E8] text-[#241B16] lg:hidden"
-          >
-            <div className="min-h-screen px-5 pb-12 pt-[96px] sm:px-7">
-              <div className="mx-auto max-w-[760px]">
-                <MobileAccordion
-                  title="Explore"
-                  open={mobileSection === "explore"}
-                  onClick={() =>
-                    toggleMobileSection("explore")
-                  }
-                >
-                  <MobileExplore
-                    onClose={closeAll}
-                    large
-                  />
-                </MobileAccordion>
+          <>
 
-                <MobileAccordion
-                  title="Experience"
-                  open={mobileSection === "experience"}
-                  onClick={() =>
-                    toggleMobileSection("experience")
-                  }
-                >
-                  <MobileExperience
-                    onClose={closeAll}
-                    large
-                  />
-                </MobileAccordion>
+            {/* BACKDROP */}
 
-                <MobileAccordion
-                  title="Science"
-                  open={mobileSection === "science"}
-                  onClick={() =>
-                    toggleMobileSection("science")
-                  }
-                >
-                  <MobileSimpleLinks
-                    links={scienceLinks}
-                    href="/science"
-                    onClose={closeAll}
-                    large
-                  />
-                </MobileAccordion>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{
+                opacity: 0.65,
+              }}
+              exit={{ opacity: 0 }}
+              transition={{
+                duration: reducedMotion
+                  ? 0
+                  : 0.35,
+              }}
+              className={[
+                "fixed inset-0 z-[190]",
+                "bg-[#01050B]",
+                "hidden lg:block",
+              ].join(" ")}
+              onClick={closeAll}
+            />
 
-                <MobileAccordion
-                  title="Circle"
-                  open={mobileSection === "circle"}
-                  onClick={() =>
-                    toggleMobileSection("circle")
-                  }
-                >
-                  <MobileSimpleLinks
-                    links={circleLinks}
-                    href="/circle"
-                    onClose={closeAll}
-                    large
-                  />
-                </MobileAccordion>
 
-                <MobileAccordion
-                  title="Locations"
-                  open={mobileSection === "locations"}
-                  onClick={() =>
-                    toggleMobileSection("locations")
-                  }
-                >
-                  <MobileLocations
-                    onClose={closeAll}
-                    large
-                  />
-                </MobileAccordion>
+            {/* MENU PANEL */}
 
-                <MobileAccordion
-                  title="For Partners"
-                  open={mobileSection === "partners"}
-                  onClick={() =>
-                    toggleMobileSection("partners")
-                  }
-                >
-                  <MobilePartners
-                    onClose={closeAll}
-                    large
-                  />
-                </MobileAccordion>
+            <motion.div
+              initial={
+                reducedMotion
+                  ? {
+                      opacity: 1,
+                    }
+                  : {
+                      opacity: 0,
+                      scale: 1.02,
+                      filter: "blur(8px)",
+                    }
+              }
+              animate={{
+                opacity: 1,
+                scale: 1,
+                filter: "blur(0px)",
+              }}
+              exit={
+                reducedMotion
+                  ? {
+                      opacity: 0,
+                    }
+                  : {
+                      opacity: 0,
+                      scale: 1.01,
+                      filter: "blur(6px)",
+                    }
+              }
+              transition={{
+                duration: reducedMotion
+                  ? 0
+                  : 0.4,
+                ease: [
+                  0.22,
+                  1,
+                  0.36,
+                  1,
+                ],
+              }}
+              className={[
+                "fixed inset-0 z-[200]",
+                "overflow-hidden",
+                "bg-[#020812]",
+                "text-[#F7FAFF]",
+              ].join(" ")}
+            >
 
-                <div className="mt-8 grid gap-3 border-t border-[#241B16]/10 pt-8">
-                  <Link
-                    href="/contact"
-                    onClick={closeAll}
-                    className="inline-flex min-h-[54px] items-center justify-between border border-[#241B16] px-5 text-[11px] font-medium uppercase tracking-[0.14em]"
-                  >
-                    Begin Your Journey
-                    <ArrowRight />
-                  </Link>
+              {/* Ambient blue glow */}
+
+              <div className="pointer-events-none absolute left-1/2 top-[20%] h-[600px] w-[600px] -translate-x-1/2 rounded-full bg-[#0066FF]/[0.08] blur-[120px]" />
+
+
+              {/* Grid */}
+
+              <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_right,rgba(140,203,255,.035)_1px,transparent_1px),linear-gradient(to_bottom,rgba(140,203,255,.035)_1px,transparent_1px)] bg-[size:80px_80px]" />
+
+
+              <div className="relative flex h-full flex-col">
+
+                {/* =================================================
+                    OVERLAY HEADER
+                ================================================= */}
+
+                <div
+                  className={[
+                    "flex h-[78px] shrink-0",
+                    "items-center justify-between",
+                    "border-b border-white/10",
+                    "px-5 sm:px-8 lg:px-12",
+                  ].join(" ")}
+                >
 
                   <Link
-                    href="/#locations"
+                    href="/"
                     onClick={closeAll}
-                    className="inline-flex min-h-[54px] items-center justify-between border border-[#241B16]/10 px-5 text-[11px] font-medium uppercase tracking-[0.14em]"
+                    aria-label="DRIPLABS home"
                   >
-                    Find Your Nearest
-                    <MapPinIcon />
+                    <Image
+                      src="/images/brand/driplabs-logo.webp"
+                      alt="DRIPLABS"
+                      width={130}
+                      height={44}
+                      className={[
+                        "h-auto w-[108px]",
+                        "object-contain",
+                        "brightness-0 invert",
+                      ].join(" ")}
+                    />
                   </Link>
+
+
+                  <button
+                    type="button"
+                    aria-label="Close navigation"
+                    onClick={closeAll}
+                    className={[
+                      "flex h-10 w-10",
+                      "items-center justify-center",
+                      "rounded-full",
+                      "border border-white/10",
+                      "text-white",
+                      "transition-all duration-300",
+                      "hover:border-[#4D9BFF]/60",
+                      "hover:bg-[#0066FF]/10",
+                      "hover:text-[#8CCBFF]",
+                    ].join(" ")}
+                  >
+                    <MenuIcon open />
+                  </button>
+
                 </div>
+
+
+                {/* =================================================
+                    MENU CONTENT
+                ================================================= */}
+
+                <div className="flex-1 overflow-y-auto">
+
+                  <div
+                    className={[
+                      "mx-auto flex min-h-full",
+                      "max-w-[1500px]",
+                      "flex-col",
+                      "px-5 py-10",
+                      "sm:px-8 sm:py-14",
+                      "lg:px-16 lg:py-16",
+                    ].join(" ")}
+                  >
+
+                    {/* =========================================
+                        DESKTOP / TABLET
+                    ========================================= */}
+
+                    <div
+                      className={[
+                        "hidden",
+                        "lg:grid",
+                        "lg:grid-cols-[1.1fr_0.9fr]",
+                        "lg:gap-20",
+                      ].join(" ")}
+                    >
+
+                      <div>
+
+                        <EditorialMenuLink
+                          label="Explore"
+                          index="01"
+                          onClick={() =>
+                            setMobileSection(
+                              mobileSection === "explore"
+                                ? null
+                                : "explore",
+                            )
+                          }
+                          open={
+                            mobileSection === "explore"
+                          }
+                          reducedMotion={
+                            !!reducedMotion
+                          }
+                        />
+
+
+                        <EditorialMenuLink
+                          label="Experience"
+                          index="02"
+                          onClick={() =>
+                            setMobileSection(
+                              mobileSection === "experience"
+                                ? null
+                                : "experience",
+                            )
+                          }
+                          open={
+                            mobileSection === "experience"
+                          }
+                          reducedMotion={
+                            !!reducedMotion
+                          }
+                        />
+
+
+                        <EditorialMenuLink
+                          label="Science"
+                          index="03"
+                          onClick={() =>
+                            setMobileSection(
+                              mobileSection === "science"
+                                ? null
+                                : "science",
+                            )
+                          }
+                          open={
+                            mobileSection === "science"
+                          }
+                          reducedMotion={
+                            !!reducedMotion
+                          }
+                        />
+
+
+                        <EditorialMenuLink
+                          label="Circle"
+                          index="04"
+                          onClick={() =>
+                            setMobileSection(
+                              mobileSection === "circle"
+                                ? null
+                                : "circle",
+                            )
+                          }
+                          open={
+                            mobileSection === "circle"
+                          }
+                          reducedMotion={
+                            !!reducedMotion
+                          }
+                        />
+
+
+                        <EditorialMenuLink
+                          label="Locations"
+                          index="05"
+                          onClick={() =>
+                            setMobileSection(
+                              mobileSection === "locations"
+                                ? null
+                                : "locations",
+                            )
+                          }
+                          open={
+                            mobileSection === "locations"
+                          }
+                          reducedMotion={
+                            !!reducedMotion
+                          }
+                        />
+
+
+                        <EditorialMenuLink
+                          label="For Partners"
+                          index="06"
+                          onClick={() =>
+                            setMobileSection(
+                              mobileSection === "partners"
+                                ? null
+                                : "partners",
+                            )
+                          }
+                          open={
+                            mobileSection === "partners"
+                          }
+                          reducedMotion={
+                            !!reducedMotion
+                          }
+                        />
+
+                      </div>
+
+
+                      {/* DETAIL PANEL */}
+
+                      <div
+                        className={[
+                          "border-l",
+                          "border-white/10",
+                          "pl-12",
+                        ].join(" ")}
+                      >
+
+                        <AnimatePresence mode="wait">
+
+                          {mobileSection === "explore" && (
+                            <motion.div
+                              key="explore"
+                              initial={{
+                                opacity: 0,
+                                y: 12,
+                              }}
+                              animate={{
+                                opacity: 1,
+                                y: 0,
+                              }}
+                              exit={{
+                                opacity: 0,
+                                y: -8,
+                              }}
+                              transition={{
+                                duration: 0.3,
+                              }}
+                            >
+                              <MobileExplore
+                                onClose={closeAll}
+                                large
+                              />
+                            </motion.div>
+                          )}
+
+
+                          {mobileSection === "experience" && (
+                            <motion.div
+                              key="experience"
+                              initial={{
+                                opacity: 0,
+                                y: 12,
+                              }}
+                              animate={{
+                                opacity: 1,
+                                y: 0,
+                              }}
+                              exit={{
+                                opacity: 0,
+                                y: -8,
+                              }}
+                              transition={{
+                                duration: 0.3,
+                              }}
+                            >
+                              <MobileExperience
+                                onClose={closeAll}
+                                large
+                              />
+                            </motion.div>
+                          )}
+
+
+                          {mobileSection === "science" && (
+                            <motion.div
+                              key="science"
+                              initial={{
+                                opacity: 0,
+                                y: 12,
+                              }}
+                              animate={{
+                                opacity: 1,
+                                y: 0,
+                              }}
+                              exit={{
+                                opacity: 0,
+                                y: -8,
+                              }}
+                              transition={{
+                                duration: 0.3,
+                              }}
+                            >
+                              <MobileSimpleLinks
+                                links={scienceLinks}
+                                onClose={closeAll}
+                                large
+                              />
+                            </motion.div>
+                          )}
+
+
+                          {mobileSection === "circle" && (
+                            <motion.div
+                              key="circle"
+                              initial={{
+                                opacity: 0,
+                                y: 12,
+                              }}
+                              animate={{
+                                opacity: 1,
+                                y: 0,
+                              }}
+                              exit={{
+                                opacity: 0,
+                                y: -8,
+                              }}
+                              transition={{
+                                duration: 0.3,
+                              }}
+                            >
+                              <MobileSimpleLinks
+                                links={circleLinks}
+                                onClose={closeAll}
+                                large
+                              />
+                            </motion.div>
+                          )}
+
+
+                          {mobileSection === "locations" && (
+                            <motion.div
+                              key="locations"
+                              initial={{
+                                opacity: 0,
+                                y: 12,
+                              }}
+                              animate={{
+                                opacity: 1,
+                                y: 0,
+                              }}
+                              exit={{
+                                opacity: 0,
+                                y: -8,
+                              }}
+                              transition={{
+                                duration: 0.3,
+                              }}
+                            >
+                              <MobileLocations
+                                onClose={closeAll}
+                                large
+                              />
+                            </motion.div>
+                          )}
+
+
+                          {mobileSection === "partners" && (
+                            <motion.div
+                              key="partners"
+                              initial={{
+                                opacity: 0,
+                                y: 12,
+                              }}
+                              animate={{
+                                opacity: 1,
+                                y: 0,
+                              }}
+                              exit={{
+                                opacity: 0,
+                                y: -8,
+                              }}
+                              transition={{
+                                duration: 0.3,
+                              }}
+                            >
+                              <MobilePartners
+                                onClose={closeAll}
+                                large
+                              />
+                            </motion.div>
+                          )}
+
+                        </AnimatePresence>
+
+                      </div>
+                    </div>
+
+
+                    {/* =========================================
+                        MOBILE
+                    ========================================= */}
+
+                    <div className="lg:hidden">
+
+                      <MobileAccordion
+                        title="EXPLORE"
+                        open={
+                          mobileSection === "explore"
+                        }
+                        onClick={() =>
+                          toggleMobileSection(
+                            "explore",
+                          )
+                        }
+                      >
+                        <MobileExplore
+                          onClose={closeAll}
+                        />
+                      </MobileAccordion>
+
+
+                      <MobileAccordion
+                        title="EXPERIENCE"
+                        open={
+                          mobileSection === "experience"
+                        }
+                        onClick={() =>
+                          toggleMobileSection(
+                            "experience",
+                          )
+                        }
+                      >
+                        <MobileExperience
+                          onClose={closeAll}
+                        />
+                      </MobileAccordion>
+
+
+                      <MobileAccordion
+                        title="SCIENCE"
+                        open={
+                          mobileSection === "science"
+                        }
+                        onClick={() =>
+                          toggleMobileSection(
+                            "science",
+                          )
+                        }
+                      >
+                        <MobileSimpleLinks
+                          links={scienceLinks}
+                          onClose={closeAll}
+                        />
+                      </MobileAccordion>
+
+
+                      <MobileAccordion
+                        title="CIRCLE"
+                        open={
+                          mobileSection === "circle"
+                        }
+                        onClick={() =>
+                          toggleMobileSection(
+                            "circle",
+                          )
+                        }
+                      >
+                        <MobileSimpleLinks
+                          links={circleLinks}
+                          onClose={closeAll}
+                        />
+                      </MobileAccordion>
+
+
+                      <MobileAccordion
+                        title="LOCATIONS"
+                        open={
+                          mobileSection === "locations"
+                        }
+                        onClick={() =>
+                          toggleMobileSection(
+                            "locations",
+                          )
+                        }
+                      >
+                        <MobileLocations
+                          onClose={closeAll}
+                        />
+                      </MobileAccordion>
+
+
+                      <MobileAccordion
+                        title="FOR PARTNERS"
+                        open={
+                          mobileSection === "partners"
+                        }
+                        onClick={() =>
+                          toggleMobileSection(
+                            "partners",
+                          )
+                        }
+                      >
+                        <MobilePartners
+                          onClose={closeAll}
+                        />
+                      </MobileAccordion>
+
+                    </div>
+
+
+                    {/* =========================================
+                        FINAL CTA
+                    ========================================= */}
+
+                    <div className="mt-auto pt-12 lg:pt-16">
+
+                      <Link
+                        href="/book"
+                        onClick={closeAll}
+                        className={[
+                          "group flex w-full",
+                          "items-center justify-between",
+                          "border-t border-white/10",
+                          "py-6",
+                        ].join(" ")}
+                      >
+
+                        <span
+                          className={[
+                            "font-[var(--font-heading)]",
+                            "text-[clamp(2rem,4vw,4rem)]",
+                            "leading-none",
+                            "tracking-[-0.035em]",
+                            "text-white",
+                          ].join(" ")}
+                        >
+                          Begin Your Journey
+                        </span>
+
+
+                        <span
+                          className={[
+                            "flex h-12 w-12",
+                            "shrink-0 items-center",
+                            "justify-center",
+                            "rounded-full",
+                            "bg-[#0066FF]",
+                            "text-white",
+                            "transition-all duration-300",
+                            "group-hover:translate-x-1",
+                            "group-hover:bg-[#1683FF]",
+                            "group-hover:shadow-[0_8px_30px_rgba(0,102,255,.25)]",
+                          ].join(" ")}
+                        >
+                          <ArrowRight />
+                        </span>
+
+                      </Link>
+
+                    </div>
+
+                  </div>
+
+                </div>
+
               </div>
-            </div>
-          </motion.div>
+
+            </motion.div>
+
+          </>
         )}
       </AnimatePresence>
     </>
   );
 }
+
 
 /* =========================================================
    DESKTOP NAV ITEM
@@ -704,7 +1625,6 @@ function DesktopNavItem({
   openMenu,
   closeMenu,
   keepMenuOpen,
-  scrolled,
   children,
 }: {
   label: string;
@@ -713,76 +1633,144 @@ function DesktopNavItem({
   openMenu: (menu: MenuKey) => void;
   closeMenu: () => void;
   keepMenuOpen: () => void;
-  scrolled: boolean;
   children: ReactNode;
 }) {
-  const open = activeMenu === menu;
+  const isActive =
+    activeMenu === menu;
 
   return (
     <div
-      className="relative"
-      onMouseEnter={() => openMenu(menu)}
+      className="relative flex h-full items-center"
+      onMouseEnter={() =>
+        openMenu(menu)
+      }
       onMouseLeave={closeMenu}
     >
+
       <button
         type="button"
-        aria-expanded={open}
-        aria-haspopup="true"
-        onFocus={() => openMenu(menu)}
-        onBlur={closeMenu}
+        aria-expanded={isActive}
+        onClick={() => {
+          if (isActive) {
+            closeMenu();
+          } else {
+            openMenu(menu);
+          }
+        }}
         className={[
-          "group flex items-center gap-[3px]",
-          "h-7 whitespace-nowrap",
-          "text-[8px] xl:text-[8.5px] 2xl:text-[9px]",
-          "font-normal uppercase tracking-[0.19em]",
-          "leading-none",
+          "group relative flex",
+          "items-center gap-1.5",
+          "py-3",
+          "text-[8px]",
+          "font-medium",
+          "uppercase",
+          "tracking-[0.17em]",
+          "text-white/75",
           "transition-colors duration-300",
-
-          scrolled
-            ? "text-[#241B16] hover:text-[#006F8F]"
-            : "text-white hover:text-white/65",
+          "hover:text-white",
         ].join(" ")}
       >
-        {label}
 
-        <span className="scale-[0.7] opacity-80">
-          <ChevronDown open={open} />
+        <span>
+          {label}
         </span>
+
+
+        <span
+          className={[
+            "transition-colors duration-300",
+            isActive
+              ? "text-[#4D9BFF]"
+              : "text-white/35",
+          ].join(" ")}
+        >
+          <ChevronDown
+            open={isActive}
+          />
+        </span>
+
+
+        {/* active line */}
+
+        <span
+          className={[
+            "absolute bottom-[2px]",
+            "left-0 h-px",
+            "bg-[#1683FF]",
+            "transition-all duration-300",
+            isActive
+              ? "w-full opacity-100"
+              : [
+                  "w-0 opacity-0",
+                  "group-hover:w-full",
+                  "group-hover:opacity-100",
+                ].join(" "),
+          ].join(" ")}
+        />
+
       </button>
 
+
+      {/* bridge */}
+
+      <div
+        className={[
+          "absolute left-1/2 top-full",
+          "h-5 w-full",
+          "-translate-x-1/2",
+        ].join(" ")}
+        aria-hidden="true"
+      />
+
+
       <AnimatePresence>
-        {open && (
+        {isActive && (
           <motion.div
             initial={{
               opacity: 0,
               y: 8,
-              filter: "blur(4px)",
+              scale: 0.985,
             }}
             animate={{
               opacity: 1,
               y: 0,
-              filter: "blur(0px)",
+              scale: 1,
             }}
             exit={{
               opacity: 0,
-              y: 6,
-              filter: "blur(3px)",
+              y: -4,
+              scale: 0.99,
             }}
             transition={{
-              duration: 0.25,
-              ease: [0.22, 1, 0.36, 1],
+              duration: 0.28,
+              ease: [
+                0.22,
+                1,
+                0.36,
+                1,
+              ],
             }}
-            onMouseEnter={keepMenuOpen}
-            onMouseLeave={closeMenu}
-            className="absolute left-1/2 top-full -translate-x-1/2 pt-3"
+            onMouseEnter={
+              keepMenuOpen
+            }
+            onMouseLeave={
+              closeMenu
+            }
+            className={[
+              "absolute left-1/2",
+              "top-[calc(100%+14px)]",
+              "-translate-x-1/2",
+            ].join(" ")}
           >
             {children}
           </motion.div>
         )}
       </AnimatePresence>
+
     </div>
   );
 }
+
 
 /* =========================================================
    DROPDOWN FRAME
@@ -798,9 +1786,19 @@ function DropdownFrame({
   return (
     <div
       className={[
-        "border border-white/30",
-        "bg-[#F4EEE4]/[0.95] backdrop-blur-2xl",
-        "shadow-[0_20px_60px_rgba(28,18,12,0.18),0_4px_16px_rgba(28,18,12,0.08)]",
+        "relative",
+        "border border-white/10",
+        "bg-[#06152B]/[0.97]",
+        "text-[#F7FAFF]",
+        "backdrop-blur-2xl",
+        "shadow-[0_28px_80px_rgba(0,0,0,.38)]",
+        "before:absolute",
+        "before:left-1/2",
+        "before:top-[-1px]",
+        "before:h-px",
+        "before:w-16",
+        "before:-translate-x-1/2",
+        "before:bg-[#1683FF]",
         className,
       ].join(" ")}
     >
@@ -808,6 +1806,7 @@ function DropdownFrame({
     </div>
   );
 }
+
 
 /* =========================================================
    DROPDOWN HEADER
@@ -822,16 +1821,55 @@ function DropdownHeader({
 }) {
   return (
     <div className="mb-6">
-      <h3 className="font-[var(--font-heading)] text-[24px] leading-none tracking-[-0.025em] text-[#006F8F]">
+
+      <div className="flex items-center gap-3">
+
+        <span className="h-px w-6 bg-[#0066FF]" />
+
+        <span
+          className={[
+            "text-[7px]",
+            "uppercase",
+            "tracking-[0.25em]",
+            "text-[#4D9BFF]",
+          ].join(" ")}
+        >
+          DRIPLABS
+        </span>
+
+      </div>
+
+
+      <h3
+        className={[
+          "mt-4",
+          "font-[var(--font-heading)]",
+          "text-[26px]",
+          "font-light",
+          "leading-none",
+          "tracking-[-0.035em]",
+          "text-white",
+        ].join(" ")}
+      >
         {title}
       </h3>
 
-      <p className="mt-1.5 text-[10px] leading-4 tracking-[0.02em] text-[#6F5747]">
+
+      <p
+        className={[
+          "mt-2",
+          "text-[9px]",
+          "leading-4",
+          "text-white/40",
+        ].join(" ")}
+      >
         {subtitle}
       </p>
+
     </div>
   );
 }
+
 
 /* =========================================================
    EXPLORE DROPDOWN
@@ -843,64 +1881,126 @@ function ExploreDropdown({
   onClose: () => void;
 }) {
   return (
-    <DropdownFrame className="w-[295px] p-4">
+    <DropdownFrame
+      className="w-[390px] p-7"
+    >
+
       <DropdownHeader
         title="Explore"
-        subtitle="Find your path to better living"
+        subtitle="Discover your wellness path"
       />
 
+
+      {/* WELLNESS */}
+
       <div>
-        <div className="mb-4 flex items-center justify-between border-t border-[#241B16]/10 pt-4">
-          <span className="text-[11px] font-medium uppercase tracking-[0.16em] text-[#756C64]">
+
+        <div
+          className={[
+            "mb-4 flex",
+            "items-center justify-between",
+            "border-t border-white/10",
+            "pt-5",
+          ].join(" ")}
+        >
+
+          <span
+            className={[
+              "text-[8px]",
+              "font-medium",
+              "uppercase",
+              "tracking-[0.16em]",
+              "text-white/75",
+            ].join(" ")}
+          >
             Wellness Paths
           </span>
 
-          <ChevronRight />
+          <span className="text-white/35">
+            <ChevronRight />
+          </span>
+
         </div>
 
-        <div className="grid grid-cols-2 gap-x-7 gap-y-3">
-          {wellnessPaths.map((item) => (
-            <Link
-              key={item}
-              href="/protocols"
-              onClick={onClose}
-              className="text-[10px] leading-4 text-[#241B16] transition-colors duration-200 hover:text-[#F8FAF8]"
-            >
-              {item}
-            </Link>
-          ))}
+
+        <div
+          className={[
+            "grid grid-cols-2",
+            "gap-x-7 gap-y-3",
+          ].join(" ")}
+        >
+          {wellnessPaths.map(
+            (item) => (
+              <DropdownLink
+                key={item}
+                label={item}
+                href="/protocols"
+                onClose={onClose}
+              />
+            ),
+          )}
         </div>
+
       </div>
 
-      <div className="mt-6 border-t border-[#241B16]/10 pt-4">
-        <div className="mb-4 flex items-center justify-between">
-          <span className="text-[11px] font-medium uppercase tracking-[0.16em] text-[#756C64]">
+
+      {/* FEATURED */}
+
+      <div
+        className={[
+          "mt-7",
+          "border-t border-white/10",
+          "pt-5",
+        ].join(" ")}
+      >
+
+        <div
+          className={[
+            "mb-4 flex",
+            "items-center justify-between",
+          ].join(" ")}
+        >
+
+          <span
+            className={[
+              "text-[8px]",
+              "font-medium",
+              "uppercase",
+              "tracking-[0.16em]",
+              "text-white/75",
+            ].join(" ")}
+          >
             Featured
           </span>
 
-          <ChevronRight />
+          <span className="text-white/35">
+            <ChevronRight />
+          </span>
+
         </div>
+
 
         <div className="space-y-3">
-          {featuredLinks.map((item) => (
-            <Link
-              key={item}
-              href="/protocols"
-              onClick={onClose}
-              className="group flex items-center justify-between gap-3 text-[10px] leading-4 text-[#241B16] transition-colors duration-200 hover:text-[#6F5747]"
-            >
-              <span>{item}</span>
 
-              <span className="translate-x-[-3px] opacity-0 transition-all duration-200 group-hover:translate-x-0 group-hover:opacity-100">
-                <ChevronRight />
-              </span>
-            </Link>
-          ))}
+          {featuredLinks.map(
+            (item) => (
+              <DropdownLink
+                key={item.label}
+                label={item.label}
+                href={item.href}
+                onClose={onClose}
+              />
+            ),
+          )}
+
         </div>
+
       </div>
+
     </DropdownFrame>
   );
 }
+
 
 /* =========================================================
    EXPERIENCE DROPDOWN
@@ -912,39 +2012,90 @@ function ExperienceDropdown({
   onClose: () => void;
 }) {
   return (
-    <DropdownFrame className="w-[305px] p-4">
+    <DropdownFrame
+      className="w-[380px] p-7"
+    >
+
       <DropdownHeader
         title="Experience"
         subtitle="How you can experience DRIPLABS"
       />
 
-      <div className="space-y-4">
-        {experienceItems.map((item) => (
-          <Link
-            key={item.title}
-            href={item.href}
-            onClick={onClose}
-            className="group block"
-          >
-            <div className="flex items-center justify-between gap-3">
-              <span className="text-[11px] font-medium text-[#241B16] transition-colors duration-200 group-hover:text-[#6F5747]">
-                {item.title}
-              </span>
 
-              <span className="translate-x-[-3px] opacity-0 transition-all duration-200 group-hover:translate-x-0 group-hover:opacity-100">
-                <ChevronRight />
-              </span>
-            </div>
+      <div className="space-y-5">
 
-            <span className="mt-1 block text-[9px] leading-4 text-[#6F5747]">
-              {item.description}
-            </span>
-          </Link>
-        ))}
+        {experienceItems.map(
+          (item) => (
+            <Link
+              key={item.title}
+              href={item.href}
+              onClick={onClose}
+              className="group block"
+            >
+
+              <div
+                className={[
+                  "flex items-start",
+                  "justify-between",
+                  "gap-5",
+                ].join(" ")}
+              >
+
+                <div>
+
+                  <span
+                    className={[
+                      "block",
+                      "text-[11px]",
+                      "font-medium",
+                      "text-white/80",
+                      "transition-colors",
+                      "group-hover:text-[#8CCBFF]",
+                    ].join(" ")}
+                  >
+                    {item.title}
+                  </span>
+
+
+                  <span
+                    className={[
+                      "mt-1.5 block",
+                      "text-[9px]",
+                      "leading-4",
+                      "text-white/35",
+                    ].join(" ")}
+                  >
+                    {item.description}
+                  </span>
+
+                </div>
+
+
+                <span
+                  className={[
+                    "mt-1",
+                    "text-[#4D9BFF]",
+                    "opacity-0",
+                    "transition-all duration-300",
+                    "group-hover:translate-x-1",
+                    "group-hover:opacity-100",
+                  ].join(" ")}
+                >
+                  <ArrowRight />
+                </span>
+
+              </div>
+
+            </Link>
+          ),
+        )}
+
       </div>
+
     </DropdownFrame>
   );
 }
+
 
 /* =========================================================
    SCIENCE DROPDOWN
@@ -956,25 +2107,35 @@ function ScienceDropdown({
   onClose: () => void;
 }) {
   return (
-    <DropdownFrame className="w-[240px] p-4">
+    <DropdownFrame
+      className="w-[330px] p-7"
+    >
+
       <DropdownHeader
         title="Science"
-        subtitle="The thinking behind the experience"
+        subtitle="Evidence. Transparency. Trust."
       />
 
-      <div className="space-y-3">
-        {scienceLinks.map((item) => (
-          <DropdownLink
-            key={item}
-            label={item}
-            href="/science"
-            onClick={onClose}
-          />
-        ))}
+
+      <div className="space-y-3.5">
+
+        {scienceLinks.map(
+          (item) => (
+            <DropdownLink
+              key={item.label}
+              label={item.label}
+              href={item.href}
+              onClose={onClose}
+            />
+          ),
+        )}
+
       </div>
+
     </DropdownFrame>
   );
 }
+
 
 /* =========================================================
    CIRCLE DROPDOWN
@@ -986,25 +2147,35 @@ function CircleDropdown({
   onClose: () => void;
 }) {
   return (
-    <DropdownFrame className="w-[220px] p-4">
+    <DropdownFrame
+      className="w-[290px] p-7"
+    >
+
       <DropdownHeader
         title="Circle"
-        subtitle="Membership, access & benefits"
+        subtitle="More than a membership"
       />
 
-      <div className="space-y-3">
-        {circleLinks.map((item) => (
-          <DropdownLink
-            key={item}
-            label={item}
-            href="/circle"
-            onClick={onClose}
-          />
-        ))}
+
+      <div className="space-y-3.5">
+
+        {circleLinks.map(
+          (item) => (
+            <DropdownLink
+              key={item.label}
+              label={item.label}
+              href={item.href}
+              onClose={onClose}
+            />
+          ),
+        )}
+
       </div>
+
     </DropdownFrame>
   );
 }
+
 
 /* =========================================================
    LOCATIONS DROPDOWN
@@ -1016,36 +2187,80 @@ function LocationsDropdown({
   onClose: () => void;
 }) {
   return (
-    <DropdownFrame className="w-[205px] p-4">
+    <DropdownFrame
+      className="w-[285px] p-7"
+    >
+
       <DropdownHeader
         title="Locations"
         subtitle="Find DRIPLABS near you"
       />
 
-      <div className="space-y-3">
-        {locationLinks.map((item) => (
-          <DropdownLink
-            key={item.label}
-            label={item.label}
-            href={item.href}
-            onClick={onClose}
-          />
-        ))}
+
+      <div className="space-y-3.5">
+
+        {locationLinks.map(
+          (item) => (
+            <DropdownLink
+              key={item.label}
+              label={item.label}
+              href={item.href}
+              onClose={onClose}
+            />
+          ),
+        )}
+
       </div>
 
-      <div className="mt-5 border-t border-[#241B16]/10 pt-4">
+
+      <div
+        className={[
+          "mt-6",
+          "border-t border-white/10",
+          "pt-5",
+        ].join(" ")}
+      >
+
         <Link
-          href="/#locations"
+          href="/locations"
           onClick={onClose}
-          className="flex items-center gap-3 text-[10px] font-medium uppercase tracking-[0.14em] text-[#241B16] transition-colors duration-200 hover:text-[#6F5747]"
+          className={[
+            "group flex",
+            "items-center gap-2",
+            "text-[8px]",
+            "font-medium",
+            "uppercase",
+            "tracking-[0.14em]",
+            "text-white/70",
+            "transition-colors",
+            "hover:text-[#8CCBFF]",
+          ].join(" ")}
         >
+
           <MapPinIcon />
-          Find Your Nearest
+
+          <span>
+            Find Your Nearest
+          </span>
+
+          <span
+            className={[
+              "ml-auto",
+              "transition-transform duration-300",
+              "group-hover:translate-x-1",
+            ].join(" ")}
+          >
+            <ArrowRight />
+          </span>
+
         </Link>
+
       </div>
+
     </DropdownFrame>
   );
 }
+
 
 /* =========================================================
    PARTNERS DROPDOWN
@@ -1057,60 +2272,78 @@ function PartnersDropdown({
   onClose: () => void;
 }) {
   return (
-    <DropdownFrame className="w-[280px] p-4">
+    <DropdownFrame
+      className="w-[370px] p-7"
+    >
+
       <DropdownHeader
         title="For Partners"
-        subtitle="Build with DRIPLABS"
+        subtitle="Build the future with us"
       />
 
-      <div className="space-y-5">
-        <PartnerDropdownGroup
-          title="Physicians"
-          links={physicianLinks}
-          href="/physicians"
-          onClose={onClose}
-        />
 
-        <PartnerDivider />
+      <PartnerDropdownGroup
+        title="Physicians"
+        links={physicianLinks}
+        href="/physicians"
+        onClose={onClose}
+      />
 
-        <PartnerDropdownGroup
-          title="Clinics & Centres"
-          links={clinicLinks}
-          href="/physicians"
-          onClose={onClose}
-        />
+      <PartnerDivider />
 
-        <PartnerDivider />
 
-        <PartnerDropdownGroup
-          title="Distributors"
-          links={distributorLinks}
-          href="/distributors"
-          onClose={onClose}
-        />
+      <PartnerDropdownGroup
+        title="Clinics & Centres"
+        links={clinicLinks}
+        href="/physicians"
+        onClose={onClose}
+      />
 
-        <PartnerDivider />
+      <PartnerDivider />
 
-        <PartnerDropdownGroup
-          title="Franchise"
-          links={franchiseLinks}
-          href="/partners"
-          onClose={onClose}
-        />
-      </div>
 
-      <div className="mt-5 border-t border-[#241B16]/10 pt-4">
-        <Link
-          href="/contact"
-          onClick={onClose}
-          className="inline-flex text-[10px] font-medium uppercase tracking-[0.14em] text-[#241B16] underline decoration-[#241B16]/20 underline-offset-4 transition-colors duration-200 hover:text-[#6F5747]"
-        >
-          Enquire Now
-        </Link>
-      </div>
+      <PartnerDropdownGroup
+        title="Distributors"
+        links={distributorLinks}
+        href="/distributors"
+        onClose={onClose}
+      />
+
+      <PartnerDivider />
+
+
+      <PartnerDropdownGroup
+        title="Franchise"
+        links={franchiseLinks}
+        href="/partners"
+        onClose={onClose}
+      />
+
+
+      <Link
+        href="/contact"
+        onClick={onClose}
+        className={[
+          "mt-6 inline-flex",
+          "text-[8px]",
+          "font-medium",
+          "uppercase",
+          "tracking-[0.15em]",
+          "text-[#4D9BFF]",
+          "underline",
+          "decoration-[#4D9BFF]/30",
+          "underline-offset-4",
+          "transition-colors",
+          "hover:text-[#8CCBFF]",
+        ].join(" ")}
+      >
+        Enquire Now
+      </Link>
+
     </DropdownFrame>
   );
 }
+
 
 /* =========================================================
    DROPDOWN LINK
@@ -1119,39 +2352,54 @@ function PartnersDropdown({
 function DropdownLink({
   label,
   href,
-  onClick,
+  onClose,
 }: {
   label: string;
   href: string;
-  onClick: () => void;
+  onClose: () => void;
 }) {
   return (
     <Link
       href={href}
-      onClick={onClick}
-      className="group flex items-center justify-between gap-3 text-[10px] leading-4 text-[#241B16] transition-colors duration-200 hover:text-[#6F5747]"
+      onClick={onClose}
+      className={[
+        "group flex",
+        "items-center",
+        "justify-between",
+        "gap-3",
+        "text-[9px]",
+        "leading-4",
+        "text-white/50",
+        "transition-colors duration-200",
+        "hover:text-white",
+      ].join(" ")}
     >
-      <span>{label}</span>
 
-      <span className="translate-x-[-3px] opacity-0 transition-all duration-200 group-hover:translate-x-0 group-hover:opacity-100">
-        <ChevronRight />
+      <span>
+        {label}
       </span>
+
+
+      <span
+        className={[
+          "translate-x-[-3px]",
+          "text-[#4D9BFF]",
+          "opacity-0",
+          "transition-all duration-200",
+          "group-hover:translate-x-0",
+          "group-hover:opacity-100",
+        ].join(" ")}
+      >
+        <ArrowRight />
+      </span>
+
     </Link>
   );
 }
 
-/* =========================================================
-   PARTNER DIVIDER
-========================================================= */
-
-function PartnerDivider() {
-  return (
-    <div className="my-5 h-px bg-[#241B16]/8" />
-  );
-}
 
 /* =========================================================
-   PARTNER DROPDOWN GROUP
+   PARTNER GROUP
 ========================================================= */
 
 function PartnerDropdownGroup({
@@ -1167,71 +2415,194 @@ function PartnerDropdownGroup({
 }) {
   return (
     <div>
+
       <Link
         href={href}
         onClick={onClose}
-        className="text-[11px] font-medium uppercase tracking-[0.14em] text-[#40362F] transition-colors duration-200 hover:text-[#6F5747]"
+        className={[
+          "text-[10px]",
+          "font-medium",
+          "text-white/80",
+          "transition-colors",
+          "hover:text-[#8CCBFF]",
+        ].join(" ")}
       >
         {title}
       </Link>
 
-      <div className="mt-2 grid gap-1 pl-3">
-        {links.map((item) => (
-          <Link
-            key={item}
-            href={href}
-            onClick={onClose}
-            className="text-[9px] leading-4 text-[#6F5747] transition-colors duration-200 hover:text-[#241B16]"
-          >
-            {item}
-          </Link>
-        ))}
+
+      <div
+        className={[
+          "mt-2.5 grid",
+          "gap-1.5 pl-3",
+        ].join(" ")}
+      >
+        {links.map(
+          (item) => (
+            <Link
+              key={item}
+              href={href}
+              onClick={onClose}
+              className={[
+                "text-[8px]",
+                "leading-4",
+                "text-white/35",
+                "transition-colors",
+                "hover:text-white/70",
+              ].join(" ")}
+            >
+              {item}
+            </Link>
+          ),
+        )}
       </div>
+
     </div>
   );
 }
+
+
+/* =========================================================
+   PARTNER DIVIDER
+========================================================= */
+
+function PartnerDivider() {
+  return (
+    <div className="my-5 h-px bg-white/10" />
+  );
+}
+
 
 /* =========================================================
    EDITORIAL MENU LINK
 ========================================================= */
 
 function EditorialMenuLink({
-  href,
   label,
-  description,
+  index,
   onClick,
+  open,
+  reducedMotion,
 }: {
-  href: string;
   label: string;
-  description?: string;
-  onClick?: () => void;
+  index: string;
+  onClick: () => void;
+  open: boolean;
+  reducedMotion: boolean;
 }) {
   return (
-    <Link
-      href={href}
+    <motion.button
+      type="button"
       onClick={onClick}
-      className="group block border-b border-[#241B16]/10 py-4 transition-colors duration-300 last:border-b-0"
+      initial={
+        reducedMotion
+          ? {
+              opacity: 1,
+              x: 0,
+            }
+          : {
+              opacity: 0,
+              x: -20,
+            }
+      }
+      animate={{
+        opacity: 1,
+        x: 0,
+      }}
+      transition={{
+        duration: reducedMotion
+          ? 0
+          : 0.45,
+        delay: reducedMotion
+          ? 0
+          : Number(index) * 0.06,
+        ease: [
+          0.22,
+          1,
+          0.36,
+          1,
+        ],
+      }}
+      className={[
+        "group flex w-full",
+        "items-baseline gap-5",
+        "border-b border-white/10",
+        "py-6",
+        "text-left",
+      ].join(" ")}
     >
-      <div className="flex items-center justify-between gap-5">
-        <div>
-          <span className="block font-[var(--font-heading)] text-[clamp(1.8rem,4vw,3rem)] leading-none tracking-[-0.035em] text-[#241B16] transition-colors duration-300 group-hover:text-[#6F5747]">
-            {label}
-          </span>
 
-          {description ? (
-            <span className="mt-2 block max-w-[480px] text-[10px] leading-5 text-[#756C64]">
-              {description}
-            </span>
-          ) : null}
-        </div>
+      {/* number */}
 
-        <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-[#241B16]/15 text-[#241B16] transition-all duration-300 group-hover:translate-x-1 group-hover:border-[#241B16]">
-          <ArrowRight />
-        </span>
-      </div>
-    </Link>
+      <span
+        className={[
+          "w-8 shrink-0",
+          "text-[9px]",
+          "font-medium",
+          "tracking-[0.18em]",
+          "text-[#4D9BFF]",
+        ].join(" ")}
+      >
+        {index}
+      </span>
+
+
+      {/* title */}
+
+      <span
+        className={[
+          "font-[var(--font-heading)]",
+          "text-[clamp(3rem,5.5vw,5.5rem)]",
+          "font-light",
+          "leading-[0.92]",
+          "tracking-[-0.045em]",
+          "text-white",
+          "transition-all duration-300",
+          open
+            ? "translate-x-2 text-[#8CCBFF]"
+            : [
+                "group-hover:translate-x-2",
+                "group-hover:text-[#8CCBFF]",
+              ].join(" "),
+        ].join(" ")}
+      >
+        {label}
+      </span>
+
+
+      {/* arrow */}
+
+      <span
+        className={[
+          "ml-auto shrink-0",
+          "flex h-11 w-11",
+          "items-center justify-center",
+          "rounded-full",
+          "border border-white/15",
+          "text-white",
+          "transition-all duration-300",
+          open
+            ? [
+                "translate-x-0",
+                "border-[#1683FF]",
+                "bg-[#0066FF]",
+                "opacity-100",
+              ].join(" ")
+            : [
+                "translate-x-[-8px]",
+                "opacity-0",
+                "group-hover:translate-x-0",
+                "group-hover:opacity-100",
+              ].join(" "),
+        ].join(" ")}
+      >
+        <ArrowRight />
+      </span>
+
+    </motion.button>
   );
 }
+
 
 /* =========================================================
    MOBILE ACCORDION
@@ -1249,21 +2620,56 @@ function MobileAccordion({
   children: ReactNode;
 }) {
   return (
-    <div className="border-b border-[#241B16]/10">
+    <div className="border-b border-white/10">
+
       <button
         type="button"
         onClick={onClick}
         aria-expanded={open}
-        className="flex min-h-[76px] w-full items-center justify-between text-left"
+        className={[
+          "flex min-h-[76px]",
+          "w-full items-center",
+          "justify-between",
+          "text-left",
+        ].join(" ")}
       >
-        <span className="font-[var(--font-heading)] text-[clamp(2rem,8vw,3rem)] leading-none tracking-[-0.035em]">
+
+        <span
+          className={[
+            "font-[var(--font-heading)]",
+            "text-[clamp(2rem,8vw,3rem)]",
+            "font-light",
+            "leading-none",
+            "tracking-[-0.04em]",
+            "transition-colors duration-300",
+            open
+              ? "text-[#8CCBFF]"
+              : "text-white",
+          ].join(" ")}
+        >
           {title}
         </span>
 
-        <span className="flex h-9 w-9 items-center justify-center rounded-full border border-[#241B16]/15">
-          <ChevronDown open={open} />
+
+        <span
+          className={[
+            "flex h-9 w-9",
+            "items-center justify-center",
+            "rounded-full",
+            "border",
+            open
+              ? "border-[#1683FF] bg-[#0066FF] text-white"
+              : "border-white/15 text-white/60",
+            "transition-all duration-300",
+          ].join(" ")}
+        >
+          <ChevronDown
+            open={open}
+          />
         </span>
+
       </button>
+
 
       <AnimatePresence initial={false}>
         {open && (
@@ -1282,7 +2688,12 @@ function MobileAccordion({
             }}
             transition={{
               duration: 0.35,
-              ease: [0.22, 1, 0.36, 1],
+              ease: [
+                0.22,
+                1,
+                0.36,
+                1,
+              ],
             }}
             className="overflow-hidden"
           >
@@ -1292,9 +2703,11 @@ function MobileAccordion({
           </motion.div>
         )}
       </AnimatePresence>
+
     </div>
   );
 }
+
 
 /* =========================================================
    MOBILE EXPLORE
@@ -1309,18 +2722,48 @@ function MobileExplore({
 }) {
   return (
     <div>
-      <p className="mb-7 max-w-[360px] text-[10px] leading-5 text-[#756C64]">
+
+      <p
+        className={[
+          "mb-7 max-w-[360px]",
+          "text-[10px]",
+          "leading-5",
+          "text-white/40",
+        ].join(" ")}
+      >
         Discover your wellness path
       </p>
 
+
       <div>
-        <div className="mb-5 flex items-center justify-between border-t border-[#241B16]/10 pt-5">
-          <span className="text-[11px] font-medium uppercase tracking-[0.14em]">
+
+        <div
+          className={[
+            "mb-5 flex",
+            "items-center justify-between",
+            "border-t border-white/10",
+            "pt-5",
+          ].join(" ")}
+        >
+
+          <span
+            className={[
+              "text-[8px]",
+              "font-medium",
+              "uppercase",
+              "tracking-[0.16em]",
+              "text-white/65",
+            ].join(" ")}
+          >
             Wellness Paths
           </span>
 
-          <ChevronRight />
+          <span className="text-[#4D9BFF]">
+            <ChevronRight />
+          </span>
+
         </div>
+
 
         <div
           className={
@@ -1329,56 +2772,113 @@ function MobileExplore({
               : "grid gap-3"
           }
         >
-          {wellnessPaths.map((item) => (
-            <Link
-              key={item}
-              href="/protocols"
-              onClick={onClose}
-              className={
-                large
-                  ? "text-[14px] leading-5 text-[#40362F] transition-colors hover:text-[#241B16]"
-                  : "text-[11px] text-[#40362F]"
-              }
-            >
-              {item}
-            </Link>
-          ))}
+
+          {wellnessPaths.map(
+            (item) => (
+              <Link
+                key={item}
+                href="/protocols"
+                onClick={onClose}
+                className={
+                  large
+                    ? [
+                        "text-[14px]",
+                        "leading-5",
+                        "text-white/55",
+                        "transition-colors",
+                        "hover:text-[#8CCBFF]",
+                      ].join(" ")
+                    : [
+                        "text-[11px]",
+                        "text-white/55",
+                      ].join(" ")
+                }
+              >
+                {item}
+              </Link>
+            ),
+          )}
+
         </div>
+
       </div>
 
-      <div className="mt-8 border-t border-[#241B16]/10 pt-5">
-        <div className="mb-5 flex items-center justify-between">
-          <span className="text-[11px] font-medium uppercase tracking-[0.14em]">
+
+      <div
+        className={[
+          "mt-8",
+          "border-t border-white/10",
+          "pt-5",
+        ].join(" ")}
+      >
+
+        <div
+          className={[
+            "mb-5 flex",
+            "items-center justify-between",
+          ].join(" ")}
+        >
+
+          <span
+            className={[
+              "text-[8px]",
+              "font-medium",
+              "uppercase",
+              "tracking-[0.16em]",
+              "text-white/65",
+            ].join(" ")}
+          >
             Featured
           </span>
 
-          <ChevronRight />
+          <span className="text-[#4D9BFF]">
+            <ChevronRight />
+          </span>
+
         </div>
+
 
         <div
           className={
-            large ? "grid gap-4" : "grid gap-3"
+            large
+              ? "grid gap-4"
+              : "grid gap-3"
           }
         >
-          {featuredLinks.map((item) => (
-            <Link
-              key={item}
-              href="/protocols"
-              onClick={onClose}
-              className={
-                large
-                  ? "text-[14px] text-[#40362F]"
-                  : "text-[11px] text-[#40362F]"
-              }
-            >
-              {item}
-            </Link>
-          ))}
+
+          {featuredLinks.map(
+            (item) => (
+              <Link
+                key={item.label}
+                href={item.href}
+                onClick={onClose}
+                className={
+                  large
+                    ? [
+                        "text-[14px]",
+                        "text-white/55",
+                        "transition-colors",
+                        "hover:text-[#8CCBFF]",
+                      ].join(" ")
+                    : [
+                        "text-[11px]",
+                        "text-white/55",
+                      ].join(" ")
+                }
+              >
+                {item.label}
+              </Link>
+            ),
+          )}
+
         </div>
+
       </div>
+
     </div>
   );
 }
+
 
 /* =========================================================
    MOBILE EXPERIENCE
@@ -1393,41 +2893,79 @@ function MobileExperience({
 }) {
   return (
     <div className="space-y-6">
-      <p className="text-[10px] leading-5 text-[#756C64]">
+
+      <p
+        className={[
+          "text-[10px]",
+          "leading-5",
+          "text-white/40",
+        ].join(" ")}
+      >
         How you can experience DRIPLABS
       </p>
 
-      {experienceItems.map((item) => (
-        <Link
-          key={item.title}
-          href={item.href}
-          onClick={onClose}
-          className="group block"
-        >
-          <span
-            className={
-              large
-                ? "block text-[17px] font-medium text-[#241B16]"
-                : "block text-[11px] font-medium text-[#241B16]"
-            }
-          >
-            {item.title}
-          </span>
 
-          <span
-            className={
-              large
-                ? "mt-1.5 block max-w-[420px] text-[11px] leading-5 text-[#756C64]"
-                : "mt-1 block text-[9px] leading-4 text-[#756C64]"
-            }
+      {experienceItems.map(
+        (item) => (
+          <Link
+            key={item.title}
+            href={item.href}
+            onClick={onClose}
+            className="group block"
           >
-            {item.description}
-          </span>
-        </Link>
-      ))}
+
+            <span
+              className={
+                large
+                  ? [
+                      "block",
+                      "text-[17px]",
+                      "font-medium",
+                      "text-white/80",
+                      "transition-colors",
+                      "group-hover:text-[#8CCBFF]",
+                    ].join(" ")
+                  : [
+                      "block",
+                      "text-[11px]",
+                      "font-medium",
+                      "text-white/80",
+                    ].join(" ")
+              }
+            >
+              {item.title}
+            </span>
+
+
+            <span
+              className={
+                large
+                  ? [
+                      "mt-1.5 block",
+                      "max-w-[420px]",
+                      "text-[11px]",
+                      "leading-5",
+                      "text-white/35",
+                    ].join(" ")
+                  : [
+                      "mt-1 block",
+                      "text-[9px]",
+                      "leading-4",
+                      "text-white/35",
+                    ].join(" ")
+              }
+            >
+              {item.description}
+            </span>
+
+          </Link>
+        ),
+      )}
+
     </div>
   );
 }
+
 
 /* =========================================================
    MOBILE SIMPLE LINKS
@@ -1435,35 +2973,44 @@ function MobileExperience({
 
 function MobileSimpleLinks({
   links,
-  href,
   onClose,
   large = false,
 }: {
-  links: string[];
-  href: string;
+  links: {
+    label: string;
+    href: string;
+  }[];
   onClose: () => void;
   large?: boolean;
 }) {
   return (
     <div className="grid gap-1">
-      {links.map((item) => (
-        <Link
-          key={item}
-          href={href}
-          onClick={onClose}
-          className={[
-            "flex items-center transition-colors hover:text-[#756C64]",
-            large
-              ? "min-h-[48px] text-[17px]"
-              : "min-h-[44px] text-[11px]",
-          ].join(" ")}
-        >
-          {item}
-        </Link>
-      ))}
+
+      {links.map(
+        (item) => (
+          <Link
+            key={item.label}
+            href={item.href}
+            onClick={onClose}
+            className={[
+              "flex items-center",
+              "transition-colors",
+              "hover:text-[#8CCBFF]",
+              large
+                ? "min-h-[48px] text-[17px]"
+                : "min-h-[44px] text-[11px]",
+              "text-white/55",
+            ].join(" ")}
+          >
+            {item.label}
+          </Link>
+        ),
+      )}
+
     </div>
   );
 }
+
 
 /* =========================================================
    MOBILE LOCATIONS
@@ -1478,46 +3025,80 @@ function MobileLocations({
 }) {
   return (
     <div>
-      <p className="mb-5 text-[10px] leading-5 text-[#756C64]">
+
+      <p
+        className={[
+          "mb-5",
+          "text-[10px]",
+          "leading-5",
+          "text-white/40",
+        ].join(" ")}
+      >
         Find DRIPLABS near you
       </p>
 
+
       <div className="grid gap-1">
-        {locationLinks.map((item) => (
-          <Link
-            key={item.label}
-            href={item.href}
-            onClick={onClose}
-            className={[
-              "flex items-center",
-              large
-                ? "min-h-[48px] text-[17px]"
-                : "min-h-[44px] text-[11px]",
-            ].join(" ")}
-          >
-            {item.label}
-          </Link>
-        ))}
+
+        {locationLinks.map(
+          (item) => (
+            <Link
+              key={item.label}
+              href={item.href}
+              onClick={onClose}
+              className={[
+                "flex items-center",
+                "text-white/55",
+                "transition-colors",
+                "hover:text-[#8CCBFF]",
+                large
+                  ? "min-h-[48px] text-[17px]"
+                  : "min-h-[44px] text-[11px]",
+              ].join(" ")}
+            >
+              {item.label}
+            </Link>
+          ),
+        )}
+
       </div>
 
-      <div className="mt-5 border-t border-[#241B16]/10 pt-4">
+
+      <div
+        className={[
+          "mt-5",
+          "border-t border-white/10",
+          "pt-4",
+        ].join(" ")}
+      >
+
         <Link
-          href="/#locations"
+          href="/locations"
           onClick={onClose}
           className={[
-            "flex items-center gap-3 font-medium",
+            "flex items-center gap-3",
+            "font-medium",
+            "text-[#4D9BFF]",
+            "transition-colors",
+            "hover:text-[#8CCBFF]",
             large
               ? "min-h-[48px] text-[11px]"
               : "min-h-[44px] text-[10px]",
           ].join(" ")}
         >
+
           <MapPinIcon />
+
           Find Your Nearest
+
         </Link>
+
       </div>
+
     </div>
   );
 }
+
 
 /* =========================================================
    MOBILE PARTNERS
@@ -1532,6 +3113,7 @@ function MobilePartners({
 }) {
   return (
     <div className="space-y-7">
+
       <MobilePartnerGroup
         title="Physicians"
         links={physicianLinks}
@@ -1539,6 +3121,7 @@ function MobilePartners({
         onClose={onClose}
         large={large}
       />
+
 
       <MobilePartnerGroup
         title="Clinics & Centres"
@@ -1548,6 +3131,7 @@ function MobilePartners({
         large={large}
       />
 
+
       <MobilePartnerGroup
         title="Distributors"
         links={distributorLinks}
@@ -1555,6 +3139,7 @@ function MobilePartners({
         onClose={onClose}
         large={large}
       />
+
 
       <MobilePartnerGroup
         title="Franchise"
@@ -1564,16 +3149,33 @@ function MobilePartners({
         large={large}
       />
 
+
       <Link
         href="/contact"
         onClick={onClose}
-        className="inline-flex min-h-[44px] items-center text-[11px] font-medium uppercase tracking-[0.14em] underline decoration-[#241B16]/20 underline-offset-4"
+        className={[
+          "inline-flex",
+          "min-h-[44px]",
+          "items-center",
+          "text-[9px]",
+          "font-medium",
+          "uppercase",
+          "tracking-[0.14em]",
+          "text-[#4D9BFF]",
+          "underline",
+          "decoration-[#4D9BFF]/30",
+          "underline-offset-4",
+          "transition-colors",
+          "hover:text-[#8CCBFF]",
+        ].join(" ")}
       >
         Enquire Now
       </Link>
+
     </div>
   );
 }
+
 
 /* =========================================================
    MOBILE PARTNER GROUP
@@ -1594,39 +3196,55 @@ function MobilePartnerGroup({
 }) {
   return (
     <div>
+
       <Link
         href={href}
         onClick={onClose}
-        className={
+        className={[
+          "transition-colors",
+          "hover:text-[#8CCBFF]",
           large
             ? "text-[18px] font-medium"
-            : "text-[11px] font-medium"
-        }
+            : "text-[11px] font-medium",
+          "text-white/80",
+        ].join(" ")}
       >
         {title}
       </Link>
 
+
       <div
         className={[
           "mt-2 grid pl-3",
-          large ? "gap-1.5" : "gap-1",
+          large
+            ? "gap-1.5"
+            : "gap-1",
         ].join(" ")}
       >
-        {links.map((item) => (
-          <Link
-            key={item}
-            href={href}
-            onClick={onClose}
-            className={
-              large
-                ? "flex min-h-[36px] items-center text-[13px] text-[#756C64]"
-                : "flex min-h-[40px] items-center text-[10px] text-[#756C64]"
-            }
-          >
-            {item}
-          </Link>
-        ))}
+
+        {links.map(
+          (item) => (
+            <Link
+              key={item}
+              href={href}
+              onClick={onClose}
+              className={[
+                "flex items-center",
+                "text-white/35",
+                "transition-colors",
+                "hover:text-[#8CCBFF]",
+                large
+                  ? "min-h-[36px] text-[13px]"
+                  : "min-h-[40px] text-[10px]",
+              ].join(" ")}
+            >
+              {item}
+            </Link>
+          ),
+        )}
+
       </div>
+
     </div>
   );
 }

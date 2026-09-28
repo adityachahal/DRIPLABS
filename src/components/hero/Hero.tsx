@@ -418,21 +418,21 @@ export default function Hero() {
         duration: 0.35,
         ease: [0.22, 1, 0.36, 1] as const,
       }}
-      className="group relative inline-flex min-h-[30px] items-center justify-center overflow-hidden rounded-full bg-[linear-gradient(135deg,#67E8E8_0%,#28C7D5_38%,#159BBF_72%,#08749F_100%)] px-7 text-[13px] font-medium uppercase tracking-[0.16em] text-[#071525] shadow-[0_8px_35px_rgba(35,190,210,0.24)] sm:px-7"
+      className="group relative inline-flex min-h-[30px] items-center justify-center overflow-hidden rounded-[20px] bg-[linear-gradient(135deg,#67E8E8_0%,#28C7D5_38%,#159BBF_72%,#08749F_100%)] px-7 text-[13px] font-medium uppercase tracking-[0.16em] text-[#071525] shadow-[0_8px_35px_rgba(35,190,210,0.24)] sm:px-7"
     >
       {/* Hover shine */}
       <span className="pointer-events-none absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/35 to-transparent transition-transform duration-700 ease-out group-hover:translate-x-full" />
 
       {/* Highlight */}
-      <span className="pointer-events-none absolute inset-0 rounded-full bg-[radial-gradient(circle_at_28%_15%,rgba(255,255,255,0.35),transparent_42%)] opacity-90" />
+      <span className="pointer-events-none absolute inset-0 rounded-[20px] bg-[radial-gradient(circle_at_28%_15%,rgba(255,255,255,0.35),transparent_42%)] opacity-90" />
 
       {/* Bottom depth */}
-      <span className="pointer-events-none absolute inset-x-0 bottom-0 h-1/2 rounded-full bg-gradient-to-t from-[#075F86]/20 to-transparent" />
+      <span className="pointer-events-none absolute inset-x-0 bottom-0 h-1/2 rounded-[20px] bg-gradient-to-t from-[#075F86]/20 to-transparent" />
 
       <span className="relative z-10 flex items-center gap-3">
         BEGIN YOUR JOURNEY
 
-        <span className="text-[13px] transition-transform duration-500 group-hover:translate-x-1">
+        <span className="text-[15px] transition-transform duration-500 group-hover:translate-x-1">
           →
         </span>
       </span>
