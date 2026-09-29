@@ -1,298 +1,207 @@
 ﻿"use client";
 
-import { motion, useReducedMotion } from "framer-motion";
-
-const easeLuxury = [0.22, 1, 0.36, 1] as const;
+import Link from "next/link";
+import {
+  motion,
+  useReducedMotion,
+  useScroll,
+  useTransform,
+} from "framer-motion";
+import { useRef } from "react";
 
 export default function FinalCTA() {
-  const reducedMotion = useReducedMotion();
+  const sectionRef = useRef<HTMLElement>(null);
+  const reduceMotion = useReducedMotion();
+
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start end", "end start"],
+  });
+
+  const orbY = useTransform(
+    scrollYProgress,
+    [0, 1],
+    ["-8%", "12%"],
+  );
+
+  const orbScale = useTransform(
+    scrollYProgress,
+    [0, 0.5, 1],
+    [0.92, 1.08, 0.96],
+  );
+
+  const contentY = useTransform(
+    scrollYProgress,
+    [0, 0.5, 1],
+    ["35px", "0px", "-20px"],
+  );
+
+  const lineScale = useTransform(
+    scrollYProgress,
+    [0.05, 0.45, 0.9],
+    [0, 1, 1],
+  );
 
   return (
     <section
-      id="book"
-      className="relative min-h-[82svh] overflow-hidden bg-[#060607] text-[#F2F0EA]"
+      ref={sectionRef}
+      className="relative isolate min-h-[78svh] overflow-hidden bg-[#020812] text-[#F7FAFF]"
     >
-      {/* =========================================================
-          ATMOSPHERIC BACKGROUND
-      ========================================================= */}
+      {/* =====================================================
+          ATMOSPHERE
+      ===================================================== */}
 
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-0"
-      >
-        {/* Primary glow */}
+      <div className="absolute inset-0 overflow-hidden">
+        {/* Deep background */}
+        <div className="absolute inset-0 bg-[#020812]" />
+
+        {/* Central electric atmosphere */}
         <motion.div
-          animate={
-            reducedMotion
-              ? undefined
-              : {
-                  scale: [1, 1.08, 1],
-                  opacity: [0.5, 0.75, 0.5],
-                }
-          }
-          transition={{
-            duration: 9,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
-          className="absolute left-1/2 top-[34%] h-[34rem] w-[34rem] -translate-x-1/2 rounded-full bg-[#C9A646]/[0.055] blur-[130px]"
-        />
-
-        {/* Secondary atmosphere */}
-        <div className="absolute bottom-[-20%] left-[-10%] h-[28rem] w-[28rem] rounded-full bg-[#AFC7C2]/[0.025] blur-[130px]" />
-
-        {/* Radial darkening */}
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_35%,transparent_0%,rgba(6,6,7,0.2)_45%,rgba(6,6,7,0.82)_100%)]" />
-
-        {/* Technical grid */}
-        <div
-          className="absolute inset-0 opacity-[0.028]"
           style={{
-            backgroundImage:
-              "linear-gradient(rgba(255,255,255,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.5) 1px, transparent 1px)",
-            backgroundSize: "100px 100px",
+            y: reduceMotion ? undefined : orbY,
+            scale: reduceMotion ? undefined : orbScale,
           }}
-        />
-
-        {/* Grain */}
-        <div
-          className="absolute inset-0 opacity-[0.03]"
-          style={{
-            backgroundImage:
-              "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='.7'/%3E%3C/svg%3E\")",
-          }}
-        />
-      </div>
-
-      {/* =========================================================
-          MAIN CONTAINER
-      ========================================================= */}
-
-      <div className="relative mx-auto flex min-h-[82svh] max-w-[1400px] flex-col justify-between px-6 py-7 md:px-10 md:py-9 lg:px-14">
-        {/* =======================================================
-            TOP RAIL
-        ======================================================= */}
-
-        <motion.div
-          initial={
-            reducedMotion
-              ? { opacity: 1, y: 0 }
-              : { opacity: 0, y: -10 }
-          }
-          whileInView={{
-            opacity: 1,
-            y: 0,
-          }}
-          viewport={{
-            once: true,
-          }}
-          transition={{
-            duration: reducedMotion ? 0.01 : 0.7,
-            ease: easeLuxury,
-          }}
-          className="flex items-center justify-between border-b border-white/[0.09] pb-5"
+          className="absolute left-1/2 top-1/2 aspect-square w-[85vw] max-w-[1000px] -translate-x-1/2 -translate-y-1/2"
         >
-          <div className="flex items-center gap-3">
-            <span className="h-[5px] w-[5px] rounded-full bg-[#C9A646] shadow-[0_0_14px_rgba(201,166,70,0.7)]" />
+          <div className="absolute inset-0 rounded-full bg-[radial-gradient(circle,rgba(0,102,255,0.18)_0%,rgba(22,131,255,0.08)_28%,transparent_68%)] blur-[45px]" />
 
-            <span className="font-mono text-[8px] uppercase tracking-[0.26em] text-[#C9A646]">
-              DRIPLABS®
-            </span>
-          </div>
+          <div className="absolute inset-[14%] rounded-full border border-[#1683FF]/10" />
 
-          <span className="text-[8px] uppercase tracking-[0.22em] text-white/25">
-            Physician-led wellness
-          </span>
+          <div className="absolute inset-[24%] rounded-full border border-[#4D9BFF]/[0.08]" />
+
+          <div className="absolute inset-[34%] rounded-full bg-[radial-gradient(circle,rgba(77,155,255,0.12),transparent_70%)] blur-3xl" />
         </motion.div>
 
-        {/* =======================================================
-            MAIN CTA
-        ======================================================= */}
+        {/* Horizontal light */}
+        <div className="absolute left-1/2 top-[48%] h-px w-[75vw] -translate-x-1/2 bg-gradient-to-r from-transparent via-[#1683FF]/25 to-transparent" />
 
-        <div className="py-24 md:py-32 lg:py-36">
-          <motion.p
-            initial={
-              reducedMotion
-                ? { opacity: 1, y: 0 }
-                : { opacity: 0, y: 16 }
-            }
-            whileInView={{
-              opacity: 1,
-              y: 0,
-            }}
-            viewport={{
-              once: true,
-            }}
-            transition={{
-              duration: reducedMotion ? 0.01 : 0.8,
-              ease: easeLuxury,
-            }}
-            className="flex items-center gap-3 text-[8px] uppercase tracking-[0.3em] text-[#C9A646] md:text-[9px]"
-          >
-            <span className="h-px w-8 bg-[#C9A646]/60" />
+        {/* Grid */}
+        <div
+          className="absolute inset-0 opacity-[0.035]"
+          style={{
+            backgroundImage:
+              "linear-gradient(rgba(140,203,255,.6) 1px, transparent 1px), linear-gradient(90deg, rgba(140,203,255,.6) 1px, transparent 1px)",
+            backgroundSize: "90px 90px",
+            maskImage:
+              "radial-gradient(circle at center, black 20%, transparent 78%)",
+            WebkitMaskImage:
+              "radial-gradient(circle at center, black 20%, transparent 78%)",
+          }}
+        />
 
-            Begin with a consultation
-          </motion.p>
+        {/* Vignette */}
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_25%,rgba(2,8,18,.82)_100%)]" />
 
-          <motion.h2
-            initial={
-              reducedMotion
-                ? {
-                    opacity: 1,
-                    y: 0,
-                    filter: "blur(0px)",
-                  }
-                : {
-                    opacity: 0,
-                    y: 30,
-                    filter: "blur(8px)",
-                  }
-            }
-            whileInView={{
-              opacity: 1,
-              y: 0,
-              filter: "blur(0px)",
-            }}
-            viewport={{
-              once: true,
-              margin: "-10% 0px",
-            }}
-            transition={{
-              duration: reducedMotion ? 0.01 : 1.1,
-              delay: reducedMotion ? 0 : 0.08,
-              ease: easeLuxury,
-            }}
-            className="mt-8 max-w-6xl font-[var(--font-heading)] text-[clamp(4rem,9vw,10rem)] font-light leading-[0.78] tracking-[-0.075em]"
-          >
-            Your wellness,
-            <br />
-            <span className="text-white/38">
-              considered.
-            </span>
-          </motion.h2>
+        {/* Top glow */}
+        <div className="absolute left-1/2 top-0 h-px w-[55vw] -translate-x-1/2 bg-gradient-to-r from-transparent via-[#1683FF]/50 to-transparent" />
+      </div>
 
-          {/* =====================================================
-              CTA SUPPORT + BUTTON
-          ===================================================== */}
+      {/* =====================================================
+          CONTENT
+      ===================================================== */}
 
-          <div className="mt-12 flex flex-col gap-10 md:flex-row md:items-end md:justify-between">
-            <motion.p
-              initial={
-                reducedMotion
-                  ? { opacity: 1, y: 0 }
-                  : { opacity: 0, y: 16 }
-              }
-              whileInView={{
-                opacity: 1,
-                y: 0,
-              }}
-              viewport={{
-                once: true,
-              }}
-              transition={{
-                duration: reducedMotion ? 0.01 : 0.8,
-                delay: reducedMotion ? 0 : 0.18,
-                ease: easeLuxury,
-              }}
-              className="max-w-xl text-sm leading-7 text-white/40 md:text-base"
-            >
-              Start with a physician consultation and discover
-              a more considered approach to IV wellness.
-            </motion.p>
+      <motion.div
+        style={{
+          y: reduceMotion ? undefined : contentY,
+        }}
+        className="relative z-10 mx-auto flex min-h-[78svh] max-w-[1680px] flex-col justify-center px-6 py-28 sm:px-8 lg:px-16"
+      >
+        {/* Eyebrow */}
+        <div className="mb-10 flex items-center gap-4">
+          <span className="h-px w-10 bg-[#1683FF]" />
 
-            <motion.a
-              initial={
-                reducedMotion
-                  ? { opacity: 1, y: 0 }
-                  : { opacity: 0, y: 16 }
-              }
-              whileInView={{
-                opacity: 1,
-                y: 0,
-              }}
-              viewport={{
-                once: true,
-              }}
-              transition={{
-                duration: reducedMotion ? 0.01 : 0.8,
-                delay: reducedMotion ? 0 : 0.25,
-                ease: easeLuxury,
-              }}
-              href="/book"
-              className="group relative inline-flex w-full items-center justify-between overflow-hidden border border-[#C9A646]/65 bg-[#C9A646] px-6 py-4 text-[8px] uppercase tracking-[0.23em] text-[#060607] transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] hover:border-[#E5D39A] hover:bg-[#E5D39A] sm:w-auto sm:min-w-[280px]"
-            >
-              {/* Hover sweep */}
-              <span className="absolute inset-y-0 left-0 w-0 bg-white/20 transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:w-full" />
+          <span className="text-[9px] font-medium uppercase tracking-[0.3em] text-[#8CCBFF]/75">
+            Begin Your Journey
+          </span>
+        </div>
 
-              <span className="relative z-10">
-                Book a Physician Consultation
+        {/* Main layout */}
+        <div className="grid gap-14 lg:grid-cols-12 lg:items-end">
+          {/* =================================================
+              HEADLINE
+          ================================================= */}
+
+          <div className="lg:col-span-8">
+            <h2 className="max-w-[1050px] font-serif text-[clamp(4rem,8.7vw,9.5rem)] font-normal leading-[0.78] tracking-[-0.065em] text-white">
+              Start with a
+              <br />
+              considered
+              <br />
+              <span className="relative inline-block text-[#4D9BFF]">
+                conversation.
               </span>
+            </h2>
 
-              <span className="relative z-10 text-base transition-transform duration-500 group-hover:translate-x-1">
-                →
-              </span>
-            </motion.a>
+            {/* Animated underline */}
+            <motion.div
+              style={{
+                scaleX: reduceMotion ? 1 : lineScale,
+              }}
+              className="mt-10 h-px w-[min(420px,55vw)] origin-left bg-gradient-to-r from-[#1683FF] via-[#4D9BFF]/60 to-transparent"
+            />
           </div>
 
-          {/* =====================================================
-              SCAN LINE
-          ===================================================== */}
+          {/* =================================================
+              COPY + CTA
+          ================================================= */}
 
-          <div className="relative mt-16 h-px w-full overflow-hidden bg-white/[0.06]">
-            <motion.span
-              animate={
-                reducedMotion
-                  ? undefined
-                  : {
-                      x: ["-10%", "110%"],
-                    }
-              }
-              transition={{
-                duration: 5,
-                repeat: Infinity,
-                ease: "linear",
-              }}
-              className="absolute left-0 top-0 h-px w-[18%] bg-gradient-to-r from-transparent via-[#C9A646] to-transparent opacity-60"
-            />
+          <div className="lg:col-span-4 lg:pb-2">
+            <p className="max-w-md text-[13px] leading-7 text-white/50">
+              Explore the DRIPLABS experience that fits your needs
+              and take the next step with our team.
+            </p>
+
+            <div className="mt-9 flex flex-col gap-3 sm:flex-row lg:flex-col xl:flex-row">
+              {/* Primary CTA */}
+              <Link
+                href="/locations"
+                className="group relative inline-flex min-h-[52px] items-center justify-center overflow-hidden rounded-[10px] bg-[#0066FF] px-7 text-[9px] font-medium uppercase tracking-[0.2em] text-white transition-all duration-500 hover:bg-[#1683FF] hover:shadow-[0_15px_50px_rgba(0,102,255,.28)]"
+              >
+                {/* Sweep */}
+                <span className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/15 to-transparent transition-transform duration-700 group-hover:translate-x-full" />
+
+                <span className="relative">
+                  Begin your journey
+                </span>
+
+                <span className="relative ml-7 transition-transform duration-300 group-hover:translate-x-1">
+                  →
+                </span>
+              </Link>
+
+              {/* Secondary */}
+              <Link
+                href="/protocols"
+                className="group inline-flex min-h-[52px] items-center justify-center rounded-[10px] border border-white/15 bg-white/[0.025] px-7 text-[9px] font-medium uppercase tracking-[0.2em] text-white/70 backdrop-blur-md transition-all duration-500 hover:border-[#1683FF]/50 hover:bg-[#1683FF]/[0.06] hover:text-white"
+              >
+                Explore protocols
+
+                <span className="ml-7 transition-transform duration-300 group-hover:translate-x-1">
+                  →
+                </span>
+              </Link>
+            </div>
           </div>
         </div>
 
-        {/* =======================================================
-            BOTTOM RAIL
-        ======================================================= */}
+        {/* =================================================
+            BOTTOM SIGNATURE
+        ================================================= */}
 
-        <motion.div
-          initial={
-            reducedMotion
-              ? { opacity: 1, y: 0 }
-              : { opacity: 0, y: 10 }
-          }
-          whileInView={{
-            opacity: 1,
-            y: 0,
-          }}
-          viewport={{
-            once: true,
-          }}
-          transition={{
-            duration: reducedMotion ? 0.01 : 0.7,
-            ease: easeLuxury,
-          }}
-          className="flex items-end justify-between border-t border-white/[0.09] pt-5"
-        >
-          <p className="text-[8px] uppercase tracking-[0.2em] text-white/25">
-            Nourish. Recharge. Restore.
-          </p>
-
+        <div className="mt-20 flex flex-col gap-5 border-t border-white/[0.08] pt-6 sm:flex-row sm:items-center sm:justify-between">
           <div className="flex items-center gap-3">
-            <span className="h-[4px] w-[4px] rounded-full bg-[#C9A646]/70 shadow-[0_0_8px_rgba(201,166,70,0.45)]" />
+            <span className="h-1.5 w-1.5 rounded-full bg-[#1683FF] shadow-[0_0_14px_rgba(22,131,255,.8)]" />
 
-            <p className="text-[8px] uppercase tracking-[0.2em] text-white/25">
-              India
-            </p>
+            <span className="text-[8px] uppercase tracking-[0.25em] text-white/30">
+              Physician-led wellness
+            </span>
           </div>
-        </motion.div>
-      </div>
+
+          <span className="text-[8px] uppercase tracking-[0.25em] text-white/20">
+            DRIPLABS®
+          </span>
+        </div>
+      </motion.div>
     </section>
   );
 }

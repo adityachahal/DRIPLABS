@@ -10,76 +10,66 @@ import ProtocolObservatory from "@/components/home/ProtocolObservatory";
 import NADExperience from "@/components/sections/NADExperience";
 import ConsumerExperience from "@/components/sections/ConsumerExperience";
 
-import FeaturedTreatment from "@/components/sections/FeaturedTreatment";
 import Testimonials from "@/components/sections/Testimonials";
 import Memberships from "@/components/sections/Memberships";
-import Locations from "@/components/sections/Locations";
-import FAQ from "@/components/sections/FAQ";
 import FinalCTA from "@/components/sections/FinalCTA";
 import Footer from "@/components/sections/Footer";
 import DecodeVial from "@/components/home/DecodeVial";
 import EvidenceResearch from "@/components/sections/EvidenceResearch";
 import BuildingPartnership from "@/components/sections/BuildingPartnership";
+import SignatureProtocols from "@/components/sections/SignatureProtocols";
 
 export default function Home() {
   return (
     <main className="bg-[#F7F4EC] text-[#111318]">
       <Navbar />
 
-      {/* 01 â€” Cinematic opening */}
+      {/* 01 — Cinematic opening */}
       <Hero />
 
-      {/* 02 â€” Choose how you experience DRIPLABS */}
+      {/* 02 — Choose how you experience DRIPLABS */}
       <ExperienceSection />
 
-      {/* 03 â€” Immediate proof */}
+      {/* 03 — Immediate proof */}
       <ProofBand />
 
-      {/* 04 â€” The trust moat */}
+      {/* 04 — The trust moat */}
       <CredibilitySection />
 
-      
-
-      {/* 05 â€” Protocol system */}
+      {/* 05 — Protocol system */}
       <ProtocolObservatory />
 
-      {/* 06 â€” Geographic presence */}
+      {/* 06 — Geographic presence */}
       <LocationMarquee />
 
-      
-      
+      {/* 07 — Decode a vial */}
       <DecodeVial />
 
-      {/* 07 â€” NADx flagship */}
+      {/* 08 — NADx flagship */}
       <NADExperience />
 
-      {/* 08 â€” Human experience */}
+      {/* 09 — Human experience */}
       <ConsumerExperience />
 
+      {/* 10 — Evidence & research */}
       <EvidenceResearch />
 
+      <SignatureProtocols />
 
-      {/* 10 â€” Featured protocol */}
-      <FeaturedTreatment />
 
-      {/* 11 â€” Social proof */}
+      {/* 12 — Social proof */}
       <Testimonials />
 
-      {/* 12 â€” Circle / membership */}
+      {/* 13 — Circle / membership */}
       <Memberships />
 
-      {/* 13 â€” Locations */}
-      <Locations />
-
+      {/* 14 — Partnerships */}
       <BuildingPartnership />
 
-      {/* 14 â€” Questions */}
-      <FAQ />
-
-      {/* 15 â€” Final conversion */}
+      {/* 15 — Final conversion */}
       <FinalCTA />
 
-      {/* 16 â€” Global footer */}
+      {/* 16 — Global footer */}
       <Footer />
     </main>
   );

@@ -1,5 +1,4 @@
 ﻿"use client";
-
 import Image from "next/image";
 import Link from "next/link";
 
@@ -594,24 +593,22 @@ export default function Navbar() {
 
       <header
         className={[
-          "fixed inset-x-0 top-0 z-[100]",
-          "transition-all duration-500",
-          scrolled
-            ? [
-                "border-b border-white/10",
-                "bg-[#020812]/88",
-                "text-[#F7FAFF]",
-                "shadow-[0_12px_50px_rgba(0,0,0,0.22)]",
-                "backdrop-blur-2xl",
-              ].join(" ")
-            : [
-                "border-b border-transparent",
-                "bg-[#020812]/35",
-                "text-white",
-                "backdrop-blur-md",
-              ].join(" "),
-        ].join(" ")}
-      >
+  "fixed inset-x-0 top-0 z-[100]",
+  "transition-all duration-500",
+  scrolled
+    ? [
+        "border-b border-white/10",
+        "bg-[#020812]",
+        "text-[#F7FAFF]",
+        "shadow-[0_12px_50px_rgba(0,0,0,0.22)]",
+      ].join(" ")
+    : [
+        "border-b border-transparent",
+        "bg-transparent",
+        "text-white",
+      ].join(" "),
+].join(" ")}
+>
 
         {/* subtle electric line */}
         <div
@@ -678,7 +675,7 @@ export default function Navbar() {
 
           <nav
             aria-label="Primary navigation"
-            className="ml-auto hidden lg:flex"
+            className="ml-auto hidden lg:flex mr-0"
           >
             <div
               className={[
@@ -688,7 +685,7 @@ export default function Navbar() {
             >
 
               <DesktopNavItem
-                label="EXPLORE"
+                label="Explore"
                 menu="explore"
                 activeMenu={activeMenu}
                 openMenu={openMenu}
@@ -702,7 +699,7 @@ export default function Navbar() {
 
 
               <DesktopNavItem
-                label="EXPERIENCE"
+                label="Experience"
                 menu="experience"
                 activeMenu={activeMenu}
                 openMenu={openMenu}
@@ -716,7 +713,7 @@ export default function Navbar() {
 
 
               <DesktopNavItem
-                label="SCIENCE"
+                label="Science"
                 menu="science"
                 activeMenu={activeMenu}
                 openMenu={openMenu}
@@ -762,7 +759,7 @@ export default function Navbar() {
 
 
               <DesktopNavItem
-                label="CIRCLE"
+                label="Circle"
                 menu="circle"
                 activeMenu={activeMenu}
                 openMenu={openMenu}
@@ -776,7 +773,7 @@ export default function Navbar() {
 
 
               <DesktopNavItem
-                label="LOCATIONS"
+                label="Locations"
                 menu="locations"
                 activeMenu={activeMenu}
                 openMenu={openMenu}
@@ -790,7 +787,7 @@ export default function Navbar() {
 
 
               <DesktopNavItem
-                label="FOR PARTNERS"
+                label="Partners"
                 menu="partners"
                 activeMenu={activeMenu}
                 openMenu={openMenu}
@@ -816,63 +813,21 @@ export default function Navbar() {
               "gap-5 lg:flex xl:ml-8",
             ].join(" ")}
           >
-
-            {/* LOCATION */}
-
-            <Link
-              href="/locations"
-              onClick={closeAll}
-              aria-label="Find a DRIPLABS location"
-              className={[
-                "relative flex h-8 w-8",
-                "items-center justify-center",
-                "rounded-full",
-                "border border-white/10",
-                "text-white/65",
-                "transition-all duration-300",
-                "hover:border-[#4D9BFF]/60",
-                "hover:bg-[#0066FF]/10",
-                "hover:text-[#8CCBFF]",
-              ].join(" ")}
-            >
-              <MapPinIcon />
-            </Link>
-
-
-            {/* SEARCH */}
-
-            <button
-              type="button"
-              aria-label="Search"
-              className={[
-                "relative flex h-8 w-8",
-                "items-center justify-center",
-                "rounded-full",
-                "text-white/60",
-                "transition-all duration-300",
-                "hover:bg-[#0066FF]/10",
-                "hover:text-[#8CCBFF]",
-              ].join(" ")}
-            >
-              <SearchIcon />
-            </button>
-
-
             {/* CTA */}
 
             <Link
-              href="/book"
+              href="/contact"
               onClick={closeAll}
               className={[
                 "group relative inline-flex",
                 "h-[40px] items-center gap-3",
                 "overflow-hidden",
+                 "rounded-full",
                 "border border-[#1683FF]/70",
                 "bg-[#0066FF]",
                 "px-5",
-                "text-[8px]",
+                "text-[14px]",
                 "font-medium",
-                "uppercase",
                 "tracking-[0.17em]",
                 "text-white",
                 "transition-all duration-500",
@@ -882,7 +837,7 @@ export default function Navbar() {
             >
 
               <span>
-                BEGIN YOUR JOURNEY
+                Book a Consultation
               </span>
 
               <span
@@ -917,13 +872,13 @@ export default function Navbar() {
               onClick={closeAll}
               className={[
                 "hidden sm:inline-flex",
-                "h-[34px] items-center",
+                "min-h-[48px] items-center",
+                "rounded-full",
                 "border border-[#1683FF]/70",
                 "bg-[#0066FF]",
-                "px-4",
+                "px-6",
                 "text-[8px]",
                 "font-medium",
-                "uppercase",
                 "tracking-[0.15em]",
                 "text-white",
                 "transition-colors duration-300",
@@ -1234,7 +1189,7 @@ export default function Navbar() {
 
 
                         <EditorialMenuLink
-                          label="For Partners"
+                          label="Partners"
                           index="06"
                           onClick={() =>
                             setMobileSection(
@@ -1442,7 +1397,7 @@ export default function Navbar() {
                     <div className="lg:hidden">
 
                       <MobileAccordion
-                        title="EXPLORE"
+                        title="Explore"
                         open={
                           mobileSection === "explore"
                         }
@@ -1459,7 +1414,7 @@ export default function Navbar() {
 
 
                       <MobileAccordion
-                        title="EXPERIENCE"
+                        title="Experience"
                         open={
                           mobileSection === "experience"
                         }
@@ -1476,7 +1431,7 @@ export default function Navbar() {
 
 
                       <MobileAccordion
-                        title="SCIENCE"
+                        title="Science"
                         open={
                           mobileSection === "science"
                         }
@@ -1494,7 +1449,7 @@ export default function Navbar() {
 
 
                       <MobileAccordion
-                        title="CIRCLE"
+                        title="Circle"
                         open={
                           mobileSection === "circle"
                         }
@@ -1512,7 +1467,7 @@ export default function Navbar() {
 
 
                       <MobileAccordion
-                        title="LOCATIONS"
+                        title="Locations"
                         open={
                           mobileSection === "locations"
                         }
@@ -1529,7 +1484,7 @@ export default function Navbar() {
 
 
                       <MobileAccordion
-                        title="FOR PARTNERS"
+                        title="For partners"
                         open={
                           mobileSection === "partners"
                         }
@@ -1663,7 +1618,6 @@ function DesktopNavItem({
           "py-3",
           "text-[8px]",
           "font-medium",
-          "uppercase",
           "tracking-[0.17em]",
           "text-white/75",
           "transition-colors duration-300",
@@ -1908,7 +1862,6 @@ function ExploreDropdown({
             className={[
               "text-[8px]",
               "font-medium",
-              "uppercase",
               "tracking-[0.16em]",
               "text-white/75",
             ].join(" ")}
@@ -1965,7 +1918,6 @@ function ExploreDropdown({
             className={[
               "text-[8px]",
               "font-medium",
-              "uppercase",
               "tracking-[0.16em]",
               "text-white/75",
             ].join(" ")}
@@ -1996,11 +1948,25 @@ function ExploreDropdown({
         </div>
 
       </div>
+      {/* FAQ */}
+
+<div
+  className={[
+    "mt-7",
+    "border-t border-white/10",
+    "pt-5",
+  ].join(" ")}
+>
+  <DropdownLink
+    label="FAQ"
+    href="/faq"
+    onClose={onClose}
+  />
+</div>
 
     </DropdownFrame>
   );
 }
-
 
 /* =========================================================
    EXPERIENCE DROPDOWN
@@ -2229,7 +2195,6 @@ function LocationsDropdown({
             "items-center gap-2",
             "text-[8px]",
             "font-medium",
-            "uppercase",
             "tracking-[0.14em]",
             "text-white/70",
             "transition-colors",
@@ -2277,7 +2242,7 @@ function PartnersDropdown({
     >
 
       <DropdownHeader
-        title="For Partners"
+        title="Partners"
         subtitle="Build the future with us"
       />
 
@@ -2327,7 +2292,6 @@ function PartnersDropdown({
           "mt-6 inline-flex",
           "text-[8px]",
           "font-medium",
-          "uppercase",
           "tracking-[0.15em]",
           "text-[#4D9BFF]",
           "underline",
@@ -2749,8 +2713,7 @@ function MobileExplore({
           <span
             className={[
               "text-[8px]",
-              "font-medium",
-              "uppercase",
+              "font-medium",,
               "tracking-[0.16em]",
               "text-white/65",
             ].join(" ")}
@@ -2823,7 +2786,6 @@ function MobileExplore({
             className={[
               "text-[8px]",
               "font-medium",
-              "uppercase",
               "tracking-[0.16em]",
               "text-white/65",
             ].join(" ")}
@@ -3159,7 +3121,6 @@ function MobilePartners({
           "items-center",
           "text-[9px]",
           "font-medium",
-          "uppercase",
           "tracking-[0.14em]",
           "text-[#4D9BFF]",
           "underline",

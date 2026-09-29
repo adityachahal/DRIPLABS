@@ -12,8 +12,8 @@ export default function Hero() {
   const reducedMotion = useReducedMotion();
 
   const [activeWord, setActiveWord] = useState<
-  "Functional" | "Medical" | "Cellular"
->("Functional");
+    "Functional" | "Medical" | "Cellular"
+  >("Functional");
 
   const [protocolMenuOpen, setProtocolMenuOpen] = useState(false);
 
@@ -26,10 +26,10 @@ export default function Hero() {
 
     const interval = window.setInterval(() => {
       setActiveWord((prev) => {
-  if (prev === "Functional") return "Medical";
-  if (prev === "Medical") return "Cellular";
-  return "Functional";
-});
+        if (prev === "Functional") return "Medical";
+        if (prev === "Medical") return "Cellular";
+        return "Functional";
+      });
     }, 3000);
 
     return () => window.clearInterval(interval);
@@ -145,74 +145,74 @@ export default function Hero() {
           ===================================================== */}
 
           <motion.div
-  initial={{
-    opacity: 0,
-    y: reducedMotion ? 0 : 10,
-  }}
-  animate={{
-    opacity: 1,
-    y: 0,
-  }}
-  transition={{
-    delay: reducedMotion ? 0 : 0.1,
-    duration: reducedMotion ? 0.01 : 0.7,
-    ease: [0.16, 1, 0.3, 1] as const,
-  }}
-  className="mb-6 flex w-fit items-center"
->
-  {/* LEFT EDITORIAL MARK */}
-  <motion.span
-    initial={{
-      opacity: reducedMotion ? 1 : 0,
-      x: reducedMotion ? 0 : 8,
-    }}
-    animate={{
-      opacity: 1,
-      x: 0,
-    }}
-    transition={{
-      delay: reducedMotion ? 0 : 0.18,
-      duration: reducedMotion ? 0.01 : 0.5,
-    }}
-    className="relative top-[32px] mr-2 flex items-center"
-    aria-hidden="true"
-  >
-    <span className="h-px w-5 bg-gradient-to-r from-transparent to-[#28B8C8]/70" />
+            initial={{
+              opacity: 0,
+              y: reducedMotion ? 0 : 10,
+            }}
+            animate={{
+              opacity: 1,
+              y: 0,
+            }}
+            transition={{
+              delay: reducedMotion ? 0 : 0.1,
+              duration: reducedMotion ? 0.01 : 0.7,
+              ease: [0.16, 1, 0.3, 1] as const,
+            }}
+            className="mb-6 flex w-fit items-center"
+          >
+            {/* LEFT EDITORIAL MARK */}
+            <motion.span
+              initial={{
+                opacity: reducedMotion ? 1 : 0,
+                x: reducedMotion ? 0 : 8,
+              }}
+              animate={{
+                opacity: 1,
+                x: 0,
+              }}
+              transition={{
+                delay: reducedMotion ? 0 : 0.18,
+                duration: reducedMotion ? 0.01 : 0.5,
+              }}
+              className="relative top-[44px] mr-2 flex items-center"
+              aria-hidden="true"
+            >
+              <span className="h-px w-5 bg-gradient-to-r from-transparent to-[#28B8C8]/70" />
 
-    <span className="ml-[-1px] text-[15px] font-light leading-none text-[#28B8C8]">
-      ‹
-    </span>
-  </motion.span>
+              <span className="ml-[-1px] text-[15px] font-light leading-none text-[#28B8C8]">
+                ‹
+              </span>
+            </motion.span>
 
-  {/* EYEBROW */}
-  <span className="relative top-[32px] whitespace-nowrap text-[8px] font-medium uppercase tracking-[0.32em] text-white/60 sm:text-[9px]">
-  NOURISH • RECHARGE • RESTORE
-</span>
+            {/* EYEBROW */}
+            <span className="mt-1 relative top-[44px] whitespace-nowrap text-[8px] font-medium uppercase tracking-[0.32em] text-white/60 sm:text-[9px]">
+              NOURISH • RECHARGE • RESTORE
+            </span>
 
- {/* RIGHT EDITORIAL MARK */}
-  <motion.span
-    initial={{
-      opacity: reducedMotion ? 1 : 0,
-      x: reducedMotion ? 0 : -8,
-    }}
-    animate={{
-      opacity: 1,
-      x: 0,
-    }}
-    transition={{
-      delay: reducedMotion ? 0 : 0.18,
-      duration: reducedMotion ? 0.01 : 0.5,
-    }}
-    className="relative top-[32px] ml-2 flex items-center"
-    aria-hidden="true"
-  >
-    <span className="mr-[-1px] text-[15px] font-light leading-none text-[#28B8C8]">
-      ›
-    </span>
+            {/* RIGHT EDITORIAL MARK */}
+            <motion.span
+              initial={{
+                opacity: reducedMotion ? 1 : 0,
+                x: reducedMotion ? 0 : -8,
+              }}
+              animate={{
+                opacity: 1,
+                x: 0,
+              }}
+              transition={{
+                delay: reducedMotion ? 0 : 0.18,
+                duration: reducedMotion ? 0.01 : 0.5,
+              }}
+              className="relative top-[44px] ml-2 flex items-center"
+              aria-hidden="true"
+            >
+              <span className="mr-[-1px] text-[15px] font-light leading-none text-[#28B8C8]">
+                ›
+              </span>
 
-    <span className="h-px w-5 bg-gradient-to-l from-transparent to-[#28B8C8]/70" />
-  </motion.span>
-</motion.div>
+              <span className="h-px w-5 bg-gradient-to-l from-transparent to-[#28B8C8]/70" />
+            </motion.span>
+          </motion.div>
 
           {/* =====================================================
               MAIN HEADING
@@ -233,10 +233,10 @@ export default function Hero() {
               ease: [0.16, 1, 0.3, 1] as const,
             }}
             style={{
-              fontFamily:
-                '"Inter", "Helvetica Neue", Arial, sans-serif',
+              fontFamily:'"Instrument Serif", serif',
+              
             }}
-            className="mt-6 relative top-[24px] flex max-w-[px] flex-col gap-[0.10em] text-[clamp(2.2rem,4.2vw,5rem)] font-light leading-[0.9] tracking-[-0.05em] text-[#F5F0E7]"
+            className="mt-6 relative top-[40px] flex max-w-[px] flex-col gap-[0.10em] text-[clamp(2.2rem,4.2vw,5rem)] font-light leading-[0.9] tracking-[-0.05em] text-[#F5F0E7]"
           >
             {/* Precision Nutrition */}
             <span className="block">
@@ -321,7 +321,7 @@ export default function Hero() {
               SUPPORTING COPY
           ===================================================== */}
 
-          <div className="mt-13 grid gap-8 md:grid-cols-12 md:items-end md:gap-8">
+          <div className="mt-14 grid gap-8 md:grid-cols-12 md:items-end md:gap-8">
             <motion.p
               initial={{
                 opacity: 0,
@@ -351,14 +351,19 @@ export default function Hero() {
 
               {/* Clinical environment / home line */}
               <span className="mt-2 block text-white/75 sm:text-[13px] md:text-[15px]">
-  Delivered in a considered{" "}
-  <span className="font-semibold text-white">clinical environment</span>{" "}
-  or at your{" "}
-  <span className="font-semibold text-white"> home</span>.
-</span>
+                Delivered in a considered{" "}
+                <span className="font-semibold text-white">
+                  clinical environment
+                </span>{" "}
+                or at your{" "}
+                <span className="font-semibold text-white">
+                  home
+                </span>
+                .
+              </span>
 
               {/* Research / science line */}
-              <span className="mt-7 block sm:text-[13px] md:text-[15px]">
+              <span className="mt-4 block sm:text-[13px] md:text-[15px]">
                 {"Research  &  Science  backed  documented  protocols  with  batch"}
                 <br />
                 {" traceability  and  third  party  lab  tested."}
@@ -373,109 +378,109 @@ export default function Hero() {
 
         <div className="mt-auto grid grid-cols-1 items-end gap-6 pt-4 md:grid-cols-12">
           {/* =====================================================
-    BOTTOM LEFT — CTA
-===================================================== */}
+              BOTTOM LEFT — CTA
+          ===================================================== */}
 
-<div className="md:col-span-5">
-  <motion.div
-    initial={{
-      opacity: 0,
-      y: reducedMotion ? 0 : 16,
-    }}
-    animate={{
-      opacity: 1,
-      y: 0,
-    }}
-    transition={{
-      delay: reducedMotion ? 0 : 0.55,
-      duration: reducedMotion ? 0.01 : 0.7,
-      ease: [0.16, 1, 0.3, 1] as const,
-    }}
-    className="mb-0 flex flex-nowrap items-center gap-3 md:translate-y-[2px]"
-  >
-    {/* =================================================
-        BEGIN YOUR JOURNEY
-    ================================================= */}
+          <div className="md:col-span-5">
+            <motion.div
+              initial={{
+                opacity: 0,
+                y: reducedMotion ? 0 : 16,
+              }}
+              animate={{
+                opacity: 1,
+                y: 0,
+              }}
+              transition={{
+                delay: reducedMotion ? 0 : 0.55,
+                duration: reducedMotion ? 0.01 : 0.7,
+                ease: [0.16, 1, 0.3, 1] as const,
+              }}
+              className="mb-0 flex flex-nowrap items-center gap-3 md:-translate-y-[55px]"
+            >
+              {/* =================================================
+                  BEGIN YOUR JOURNEY
+              ================================================= */}
 
-    <motion.a
-      href="#booking"
-      whileHover={
-        reducedMotion
-          ? undefined
-          : {
-              y:8,
-              scale: 1.02,
-            }
-      }
-      whileTap={
-        reducedMotion
-          ? undefined
-          : {
-              scale: 0.97,
-            }
-      }
-      transition={{
-        duration: 0.35,
-        ease: [0.22, 1, 0.36, 1] as const,
-      }}
-      className="group relative inline-flex min-h-[30px] items-center justify-center overflow-hidden rounded-[20px] bg-[linear-gradient(135deg,#67E8E8_0%,#28C7D5_38%,#159BBF_72%,#08749F_100%)] px-7 text-[13px] font-medium uppercase tracking-[0.16em] text-[#071525] shadow-[0_8px_35px_rgba(35,190,210,0.24)] sm:px-7"
-    >
-      {/* Hover shine */}
-      <span className="pointer-events-none absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/35 to-transparent transition-transform duration-700 ease-out group-hover:translate-x-full" />
+              <motion.a
+                href="#booking"
+                whileHover={
+                  reducedMotion
+                    ? undefined
+                    : {
+                        y: 8,
+                        scale: 1.02,
+                      }
+                }
+                whileTap={
+                  reducedMotion
+                    ? undefined
+                    : {
+                        scale: 0.97,
+                      }
+                }
+                transition={{
+                  duration: 0.35,
+                  ease: [0.22, 1, 0.36, 1] as const,
+                }}
+                className="group relative inline-flex min-h-[48px] items-center justify-center overflow-hidden rounded-full bg-[linear-gradient(135deg,#67E8E8_0%,#28C7D5_38%,#159BBF_72%,#08749F_100%)] px-8 text-[13px] font-medium uppercase tracking-[0.16em] text-[#071525] shadow-[0_8px_35px_rgba(35,190,210,0.24)] sm:px-9"
+              >
+                {/* Hover shine */}
+                <span className="pointer-events-none absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/35 to-transparent transition-transform duration-700 ease-out group-hover:translate-x-full" />
 
-      {/* Highlight */}
-      <span className="pointer-events-none absolute inset-0 rounded-[20px] bg-[radial-gradient(circle_at_28%_15%,rgba(255,255,255,0.35),transparent_42%)] opacity-90" />
+                {/* Highlight */}
+                <span className="pointer-events-none absolute inset-0 rounded-[25px] bg-[radial-gradient(circle_at_28%_15%,rgba(255,255,255,0.35),transparent_42%)] opacity-90" />
 
-      {/* Bottom depth */}
-      <span className="pointer-events-none absolute inset-x-0 bottom-0 h-1/2 rounded-[20px] bg-gradient-to-t from-[#075F86]/20 to-transparent" />
+                {/* Bottom depth */}
+                <span className="pointer-events-none absolute inset-x-0 bottom-0 h-1/2 rounded-[55px] bg-gradient-to-t from-[#075F86]/20 to-transparent" />
 
-      <span className="relative z-10 flex items-center gap-3">
-        BEGIN YOUR JOURNEY
+                <span className="relative z-10 flex items-center gap-3">
+                  BEGIN YOUR JOURNEY
 
-        <span className="text-[15px] transition-transform duration-500 group-hover:translate-x-1">
-          →
-        </span>
-      </span>
-    </motion.a>
+                  <span className="text-[15px] transition-transform duration-500 group-hover:translate-x-1">
+                    →
+                  </span>
+                </span>
+              </motion.a>
 
-    {/* =================================================
-        EXPLORE PROTOCOLS
-    ================================================= */}
+              {/* =================================================
+                  EXPLORE PROTOCOLS
+              ================================================= */}
 
-    <motion.button
-      type="button"
-      onClick={() => setProtocolMenuOpen(true)}
-      whileHover={
-        reducedMotion
-          ? undefined
-          : {
-              y: 8,
-              scale: 1.02,
-            }
-      }
-      whileTap={
-        reducedMotion
-          ? undefined
-          : {
-              scale: 0.97,
-            }
-      }
-      transition={{
-        duration: 0.35,
-        ease: [0.22, 1, 0.36, 1] as const,
-      }}
-      className="group inline-flex min-h-[30px] items-center justify-center rounded-full border border-white/35 bg-white/[0.06] px-7 text-[13px] font-medium uppercase tracking-[0.16em] text-white backdrop-blur-md transition-all duration-500 hover:border-white/60 hover:bg-white/[0.12]"
-    >
-      <span className="flex items-center gap-3">
-        EXPLORE PROTOCOLS
+              <motion.button
+                type="button"
+                onClick={() => setProtocolMenuOpen(true)}
+                whileHover={
+                  reducedMotion
+                    ? undefined
+                    : {
+                        y: 8,
+                        scale: 1.02,
+                      }
+                }
+                whileTap={
+                  reducedMotion
+                    ? undefined
+                    : {
+                        scale: 0.97,
+                      }
+                }
+                transition={{
+                  duration: 0.35,
+                  ease: [0.22, 1, 0.36, 1] as const,
+                }}
+                className="group inline-flex min-h-[48px] items-center justify-center rounded-full border border-white/35 bg-white/[0.06] px-8 text-[13px] font-medium uppercase tracking-[0.16em] text-white backdrop-blur-md transition-all duration-500 hover:border-white/60 hover:bg-white/[0.12] sm:px-9"
+              >
+                <span className="flex items-center gap-3">
+                  EXPLORE PROTOCOLS
 
-        <span className="text-[12px] transition-transform duration-500 group-hover:translate-x-1">
-          →
-        </span>
-      </span>
-    </motion.button>
-  </motion.div>
-</div>
+                  <span className="text-[12px] transition-transform duration-500 group-hover:translate-x-1">
+                    →
+                  </span>
+                </span>
+              </motion.button>
+            </motion.div>
+          </div>
 
           {/* =====================================================
               CENTER — SCROLL

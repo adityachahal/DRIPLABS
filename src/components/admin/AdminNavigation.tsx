@@ -12,7 +12,7 @@ const navigation = [
     label: "Bookings",
     href: "/admin/bookings",
   },
-  {
+  { 
     label: "Protocols",
     href: "/admin/protocols",
   },
