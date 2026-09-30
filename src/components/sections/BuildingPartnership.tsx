@@ -1,351 +1,973 @@
 "use client";
 
-import { motion, AnimatePresence } from "framer-motion";
-import { useState } from "react";
 import Link from "next/link";
+import { useEffect, useRef, useState } from "react";
+import { motion, useReducedMotion } from "framer-motion";
 
-type Partnership = {
+type PartnerType = {
+  id: string;
   number: string;
-  eyebrow: string;
+  label: string;
   title: string;
   description: string;
-  details: string[];
-  cta: string;
-  href: string;
+  position: string;
 };
 
-const partnerships: Partnership[] = [
+const partners: PartnerType[] = [
   {
+    id: "physicians",
     number: "01",
-    eyebrow: "CLINICAL PARTNERSHIP",
-    title: "Bring DRIPLABS into your practice.",
+    label: "Clinical",
+    title: "Physicians",
     description:
-      "Flexible structures for physicians, clinics and healthcare groups looking to build a physician-directed wellness vertical.",
-    details: [
-      "Consult & Dispense",
-      "Clinic-in-Clinic",
-      "Equity / Retainer Partnership",
-      "MSO / Franchise-Style Model",
-    ],
-    cta: "EXPLORE CLINICAL PARTNERSHIPS",
-    href: "/physicians",
+      "Extend physician-led wellness through a considered clinical ecosystem.",
+    position: "left-[3%] top-[17%]",
   },
   {
+    id: "clinics",
     number: "02",
-    eyebrow: "DISTRIBUTION PARTNERSHIP",
-    title: "Build the territory.",
+    label: "Infrastructure",
+    title: "Clinics",
     description:
-      "A structured commercial model for distribution partners, matched to territory, volume and existing pharma or wellness networks.",
-    details: [
-      "Super-Stockist",
-      "Regional Distributor",
-      "Clinic-Direct Partner",
-      "Territory opportunities",
-    ],
-    cta: "EXPLORE DISTRIBUTION",
-    href: "/distributors",
+      "Bring the DRIPLABS experience into carefully considered clinical environments.",
+    position: "right-[3%] top-[17%]",
   },
   {
+    id: "partners",
     number: "03",
-    eyebrow: "MULTI-LOCATION",
-    title: "Scale a consistent wellness standard.",
+    label: "Growth",
+    title: "Partners",
     description:
-      "For established clinic groups seeking a standardised wellness vertical across multiple locations.",
-    details: [
-      "Standardised protocols",
-      "Staff training",
-      "Launch support",
-      "Ongoing medical-affairs contact",
-    ],
-    cta: "DISCUSS YOUR MODEL",
-    href: "/contact",
+      "Build new opportunities across distribution, hospitality and strategic growth.",
+    position: "left-1/2 bottom-[4%] -translate-x-1/2",
   },
 ];
 
-export default function BuildingPartnership() {
-  const [active, setActive] = useState(0);
+export default function BuildSection() {
+  const reduceMotion = useReducedMotion();
 
-  const current = partnerships[active];
+  const sectionRef = useRef<HTMLElement | null>(null);
+
+  const [active, setActive] = useState<string | null>(null);
+
+  const [mouse, setMouse] = useState({
+    x: 0,
+    y: 0,
+  });
+
+  useEffect(() => {
+    if (reduceMotion) return;
+
+    const element = sectionRef.current;
+
+    if (!element) return;
+
+    const handleMouseMove = (event: MouseEvent) => {
+      const rect = element.getBoundingClientRect();
+
+      const x =
+        ((event.clientX - rect.left) / rect.width - 0.5) * 2;
+
+      const y =
+        ((event.clientY - rect.top) / rect.height - 0.5) * 2;
+
+      setMouse({
+        x,
+        y,
+      });
+    };
+
+    const handleMouseLeave = () => {
+      setMouse({
+        x: 0,
+        y: 0,
+      });
+    };
+
+    element.addEventListener("mousemove", handleMouseMove);
+    element.addEventListener("mouseleave", handleMouseLeave);
+
+    return () => {
+      element.removeEventListener("mousemove", handleMouseMove);
+      element.removeEventListener("mouseleave", handleMouseLeave);
+    };
+  }, [reduceMotion]);
+
+  const isActive = (id: string) => {
+    if (!active) return true;
+    return active === id;
+  };
 
   return (
     <section
+      ref={sectionRef}
       id="partnerships"
-      className="relative overflow-hidden bg-[#071019] text-[#F7F4EC]"
+      className="
+        relative
+        overflow-hidden
+        bg-[#020812]
+        text-[#F7FAFF]
+      "
     >
-      {/* =====================================================
-          AMBIENT FIELD
-      ===================================================== */}
+      {/* =========================================================
+          BACKGROUND
+      ========================================================= */}
 
       <div className="pointer-events-none absolute inset-0">
-        <div className="absolute left-[-12%] top-[10%] h-[520px] w-[520px] rounded-full bg-[#C9A227]/[0.035] blur-[140px]" />
 
-        <div className="absolute bottom-[-20%] right-[-10%] h-[520px] w-[520px] rounded-full bg-cyan-300/[0.025] blur-[140px]" />
+        {/* Main atmosphere */}
+        <motion.div
+          animate={
+            reduceMotion
+              ? undefined
+              : {
+                  x: mouse.x * 20,
+                  y: mouse.y * 14,
+                }
+          }
+          transition={{
+            type: "spring",
+            stiffness: 50,
+            damping: 20,
+          }}
+          className="
+            absolute
+            left-1/2
+            top-[46%]
+            h-[520px]
+            w-[520px]
+            -translate-x-1/2
+            -translate-y-1/2
+            rounded-full
+            bg-[#0066FF]/[0.055]
+            blur-[150px]
+          "
+        />
 
-        <div className="absolute inset-0 opacity-[0.025]">
-          <div
-            className="h-full w-full"
-            style={{
-              backgroundImage:
-                "linear-gradient(rgba(255,255,255,.45) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.45) 1px, transparent 1px)",
-              backgroundSize: "80px 80px",
-            }}
-          />
-        </div>
+        {/* Secondary atmosphere */}
+        <div
+          className="
+            absolute
+            left-[-15%]
+            top-[15%]
+            h-[300px]
+            w-[300px]
+            rounded-full
+            bg-[#1683FF]/[0.025]
+            blur-[130px]
+          "
+        />
+
+        <div
+          className="
+            absolute
+            right-[-10%]
+            bottom-[-10%]
+            h-[350px]
+            w-[350px]
+            rounded-full
+            bg-[#1683FF]/[0.025]
+            blur-[150px]
+          "
+        />
+
+        {/* Grid */}
+        <div
+          className="
+            absolute
+            inset-0
+            opacity-[0.025]
+            [background-image:linear-gradient(rgba(140,203,255,.55)_1px,transparent_1px),linear-gradient(90deg,rgba(140,203,255,.55)_1px,transparent_1px)]
+            [background-size:90px_90px]
+          "
+        />
+
+        {/* Vignette */}
+        <div
+          className="
+            absolute
+            inset-0
+            bg-[radial-gradient(circle_at_center,transparent_25%,rgba(2,8,18,.72)_100%)]
+          "
+        />
+
       </div>
 
-      {/* =====================================================
-          MAIN
-      ===================================================== */}
 
-      <div className="relative mx-auto max-w-[1600px] px-5 py-20 sm:px-8 md:px-10 md:py-28 lg:px-14 lg:py-32">
-        {/* ===================================================
-            HEADER
-        =================================================== */}
+      {/* =========================================================
+          TOP HEADER
+      ========================================================= */}
 
-        <div className="grid gap-8 border-b border-white/10 pb-10 md:grid-cols-12 md:gap-10 md:pb-14">
-          <div className="md:col-span-7">
-            <motion.div
-              initial={{ opacity: 0, y: 14 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-10% 0px" }}
-              transition={{ duration: 0.7 }}
-              className="flex items-center gap-3"
+      <div className="relative mx-auto max-w-[1540px] px-6 pt-16 sm:px-10 lg:px-12 lg:pt-20">
+
+        <div className="flex items-center justify-between">
+
+          <div className="flex items-center gap-4">
+
+            <span
+              className="
+                h-px
+                w-8
+                bg-[#1683FF]
+              "
+            />
+
+            <span
+              className="
+                text-[8px]
+                font-medium
+                uppercase
+                tracking-[0.3em]
+                text-[#8CCBFF]
+              "
             >
-              <span className="h-px w-8 bg-[#C9A227]" />
+              14 — Building Partnerships
+            </span>
 
-              <span className="font-mono text-[8px] uppercase tracking-[0.28em] text-[#E3CE8E]">
-                14 — BUILDING PARTNERSHIPS
-              </span>
-            </motion.div>
-
-            <motion.h2
-              initial={{ opacity: 0, y: 24 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-10% 0px" }}
-              transition={{
-                duration: 0.9,
-                delay: 0.08,
-                ease: [0.22, 1, 0.36, 1],
-              }}
-              className="mt-6 max-w-[900px] font-[var(--font-heading)] text-[clamp(3rem,6vw,6.4rem)] font-light leading-[0.9] tracking-[-0.06em]"
-            >
-              Build with
-              <br />
-              DRIPLABS.
-            </motion.h2>
           </div>
 
-          <motion.div
-            initial={{ opacity: 0, y: 18 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-10% 0px" }}
-            transition={{ duration: 0.75, delay: 0.15 }}
-            className="flex items-end md:col-span-5"
+
+          <div
+            className="
+              hidden
+              text-[8px]
+              uppercase
+              tracking-[0.28em]
+              text-white/20
+              sm:block
+            "
           >
-            <p className="max-w-md text-[13px] leading-6 text-white/50 md:text-sm">
-              From physician-led clinical partnerships to structured
-              distribution, DRIPLABS provides the clinical framework,
-              documentation and commercial infrastructure to build a
-              considered wellness business.
-            </p>
-          </motion.div>
-        </div>
-
-        {/* ===================================================
-            PARTNERSHIP SELECTOR
-        =================================================== */}
-
-        <div className="grid md:grid-cols-12">
-          {/* =================================================
-              LEFT — NAVIGATION
-          ================================================= */}
-
-          <div className="border-b border-white/10 md:col-span-4 md:border-b-0 md:border-r">
-            {partnerships.map((item, index) => {
-              const isActive = active === index;
-
-              return (
-                <button
-                  key={item.number}
-                  type="button"
-                  onClick={() => setActive(index)}
-                  className="group flex w-full items-start gap-5 border-b border-white/10 py-6 text-left last:border-b-0 md:pr-8"
-                >
-                  {/* Number */}
-
-                  <span
-                    className={[
-                      "font-mono text-[9px] tracking-[0.18em] transition-colors duration-500",
-                      isActive
-                        ? "text-[#E3CE8E]"
-                        : "text-white/25 group-hover:text-white/55",
-                    ].join(" ")}
-                  >
-                    {item.number}
-                  </span>
-
-                  {/* Title */}
-
-                  <span className="flex-1">
-                    <span
-                      className={[
-                        "block text-[10px] uppercase tracking-[0.18em] transition-colors duration-500",
-                        isActive
-                          ? "text-white"
-                          : "text-white/45 group-hover:text-white/75",
-                      ].join(" ")}
-                    >
-                      {item.eyebrow}
-                    </span>
-
-                    <span
-                      className={[
-                        "mt-2 block font-[var(--font-heading)] text-xl font-light tracking-[-0.02em] transition-colors duration-500",
-                        isActive
-                          ? "text-[#F7F4EC]"
-                          : "text-white/35 group-hover:text-white/70",
-                      ].join(" ")}
-                    >
-                      {item.title}
-                    </span>
-                  </span>
-
-                  {/* Indicator */}
-
-                  <span
-                    className={[
-                      "mt-1 flex h-7 w-7 shrink-0 items-center justify-center rounded-full border transition-all duration-500",
-                      isActive
-                        ? "border-[#C9A227]/60 bg-[#C9A227]/10 text-[#E3CE8E]"
-                        : "border-white/10 text-white/20 group-hover:border-white/30",
-                    ].join(" ")}
-                  >
-                    <span
-                      className={[
-                        "text-xs transition-transform duration-500",
-                        isActive ? "translate-x-0.5" : "",
-                      ].join(" ")}
-                    >
-                      →
-                    </span>
-                  </span>
-                </button>
-              );
-            })}
+            DRIPLABS / Network
           </div>
 
-          {/* =================================================
-              RIGHT — ACTIVE PARTNERSHIP
-          ================================================= */}
-
-          <div className="relative min-h-[420px] md:col-span-8 md:min-h-[500px]">
-            {/* Technical frame */}
-
-            <div className="pointer-events-none absolute inset-5 border border-white/[0.06] md:inset-8" />
-
-            <div className="pointer-events-none absolute right-8 top-8 hidden font-mono text-[7px] tracking-[0.22em] text-white/20 md:block">
-              DRIPLABS / PARTNERSHIPS
-              <br />
-              INDIA
-            </div>
-
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={current.number}
-                initial={{ opacity: 0, y: 18 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -12 }}
-                transition={{
-                  duration: 0.55,
-                  ease: [0.22, 1, 0.36, 1],
-                }}
-                className="relative flex min-h-[420px] flex-col justify-between p-10 md:min-h-[500px] md:p-14"
-              >
-                <div>
-                  <div className="flex items-center gap-3">
-                    <span className="h-px w-6 bg-cyan-300/60" />
-
-                    <span className="font-mono text-[8px] uppercase tracking-[0.25em] text-cyan-200/55">
-                      {current.eyebrow}
-                    </span>
-                  </div>
-
-                  <h3 className="mt-7 max-w-[650px] font-[var(--font-heading)] text-[clamp(2rem,4vw,4.4rem)] font-light leading-[0.94] tracking-[-0.05em]">
-                    {current.title}
-                  </h3>
-
-                  <p className="mt-6 max-w-[560px] text-[13px] leading-6 text-white/48 md:text-sm">
-                    {current.description}
-                  </p>
-                </div>
-
-                {/* Detail list */}
-
-                <div className="mt-10 grid gap-x-8 gap-y-4 border-t border-white/10 pt-6 sm:grid-cols-2">
-                  {current.details.map((detail, index) => (
-                    <div
-                      key={detail}
-                      className="flex items-center gap-3"
-                    >
-                      <span className="font-mono text-[7px] tracking-[0.18em] text-[#C9A227]/70">
-                        0{index + 1}
-                      </span>
-
-                      <span className="text-[9px] uppercase tracking-[0.14em] text-white/55">
-                        {detail}
-                      </span>
-                    </div>
-                  ))}
-                </div>
-
-                {/* CTA */}
-
-                <div className="mt-8">
-                  <Link
-                    href={current.href}
-                    className="group inline-flex items-center gap-4"
-                  >
-                    <span className="flex h-11 w-11 items-center justify-center rounded-full border border-[#C9A227]/35 bg-[#C9A227]/[0.04] transition-all duration-500 group-hover:border-[#C9A227]/70 group-hover:bg-[#C9A227]/10"
-                    >
-                      <span className="text-sm transition-transform duration-500 group-hover:translate-x-1">
-                        →
-                      </span>
-                    </span>
-
-                    <span className="text-[9px] uppercase tracking-[0.2em] text-[#E3CE8E] transition-colors duration-300 group-hover:text-white">
-                      {current.cta}
-                    </span>
-                  </Link>
-                </div>
-              </motion.div>
-            </AnimatePresence>
-          </div>
         </div>
 
-        {/* ===================================================
-            OPERATING PRINCIPLE
-        =================================================== */}
+      </div>
+
+
+      {/* =========================================================
+          MAIN INTERACTIVE FIELD
+      ========================================================= */}
+
+      <div className="relative mx-auto mt-8 h-[650px] max-w-[1540px] px-6 sm:px-10 lg:px-12">
+
+        {/* =======================================================
+            LARGE BACKGROUND WORD
+        ======================================================= */}
 
         <motion.div
-          initial={{ opacity: 0, y: 15 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.7 }}
-          className="mt-10 flex flex-col justify-between gap-5 border-t border-white/10 pt-6 md:flex-row md:items-center"
+          animate={
+            reduceMotion
+              ? undefined
+              : {
+                  x: mouse.x * -8,
+                  y: mouse.y * -6,
+                }
+          }
+          transition={{
+            type: "spring",
+            stiffness: 45,
+            damping: 22,
+          }}
+          className="
+            pointer-events-none
+            absolute
+            left-1/2
+            top-[40%]
+            -translate-x-1/2
+            -translate-y-1/2
+            whitespace-nowrap
+            font-serif
+            text-[clamp(7rem,18vw,18rem)]
+            font-light
+            leading-none
+            tracking-[-0.09em]
+            text-white/[0.018]
+          "
         >
-          <div className="flex items-center gap-3">
-            <span className="h-1.5 w-1.5 rounded-full bg-[#C9A227]" />
+          DRIPLABS
+        </motion.div>
 
-            <span className="font-mono text-[7px] uppercase tracking-[0.22em] text-white/35">
-              THE DRIPLABS PARTNERSHIP STANDARD
+
+        {/* =======================================================
+            CENTRAL ORBIT SYSTEM
+        ======================================================= */}
+
+        <motion.div
+          animate={
+            reduceMotion
+              ? undefined
+              : {
+                  x: mouse.x * 12,
+                  y: mouse.y * 8,
+                }
+          }
+          transition={{
+            type: "spring",
+            stiffness: 55,
+            damping: 20,
+          }}
+          className="
+            absolute
+            left-1/2
+            top-[42%]
+            h-[420px]
+            w-[420px]
+            -translate-x-1/2
+            -translate-y-1/2
+            sm:h-[470px]
+            sm:w-[470px]
+          "
+        >
+
+          {/* Outer orbit */}
+          <motion.div
+            animate={
+              reduceMotion
+                ? undefined
+                : {
+                    rotate: 360,
+                  }
+            }
+            transition={{
+              duration: 40,
+              repeat: Infinity,
+              ease: "linear",
+            }}
+            className="
+              absolute
+              inset-0
+              rounded-full
+              border
+              border-white/[0.045]
+            "
+          />
+
+          {/* Middle orbit */}
+          <motion.div
+            animate={
+              reduceMotion
+                ? undefined
+                : {
+                    rotate: -360,
+                  }
+            }
+            transition={{
+              duration: 28,
+              repeat: Infinity,
+              ease: "linear",
+            }}
+            className="
+              absolute
+              inset-[13%]
+              rounded-full
+              border
+              border-[#1683FF]/[0.12]
+            "
+          />
+
+          {/* Inner orbit */}
+          <div
+            className="
+              absolute
+              inset-[27%]
+              rounded-full
+              border
+              border-white/[0.06]
+            "
+          />
+
+          {/* Center glow */}
+          <div
+            className="
+              absolute
+              left-1/2
+              top-1/2
+              h-32
+              w-32
+              -translate-x-1/2
+              -translate-y-1/2
+              rounded-full
+              bg-[#0066FF]/[0.08]
+              blur-[40px]
+            "
+          />
+
+          {/* Center ring */}
+          <motion.div
+            animate={
+              reduceMotion
+                ? undefined
+                : {
+                    scale: [1, 1.04, 1],
+                  }
+            }
+            transition={{
+              duration: 4,
+              repeat: Infinity,
+              ease: "easeInOut",
+            }}
+            className="
+              absolute
+              left-1/2
+              top-1/2
+              flex
+              h-28
+              w-28
+              -translate-x-1/2
+              -translate-y-1/2
+              items-center
+              justify-center
+              rounded-full
+              border
+              border-[#1683FF]/30
+              bg-[#020812]/80
+              backdrop-blur-sm
+            "
+          >
+
+            <div
+              className="
+                absolute
+                inset-3
+                rounded-full
+                border
+                border-white/[0.06]
+              "
+            />
+
+            <span
+              className="
+                relative
+                text-[8px]
+                font-medium
+                uppercase
+                tracking-[0.28em]
+                text-white/60
+              "
+            >
+              DRIPLABS
             </span>
+
+          </motion.div>
+
+
+          {/* Central pulse */}
+          {!reduceMotion && (
+            <>
+              <motion.span
+                animate={{
+                  scale: [1, 2.2],
+                  opacity: [0.3, 0],
+                }}
+                transition={{
+                  duration: 3,
+                  repeat: Infinity,
+                  ease: "easeOut",
+                }}
+                className="
+                  absolute
+                  left-1/2
+                  top-1/2
+                  h-3
+                  w-3
+                  -translate-x-1/2
+                  -translate-y-1/2
+                  rounded-full
+                  bg-[#1683FF]
+                "
+              />
+
+              <motion.span
+                animate={{
+                  scale: [1, 1.8],
+                  opacity: [0.2, 0],
+                }}
+                transition={{
+                  duration: 3,
+                  delay: 1.5,
+                  repeat: Infinity,
+                  ease: "easeOut",
+                }}
+                className="
+                  absolute
+                  left-1/2
+                  top-1/2
+                  h-3
+                  w-3
+                  -translate-x-1/2
+                  -translate-y-1/2
+                  rounded-full
+                  bg-[#1683FF]
+                "
+              />
+            </>
+          )}
+
+        </motion.div>
+
+
+        {/* =======================================================
+            CONNECTION LINES
+        ======================================================= */}
+
+        <svg
+          className="pointer-events-none absolute inset-0 h-full w-full"
+          viewBox="0 0 1000 650"
+          preserveAspectRatio="none"
+        >
+
+          {/* Left connection */}
+          <motion.path
+            d="M 150 150 C 300 190, 350 260, 500 325"
+            fill="none"
+            stroke="#1683FF"
+            strokeWidth="1"
+            strokeOpacity={active === "physicians" ? "0.7" : "0.16"}
+            pathLength="1"
+            initial={{
+              pathLength: 0,
+            }}
+            whileInView={{
+              pathLength: 1,
+            }}
+            viewport={{
+              once: true,
+            }}
+            transition={{
+              duration: 1.5,
+              ease: [0.22, 1, 0.36, 1],
+            }}
+          />
+
+          {/* Right connection */}
+          <motion.path
+            d="M 850 150 C 700 190, 650 260, 500 325"
+            fill="none"
+            stroke="#1683FF"
+            strokeWidth="1"
+            strokeOpacity={active === "clinics" ? "0.7" : "0.16"}
+            pathLength="1"
+            initial={{
+              pathLength: 0,
+            }}
+            whileInView={{
+              pathLength: 1,
+            }}
+            viewport={{
+              once: true,
+            }}
+            transition={{
+              duration: 1.5,
+              delay: 0.15,
+              ease: [0.22, 1, 0.36, 1],
+            }}
+          />
+
+          {/* Bottom connection */}
+          <motion.path
+            d="M 500 325 C 500 410, 500 480, 500 560"
+            fill="none"
+            stroke="#1683FF"
+            strokeWidth="1"
+            strokeOpacity={active === "partners" ? "0.7" : "0.16"}
+            pathLength="1"
+            initial={{
+              pathLength: 0,
+            }}
+            whileInView={{
+              pathLength: 1,
+            }}
+            viewport={{
+              once: true,
+            }}
+            transition={{
+              duration: 1.5,
+              delay: 0.3,
+              ease: [0.22, 1, 0.36, 1],
+            }}
+          />
+
+          {/* Horizontal architecture */}
+          <path
+            d="M 70 325 H 930"
+            stroke="white"
+            strokeWidth="1"
+            strokeOpacity="0.035"
+          />
+
+          <path
+            d="M 500 60 V 590"
+            stroke="white"
+            strokeWidth="1"
+            strokeOpacity="0.035"
+          />
+
+        </svg>
+
+
+        {/* =======================================================
+            PARTNERSHIP NODES
+        ======================================================= */}
+
+        {partners.map((partner) => (
+          <motion.button
+            key={partner.id}
+            type="button"
+            onMouseEnter={() => setActive(partner.id)}
+            onMouseLeave={() => setActive(null)}
+            onFocus={() => setActive(partner.id)}
+            onBlur={() => setActive(null)}
+            whileHover={
+              reduceMotion
+                ? undefined
+                : {
+                    y: -4,
+                  }
+            }
+            className={`
+              absolute
+              ${partner.position}
+              group
+              z-20
+              w-[240px]
+              text-left
+              sm:w-[270px]
+            `}
+          >
+
+            {/* Node */}
+            <div
+              className={`
+                relative
+                overflow-hidden
+                border
+                p-5
+                backdrop-blur-md
+                transition-all
+                duration-700
+                ${
+                  active === partner.id
+                    ? "border-[#1683FF]/50 bg-[#06152B]/85 shadow-[0_20px_70px_rgba(0,102,255,.12)]"
+                    : "border-white/[0.08] bg-[#020812]/65 hover:border-white/[0.16]"
+                }
+              `}
+            >
+
+              {/* Hover light */}
+              <span
+                className={`
+                  pointer-events-none
+                  absolute
+                  inset-0
+                  bg-gradient-to-br
+                  from-[#1683FF]/[0.10]
+                  via-transparent
+                  to-transparent
+                  transition-opacity
+                  duration-700
+                  ${
+                    active === partner.id
+                      ? "opacity-100"
+                      : "opacity-0"
+                  }
+                `}
+              />
+
+
+              <div className="relative">
+
+                {/* Top */}
+                <div className="flex items-center justify-between">
+
+                  <span
+                    className={`
+                      text-[8px]
+                      tracking-[0.25em]
+                      transition-colors
+                      duration-500
+                      ${
+                        active === partner.id
+                          ? "text-[#8CCBFF]"
+                          : "text-white/25"
+                      }
+                    `}
+                  >
+                    {partner.number}
+                  </span>
+
+                  <span
+                    className={`
+                      h-1.5
+                      w-1.5
+                      rounded-full
+                      transition-all
+                      duration-500
+                      ${
+                        active === partner.id
+                          ? "bg-[#1683FF] shadow-[0_0_14px_rgba(22,131,255,.9)]"
+                          : "bg-white/10"
+                      }
+                    `}
+                  />
+
+                </div>
+
+
+                {/* Label */}
+                <p
+                  className="
+                    mt-8
+                    text-[7px]
+                    uppercase
+                    tracking-[0.3em]
+                    text-[#1683FF]
+                  "
+                >
+                  {partner.label}
+                </p>
+
+
+                {/* Title */}
+                <h3
+                  className="
+                    mt-2
+                    font-serif
+                    text-3xl
+                    font-light
+                    tracking-[-0.04em]
+                    text-white
+                  "
+                >
+                  {partner.title}
+                </h3>
+
+
+                {/* Description */}
+                <motion.p
+                  initial={false}
+                  animate={{
+                    opacity:
+                      active === partner.id ? 1 : 0.45,
+                    height:
+                      active === partner.id ? "auto" : "3.2rem",
+                  }}
+                  transition={{
+                    duration: 0.45,
+                  }}
+                  className="
+                    mt-3
+                    overflow-hidden
+                    text-[10px]
+                    leading-[1.75]
+                    text-white/40
+                  "
+                >
+                  {partner.description}
+                </motion.p>
+
+
+                {/* Bottom */}
+                <div
+                  className="
+                    mt-5
+                    flex
+                    items-center
+                    justify-between
+                    border-t
+                    border-white/[0.07]
+                    pt-4
+                  "
+                >
+
+                  <span
+                    className="
+                      text-[7px]
+                      uppercase
+                      tracking-[0.25em]
+                      text-white/20
+                    "
+                  >
+                    Partnership
+                  </span>
+
+                  <span
+                    className="
+                      text-sm
+                      text-[#1683FF]
+                      transition-transform
+                      duration-500
+                      group-hover:translate-x-1
+                    "
+                  >
+                    →
+                  </span>
+
+                </div>
+
+              </div>
+
+            </div>
+
+          </motion.button>
+        ))}
+
+
+        {/* =======================================================
+            CENTER DECORATIVE LABELS
+        ======================================================= */}
+
+        <div
+          className="
+            pointer-events-none
+            absolute
+            left-1/2
+            top-[42%]
+            z-10
+            hidden
+            -translate-x-1/2
+            -translate-y-1/2
+            md:block
+          "
+        >
+
+          <div
+            className="
+              absolute
+              -left-32
+              top-[-105px]
+              whitespace-nowrap
+              text-[7px]
+              uppercase
+              tracking-[0.28em]
+              text-white/15
+            "
+          >
+            Clinical ecosystem
           </div>
 
-          <p className="max-w-xl text-right font-[var(--font-heading)] text-[clamp(1.15rem,2vw,1.7rem)] font-light tracking-[-0.02em] text-white/75">
-            Built around clinical rigour, structured growth and long-term relationships.
-          </p>
-        </motion.div>
+          <div
+            className="
+              absolute
+              -right-32
+              top-[-105px]
+              whitespace-nowrap
+              text-[7px]
+              uppercase
+              tracking-[0.28em]
+              text-white/15
+            "
+          >
+            Strategic network
+          </div>
+
+        </div>
+
       </div>
+
+
+      {/* =========================================================
+          BOTTOM CTA
+      ========================================================= */}
+
+      <div className="relative mx-auto max-w-[1540px] px-6 pb-16 sm:px-10 lg:px-12 lg:pb-20">
+
+        <motion.div
+          initial={
+            reduceMotion
+              ? { opacity: 1, y: 0 }
+              : {
+                  opacity: 0,
+                  y: 15,
+                }
+          }
+          whileInView={{
+            opacity: 1,
+            y: 0,
+          }}
+          viewport={{
+            once: true,
+            amount: 0.2,
+          }}
+          transition={{
+            duration: 0.7,
+            ease: [0.22, 1, 0.36, 1],
+          }}
+          className="
+            flex
+            flex-col
+            gap-5
+            border-t
+            border-white/[0.07]
+            pt-6
+            sm:flex-row
+            sm:items-center
+            sm:justify-between
+          "
+        >
+
+          <div
+            className="
+              flex
+              items-center
+              gap-4
+              text-[8px]
+              uppercase
+              tracking-[0.26em]
+              text-white/20
+            "
+          >
+
+            <span>
+              DRIPLABS
+            </span>
+
+            <span className="h-px w-7 bg-white/10" />
+
+            <span>
+              Partnerships
+            </span>
+
+          </div>
+
+
+          <Link
+            href="/partners"
+            className="
+              group
+              inline-flex
+              items-center
+              gap-4
+              text-[8px]
+              font-medium
+              uppercase
+              tracking-[0.25em]
+              text-white/50
+              transition-colors
+              duration-300
+              hover:text-white
+            "
+          >
+
+            Start a conversation
+
+            <span
+              className="
+                text-[#1683FF]
+                transition-transform
+                duration-500
+                group-hover:translate-x-1
+              "
+            >
+              →
+            </span>
+
+          </Link>
+
+        </motion.div>
+
+      </div>
+
     </section>
   );
 }

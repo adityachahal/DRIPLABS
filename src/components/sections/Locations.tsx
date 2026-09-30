@@ -193,7 +193,25 @@ export default function Locations() {
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_20%,transparent_0%,rgba(2,8,18,0.25)_55%,rgba(2,8,18,0.92)_100%)]" />
       </div>
 
-      <div className="relative mx-auto max-w-[1540px] px-5 py-24 sm:px-8 md:py-32 lg:px-12 lg:py-40">
+      <div
+  className="
+    relative
+    mx-auto
+    max-w-[1540px]
+    px-5
+    pt-12
+    pb-8
+    sm:px-8
+    sm:pt-14
+    sm:pb-10
+    md:px-12
+    md:pt-16
+    md:pb-12
+    lg:px-12
+    lg:pt-20
+    lg:pb-14
+  "
+>
 
         {/* =========================================================
             TOP LABEL

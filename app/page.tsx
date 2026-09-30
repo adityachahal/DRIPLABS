@@ -39,9 +39,7 @@ export default function Home() {
       {/* 05 — Protocol system */}
       <ProtocolObservatory />
 
-      {/* 06 — Geographic presence */}
-      <LocationMarquee />
-
+     
       {/* 07 — Decode a vial */}
       <DecodeVial />
 
@@ -56,6 +54,10 @@ export default function Home() {
 
       <SignatureProtocols />
 
+       {/* 06 — Geographic presence */}
+      <LocationMarquee />
+
+
 
       {/* 12 — Social proof */}
       <Testimonials />
@@ -65,6 +67,7 @@ export default function Home() {
 
       {/* 14 — Partnerships */}
       <BuildingPartnership />
+      
 
       {/* 15 — Final conversion */}
       <FinalCTA />

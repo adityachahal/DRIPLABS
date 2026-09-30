@@ -50,7 +50,7 @@ export default function ExperienceSection() {
   return (
     <section
       id="experience"
-      className="relative overflow-hidden px-5 py-20 sm:px-6 md:px-10 md:py-28 lg:px-14 lg:py-36"
+      className="relative overflow-hidden px-5 py-10 sm:px-6 md:px-10 md:py-14 lg:px-14 lg:py-16"
       style={{
         background: "#020812",
         color: "#F7FAFF",
