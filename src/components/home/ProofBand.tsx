@@ -33,7 +33,7 @@ export default function ProofBand() {
   return (
     <section
       aria-label="DRIPLABS key statistics"
-      className="relative overflow-hidden bg-[#020812] text-[#F7FAFF]"
+     className="relative -mt-12 overflow-hidden bg-[#020812] text-[#F7FAFF]" 
     >
       {/* =========================================================
           ATMOSPHERE
@@ -51,7 +51,9 @@ export default function ProofBand() {
       </div>
 
       <div className="relative mx-auto w-full max-w-[1600px] px-[3.5vw] py-5 md:py-6 lg:py-7">
-        {/* Top hairline */}
+        {/* =======================================================
+            TOP HAIRLINE
+        ======================================================= */}
 
         <div className="h-px w-full bg-white/[0.09]" />
 
@@ -100,14 +102,18 @@ export default function ProofBand() {
                     : "",
                 ].join(" ")}
               >
-                {/* Active / hover rail */}
+                {/* =================================================
+                    ACTIVE / HOVER RAIL
+                ================================================= */}
 
                 <span
                   aria-hidden="true"
                   className="absolute bottom-0 left-0 h-px w-0 bg-[#1683FF] transition-all duration-700 ease-out group-hover:w-full lg:top-0 lg:bottom-auto"
                 />
 
-                {/* Number */}
+                {/* =================================================
+                    NUMBER
+                ================================================= */}
 
                 <span
                   className={[
@@ -123,13 +129,17 @@ export default function ProofBand() {
                   {stat.value}
                 </span>
 
-                {/* Label */}
+                {/* =================================================
+                    LABEL
+                ================================================= */}
 
                 <span className="mt-2.5 max-w-[220px] text-[8px] font-medium uppercase leading-[1.45] tracking-[0.17em] text-white/45 transition-colors duration-500 group-hover:text-white/60">
                   {stat.label}
                 </span>
 
-                {/* Index */}
+                {/* =================================================
+                    INDEX
+                ================================================= */}
 
                 <span className="absolute right-5 top-4 font-mono text-[7px] tracking-[0.2em] text-[#1683FF]/45 sm:right-7">
                   {String(index + 1).padStart(2, "0")}
@@ -154,7 +164,9 @@ export default function ProofBand() {
           })}
         </div>
 
-        {/* Bottom hairline */}
+        {/* =======================================================
+            BOTTOM HAIRLINE
+        ======================================================= */}
 
         <div className="h-px w-full bg-white/[0.09]" />
       </div>

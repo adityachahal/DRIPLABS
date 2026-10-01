@@ -1203,34 +1203,37 @@ export default function ProtocolObservatory() {
             }}
           >
             <Canvas
-              dpr={[1, 1.5]}
-              shadows
-              frameloop="always"
-              gl={{
-                antialias: true,
-                alpha: true,
-                powerPreference: "high-performance",
-                toneMapping: THREE.ACESFilmicToneMapping,
-                toneMappingExposure: 1.05,
-              }}
-              performance={{ min: 0.5, max: 1, debounce: 180 }}
-            >
-              <Suspense fallback={null}>
-                <AnatomyScene
-                  activeFamily={activeFamily}
-                  accentHex={accentHex}
-                  calibrating={calibrating}
-                  onCalibratePoint={(point) => {
-                    setLastCalibratedPoint(point);
-                    // eslint-disable-next-line no-console
-                    console.log(
-                      `${activeFamily} lookAt →`,
-                      `[${point[0]}, ${point[1]}, ${point[2]}]`
-                    );
-                  }}
-                />
-              </Suspense>
-            </Canvas>
+  dpr={[1, 1]}
+  frameloop="demand"
+  gl={{
+    antialias: false,
+    alpha: true,
+    powerPreference: "default",
+    toneMapping: THREE.ACESFilmicToneMapping,
+    toneMappingExposure: 1.05,
+  }}
+  performance={{
+    min: 0.75,
+    max: 1,
+    debounce: 250,
+  }}
+>
+  <Suspense fallback={null}>
+    <AnatomyScene
+      activeFamily={activeFamily}
+      accentHex={accentHex}
+      calibrating={calibrating}
+      onCalibratePoint={(point) => {
+        setLastCalibratedPoint(point);
+
+        console.log(
+          `${activeFamily} lookAt →`,
+          `[${point[0]}, ${point[1]}, ${point[2]}]`
+        );
+      }}
+    />
+  </Suspense>
+</Canvas>
           </div>
 
           <div className="dl-calibrate">

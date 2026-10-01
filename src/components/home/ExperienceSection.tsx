@@ -50,7 +50,7 @@ export default function ExperienceSection() {
   return (
     <section
       id="experience"
-      className="relative overflow-hidden px-5 py-10 sm:px-6 md:px-10 md:py-14 lg:px-14 lg:py-16"
+      className="relative overflow-hidden px-5 pb-3 pt-8 sm:px-6 md:px-10 md:pb-4 md:pt-10 lg:px-14 lg:pb-5 lg:pt-12"
       style={{
         background: "#020812",
         color: "#F7FAFF",
@@ -119,6 +119,7 @@ export default function ExperienceSection() {
       ===================================================== */}
 
       <div className="relative z-10 mx-auto max-w-[1680px]">
+
         {/* ===================================================
             SECTION HEADER
         =================================================== */}
@@ -148,39 +149,38 @@ export default function ExperienceSection() {
             duration: 0.7,
             ease: [0.22, 1, 0.36, 1],
           }}
-          className="mb-10 grid gap-6 md:mb-14 md:grid-cols-12 md:items-end"
+          className="mb-8 grid gap-5 md:mb-10 md:grid-cols-12 md:items-end"
         >
           {/* =================================================
-              LEFT LABEL
-          ================================================= */}
+    LEFT LABEL
+================================================= */}
 
-          <div className="md:col-span-5">
-            <div className="flex items-center gap-4">
-              <span
-                className="h-px w-10"
-                style={{
-                  background: "#0066FF",
-                  boxShadow:
-                    "0 0 14px rgba(0,102,255,0.5)",
-                }}
-              />
+<div className="md:col-span-5">
+  <div className="relative -top-5 flex items-center gap-4">
+    <span
+      className="h-px w-10 shrink-0"
+      style={{
+        background: "#0066FF",
+        boxShadow: "0 0 14px rgba(0,102,255,0.5)",
+      }}
+    />
 
-              <span
-                className="text-[9px] font-medium uppercase tracking-[0.28em]"
-                style={{
-                  color: "rgba(140,203,255,0.75)",
-                }}
-              >
-                02 — CHOOSE HOW YOU EXPERIENCE DRIPLABS
-              </span>
-            </div>
-          </div>
+    <span
+      className="text-[9px] font-medium uppercase tracking-[0.28em] leading-none"
+      style={{
+        color: "rgba(140,203,255,0.75)",
+      }}
+    >
+      02 — CHOOSE HOW YOU EXPERIENCE DRIPLABS
+    </span>
+  </div>
+</div>
 
           {/* =================================================
               RIGHT TITLE
           ================================================= */}
 
-          <div className="md:col-span-7 md:text-right">
+          <div className="relative -top-5 md:-top-7 lg:-top-10 md:col-span-7 md:text-right">
             <h2
               className="font-[var(--font-heading)] text-[clamp(2.4rem,4.5vw,5rem)] font-light leading-[0.94] tracking-[-0.045em]"
               style={{
@@ -205,7 +205,7 @@ export default function ExperienceSection() {
             EXPERIENCE CARDS
         =================================================== */}
 
-        <div className="grid gap-3 lg:grid-cols-3">
+        <div className="relative -top-10 grid gap-3 lg:grid-cols-3">
           {experiences.map((experience, index) => (
             <motion.div
               key={experience.number}
@@ -234,7 +234,7 @@ export default function ExperienceSection() {
                 delay: reducedMotion ? 0 : index * 0.1,
                 ease: [0.22, 1, 0.36, 1],
               }}
-              className="group relative min-h-[400px] overflow-hidden bg-[#06152B] sm:min-h-[440px] lg:min-h-[480px]"
+              className="group relative min-h-[310px] overflow-hidden bg-[#06152B] sm:min-h-[330px] lg:min-h-[360px]"
             >
               {/* =================================================
                   WHOLE CARD LINK
@@ -280,8 +280,7 @@ export default function ExperienceSection() {
               <div
                 className="absolute inset-0 transition-all duration-700"
                 style={{
-                  background:
-                    "rgba(2,8,18,0.25)",
+                  background: "rgba(2,8,18,0.25)",
                 }}
               />
 
@@ -347,8 +346,7 @@ export default function ExperienceSection() {
                 style={{
                   background:
                     "linear-gradient(to bottom, #4D9BFF, #0066FF, #1683FF)",
-                  boxShadow:
-                    "0 0 20px rgba(0,102,255,0.65)",
+                  boxShadow: "0 0 20px rgba(0,102,255,0.65)",
                 }}
               />
 
@@ -368,12 +366,26 @@ export default function ExperienceSection() {
                   CARD CONTENT
               ================================================= */}
 
-              <div className="relative z-20 flex h-full min-h-[400px] flex-col justify-between p-5 text-white sm:min-h-[440px] sm:p-7 lg:min-h-[480px] lg:p-8">
+              <div className="relative z-20 flex h-full min-h-[310px] flex-col justify-between p-5 text-white sm:min-h-[330px] sm:p-6 lg:min-h-[360px] lg:p-7">
+
+                {/* =================================================
+                    TEXT GLOW
+                ================================================= */}
+
+                <div
+                  aria-hidden="true"
+                  className="pointer-events-none absolute bottom-[18%] left-[-10%] h-[48%] w-[80%] rounded-full opacity-80 blur-[65px]"
+                  style={{
+                    background:
+                      "radial-gradient(circle, rgba(0,102,255,0.26) 0%, rgba(22,131,255,0.13) 38%, transparent 72%)",
+                  }}
+                />
+
                 {/* =================================================
                     TOP META
                 ================================================= */}
 
-                <div className="flex items-start justify-between">
+                <div className="relative z-10 flex items-start justify-between">
                   <span
                     className="text-[10px] font-medium tracking-[0.22em]"
                     style={{
@@ -386,53 +398,33 @@ export default function ExperienceSection() {
                   <span
                     className="rounded-full border px-3 py-1.5 text-[8px] uppercase tracking-[0.22em] backdrop-blur-md"
                     style={{
-                      borderColor:
-                        "rgba(140,203,255,0.25)",
-                      background:
-                        "rgba(2,8,18,0.28)",
-                      color:
-                        "rgba(247,250,255,0.72)",
+                      borderColor: "rgba(140,203,255,0.25)",
+                      background: "rgba(2,8,18,0.28)",
+                      color: "rgba(247,250,255,0.72)",
                     }}
                   >
-                    DRIPLABS
+                    {experience.eyebrow === "IN-CENTRE"
+                      ? "In-Centre"
+                      : experience.eyebrow === "DRIPLABS HOME"
+                        ? "Mobile IV / Home"
+                        : "Women’s Wellness"}
                   </span>
                 </div>
 
                 {/* =================================================
                     BOTTOM CONTENT
+
+                    EYEBROW REMOVED
                 ================================================= */}
 
-                <div>
-                  {/* =================================================
-                      EYEBROW
-                  ================================================= */}
-
-                  <div className="mb-4 flex items-center gap-3">
-                    <span
-                      className="h-px w-7 transition-all duration-500 group-hover:w-11"
-                      style={{
-                        background: "#0066FF",
-                        boxShadow:
-                          "0 0 10px rgba(0,102,255,0.45)",
-                      }}
-                    />
-
-                    <span
-                      className="text-[9px] font-medium uppercase tracking-[0.25em]"
-                      style={{
-                        color: "#8CCBFF",
-                      }}
-                    >
-                      {experience.eyebrow}
-                    </span>
-                  </div>
+                <div className="relative z-10">
 
                   {/* =================================================
                       TITLE
                   ================================================= */}
 
                   <h3
-                    className="max-w-[430px] font-[var(--font-heading)] text-[clamp(2rem,3vw,3.4rem)] font-light leading-[0.96] tracking-[-0.035em]"
+                    className="max-w-[430px] font-[var(--font-heading)] text-[clamp(2rem,3vw,3.4rem)] font-light leading-[0.96] tracking-[-0.035em] drop-shadow-[0_2px_20px_rgba(0,102,255,0.38)]"
                     style={{
                       color: "#F7FAFF",
                     }}
@@ -444,12 +436,11 @@ export default function ExperienceSection() {
                       DESCRIPTION
                   ================================================= */}
 
-                  <div className="mt-5 max-w-[350px]">
+                  <div className="mt-4 max-w-[350px]">
                     <p
-                      className="text-sm leading-6"
+                      className="text-sm leading-6 drop-shadow-[0_1px_12px_rgba(0,0,0,0.9)]"
                       style={{
-                        color:
-                          "rgba(247,250,255,0.68)",
+                        color: "rgba(247,250,255,0.72)",
                       }}
                     >
                       {experience.description}
@@ -460,7 +451,8 @@ export default function ExperienceSection() {
                       CTA
                   ================================================= */}
 
-                  <div className="mt-7 flex items-center gap-4">
+                  <div className="mt-5 flex items-center gap-4">
+
                     {/* INTERACTIVE CIRCLE */}
 
                     <span
@@ -480,10 +472,8 @@ export default function ExperienceSection() {
                         group-hover:scale-105
                       "
                       style={{
-                        borderColor:
-                          "rgba(140,203,255,0.38)",
-                        background:
-                          "rgba(2,8,18,0.24)",
+                        borderColor: "rgba(140,203,255,0.38)",
+                        background: "rgba(2,8,18,0.24)",
                       }}
                     >
                       {/* Blue expanding circle */}
@@ -528,8 +518,7 @@ export default function ExperienceSection() {
                     <span
                       className="text-[9px] font-medium uppercase tracking-[0.24em] transition-colors duration-500 group-hover:text-white"
                       style={{
-                        color:
-                          "rgba(247,250,255,0.75)",
+                        color: "rgba(247,250,255,0.75)",
                       }}
                     >
                       {experience.cta}
@@ -557,8 +546,7 @@ export default function ExperienceSection() {
                     group-hover:translate-x-[390%]
                   "
                   style={{
-                    background:
-                      "rgba(140,203,255,0.09)",
+                    background: "rgba(140,203,255,0.09)",
                   }}
                 />
               </div>
@@ -580,8 +568,7 @@ export default function ExperienceSection() {
                   group-hover:opacity-100
                 "
                 style={{
-                  borderColor:
-                    "rgba(0,102,255,0.62)",
+                  borderColor: "rgba(0,102,255,0.62)",
                   boxShadow:
                     "inset 0 0 35px rgba(0,102,255,0.035)",
                 }}
@@ -595,53 +582,19 @@ export default function ExperienceSection() {
         ===================================================== */}
 
         <motion.div
-          initial={
-            reducedMotion
-              ? false
-              : {
-                  opacity: 0,
-                }
-          }
-          whileInView={
-            reducedMotion
-              ? undefined
-              : {
-                  opacity: 1,
-                }
-          }
-          viewport={{
-            once: true,
-          }}
-          transition={{
-            delay: 0.45,
-            duration: 0.7,
-          }}
-          className="mt-6 flex items-center justify-between border-t pt-5"
-          style={{
-            borderColor:
-              "rgba(140,203,255,0.14)",
-          }}
-        >
-          <p
-            className="text-[8px] uppercase tracking-[0.24em]"
-            style={{
-              color:
-                "rgba(247,250,255,0.35)",
-            }}
-          >
-            Physician-led wellness
-          </p>
+  initial={reducedMotion ? false : { opacity: 0 }}
+  whileInView={reducedMotion ? undefined : { opacity: 1 }}
+  viewport={{ once: true }}
+  transition={{
+    delay: 0.45,
+    duration: 0.7,
+  }}
+  className="relative -top-18 mt-0 flex items-center justify-between pt-3"
+>
 
-          <p
-            className="text-[8px] uppercase tracking-[0.24em]"
-            style={{
-              color:
-                "rgba(247,250,255,0.35)",
-            }}
-          >
-            India
-          </p>
-        </motion.div>
+</motion.div>
+          
+       
       </div>
 
       {/* =====================================================
@@ -654,8 +607,7 @@ export default function ExperienceSection() {
         style={{
           background:
             "linear-gradient(90deg, transparent 0%, rgba(0,102,255,0.75) 50%, transparent 100%)",
-          boxShadow:
-            "0 0 18px rgba(0,102,255,0.18)",
+          boxShadow: "0 0 18px rgba(0,102,255,0.18)",
         }}
       />
     </section>

@@ -1,10 +1,6 @@
 ﻿"use client";
 
-import {
-  AnimatePresence,
-  motion,
-  useReducedMotion,
-} from "framer-motion";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { useState } from "react";
 
 /* =========================================================
@@ -30,7 +26,7 @@ const trustPoints = [
   },
   {
     number: "03",
-    title: "Clinical Evidence & Documented Protocols",
+    title: "Clinical Evidence",
     short:
       "Formulations and protocols are structured around documented clinical information.",
     detail:
@@ -60,11 +56,7 @@ const trustPoints = [
     detail:
       "Research, scientific pathways and documented references provide the foundation for the science layer.",
   },
-];
-
-/* =========================================================
-   CENTRAL STATES
-   ========================================================= */
+] as const;
 
 const standardStates = {
   "01": {
@@ -78,7 +70,6 @@ const standardStates = {
     rightLabel: "ADMINISTRATION",
     rightValue: "SUPERVISED",
     bottom: "Every protocol begins with professional assessment.",
-    mode: "physician",
   },
 
   "02": {
@@ -92,7 +83,6 @@ const standardStates = {
     rightLabel: "QUALITY",
     rightValue: "DOCUMENTED",
     bottom: "A formulation framework built around pharmaceutical standards.",
-    mode: "pharma",
   },
 
   "03": {
@@ -106,7 +96,6 @@ const standardStates = {
     rightLabel: "REFERENCES",
     rightValue: "SCIENCE",
     bottom: "Protocols are structured around documented clinical information.",
-    mode: "evidence",
   },
 
   "04": {
@@ -120,7 +109,6 @@ const standardStates = {
     rightLabel: "CERTIFICATE",
     rightValue: "OF ANALYSIS",
     bottom: "Every formulation carries a record.",
-    mode: "batch",
   },
 
   "05": {
@@ -134,7 +122,6 @@ const standardStates = {
     rightLabel: "QUALITY",
     rightValue: "VERIFIED",
     bottom: "Quality verification forms part of the product documentation.",
-    mode: "tested",
   },
 
   "06": {
@@ -147,20 +134,15 @@ const standardStates = {
     leftValue: "SCIENCE",
     rightLabel: "REFERENCES",
     rightValue: "AVAILABLE",
-    bottom: "Research and scientific references connect to the formulation story.",
-    mode: "research",
+    bottom:
+      "Research and scientific references connect to the formulation story.",
   },
 } as const;
 
 type StandardKey = keyof typeof standardStates;
 
-type ClinicalVisualProps = {
-  activePoint: StandardKey | null;
-  reducedMotion: boolean | null;
-};
-
 /* =========================================================
-   SMALL HUD DATA BLOCK
+   HUD DATA
    ========================================================= */
 
 function HudData({
@@ -168,65 +150,46 @@ function HudData({
   value,
   side,
   active,
-  delay = 0,
 }: {
   label: string;
   value: string;
   side: "left" | "right";
   active: boolean;
-  delay?: number;
 }) {
   return (
     <motion.div
       animate={{
-        opacity: active ? 1 : 0.22,
-        scale: active ? 1 : 0.96,
-        x: active ? 0 : side === "left" ? -8 : 8,
+        opacity: active ? 1 : 0.18,
+        x: active ? 0 : side === "left" ? -5 : 5,
       }}
       transition={{
-        duration: 0.45,
-        delay,
+        duration: 0.35,
         ease: [0.22, 1, 0.36, 1],
       }}
       className={[
-        "absolute z-30",
-        "w-[108px] md:w-[132px]",
-        side === "left" ? "left-[4%] md:left-[6%]" : "right-[4%] md:right-[6%]",
+        "absolute z-30 w-[92px] sm:w-[108px]",
+        side === "left"
+          ? "left-[4%] sm:left-[7%]"
+          : "right-[4%] sm:right-[7%]",
       ].join(" ")}
     >
       <div
         className={[
-          "relative overflow-hidden",
-          "border px-3 py-2.5 md:px-4 md:py-3",
-          "backdrop-blur-md",
-          "transition-all duration-500",
+          "relative overflow-hidden border px-2.5 py-2 sm:px-3 sm:py-2.5",
+          "transition-colors duration-300",
           active
-            ? "border-[#1683FF]/70 bg-[#06152B]/90 shadow-[0_0_35px_rgba(0,102,255,.20)]"
-            : "border-white/[0.08] bg-[#020812]/65",
+            ? "border-[#1683FF]/65 bg-[#06152B]/90"
+            : "border-white/[0.07] bg-[#020812]/60",
         ].join(" ")}
       >
-        {active && (
-          <motion.div
-            initial={{ x: "-100%" }}
-            animate={{ x: "100%" }}
-            transition={{
-              duration: 1.2,
-              repeat: Infinity,
-              repeatDelay: 2.5,
-              ease: "linear",
-            }}
-            className="absolute inset-y-0 w-1/3 bg-gradient-to-r from-transparent via-[#1683FF]/20 to-transparent"
-          />
-        )}
-
-        <p className="relative text-[6px] font-medium uppercase tracking-[0.22em] text-[#8CCBFF]/55 md:text-[7px]">
+        <p className="text-[5px] font-medium uppercase tracking-[0.2em] text-[#8CCBFF]/55 sm:text-[6px]">
           {label}
         </p>
 
         <p
           className={[
-            "relative mt-1 text-[9px] font-medium tracking-[0.08em] md:text-[11px]",
-            active ? "text-[#F7FAFF]" : "text-white/35",
+            "mt-1 text-[8px] font-medium tracking-[0.06em] sm:text-[9px]",
+            active ? "text-[#F7FAFF]" : "text-white/30",
           ].join(" ")}
         >
           {value}
@@ -234,9 +197,9 @@ function HudData({
 
         <span
           className={[
-            "absolute bottom-0 left-0 h-px transition-all duration-500",
+            "absolute bottom-0 left-0 h-px transition-all duration-300",
             active
-              ? "w-full bg-[#1683FF] shadow-[0_0_10px_rgba(22,131,255,.9)]"
+              ? "w-full bg-[#1683FF]"
               : "w-0",
           ].join(" ")}
         />
@@ -268,30 +231,25 @@ function Connector({
     >
       <motion.div
         animate={{
-          opacity: active ? 1 : 0.18,
-          scaleX: active ? 1 : 0.85,
+          opacity: active ? 1 : 0.16,
+          scaleX: active ? 1 : 0.9,
         }}
-        transition={{ duration: 0.5 }}
+        transition={{ duration: 0.35 }}
         className={[
           "h-px origin-center",
           active
-            ? "bg-[#1683FF] shadow-[0_0_12px_rgba(22,131,255,.9)]"
-            : "bg-[#8CCBFF]/20",
+            ? "bg-[#1683FF] shadow-[0_0_10px_rgba(22,131,255,.8)]"
+            : "bg-[#8CCBFF]/15",
         ].join(" ")}
       />
 
-      <motion.span
-        animate={{
-          opacity: active ? 1 : 0.25,
-          scale: active ? 1 : 0.7,
-        }}
-        transition={{ duration: 0.4 }}
+      <span
         className={[
-          "absolute top-1/2 h-2 w-2 -translate-y-1/2 rounded-full border",
+          "absolute top-1/2 h-1.5 w-1.5 -translate-y-1/2 rounded-full border",
           side === "left" ? "right-0" : "left-0",
           active
-            ? "border-[#8CCBFF] bg-[#1683FF] shadow-[0_0_16px_rgba(22,131,255,.95)]"
-            : "border-[#8CCBFF]/30 bg-[#06152B]",
+            ? "border-[#8CCBFF] bg-[#1683FF] shadow-[0_0_12px_rgba(22,131,255,.9)]"
+            : "border-[#8CCBFF]/25 bg-[#06152B]",
         ].join(" ")}
       />
     </div>
@@ -315,116 +273,209 @@ function PremiumVial({
         reducedMotion
           ? undefined
           : {
-              y: [0, -4, 0],
-              rotate: active ? [0, 1.5, -1.5, 0] : [0, 0.4, -0.4, 0],
+              y: [0, -3, 0],
+              rotate: active ? [0, 0.8, -0.8, 0] : [0, 0.25, -0.25, 0],
             }
       }
       transition={
         reducedMotion
           ? undefined
           : {
-              duration: active ? 4 : 7,
+              duration: active ? 5 : 7,
               repeat: Infinity,
               ease: "easeInOut",
             }
       }
-      className="absolute left-1/2 top-[46%] z-20 h-[260px] w-[118px] -translate-x-1/2 -translate-y-1/2 md:h-[330px] md:w-[150px]"
+      className="
+        absolute
+        left-1/2
+        top-[47%]
+        z-20
+        h-[190px]
+        w-[88px]
+        -translate-x-1/2
+        -translate-y-1/2
+        sm:h-[225px]
+        sm:w-[102px]
+        md:h-[260px]
+        md:w-[118px]
+      "
     >
-      {/* Glass aura */}
-      <motion.div
-        animate={{
-          opacity: active ? [0.3, 0.65, 0.3] : 0.18,
-          scale: active ? [1, 1.08, 1] : 1,
-        }}
-        transition={{
-          duration: 2.8,
-          repeat: Infinity,
-          ease: "easeInOut",
-        }}
-        className="absolute -inset-12 rounded-full bg-[#0066FF]/20 blur-[45px]"
+      {/* Aura */}
+      <div
+        className={[
+          "absolute -inset-8 rounded-full bg-[#0066FF]/10 blur-[35px]",
+          active ? "opacity-80" : "opacity-40",
+        ].join(" ")}
       />
 
-      {/* Outer glass silhouette */}
-      <div className="absolute left-1/2 top-[14%] h-[78%] w-[78%] -translate-x-1/2 overflow-hidden rounded-[30px_30px_24px_24px] border border-white/35 bg-gradient-to-r from-white/[0.16] via-white/[0.025] to-white/[0.14] shadow-[inset_12px_0_30px_rgba(255,255,255,.06),inset_-12px_0_30px_rgba(0,102,255,.10),0_25px_70px_rgba(0,0,0,.55)]">
-        {/* Glass highlight */}
-        <div className="absolute bottom-0 left-[10%] top-4 w-[8%] rounded-full bg-white/20 blur-[4px]" />
+      {/* Glass body */}
+      <div
+        className="
+          absolute
+          left-1/2
+          top-[14%]
+          h-[76%]
+          w-[78%]
+          -translate-x-1/2
+          overflow-hidden
+          rounded-[22px_22px_18px_18px]
+          border
+          border-white/30
+          bg-gradient-to-r
+          from-white/[0.14]
+          via-white/[0.025]
+          to-white/[0.12]
+          shadow-[inset_8px_0_18px_rgba(255,255,255,.05),inset_-8px_0_18px_rgba(0,102,255,.08),0_18px_45px_rgba(0,0,0,.5)]
+        "
+      >
+        {/* Highlight */}
+        <div className="absolute bottom-0 left-[10%] top-3 w-[7%] rounded-full bg-white/15 blur-[3px]" />
 
         {/* Liquid */}
         <motion.div
           animate={{
-            height: active ? ["54%", "60%", "54%"] : ["50%", "54%", "50%"],
+            height: active ? ["52%", "57%", "52%"] : "50%",
           }}
           transition={{
-            duration: 4,
+            duration: 5,
             repeat: Infinity,
             ease: "easeInOut",
           }}
-          className="absolute bottom-0 left-[3%] right-[3%] overflow-hidden rounded-[0_0_22px_22px] bg-gradient-to-t from-[#0047FF]/80 via-[#008CFF]/35 to-[#1683FF]/10"
+          className="
+            absolute
+            bottom-0
+            left-[3%]
+            right-[3%]
+            overflow-hidden
+            rounded-[0_0_17px_17px]
+            bg-gradient-to-t
+            from-[#0047FF]/85
+            via-[#008CFF]/35
+            to-[#1683FF]/10
+          "
         >
-          <motion.div
-            animate={
-              reducedMotion
-                ? undefined
-                : {
-                    x: ["-30%", "20%", "-30%"],
-                  }
-            }
-            transition={{
-              duration: 6,
-              repeat: Infinity,
-              ease: "easeInOut",
-            }}
-            className="absolute -top-5 h-10 w-[150%] rounded-[50%] bg-[#8CCBFF]/25 blur-md"
-          />
+          <div className="absolute inset-x-0 bottom-0 h-[70%] bg-gradient-to-t from-[#0066FF]/45 to-transparent" />
 
-          <div className="absolute inset-x-0 bottom-0 h-[65%] bg-gradient-to-t from-[#0066FF]/50 to-transparent" />
+          {!reducedMotion && (
+            <>
+              <motion.span
+                animate={{
+                  y: [-5, -35],
+                  opacity: [0, 0.9, 0],
+                }}
+                transition={{
+                  duration: 3.5,
+                  repeat: Infinity,
+                  delay: 0.5,
+                }}
+                className="absolute bottom-4 left-[30%] h-1 w-1 rounded-full bg-white"
+              />
 
-          {/* Micro bubbles */}
-          <motion.div
-            animate={{ y: [-5, -50], opacity: [0, 1, 0] }}
-            transition={{ duration: 3, repeat: Infinity, delay: 0.4 }}
-            className="absolute bottom-5 left-[30%] h-1.5 w-1.5 rounded-full bg-[#C9E9FF] shadow-[0_0_10px_#1683FF]"
-          />
-
-          <motion.div
-            animate={{ y: [-5, -70], opacity: [0, 1, 0] }}
-            transition={{ duration: 3.5, repeat: Infinity, delay: 1.4 }}
-            className="absolute bottom-3 left-[62%] h-1 w-1 rounded-full bg-white shadow-[0_0_8px_#1683FF]"
-          />
-
-          <motion.div
-            animate={{ y: [-5, -42], opacity: [0, 1, 0] }}
-            transition={{ duration: 2.7, repeat: Infinity, delay: 2 }}
-            className="absolute bottom-6 left-[76%] h-1 w-1 rounded-full bg-white shadow-[0_0_8px_#1683FF]"
-          />
+              <motion.span
+                animate={{
+                  y: [-5, -42],
+                  opacity: [0, 0.8, 0],
+                }}
+                transition={{
+                  duration: 4,
+                  repeat: Infinity,
+                  delay: 1.4,
+                }}
+                className="absolute bottom-3 left-[65%] h-1 w-1 rounded-full bg-[#C9E9FF]"
+              />
+            </>
+          )}
         </motion.div>
 
-        {/* Inner reflection */}
-        <div className="absolute inset-y-3 left-[18%] w-px bg-white/25 blur-[1px]" />
-
         {/* Label */}
-        <div className="absolute left-1/2 top-[37%] flex h-[92px] w-[48px] -translate-x-1/2 items-center justify-center border border-white/15 bg-[#020812]/80 backdrop-blur-md md:h-[120px] md:w-[58px]">
-          <span className="-rotate-90 whitespace-nowrap text-[10px] font-medium tracking-[0.28em] text-white/80 md:text-[12px]">
+        <div
+          className="
+            absolute
+            left-1/2
+            top-[37%]
+            flex
+            h-[65px]
+            w-[34px]
+            -translate-x-1/2
+            items-center
+            justify-center
+            border
+            border-white/10
+            bg-[#020812]/85
+            sm:h-[75px]
+            sm:w-[38px]
+          "
+        >
+          <span className="-rotate-90 whitespace-nowrap text-[7px] font-medium tracking-[0.25em] text-white/75 sm:text-[8px]">
             DRIPLABS
           </span>
 
-          <span className="absolute bottom-3 text-[6px] tracking-[0.2em] text-[#8CCBFF]">
+          <span className="absolute bottom-2 text-[5px] tracking-[0.16em] text-[#8CCBFF]">
             NAD+
           </span>
         </div>
+
+        <div className="absolute inset-y-2 left-[18%] w-px bg-white/20" />
       </div>
 
       {/* Neck */}
-      <div className="absolute left-1/2 top-[5%] h-[18%] w-[42%] -translate-x-1/2 rounded-t-[12px] border border-white/35 bg-gradient-to-r from-white/20 via-white/5 to-white/20 shadow-[inset_5px_0_10px_rgba(255,255,255,.12)]" />
+      <div
+        className="
+          absolute
+          left-1/2
+          top-[5%]
+          h-[18%]
+          w-[42%]
+          -translate-x-1/2
+          rounded-t-[8px]
+          border
+          border-white/30
+          bg-gradient-to-r
+          from-white/15
+          via-white/5
+          to-white/15
+        "
+      />
 
-      {/* Metallic cap */}
-      <div className="absolute left-1/2 top-0 h-[14%] w-[58%] -translate-x-1/2 rounded-[10px_10px_5px_5px] border border-white/45 bg-gradient-to-b from-white/55 via-[#8B9BB0]/40 to-[#26394F]/70 shadow-[0_8px_25px_rgba(0,0,0,.45),inset_0_2px_4px_rgba(255,255,255,.5)]">
-        <div className="absolute inset-x-3 top-2 h-px bg-white/55" />
-        <div className="absolute inset-x-4 bottom-2 h-px bg-[#1683FF]/50" />
+      {/* Cap */}
+      <div
+        className="
+          absolute
+          left-1/2
+          top-0
+          h-[14%]
+          w-[58%]
+          -translate-x-1/2
+          rounded-[7px_7px_4px_4px]
+          border
+          border-white/40
+          bg-gradient-to-b
+          from-white/50
+          via-[#8B9BB0]/35
+          to-[#26394F]/65
+        "
+      >
+        <div className="absolute inset-x-2 top-1 h-px bg-white/45" />
+        <div className="absolute inset-x-2 bottom-1 h-px bg-[#1683FF]/45" />
       </div>
 
-      {/* Bottom glass base */}
-      <div className="absolute bottom-[3%] left-1/2 h-[8%] w-[88%] -translate-x-1/2 rounded-full border border-[#8CCBFF]/25 bg-[#06152B]/70 shadow-[0_0_30px_rgba(0,102,255,.25)]" />
+      {/* Base */}
+      <div
+        className="
+          absolute
+          bottom-[3%]
+          left-1/2
+          h-[8%]
+          w-[88%]
+          -translate-x-1/2
+          rounded-full
+          border
+          border-[#8CCBFF]/20
+          bg-[#06152B]/70
+          shadow-[0_0_25px_rgba(0,102,255,.18)]
+        "
+      />
     </motion.div>
   );
 }
@@ -436,58 +487,69 @@ function PremiumVial({
 function ClinicalVisual({
   activePoint,
   reducedMotion,
-}: ClinicalVisualProps) {
+}: {
+  activePoint: StandardKey | null;
+  reducedMotion: boolean | null;
+}) {
   const active =
     activePoint !== null ? standardStates[activePoint] : null;
 
   const isActive = activePoint !== null;
 
   return (
-    <div className="relative h-full min-h-[650px] overflow-hidden border border-[#8CCBFF]/15 bg-[#030B17]">
-      {/* Atmospheric light */}
+    <div
+      className="
+        relative
+        h-full
+        min-h-[300px]
+        overflow-hidden
+        border
+        border-[#8CCBFF]/12
+        bg-[#030B17]
+      "
+    >
+      {/* Atmosphere */}
       <div className="pointer-events-none absolute inset-0">
-        <div className="absolute left-1/2 top-[40%] h-[480px] w-[480px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#0066FF]/10 blur-[110px]" />
+        <div className="absolute left-1/2 top-[42%] h-[260px] w-[260px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#0066FF]/10 blur-[75px]" />
 
-        <div className="absolute left-1/2 top-[50%] h-[260px] w-[260px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#1683FF]/10 blur-[70px]" />
-
-        <div className="absolute bottom-0 left-1/2 h-[300px] w-[500px] -translate-x-1/2 rounded-full bg-[#0066FF]/10 blur-[100px]" />
+        <div className="absolute left-1/2 top-[55%] h-[170px] w-[170px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#1683FF]/10 blur-[55px]" />
       </div>
 
       {/* Technical grid */}
       <div
-        className="pointer-events-none absolute inset-0 opacity-[0.32]"
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 opacity-[0.24]"
         style={{
           backgroundImage: `
             linear-gradient(rgba(140,203,255,0.045) 1px, transparent 1px),
             linear-gradient(90deg, rgba(140,203,255,0.045) 1px, transparent 1px)
           `,
-          backgroundSize: "42px 42px",
+          backgroundSize: "36px 36px",
         }}
       />
 
-      {/* Vertical cinematic gradient */}
-      <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-[#06152B]/40 via-transparent to-[#01050B]/80" />
-
-      {/* Top heading */}
-      <div className="absolute left-1/2 top-7 z-40 -translate-x-1/2 text-center">
-        <p className="text-[7px] uppercase tracking-[0.35em] text-[#8CCBFF]/50">
+      {/* Top label */}
+      <div className="absolute left-1/2 top-4 z-40 -translate-x-1/2 text-center">
+        <p className="text-[6px] uppercase tracking-[0.3em] text-[#8CCBFF]/45">
           {active?.eyebrow ?? "DRIPLABS STANDARD"}
         </p>
 
-        <p className="mt-2 whitespace-nowrap text-[12px] font-medium tracking-[0.34em] text-white/75 md:text-[14px]">
+        <p className="mt-1.5 whitespace-nowrap text-[9px] font-medium tracking-[0.28em] text-white/70 sm:text-[11px]">
           DRIPLABS STANDARD
         </p>
 
-        <div className="mx-auto mt-3 flex items-center justify-center gap-2">
-          <span className="h-px w-7 bg-[#1683FF]/40" />
-          <span className="text-[6px] uppercase tracking-[0.3em] text-[#8CCBFF]/40">
+        <div className="mx-auto mt-2 flex items-center justify-center gap-1.5">
+          <span className="h-px w-5 bg-[#1683FF]/35" />
+
+          <span className="text-[5px] uppercase tracking-[0.22em] text-[#8CCBFF]/35">
             Clinical · Transparent · Traceable
           </span>
-          <span className="h-px w-7 bg-[#1683FF]/40" />
+
+          <span className="h-px w-5 bg-[#1683FF]/35" />
         </div>
       </div>
 
-      {/* Rotating outer ring */}
+      {/* Outer ring */}
       <motion.div
         animate={
           reducedMotion
@@ -500,21 +562,36 @@ function ClinicalVisual({
           reducedMotion
             ? undefined
             : {
-                duration: 32,
+                duration: 38,
                 repeat: Infinity,
                 ease: "linear",
               }
         }
-        className="absolute left-1/2 top-[45%] h-[430px] w-[430px] -translate-x-1/2 -translate-y-1/2 rounded-full border border-[#8CCBFF]/10 md:h-[510px] md:w-[510px]"
+        className="
+          absolute
+          left-1/2
+          top-[48%]
+          h-[240px]
+          w-[240px]
+          -translate-x-1/2
+          -translate-y-1/2
+          rounded-full
+          border
+          border-[#8CCBFF]/10
+          sm:h-[285px]
+          sm:w-[285px]
+          md:h-[330px]
+          md:w-[330px]
+        "
       >
-        <span className="absolute left-1/2 top-0 h-2 w-2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#1683FF] shadow-[0_0_20px_#1683FF]" />
+        <span className="absolute left-1/2 top-0 h-1.5 w-1.5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#1683FF] shadow-[0_0_14px_#1683FF]" />
 
-        <span className="absolute bottom-[9%] left-[14%] h-1.5 w-1.5 rounded-full bg-[#8CCBFF] shadow-[0_0_14px_#8CCBFF]" />
+        <span className="absolute bottom-[8%] left-[14%] h-1 w-1 rounded-full bg-[#8CCBFF] shadow-[0_0_10px_#8CCBFF]" />
 
-        <span className="absolute right-[9%] top-[22%] h-1.5 w-1.5 rounded-full bg-[#1683FF] shadow-[0_0_14px_#1683FF]" />
+        <span className="absolute right-[9%] top-[22%] h-1 w-1 rounded-full bg-[#1683FF] shadow-[0_0_10px_#1683FF]" />
       </motion.div>
 
-      {/* Dashed ring */}
+      {/* Inner dashed ring */}
       <motion.div
         animate={
           reducedMotion
@@ -527,89 +604,140 @@ function ClinicalVisual({
           reducedMotion
             ? undefined
             : {
-                duration: 24,
+                duration: 30,
                 repeat: Infinity,
                 ease: "linear",
               }
         }
-        className="absolute left-1/2 top-[45%] h-[350px] w-[350px] -translate-x-1/2 -translate-y-1/2 rounded-full border border-dashed border-[#8CCBFF]/20 md:h-[420px] md:w-[420px]"
+        className="
+          absolute
+          left-1/2
+          top-[48%]
+          h-[185px]
+          w-[185px]
+          -translate-x-1/2
+          -translate-y-1/2
+          rounded-full
+          border
+          border-dashed
+          border-[#8CCBFF]/15
+          sm:h-[225px]
+          sm:w-[225px]
+          md:h-[260px]
+          md:w-[260px]
+        "
       />
 
       {/* Inner ring */}
-      <div className="absolute left-1/2 top-[45%] h-[285px] w-[285px] -translate-x-1/2 -translate-y-1/2 rounded-full border border-[#1683FF]/20 md:h-[340px] md:w-[340px]" />
-
-      {/* Scanning beam */}
-      <motion.div
-        animate={
-          reducedMotion
-            ? undefined
-            : {
-                y: ["-80%", "220%"],
-              }
-        }
-        transition={
-          reducedMotion
-            ? undefined
-            : {
-                duration: 4.5,
-                repeat: Infinity,
-                ease: "linear",
-              }
-        }
-        className="pointer-events-none absolute left-1/2 top-[18%] z-10 h-[2px] w-[70%] -translate-x-1/2 bg-gradient-to-r from-transparent via-[#1683FF]/70 to-transparent blur-[1px]"
+      <div
+        className="
+          absolute
+          left-1/2
+          top-[48%]
+          h-[145px]
+          w-[145px]
+          -translate-x-1/2
+          -translate-y-1/2
+          rounded-full
+          border
+          border-[#1683FF]/15
+          sm:h-[175px]
+          sm:w-[175px]
+          md:h-[210px]
+          md:w-[210px]
+        "
       />
 
-      {/* Left HUD */}
+      {/* Scanning beam */}
+      {!reducedMotion && (
+        <motion.div
+          animate={{
+            y: ["-100%", "250%"],
+          }}
+          transition={{
+            duration: 7,
+            repeat: Infinity,
+            ease: "linear",
+          }}
+          className="
+            pointer-events-none
+            absolute
+            left-1/2
+            top-[22%]
+            z-10
+            h-px
+            w-[62%]
+            -translate-x-1/2
+            bg-gradient-to-r
+            from-transparent
+            via-[#1683FF]/55
+            to-transparent
+          "
+        />
+      )}
+
+      {/* HUD */}
       <HudData
         label={active?.leftLabel ?? "PRODUCT RECORD"}
         value={active?.leftValue ?? "READY"}
         side="left"
         active={isActive}
-        delay={0.05}
       />
 
-      {/* Right HUD */}
       <HudData
         label={active?.rightLabel ?? "VERIFICATION"}
         value={active?.rightValue ?? "READY"}
         side="right"
         active={isActive}
-        delay={0.1}
       />
 
-      {/* Batch / CoA special modules */}
+      {/* Special batch modules */}
       <AnimatePresence>
         {activePoint === "04" && (
           <>
             <motion.div
-              initial={{ opacity: 0, x: -15 }}
+              initial={{ opacity: 0, x: -8 }}
               animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -15 }}
-              className="absolute left-[5%] top-[51%] z-40 w-[128px] border border-[#1683FF]/50 bg-[#020812]/85 p-3 backdrop-blur-xl md:left-[7%] md:w-[145px]"
+              exit={{ opacity: 0, x: -8 }}
+              className="
+                absolute
+                left-[5%]
+                top-[52%]
+                z-40
+                hidden
+                w-[110px]
+                border
+                border-[#1683FF]/45
+                bg-[#020812]/90
+                p-2.5
+                sm:block
+              "
             >
-              <p className="text-[6px] uppercase tracking-[0.25em] text-[#8CCBFF]/60">
+              <p className="text-[5px] uppercase tracking-[0.2em] text-[#8CCBFF]/55">
                 Batch
               </p>
 
-              <p className="mt-2 text-[9px] tracking-[0.12em] text-white/75">
+              <p className="mt-1.5 text-[7px] tracking-[0.1em] text-white/70">
                 PRODUCT RECORD
               </p>
 
-              <div className="mt-3 space-y-2 border-t border-white/10 pt-2">
+              <div className="mt-2 space-y-1.5 border-t border-white/10 pt-1.5">
                 <div>
-                  <p className="text-[5px] uppercase tracking-[0.2em] text-white/30">
+                  <p className="text-[4px] uppercase tracking-[0.16em] text-white/25">
                     Manufactured
                   </p>
-                  <p className="mt-0.5 text-[7px] text-[#8CCBFF]">
+
+                  <p className="mt-0.5 text-[6px] text-[#8CCBFF]">
                     RECORDED
                   </p>
                 </div>
 
                 <div>
-                  <p className="text-[5px] uppercase tracking-[0.2em] text-white/30">
+                  <p className="text-[4px] uppercase tracking-[0.16em] text-white/25">
                     Expiry
                   </p>
-                  <p className="mt-0.5 text-[7px] text-[#8CCBFF]">
+
+                  <p className="mt-0.5 text-[6px] text-[#8CCBFF]">
                     RECORDED
                   </p>
                 </div>
@@ -617,19 +745,34 @@ function ClinicalVisual({
             </motion.div>
 
             <motion.div
-              initial={{ opacity: 0, x: 15 }}
+              initial={{ opacity: 0, x: 8 }}
               animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: 15 }}
-              className="absolute right-[5%] top-[50%] z-40 flex w-[112px] flex-col items-center border border-[#1683FF]/50 bg-[#020812]/85 p-4 text-center backdrop-blur-xl md:right-[7%] md:w-[125px]"
+              exit={{ opacity: 0, x: 8 }}
+              className="
+                absolute
+                right-[5%]
+                top-[51%]
+                z-40
+                hidden
+                w-[92px]
+                border
+                border-[#1683FF]/45
+                bg-[#020812]/90
+                p-2.5
+                text-center
+                sm:block
+              "
             >
-              <div className="grid h-12 w-12 place-items-center border border-[#8CCBFF]/30">
-                <div className="grid h-8 w-8 grid-cols-5 gap-[2px] opacity-80">
+              <div className="mx-auto grid h-9 w-9 place-items-center border border-[#8CCBFF]/25">
+                <div className="grid h-6 w-6 grid-cols-5 gap-[1px] opacity-75">
                   {Array.from({ length: 25 }).map((_, i) => (
                     <span
                       key={i}
                       className={[
-                        "h-1 w-1",
-                        [0, 1, 4, 5, 9, 10, 14, 15, 19, 20, 21, 24].includes(i)
+                        "h-[3px] w-[3px]",
+                        [0, 1, 4, 5, 9, 10, 14, 15, 19, 20, 21, 24].includes(
+                          i,
+                        )
                           ? "bg-[#F7FAFF]"
                           : "bg-[#1683FF]/30",
                       ].join(" ")}
@@ -638,20 +781,13 @@ function ClinicalVisual({
                 </div>
               </div>
 
-              <p className="mt-3 text-[6px] uppercase tracking-[0.2em] text-[#8CCBFF]">
+              <p className="mt-2 text-[5px] uppercase tracking-[0.16em] text-[#8CCBFF]">
                 Certificate
               </p>
 
-              <p className="mt-1 text-[6px] uppercase tracking-[0.16em] text-white/35">
+              <p className="mt-0.5 text-[5px] uppercase tracking-[0.13em] text-white/30">
                 Of Analysis
               </p>
-
-              <div className="mt-2 flex items-center gap-1.5">
-                <span className="h-1.5 w-1.5 rounded-full bg-[#1683FF] shadow-[0_0_8px_#1683FF]" />
-                <span className="text-[6px] uppercase tracking-[0.18em] text-white/60">
-                  Documented
-                </span>
-              </div>
             </motion.div>
           </>
         )}
@@ -663,64 +799,64 @@ function ClinicalVisual({
         reducedMotion={reducedMotion}
       />
 
-      {/* Vial base / platform */}
-      <div className="absolute left-1/2 top-[70%] z-10 h-[100px] w-[300px] -translate-x-1/2 rounded-full border border-[#1683FF]/20 bg-[#0066FF]/[0.025] shadow-[0_0_80px_rgba(0,102,255,.12)]">
-        <div className="absolute left-1/2 top-1/2 h-[58px] w-[220px] -translate-x-1/2 -translate-y-1/2 rounded-full border border-[#8CCBFF]/15" />
+      {/* Platform */}
+      <div
+        className="
+          absolute
+          left-1/2
+          top-[72%]
+          z-10
+          h-[50px]
+          w-[150px]
+          -translate-x-1/2
+          rounded-full
+          border
+          border-[#1683FF]/15
+          bg-[#0066FF]/[0.025]
+          shadow-[0_0_45px_rgba(0,102,255,.10)]
+          sm:h-[60px]
+          sm:w-[190px]
+        "
+      >
+        <div className="absolute left-1/2 top-1/2 h-[30px] w-[115px] -translate-x-1/2 -translate-y-1/2 rounded-full border border-[#8CCBFF]/10 sm:h-[36px] sm:w-[145px]" />
 
-        <motion.div
-          animate={
-            reducedMotion
-              ? undefined
-              : {
-                  opacity: [0.25, 0.65, 0.25],
-                  scaleX: [0.85, 1, 0.85],
-                }
-          }
-          transition={{
-            duration: 3,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
-          className="absolute left-1/2 top-1/2 h-px w-[180px] -translate-x-1/2 bg-[#1683FF] shadow-[0_0_18px_#1683FF]"
-        />
+        <div className="absolute left-1/2 top-1/2 h-px w-[90px] -translate-x-1/2 bg-[#1683FF]/65 shadow-[0_0_12px_#1683FF] sm:w-[120px]" />
       </div>
 
-      {/* Dynamic bottom statement */}
-      <div className="absolute bottom-7 left-1/2 z-50 w-[88%] -translate-x-1/2 text-center md:w-[75%]">
+      {/* Bottom statement */}
+      <div className="absolute bottom-3 left-1/2 z-50 w-[86%] -translate-x-1/2 text-center">
         <AnimatePresence mode="wait">
           <motion.div
             key={activePoint ?? "idle"}
-            initial={{ opacity: 0, y: 12 }}
+            initial={{ opacity: 0, y: 5 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -8 }}
+            exit={{ opacity: 0, y: -5 }}
             transition={{
-              duration: 0.45,
+              duration: 0.3,
               ease: [0.22, 1, 0.36, 1],
             }}
           >
-            <p className="text-[7px] uppercase tracking-[0.3em] text-[#8CCBFF]/65">
+            <p className="text-[5px] uppercase tracking-[0.25em] text-[#8CCBFF]/55">
               {active?.title ?? "CLINICAL SYSTEM"}
             </p>
 
-            <h3 className="mt-2 font-[var(--font-heading)] text-[25px] font-light leading-[0.95] tracking-[-0.04em] text-[#F7FAFF] md:text-[34px]">
+            <p className="mt-1 font-[var(--font-heading)] text-[13px] font-light leading-[1] tracking-[-0.03em] text-[#F7FAFF] sm:text-[16px]">
               {active?.bottom ?? "Precision by design."}
-            </h3>
-
-            <div className="mx-auto mt-4 h-px w-20 bg-gradient-to-r from-transparent via-[#1683FF] to-transparent shadow-[0_0_12px_rgba(22,131,255,.5)]" />
+            </p>
           </motion.div>
         </AnimatePresence>
       </div>
 
-      {/* Bottom index */}
-      <div className="absolute bottom-3 left-1/2 z-50 flex -translate-x-1/2 items-center gap-3">
+      {/* Index */}
+      <div className="absolute bottom-2 left-1/2 z-50 flex -translate-x-1/2 items-center gap-2">
         {trustPoints.map((point) => (
           <span
             key={point.number}
             className={[
-              "text-[6px] tracking-[0.15em] transition-all duration-500",
+              "text-[5px] tracking-[0.12em] transition-all duration-300",
               activePoint === point.number
                 ? "scale-125 text-[#8CCBFF]"
-                : "text-white/20",
+                : "text-white/15",
             ].join(" ")}
           >
             {point.number}
@@ -729,8 +865,23 @@ function ClinicalVisual({
       </div>
 
       {/* Connectors */}
-      <Connector side="left" active={activePoint === "01" || activePoint === "03" || activePoint === "05"} />
-      <Connector side="right" active={activePoint === "02" || activePoint === "04" || activePoint === "06"} />
+      <Connector
+        side="left"
+        active={
+          activePoint === "01" ||
+          activePoint === "03" ||
+          activePoint === "05"
+        }
+      />
+
+      <Connector
+        side="right"
+        active={
+          activePoint === "02" ||
+          activePoint === "04" ||
+          activePoint === "06"
+        }
+      />
 
       {/* Active glow */}
       <AnimatePresence>
@@ -739,13 +890,12 @@ function ClinicalVisual({
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="pointer-events-none absolute inset-0 z-[5] bg-[radial-gradient(circle_at_50%_48%,rgba(0,102,255,0.13),transparent_34%)]"
+            className="pointer-events-none absolute inset-0 z-[5] bg-[radial-gradient(circle_at_50%_48%,rgba(0,102,255,0.10),transparent_38%)]"
           />
         )}
       </AnimatePresence>
 
-      {/* Bottom electric line */}
-      <div className="absolute bottom-0 left-0 h-px w-full bg-gradient-to-r from-transparent via-[#1683FF]/80 to-transparent shadow-[0_0_12px_rgba(22,131,255,.45)]" />
+      <div className="absolute bottom-0 left-0 h-px w-full bg-gradient-to-r from-transparent via-[#1683FF]/70 to-transparent" />
     </div>
   );
 }
@@ -774,7 +924,7 @@ function TrustCard({
           ? false
           : {
               opacity: 0,
-              y: 24,
+              y: 12,
             }
       }
       whileInView={
@@ -790,10 +940,10 @@ function TrustCard({
         amount: 0.15,
       }}
       transition={{
-        duration: 0.7,
+        duration: 0.5,
         ease: [0.22, 1, 0.36, 1],
       }}
-      className="group relative h-full"
+      className="group relative h-full min-h-0"
       onMouseEnter={onActivate}
       onFocus={onActivate}
     >
@@ -802,80 +952,78 @@ function TrustCard({
         onClick={onActivate}
         className={[
           "relative flex h-full w-full cursor-pointer flex-col overflow-hidden text-left",
-          "border p-6 md:p-7 lg:p-8",
-          "transition-all duration-700",
+          "border p-4 sm:p-4.5 md:p-5",
+          "transition-all duration-500",
           "focus:outline-none",
           active
-            ? "border-[#1683FF]/75 bg-[#08203A] shadow-[0_25px_80px_rgba(0,70,150,.30)]"
-            : "border-[#8CCBFF]/12 bg-[#06152B] hover:border-[#1683FF]/45",
+            ? "border-[#1683FF]/70 bg-[#08203A] shadow-[0_18px_45px_rgba(0,70,150,.20)]"
+            : "border-[#8CCBFF]/10 bg-[#06152B]/90 hover:border-[#1683FF]/40 hover:bg-[#071A32]",
         ].join(" ")}
       >
-        {/* Background glow */}
-        <motion.div
-          animate={{
-            opacity: active ? 1 : 0,
-            scale: active ? 1 : 0.8,
-          }}
-          className="pointer-events-none absolute -right-20 -top-20 h-56 w-56 rounded-full bg-[#0066FF]/15 blur-[70px]"
+        {/* Small glow */}
+        <div
+          className={[
+            "pointer-events-none absolute -right-16 -top-16 h-36 w-36 rounded-full bg-[#0066FF]/10 blur-[45px] transition-opacity duration-500",
+            active ? "opacity-100" : "opacity-0",
+          ].join(" ")}
         />
 
-        {/* Technical corner */}
-        <span className="absolute right-5 top-5 text-[14px] text-[#8CCBFF]/25 transition-colors duration-500 group-hover:text-[#8CCBFF]/70">
-          +
-        </span>
-
+        {/* Number + action */}
         <div className="relative flex items-start justify-between">
           <span
             className={[
-              "text-[9px] font-medium tracking-[0.2em]",
-              active ? "text-[#8CCBFF]" : "text-[#8CCBFF]/40",
+              "text-[7px] font-medium tracking-[0.18em] sm:text-[8px]",
+              active ? "text-[#8CCBFF]" : "text-[#8CCBFF]/35",
             ].join(" ")}
           >
             {point.number}
           </span>
 
-          <motion.span
-            animate={{
-              rotate: active ? 90 : 0,
-              scale: active ? 1.1 : 1,
-            }}
+          <span
             className={[
-              "flex h-7 w-7 items-center justify-center rounded-full border text-[11px]",
+              "flex h-6 w-6 items-center justify-center rounded-full border text-[9px] transition-all duration-300",
               active
-                ? "border-[#1683FF] bg-[#0066FF] text-white shadow-[0_0_20px_rgba(0,102,255,.45)]"
-                : "border-white/10 text-white/30",
+                ? "rotate-90 border-[#1683FF] bg-[#0066FF] text-white shadow-[0_0_15px_rgba(0,102,255,.35)]"
+                : "border-white/10 text-white/25",
             ].join(" ")}
           >
             +
-          </motion.span>
+          </span>
         </div>
 
-        <div className="relative mt-auto pt-10">
+        {/* Content */}
+        <div className="relative mt-auto pt-3">
           <h3
             className={[
-              "max-w-[430px] font-[var(--font-heading)] text-[1.65rem] font-light leading-[0.98] tracking-[-0.04em] transition-all duration-500 md:text-[1.9rem]",
+              "font-[var(--font-heading)] font-light leading-[0.98] tracking-[-0.04em]",
+              "text-[1.18rem] sm:text-[1.28rem] md:text-[1.38rem]",
+              point.number === "03" || point.number === "06"
+                ? "max-w-[280px]"
+                : "max-w-[310px]",
               active ? "text-white" : "text-[#F7FAFF]",
             ].join(" ")}
           >
             {point.title}
           </h3>
 
-          <p className="mt-4 max-w-[390px] text-[12px] leading-6 text-white/50 md:text-[13px]">
+          <p className="mt-2 max-w-[320px] text-[9px] leading-[1.45] text-white/45 sm:text-[10px] md:text-[10px]">
             {point.short}
           </p>
 
-          <div className="mt-7 flex items-center gap-3">
-            <motion.span
-              animate={{
-                width: active ? 44 : 20,
-              }}
-              className="h-px bg-[#1683FF] shadow-[0_0_10px_rgba(22,131,255,.55)]"
+          <div className="mt-2.5 flex items-center gap-2">
+            <span
+              className={[
+                "h-px bg-[#1683FF] transition-all duration-300",
+                active
+                  ? "w-8 shadow-[0_0_8px_rgba(22,131,255,.55)]"
+                  : "w-4",
+              ].join(" ")}
             />
 
             <span
               className={[
-                "text-[7px] font-medium uppercase tracking-[0.24em] transition-colors duration-500",
-                active ? "text-[#8CCBFF]" : "text-white/25",
+                "text-[5px] font-medium uppercase tracking-[0.2em] transition-colors duration-300",
+                active ? "text-[#8CCBFF]" : "text-white/20",
               ].join(" ")}
             >
               {active ? "Inspecting" : "Explore"}
@@ -888,16 +1036,14 @@ function TrustCard({
           animate={{
             width: active ? "100%" : "0%",
           }}
+          transition={{ duration: 0.35 }}
           className={[
-            "absolute bottom-0 h-px bg-[#1683FF]",
+            "absolute bottom-0 h-px bg-[#1683FF] shadow-[0_0_12px_rgba(22,131,255,.65)]",
             side === "left" ? "left-0" : "right-0",
           ].join(" ")}
-          style={{
-            boxShadow: "0 0 18px rgba(22,131,255,.75)",
-          }}
         />
 
-        {/* Active side line */}
+        {/* Side line */}
         <motion.span
           animate={{
             opacity: active ? 1 : 0,
@@ -927,21 +1073,42 @@ export default function CredibilitySection() {
       id="standard"
       className="relative overflow-hidden bg-[#020812] text-[#F7FAFF]"
     >
-      {/* Atmosphere */}
+      {/* Background atmosphere */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute left-1/2 top-[-180px] h-[600px] w-[1000px] -translate-x-1/2 rounded-full bg-[#0066FF]/[0.055] blur-[130px]"
+        className="
+          pointer-events-none
+          absolute
+          left-1/2
+          top-[-220px]
+          h-[500px]
+          w-[850px]
+          -translate-x-1/2
+          rounded-full
+          bg-[#0066FF]/[0.045]
+          blur-[110px]
+        "
       />
 
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute bottom-[-250px] right-[-180px] h-[600px] w-[600px] rounded-full bg-[#1683FF]/[0.045] blur-[130px]"
+        className="
+          pointer-events-none
+          absolute
+          bottom-[-200px]
+          right-[-180px]
+          h-[500px]
+          w-[500px]
+          rounded-full
+          bg-[#1683FF]/[0.035]
+          blur-[110px]
+        "
       />
 
-      {/* Global technical grid */}
+      {/* Technical background */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-0 opacity-[0.15]"
+        className="pointer-events-none absolute inset-0 opacity-[0.10]"
         style={{
           backgroundImage: `
             linear-gradient(rgba(140,203,255,0.045) 1px, transparent 1px),
@@ -952,9 +1119,37 @@ export default function CredibilitySection() {
       />
 
       {/* Top line */}
-      <div className="h-px w-full bg-gradient-to-r from-transparent via-[#0066FF]/70 to-transparent" />
+      <div className="h-px w-full bg-gradient-to-r from-transparent via-[#0066FF]/65 to-transparent" />
 
-      <div className="relative mx-auto max-w-[1700px] px-5 py-20 sm:px-6 md:px-10 md:py-24 lg:px-14 lg:py-28">
+      {/* =====================================================
+          CONTROLLED VIEWPORT CONTAINER
+
+          Desktop:
+          navbar + section content are deliberately compact.
+          The grid has a fixed viewport-aware height.
+         ===================================================== */}
+
+      <div
+        className="
+          relative
+          mx-auto
+          flex
+          max-w-[1700px]
+          flex-col
+          px-4
+          py-7
+          sm:px-6
+          sm:py-8
+          md:px-8
+          md:py-9
+          lg:h-[calc(100svh-80px)]
+          lg:min-h-[650px]
+          lg:max-h-[900px]
+          lg:px-10
+          lg:py-7
+          xl:px-12
+        "
+      >
         {/* Header */}
         <motion.div
           initial={
@@ -962,7 +1157,7 @@ export default function CredibilitySection() {
               ? false
               : {
                   opacity: 0,
-                  y: 20,
+                  y: 10,
                 }
           }
           whileInView={
@@ -978,31 +1173,44 @@ export default function CredibilitySection() {
             amount: 0.2,
           }}
           transition={{
-            duration: 0.8,
+            duration: 0.55,
             ease: [0.22, 1, 0.36, 1],
           }}
-          className="mb-12 md:mb-14"
+          className="
+            shrink-0
+            pb-5
+            sm:pb-6
+            lg:pb-5
+          "
         >
-          <div className="flex items-center gap-3">
-            <span className="h-px w-8 bg-[#0066FF] shadow-[0_0_10px_rgba(0,102,255,.4)]" />
+          <div className="flex items-center gap-2">
+            <span className="h-px w-6 bg-[#0066FF] shadow-[0_0_8px_rgba(0,102,255,.35)]" />
 
-            <span className="text-[8px] font-medium uppercase tracking-[0.28em] text-[#8CCBFF]/65 md:text-[9px]">
+            <span className="text-[7px] font-medium uppercase tracking-[0.25em] text-[#8CCBFF]/60">
               04 — WHY DRIPLABS
             </span>
           </div>
 
-          <h2 className="mt-7 max-w-[950px] font-[var(--font-heading)] text-[clamp(3rem,6vw,6.5rem)] font-light leading-[0.9] tracking-[-0.06em] text-[#F7FAFF]">
-            Built around the
-            <br />
-            <span className="text-[#8CCBFF]/75">
-              details that matter.
-            </span>
-          </h2>
+          <div className="mt-2 flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
+            <h2
+              className="
+                max-w-[700px]
+                font-[var(--font-heading)]
+                text-[clamp(2.4rem,4vw,4.8rem)]
+                font-light
+                leading-[0.88]
+                tracking-[-0.06em]
+                text-[#F7FAFF]
+              "
+            >
+              Built around the
+              <br />
+              <span className="text-[#8CCBFF]/70">
+                details that matter.
+              </span>
+            </h2>
 
-          <div className="mt-8 flex items-center gap-4">
-            <span className="h-px w-12 bg-white/10" />
-
-            <p className="max-w-[480px] text-[10px] uppercase leading-5 tracking-[0.18em] text-white/30">
+            <p className="max-w-[330px] pb-1 text-[8px] uppercase leading-4 tracking-[0.16em] text-white/28 md:text-right">
               A clinical system designed around precision,
               transparency and supervision.
             </p>
@@ -1010,10 +1218,22 @@ export default function CredibilitySection() {
         </motion.div>
 
         {/* =================================================
-            PREMIUM INTERACTIVE GRID
+            DESKTOP GRID
+
+            3 compact rows.
+            Center spans all 3.
            ================================================= */}
 
-        <div className="grid gap-3 lg:grid-cols-[1fr_1.3fr_1fr] lg:grid-rows-[1fr_1fr_1fr]">
+        <div
+          className="
+            grid
+            min-h-0
+            flex-1
+            gap-2.5
+            lg:grid-cols-[0.95fr_1.25fr_0.95fr]
+            lg:grid-rows-[repeat(3,minmax(0,1fr))]
+          "
+        >
           {/* 01 */}
           <TrustCard
             point={trustPoints[0]}
@@ -1023,14 +1243,14 @@ export default function CredibilitySection() {
             reducedMotion={reducedMotion}
           />
 
-          {/* CENTER */}
+          {/* CENTRAL VISUAL */}
           <motion.div
             initial={
               reducedMotion
                 ? false
                 : {
                     opacity: 0,
-                    scale: 0.985,
+                    scale: 0.99,
                   }
             }
             whileInView={
@@ -1043,13 +1263,13 @@ export default function CredibilitySection() {
             }
             viewport={{
               once: true,
-              amount: 0.15,
+              amount: 0.1,
             }}
             transition={{
-              duration: 1,
+              duration: 0.7,
               ease: [0.22, 1, 0.36, 1],
             }}
-            className="lg:col-start-2 lg:row-span-3"
+            className="min-h-0 lg:col-start-2 lg:row-span-3"
             onMouseLeave={() => setActivePoint(null)}
           >
             <ClinicalVisual
@@ -1124,16 +1344,25 @@ export default function CredibilitySection() {
             once: true,
           }}
           transition={{
-            delay: 0.4,
-            duration: 0.7,
+            delay: 0.25,
+            duration: 0.5,
           }}
-          className="mt-6 flex flex-col gap-3 border-t border-[#8CCBFF]/10 pt-5 sm:flex-row sm:items-center sm:justify-between"
+          className="
+            mt-3
+            flex
+            shrink-0
+            items-center
+            justify-between
+            border-t
+            border-[#8CCBFF]/[0.08]
+            pt-3
+          "
         >
-          <p className="text-[8px] uppercase tracking-[0.25em] text-white/30">
+          <p className="text-[6px] uppercase tracking-[0.22em] text-white/25 sm:text-[7px]">
             Physician-supervised wellness
           </p>
 
-          <p className="text-[8px] uppercase tracking-[0.25em] text-[#8CCBFF]/40 sm:text-right">
+          <p className="text-right text-[6px] uppercase tracking-[0.22em] text-[#8CCBFF]/35 sm:text-[7px]">
             Manufactured · Lyophilised · Quality-tested · India
           </p>
         </motion.div>
