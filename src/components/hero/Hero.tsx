@@ -6,7 +6,15 @@ import {
   motion,
   useReducedMotion,
 } from "framer-motion";
+import { Manrope } from "next/font/google";
 import ProtocolMenu from "./ProtocolMenu";
+
+const manrope = Manrope({
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700"],
+  variable: "--font-driplabs-manrope",
+  display: "swap",
+});
 
 export default function Hero() {
   const reducedMotion = useReducedMotion();
@@ -17,9 +25,9 @@ export default function Hero() {
 
   const [protocolMenuOpen, setProtocolMenuOpen] = useState(false);
 
-  // =========================================================
-  // FUNCTIONAL / CELLULAR ROTATION
-  // =========================================================
+  /* =========================================================
+     FUNCTIONAL / CELLULAR ROTATION
+  ========================================================= */
 
   useEffect(() => {
     if (reducedMotion) return;
@@ -36,14 +44,29 @@ export default function Hero() {
   }, [reducedMotion]);
 
   return (
-    <section className="driplabs-noise relative min-h-[100svh] overflow-hidden bg-[#071525] text-[#F5F0E7]">
+    <section
+      className={`${manrope.variable} relative min-h-[100svh] overflow-hidden bg-[#071525] text-[#F5F0E7]`}
+      style={{
+        fontFamily: "var(--font-driplabs-manrope), sans-serif",
+      }}
+    >
       {/* =========================================================
           BACKGROUND
       ========================================================= */}
 
       <div className="absolute inset-0 overflow-hidden">
         <video
-          className="absolute inset-0 h-full w-full object-cover object-[60%_center] brightness-[1.1] saturate-[1.08] contrast-[1.02]"
+          className="
+            absolute
+            inset-0
+            h-full
+            w-full
+            object-cover
+            object-[60%_center]
+            brightness-[1.1]
+            saturate-[1.08]
+            contrast-[1.02]
+          "
           autoPlay
           muted
           loop
@@ -61,7 +84,7 @@ export default function Hero() {
         {/* General dark overlay */}
         <div className="absolute inset-0 bg-[#071525]/20" />
 
-        {/* Left-side readability */}
+        {/* Left readability */}
         <div className="absolute inset-0 bg-gradient-to-r from-[#071525]/90 via-[#071525]/45 to-transparent" />
 
         {/* Bottom fade */}
@@ -70,7 +93,7 @@ export default function Hero() {
         {/* Top fade */}
         <div className="absolute inset-x-0 top-0 h-[20%] bg-gradient-to-b from-[#071525]/70 to-transparent" />
 
-        {/* Subtle ocean glow */}
+        {/* Blue atmospheric glow */}
         <div className="pointer-events-none absolute right-[8%] top-[18%] h-[25vw] w-[25vw] rounded-full bg-[#28B8C8]/[0.06] blur-[80px]" />
 
         {/* Subtle film grain */}
@@ -84,7 +107,7 @@ export default function Hero() {
       </div>
 
       {/* =========================================================
-          TOP GOLD ACCENT
+          TOP ELECTRIC BLUE ACCENT
       ========================================================= */}
 
       <motion.div
@@ -98,16 +121,44 @@ export default function Hero() {
         }}
         transition={{
           duration: reducedMotion ? 0.01 : 1,
-          ease: [0.16, 1, 0.3, 1] as const,
+          ease: [0.16, 1, 0.3, 1],
         }}
-        className="absolute left-0 top-0 z-30 h-px w-[30vw] origin-left bg-[#C9A646]"
+        className="
+          absolute
+          left-0
+          top-0
+          z-30
+          h-px
+          w-[30vw]
+          origin-left
+          bg-[#1683FF]
+        "
       />
 
       {/* =========================================================
           MAIN CONTENT
       ========================================================= */}
 
-      <div className="relative z-10 mx-auto flex min-h-[100svh] max-w-[1600px] flex-col justify-start px-5 pb-6 pt-[2rem] sm:px-6 md:px-10 md:pb-8 md:pt-[2.5rem] lg:px-14">
+      <div
+        className="
+          relative
+          z-10
+          mx-auto
+          flex
+          min-h-[100svh]
+          max-w-[1600px]
+          flex-col
+          justify-start
+          px-5
+          pb-6
+          pt-[2rem]
+          sm:px-6
+          md:px-10
+          md:pb-8
+          md:pt-[2.5rem]
+          lg:px-14
+        "
+      >
         {/* =======================================================
             TOP RIGHT BRAND DETAIL
         ======================================================= */}
@@ -124,14 +175,13 @@ export default function Hero() {
           transition={{
             delay: 0,
             duration: reducedMotion ? 0.01 : 0.8,
-            ease: [0.16, 1, 0.3, 1] as const,
+            ease: [0.16, 1, 0.3, 1],
           }}
           className="flex items-start justify-end"
         >
-          <div className="text-right text-[8px] uppercase tracking-[0.22em] text-white/45 sm:text-[9px]">
-            <p></p>
-
-            <p className="mt-1 text-white/30"></p>
+          <div className="text-right text-[8px] tracking-[0.22em] text-white/45 sm:text-[9px]">
+            <p />
+            <p className="mt-1 text-white/30" />
           </div>
         </motion.div>
 
@@ -156,11 +206,11 @@ export default function Hero() {
             transition={{
               delay: reducedMotion ? 0 : 0.1,
               duration: reducedMotion ? 0.01 : 0.7,
-              ease: [0.16, 1, 0.3, 1] as const,
+              ease: [0.16, 1, 0.3, 1],
             }}
             className="mb-6 flex w-fit items-center"
           >
-            {/* LEFT EDITORIAL MARK */}
+            {/* Left editorial mark */}
             <motion.span
               initial={{
                 opacity: reducedMotion ? 1 : 0,
@@ -184,12 +234,24 @@ export default function Hero() {
               </span>
             </motion.span>
 
-            {/* EYEBROW */}
-            <span className="mt-1 relative top-[44px] whitespace-nowrap text-[8px] font-medium uppercase tracking-[0.32em] text-white/60 sm:text-[9px]">
-              NOURISH • RECHARGE • RESTORE
+            {/* Eyebrow */}
+            <span
+              className="
+                relative
+                top-[44px]
+                mt-1
+                whitespace-nowrap
+                text-[8px]
+                font-medium
+                tracking-[0.30em]
+                text-white/60
+                sm:text-[9px]
+              "
+            >
+              Nourish • Recharge • Restore
             </span>
 
-            {/* RIGHT EDITORIAL MARK */}
+            {/* Right editorial mark */}
             <motion.span
               initial={{
                 opacity: reducedMotion ? 1 : 0,
@@ -218,158 +280,231 @@ export default function Hero() {
               MAIN HEADING
           ===================================================== */}
 
-          <motion.h1
-            initial={{
-              opacity: 0,
-              y: reducedMotion ? 0 : 18,
-            }}
+         <motion.h1
+  initial={{
+    opacity: 0,
+    y: reducedMotion ? 0 : 18,
+  }}
+  animate={{
+    opacity: 1,
+    y: -2,
+  }}
+  transition={{
+    delay: reducedMotion ? 0 : 0.18,
+    duration: reducedMotion ? 0.01 : 0.8,
+    ease: [0.16, 1, 0.3, 1],
+  }}
+  className="
+    relative
+    top-[40px]
+    mt-6
+    flex
+    max-w-[720px]
+    flex-col
+    gap-[0.10em]
+    text-[clamp(3rem,5.2vw,6.8rem)]
+    font-semibold
+    leading-[0.91]
+    tracking-[-0.065em]
+    text-[#F5F0E7]
+  "
+>
+  <span className="block">
+    Precision Nutrition.
+  </span>
+
+  <span className="block">
+    <span className="inline-flex items-baseline">
+
+      <span className="relative inline-block h-[1em] w-[10ch] shrink-0 align-baseline">
+        <AnimatePresence
+          mode="wait"
+          initial={false}
+        >
+          <motion.span
+            key={activeWord}
+            initial={
+              reducedMotion
+                ? {
+                    opacity: 1,
+                    y: -2,
+                  }
+                : {
+                    opacity: 0,
+                    y: 18,
+                    filter: "blur(6px)",
+                  }
+            }
             animate={{
               opacity: 1,
               y: -2,
+              filter: "blur(0px)",
             }}
+            exit={
+              reducedMotion
+                ? {
+                    opacity: 0,
+                  }
+                : {
+                    opacity: 0,
+                    y: -20,
+                    filter: "blur(6px)",
+                  }
+            }
             transition={{
-              delay: reducedMotion ? 0 : 0.18,
-              duration: reducedMotion ? 0.01 : 0.8,
-              ease: [0.16, 1, 0.3, 1] as const,
+              duration: reducedMotion ? 0.01 : 0.65,
+              ease: [0.16, 1, 0.3, 1],
             }}
-            style={{
-              fontFamily:'"Instrument Serif", serif',
-              
-            }}
-            className="mt-6 relative top-[40px] flex max-w-[px] flex-col gap-[0.10em] text-[clamp(2.2rem,4.2vw,5rem)] font-light leading-[0.9] tracking-[-0.05em] text-[#F5F0E7]"
+            className="
+              absolute
+              left-0
+              top-0
+              whitespace-nowrap
+              font-semibold
+              text-[#4D9BFF]
+            "
           >
-            {/* Precision Nutrition */}
-            <span className="block">
-              Precision Nutrition.
-            </span>
+            {activeWord}
+          </motion.span>
+        </AnimatePresence>
 
-            {/* =================================================
-                FUNCTIONAL / CELLULAR + WELLNESS
-            ================================================= */}
+        <span
+          aria-hidden="true"
+          className="
+            absolute
+            bottom-[-0.08em]
+            left-0
+            h-[2px]
+            w-[3.5ch]
+            bg-[#1683FF]
+          "
+        />
+      </span>
 
-            <span className="block">
-              <span className="inline-flex items-baseline">
-                {/* Animated word */}
-                <span className="relative inline-block h-[1em] w-[10ch] shrink-0 align-baseline">
-                  <AnimatePresence
-                    mode="wait"
-                    initial={false}
-                  >
-                    <motion.span
-                      key={activeWord}
-                      initial={
-                        reducedMotion
-                          ? {
-                              opacity: 1,
-                              y: -2,
-                            }
-                          : {
-                              opacity: 0,
-                              y: 18,
-                              filter: "blur(6px)",
-                            }
-                      }
-                      animate={{
-                        opacity: 1,
-                        y: -2,
-                        filter: "blur(0px)",
-                      }}
-                      exit={
-                        reducedMotion
-                          ? {
-                              opacity: 0,
-                            }
-                          : {
-                              opacity: 0,
-                              y: -20,
-                              filter: "blur(6px)",
-                            }
-                      }
-                      transition={{
-                        duration: reducedMotion
-                          ? 0.01
-                          : 0.65,
-                        ease: [0.16, 1, 0.3, 1] as const,
-                      }}
-                      className="absolute left-0 top-0 whitespace-nowrap text-[#28B8C8]"
-                    >
-                      {activeWord}
-                    </motion.span>
-                  </AnimatePresence>
+      <span
+        className="
+          relative
+          -ml-[1.87em]
+          inline-flex
+          items-baseline
+          -translate-y-[0.20em]
+          font-semibold
+          text-[#F5F0E7]
+        "
+      >
+        Wellness.
+      </span>
 
-                  {/* Fixed ocean underline */}
-                  <span
-                    aria-hidden="true"
-                    className="absolute bottom-[-0.08em] left-0 h-[2px] w-[3.5ch] bg-[#28B8C8]"
-                  />
-                </span>
+    </span>
+  </span>
 
-                {/* Wellness */}
-                <span className="relative -ml-[1.05em] inline-flex items-baseline -translate-y-[0.20em] text-[#F5F0E7]">
-                  Wellness.
-                </span>
-              </span>
-            </span>
-
-            {/* Longevity */}
-            <span className="block pl-[0vw]">
-              Longevity.
-            </span>
-          </motion.h1>
-
+  <span className="block">
+    Longevity.
+  </span>
+</motion.h1>
           {/* =====================================================
               SUPPORTING COPY
           ===================================================== */}
 
-          <div className="mt-14 grid gap-8 md:grid-cols-12 md:items-end md:gap-8">
-            <motion.p
-              initial={{
-                opacity: 0,
-                y: reducedMotion ? 0 : 12,
-              }}
-              animate={{
-                opacity: 1,
-                y: 0,
-              }}
-              transition={{
-                delay: reducedMotion ? 0 : 0.4,
-                duration: reducedMotion ? 0.01 : 0.7,
-                ease: [0.16, 1, 0.3, 1] as const,
-              }}
-              className="mt-0 whitespace-nowrap text-[19px] font-light not-italic leading-[1.10] tracking-[-0.01em] text-white/80 sm:text-[17px] md:text-[19px]"
-            >
-              {/* First supporting line */}
-              Physician-led advanced{" "}
-              <span className="font-semibold italic text-white">
-                IV wellness
-              </span>{" "}
-              and{" "}
-              <span className="font-semibold italic text-white">
-                NAD+
-              </span>{" "}
-              personalised experiences
+          <motion.div
+  initial={{
+    opacity: 0,
+    y: reducedMotion ? 0 : 14,
+  }}
+  animate={{
+    opacity: 1,
+    y: 0,
+  }}
+  transition={{
+    delay: reducedMotion ? 0 : 0.4,
+    duration: reducedMotion ? 0.01 : 0.7,
+    ease: [0.16, 1, 0.3, 1],
+  }}
+  className="
+    relative
+    mt-12
+    max-w-[820px]
+    md:mt-14
+    lg:mt-16
+  "
+>
+  {/* =====================================================
+      PRIMARY SUPPORTING LINE
+  ===================================================== */}
 
-              {/* Clinical environment / home line */}
-              <span className="mt-2 block text-white/75 sm:text-[13px] md:text-[15px]">
-                Delivered in a considered{" "}
-                <span className="font-semibold text-white">
-                  clinical environment
-                </span>{" "}
-                or at your{" "}
-                <span className="font-semibold text-white">
-                  home
-                </span>
-                .
-              </span>
+  <p
+    className="
+      whitespace-normal
+      text-[16px]
+      font-normal
+      leading-[1.45]
+      tracking-[-0.015em]
+      text-white/85
+      sm:text-[17px]
+      md:text-[19px]
+      lg:text-[20px]
+    "
+  >
+    Physician-led advanced{" "}
+    <span className="font-style: italic font-semibold text-white">
+      IV wellness
+    </span>{" "}
+    and{" "}
+    <span className="font-style: italic font-semibold text-white">
+      NAD+
+    </span>{" "}
+    personalised experiences
+  </p>
 
-              {/* Research / science line */}
-              <span className="mt-4 block sm:text-[13px] md:text-[15px]">
-                {"Research  &  Science  backed  documented  protocols  with  batch"}
-                <br />
-                {" traceability  and  third  party  lab  tested."}
-              </span>
-            </motion.p>
-          </div>
+  {/* =====================================================
+      SECONDARY LINE
+  ===================================================== */}
+
+  <p
+    className="
+      mt-3
+      max-w-[760px]
+      text-[13px]
+      font-normal
+      leading-[1.55]
+      tracking-[-0.005em]
+      text-white/65
+      sm:text-[14px]
+      md:text-[15px]
+    "
+  >
+    Delivered in a considered{" "}
+    <span className="font-medium text-white/85">
+      clinical environment
+    </span>{" "}
+    or at your{" "}
+    <span className="font-medium text-white/85">
+      home
+    </span>
+    .
+  </p>
+
+  {/* =====================================================
+      RESEARCH / SCIENCE LINE
+  ===================================================== */}
+
+  <p
+    className="
+      mt-3
+      max-w-[780px]
+      text-[12px]
+      font-normal
+      leading-[1.6]
+      tracking-[0.005em]
+      text-white/50
+      sm:text-[13px]
+      md:text-[14px]
+    "
+  >
+    Research &amp; Science backed documented protocols with batch<br></br>
+    traceability and third party lab tested.
+  </p>
+</motion.div>
         </div>
 
         {/* =======================================================
@@ -394,21 +529,25 @@ export default function Hero() {
               transition={{
                 delay: reducedMotion ? 0 : 0.55,
                 duration: reducedMotion ? 0.01 : 0.7,
-                ease: [0.16, 1, 0.3, 1] as const,
+                ease: [0.16, 1, 0.3, 1],
               }}
-              className="mb-0 flex flex-nowrap items-center gap-3 md:-translate-y-[55px]"
+              className="
+                mb-0
+                flex
+                flex-nowrap
+                items-center
+                gap-3
+                md:translate-y-[8px]
+              "
             >
-              {/* =================================================
-                  BEGIN YOUR JOURNEY
-              ================================================= */}
-
+              {/* Begin your journey */}
               <motion.a
                 href="#booking"
                 whileHover={
                   reducedMotion
                     ? undefined
                     : {
-                        y: 8,
+                        y: 4,
                         scale: 1.02,
                       }
                 }
@@ -421,21 +560,45 @@ export default function Hero() {
                 }
                 transition={{
                   duration: 0.35,
-                  ease: [0.22, 1, 0.36, 1] as const,
+                  ease: [0.22, 1, 0.36, 1],
                 }}
-                className="group relative inline-flex min-h-[48px] items-center justify-center overflow-hidden rounded-full bg-[linear-gradient(135deg,#67E8E8_0%,#28C7D5_38%,#159BBF_72%,#08749F_100%)] px-8 text-[13px] font-medium uppercase tracking-[0.16em] text-[#071525] shadow-[0_8px_35px_rgba(35,190,210,0.24)] sm:px-9"
+               className="
+  group
+  relative
+  inline-flex
+  min-h-[48px]
+  items-center
+  justify-center
+  overflow-hidden
+  rounded-full
+  border
+  border-[#1683FF]/80
+  bg-[#0066FF]
+  px-8
+  text-[15px]
+  font-medium
+  tracking-[0.055em]
+  text-white
+  shadow-[0_8px_35px_rgba(0,102,255,0.22)]
+  transition-all
+  duration-500
+  hover:bg-[#1683FF]
+  hover:border-[#4D9BFF]
+  hover:shadow-[0_12px_45px_rgba(0,102,255,0.32)]
+  sm:px-9
+"
               >
                 {/* Hover shine */}
                 <span className="pointer-events-none absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/35 to-transparent transition-transform duration-700 ease-out group-hover:translate-x-full" />
 
                 {/* Highlight */}
-                <span className="pointer-events-none absolute inset-0 rounded-[25px] bg-[radial-gradient(circle_at_28%_15%,rgba(255,255,255,0.35),transparent_42%)] opacity-90" />
+                <span className="pointer-events-none absolute inset-0 rounded-full bg-[radial-gradient(circle_at_28%_15%,rgba(255,255,255,0.35),transparent_42%)] opacity-90" />
 
                 {/* Bottom depth */}
-                <span className="pointer-events-none absolute inset-x-0 bottom-0 h-1/2 rounded-[55px] bg-gradient-to-t from-[#075F86]/20 to-transparent" />
+                <span className="pointer-events-none absolute inset-x-0 bottom-0 h-1/2 rounded-full bg-gradient-to-t from-[#075F86]/20 to-transparent" />
 
-                <span className="relative z-10 flex items-center gap-3">
-                  BEGIN YOUR JOURNEY
+                <span className="relative z-10 flex items-center gap-3 whitespace-nowrap">
+                  Begin your journey
 
                   <span className="text-[15px] transition-transform duration-500 group-hover:translate-x-1">
                     →
@@ -443,10 +606,7 @@ export default function Hero() {
                 </span>
               </motion.a>
 
-              {/* =================================================
-                  EXPLORE PROTOCOLS
-              ================================================= */}
-
+              {/* Explore protocols */}
               <motion.button
                 type="button"
                 onClick={() => setProtocolMenuOpen(true)}
@@ -454,7 +614,7 @@ export default function Hero() {
                   reducedMotion
                     ? undefined
                     : {
-                        y: 8,
+                        y: 4,
                         scale: 1.02,
                       }
                 }
@@ -467,12 +627,33 @@ export default function Hero() {
                 }
                 transition={{
                   duration: 0.35,
-                  ease: [0.22, 1, 0.36, 1] as const,
+                  ease: [0.22, 1, 0.36, 1],
                 }}
-                className="group inline-flex min-h-[48px] items-center justify-center rounded-full border border-white/35 bg-white/[0.06] px-8 text-[13px] font-medium uppercase tracking-[0.16em] text-white backdrop-blur-md transition-all duration-500 hover:border-white/60 hover:bg-white/[0.12] sm:px-9"
+                className="
+                  group
+                  inline-flex
+                  min-h-[48px]
+                  items-center
+                  justify-center
+                  rounded-full
+                  border
+                  border-white/35
+                  bg-white/[0.06]
+                  px-8
+                  text-[12px]
+                  font-medium
+                  tracking-[0.055em]
+                  text-white
+                  backdrop-blur-md
+                  transition-all
+                  duration-500
+                  hover:border-white/60
+                  hover:bg-white/[0.12]
+                  sm:px-9
+                "
               >
-                <span className="flex items-center gap-3">
-                  EXPLORE PROTOCOLS
+                <span className="flex items-center gap-3 whitespace-nowrap">
+                  Explore protocols
 
                   <span className="text-[12px] transition-transform duration-500 group-hover:translate-x-1">
                     →
@@ -498,13 +679,27 @@ export default function Hero() {
             transition={{
               delay: reducedMotion ? 0 : 0.75,
               duration: reducedMotion ? 0.01 : 0.7,
-              ease: [0.16, 1, 0.3, 1] as const,
+              ease: [0.16, 1, 0.3, 1],
             }}
             className="hidden md:col-span-1 md:flex md:justify-center"
           >
             <a
               href="#about"
-              className="group flex flex-col items-center gap-2 text-[7px] uppercase tracking-[0.28em] text-white/45 transition-colors duration-300 hover:text-white/80 sm:text-[8px]"
+              className="
+                group
+                flex
+                flex-col
+                items-center
+                gap-2
+                text-[7px]
+                font-medium
+                tracking-[0.28em]
+                text-white/45
+                transition-colors
+                duration-300
+                hover:text-white/80
+                sm:text-[8px]
+              "
             >
               <span>Scroll</span>
 
@@ -526,14 +721,14 @@ export default function Hero() {
                           ease: "easeInOut",
                         }
                   }
-                  className="absolute left-0 top-0 h-1/2 w-px bg-[#28B8C8]"
+                  className="absolute left-0 top-0 h-1/2 w-px bg-[#1683FF]"
                 />
               </span>
             </a>
           </motion.div>
 
           {/* =====================================================
-              BOTTOM RIGHT — VERIFICATION / TRUST STRIP
+              BOTTOM RIGHT — TRUST STRIP
           ===================================================== */}
 
           <motion.div
@@ -548,13 +743,13 @@ export default function Hero() {
             transition={{
               delay: reducedMotion ? 0 : 0.8,
               duration: reducedMotion ? 0.01 : 0.8,
-              ease: [0.16, 1, 0.3, 1] as const,
+              ease: [0.16, 1, 0.3, 1],
             }}
             className="md:col-span-6"
           >
             <div className="flex w-full items-stretch justify-between">
               {/* =================================================
-                  01 — PHARMA-GRADE FORMULATIONS
+                  01 — PHARMA-GRADE
               ================================================= */}
 
               <div className="flex min-w-0 flex-1 items-center justify-center px-2 sm:px-3">
@@ -584,8 +779,8 @@ export default function Hero() {
                     />
                   </svg>
 
-                  <span className="whitespace-nowrap text-[7px] font-medium uppercase leading-[1.7] tracking-[0.12em] text-white/70 sm:text-[8px]">
-                    PHARMA-GRADE
+                  <span className="whitespace-nowrap text-[7px] font-medium leading-[1.7] tracking-[0.10em] text-white/70 sm:text-[8px]">
+                    Pharma-grade
                     <br />
                     formulations
                   </span>
@@ -645,8 +840,8 @@ export default function Hero() {
                     />
                   </svg>
 
-                  <span className="whitespace-nowrap text-[7px] font-medium uppercase leading-[1.7] tracking-[0.12em] text-white/70 sm:text-[8px]">
-                    PHYSICIAN
+                  <span className="whitespace-nowrap text-[7px] font-medium leading-[1.7] tracking-[0.10em] text-white/70 sm:text-[8px]">
+                    Physician
                     <br />
                     guided
                   </span>
@@ -776,8 +971,8 @@ export default function Hero() {
                     />
                   </svg>
 
-                  <span className="whitespace-nowrap text-[7px] font-medium uppercase leading-[1.7] tracking-[0.12em] text-white/70 sm:text-[8px]">
-                    INDIAN PHARMACOPOEIA
+                  <span className="whitespace-nowrap text-[7px] font-medium leading-[1.7] tracking-[0.10em] text-white/70 sm:text-[8px]">
+                    Indian Pharmacopoeia
                     <br />
                     compliant
                   </span>
@@ -831,7 +1026,7 @@ export default function Hero() {
                     />
                   </svg>
 
-                  <span className="whitespace-nowrap text-[7px] font-medium uppercase leading-[1.7] tracking-[0.12em] text-white/70 sm:text-[8px]">
+                  <span className="whitespace-nowrap text-[7px] font-medium leading-[1.7] tracking-[0.10em] text-white/70 sm:text-[8px]">
                     WHO-GMP-GLP
                     <br />
                     certified
@@ -844,7 +1039,7 @@ export default function Hero() {
       </div>
 
       {/* =========================================================
-          PRODUCTS / PROTOCOL MENU
+          PROTOCOL MENU
       ========================================================= */}
 
       <ProtocolMenu
