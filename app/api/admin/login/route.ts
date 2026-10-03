@@ -1,55 +1,67 @@
 ﻿import { NextResponse } from "next/server";
+import { createAdminSession } from "@/lib/admin-auth";
+
+function getRequiredEnv(name: string) {
+  const value = process.env[name];
+
+  if (!value) {
+    throw new Error(`${name} is not configured.`);
+  }
+
+  return value;
+}
 
 export async function POST(request: Request) {
   try {
     const body = await request.json();
 
     const email =
-      typeof body?.email === "string"
-        ? body.email.trim().toLowerCase()
-        : "";
+      typeof body.email === "string" ? body.email.trim().toLowerCase() : "";
 
     const password =
-      typeof body?.password === "string"
-        ? body.password
-        : "";
+      typeof body.password === "string" ? body.password : "";
 
-    if (
-      email !== "admin@thedriplabs.com" ||
-      password !== "Driplabs@123"
-    ) {
+    if (!email || !password) {
       return NextResponse.json(
         {
           success: false,
-          message: "Invalid email or password.",
+          error: "Email and password are required.",
         },
-        { status: 401 }
+        { status: 400 },
       );
     }
 
-    const response = NextResponse.json({
+    const adminEmail = getRequiredEnv("ADMIN_EMAIL")
+      .trim()
+      .toLowerCase();
+
+    const adminPassword = getRequiredEnv("ADMIN_PASSWORD");
+
+    if (email !== adminEmail || password !== adminPassword) {
+      return NextResponse.json(
+        {
+          success: false,
+          error: "Invalid email or password.",
+        },
+        { status: 401 },
+      );
+    }
+
+    await createAdminSession();
+
+    return NextResponse.json({
       success: true,
-      message: "Authentication successful.",
+      message: "Login successful.",
     });
+  } catch (error) {
+    console.error("Admin login error:", error);
 
-    response.cookies.set({
-      name: "driplabs_admin_session",
-      value: "authenticated",
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "lax",
-      path: "/",
-      maxAge: 60 * 60 * 8,
-    });
-
-    return response;
-  } catch {
     return NextResponse.json(
       {
         success: false,
-        message: "Invalid request.",
+        error: "Unable to process login.",
       },
-      { status: 400 }
+      { status: 500 },
     );
   }
 }

@@ -1,4 +1,5 @@
 ﻿import { NextResponse } from "next/server";
+import { isAdminAuthenticated } from "@/lib/admin-auth";
 import { db } from "@/lib/db";
 
 type ProtocolUpdate = {
@@ -66,6 +67,18 @@ function serializeProtocol(protocol: any) {
 
 export async function GET() {
   try {
+    const authenticated = await isAdminAuthenticated();
+
+    if (!authenticated) {
+      return NextResponse.json(
+        {
+          success: false,
+          error: "Unauthorized.",
+        },
+        { status: 401 },
+      );
+    }
+
     const protocols = await db.orm.public.Protocol.all();
 
     return NextResponse.json({
@@ -81,13 +94,25 @@ export async function GET() {
         success: false,
         error: "Unable to fetch protocols.",
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
 
 export async function PATCH(request: Request) {
   try {
+    const authenticated = await isAdminAuthenticated();
+
+    if (!authenticated) {
+      return NextResponse.json(
+        {
+          success: false,
+          error: "Unauthorized.",
+        },
+        { status: 401 },
+      );
+    }
+
     const body = (await request.json()) as ProtocolUpdate;
 
     const id = cleanString(body.id);
@@ -98,7 +123,7 @@ export async function PATCH(request: Request) {
           success: false,
           error: "Protocol id is required.",
         },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -111,7 +136,7 @@ export async function PATCH(request: Request) {
           success: false,
           error: "Protocol not found.",
         },
-        { status: 404 }
+        { status: 404 },
       );
     }
 
@@ -120,23 +145,17 @@ export async function PATCH(request: Request) {
       family: cleanString(body.family) ?? current.family,
       category: cleanString(body.category) ?? current.category,
       shortDescription:
-        cleanString(body.shortDescription) ??
-        current.shortDescription,
-      description:
-        cleanString(body.description) ?? current.description,
-      duration:
-        cleanString(body.duration) ?? current.duration,
+        cleanString(body.shortDescription) ?? current.shortDescription,
+      description: cleanString(body.description) ?? current.description,
+      duration: cleanString(body.duration) ?? current.duration,
       price:
         body.price !== undefined
           ? cleanPrice(body.price)
           : current.price,
-      image:
-        cleanString(body.image) ?? current.image,
+      image: cleanString(body.image) ?? current.image,
       evidenceTier:
-        cleanString(body.evidenceTier) ??
-        current.evidenceTier,
-      active:
-        cleanBoolean(body.active) ?? current.active,
+        cleanString(body.evidenceTier) ?? current.evidenceTier,
+      active: cleanBoolean(body.active) ?? current.active,
     };
 
     const updated = await db.orm.public.Protocol.upsert({
@@ -164,7 +183,7 @@ export async function PATCH(request: Request) {
         success: false,
         error: "Unable to update protocol.",
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

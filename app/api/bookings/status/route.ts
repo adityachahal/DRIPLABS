@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { isAdminAuthenticated } from "@/lib/admin-auth";
 import { db } from "@/lib/db";
 
 const VALID_STATUSES = [
@@ -25,6 +26,19 @@ function isBookingStatus(value: unknown): value is BookingStatus {
 
 export async function PATCH(request: Request) {
   try {
+    // Admin authentication
+    const authenticated = await isAdminAuthenticated();
+
+    if (!authenticated) {
+      return NextResponse.json(
+        {
+          success: false,
+          error: "Unauthorized.",
+        },
+        { status: 401 },
+      );
+    }
+
     let body: UpdateBookingStatusRequest;
 
     try {

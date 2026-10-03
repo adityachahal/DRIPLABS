@@ -1,6 +1,7 @@
 ﻿import type { Metadata } from "next";
 import { Cormorant_Garamond, DM_Sans } from "next/font/google";
 import "./globals.css";
+import SmoothScroll from "../src/components/SmoothScroll";
 
 const headingFont = Cormorant_Garamond({
   subsets: ["latin"],
@@ -91,13 +92,14 @@ export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
-}>) {
-  return (
-    <html
-      lang="en"
-      className={`${headingFont.variable} ${bodyFont.variable}`}
-    >
-      <body>{children}</body>
+}>) {return (
+    <html lang="en">
+      <body>
+        <SmoothScroll>
+          {children}
+        </SmoothScroll>
+      </body>
     </html>
   );
 }
+  

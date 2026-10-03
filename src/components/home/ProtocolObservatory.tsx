@@ -45,7 +45,7 @@ const PROTOCOL_ICONS: Record<string, string> = {
   shrink: "/images/protocol-icons/shrink.png",
   restore: "/images/protocol-icons/restore.png",
   renew: "/images/protocol-icons/renew.png",
-  refuel: "/images/protocol-icons/refuel.png",
+  refuel: "/images/protocol-icons/refeul.png",
   reactivate: "/images/protocol-icons/reactive.png",
   radiance: "/images/protocol-icons/radiance.png",
   nadx: "/images/protocol-icons/nad-plus.png",
@@ -88,6 +88,14 @@ const FALLBACK_PROTOCOLS: Protocol[] = [
       "A focused wellness experience centred around antioxidant and nutritional support.",
   },
   {
+    slug: "restore",
+    name: "RESTORE",
+    number: "10",
+    family: "Skin & Beauty",
+    description:
+      "A restorative formulation designed around replenishment and recovery.",
+  },
+  {
     slug: "renew",
     name: "RENEW",
     number: "03",
@@ -96,8 +104,8 @@ const FALLBACK_PROTOCOLS: Protocol[] = [
       "A restorative protocol designed around nutritional replenishment and cellular support.",
   },
   {
-    slug: "apex",
-    name: "APEX",
+    slug: "longevity x",
+    name: "LONGEVITY X",
     number: "04",
     family: "Cellular & Longevity",
     description:
@@ -115,7 +123,7 @@ const FALLBACK_PROTOCOLS: Protocol[] = [
     slug: "methyblu",
     name: "METHYBLU",
     number: "06",
-    family: "Cognitive & Neuro",
+    family: "Cellular & Longevity",
     description:
       "A specialised protocol designed around a clinically directed formulation.",
   },
@@ -139,18 +147,27 @@ const FALLBACK_PROTOCOLS: Protocol[] = [
     slug: "refuel",
     name: "REFUEL",
     number: "09",
-    family: "Recovery & Immune",
+    family: "Metabolic & Performance",
     description:
       "A replenishment-focused experience designed around hydration and nutritional support.",
   },
   {
-    slug: "restore",
-    name: "RESTORE",
-    number: "10",
-    family: "Recovery & Immune",
+    slug: "rebuild",
+    name: "REBUILD",
+    number: "12",
+    family: "Metabolic & Performance",
     description:
-      "A restorative formulation designed around replenishment and recovery.",
+      "A nutritional rebuilding protocol designed around recovery and replenishment.",
   },
+  {
+    slug: "performance-x",
+    name: "PERFORMANCE X",
+    number: "12",
+    family: "Metabolic & Performance",
+    description:
+      "Advanced performance nutritional wellness support.",
+  },
+  
   {
     slug: "gut-plus",
     name: "GUT+",
@@ -159,14 +176,7 @@ const FALLBACK_PROTOCOLS: Protocol[] = [
     description:
       "A digestive and systemic wellness experience designed around targeted nutritional support.",
   },
-  {
-    slug: "rebuild",
-    name: "REBUILD",
-    number: "12",
-    family: "Recovery & Immune",
-    description:
-      "A nutritional rebuilding protocol designed around recovery and replenishment.",
-  },
+  
   {
     slug: "femme",
     name: "FEMME",
@@ -195,7 +205,7 @@ const FALLBACK_PROTOCOLS: Protocol[] = [
     slug: "reactivate",
     name: "REACTIVATE",
     number: "16",
-    family: "Metabolic & Performance",
+    family: "Recovery & Immune",
     description:
       "A revitalisation-focused protocol designed around nutritional and metabolic support.",
   },
@@ -206,6 +216,15 @@ const FALLBACK_PROTOCOLS: Protocol[] = [
     family: "Musculoskeletal",
     description:
       "A mobility-focused protocol designed around nutritional support for an active lifestyle.",
+  },
+   
+  {
+    slug: "focus",
+    name: "FOCUS",
+    number: "18",
+    family: "Cognitive & Neuro",
+    description:
+      "Cognitive and neuronal nutritional wellness support.",
   },
 ];
 
@@ -792,7 +811,7 @@ export default function ProtocolObservatory() {
 
           <div className="observatory-index">
             <span>DRIPLABS</span>
-            <strong>17</strong>
+            <strong>19</strong>
             <small>PROTOCOLS</small>
           </div>
         </div>
@@ -1343,7 +1362,7 @@ export default function ProtocolObservatory() {
           overflow: hidden;
 
           padding:
-            110px
+            25px
             clamp(20px, 4vw, 72px)
             70px;
 

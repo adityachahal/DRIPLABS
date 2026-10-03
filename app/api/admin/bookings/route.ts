@@ -1,8 +1,21 @@
 import { NextResponse } from "next/server";
+import { isAdminAuthenticated } from "@/lib/admin-auth";
 import { db } from "@/lib/db";
 
 export async function GET() {
   try {
+    const authenticated = await isAdminAuthenticated();
+
+    if (!authenticated) {
+      return NextResponse.json(
+        {
+          success: false,
+          error: "Unauthorized.",
+        },
+        { status: 401 },
+      );
+    }
+
     const bookings = await db.orm.public.Booking.all();
 
     return NextResponse.json({
@@ -33,7 +46,7 @@ export async function GET() {
         success: false,
         error: "Unable to fetch bookings.",
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

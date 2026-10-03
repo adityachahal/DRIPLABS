@@ -1,4 +1,5 @@
 ﻿"use client";
+
 import Image from "next/image";
 import Link from "next/link";
 
@@ -17,21 +18,6 @@ import {
 
 /* =========================================================
    DRIPLABS NAVBAR
-   GLOBAL THEME
-
-   MIDNIGHT       #020812
-   DEEP NAVY      #06152B
-   OCEAN          #08203A
-   ELECTRIC BLUE  #0066FF
-   BRIGHT BLUE    #1683FF
-   SOFT BLUE      #4D9BFF
-   ICE BLUE       #8CCBFF
-   WHITE          #F7FAFF
-========================================================= */
-
-
-/* =========================================================
-   ICONS
 ========================================================= */
 
 function ChevronDown({
@@ -62,7 +48,6 @@ function ChevronDown({
   );
 }
 
-
 function ChevronRight() {
   return (
     <svg
@@ -82,7 +67,6 @@ function ChevronRight() {
     </svg>
   );
 }
-
 
 function ArrowRight() {
   return (
@@ -104,7 +88,6 @@ function ArrowRight() {
   );
 }
 
-
 function SearchIcon() {
   return (
     <svg
@@ -121,7 +104,6 @@ function SearchIcon() {
         stroke="currentColor"
         strokeWidth="1.15"
       />
-
       <path
         d="M12 12L16 16"
         stroke="currentColor"
@@ -131,7 +113,6 @@ function SearchIcon() {
     </svg>
   );
 }
-
 
 function MapPinIcon() {
   return (
@@ -147,7 +128,6 @@ function MapPinIcon() {
         stroke="currentColor"
         strokeWidth="1.1"
       />
-
       <circle
         cx="9"
         cy="7.3"
@@ -158,7 +138,6 @@ function MapPinIcon() {
     </svg>
   );
 }
-
 
 function MenuIcon({
   open,
@@ -203,7 +182,6 @@ function MenuIcon({
   );
 }
 
-
 /* =========================================================
    DATA
 ========================================================= */
@@ -218,7 +196,6 @@ const wellnessPaths = [
   "Musculoskeletal",
   "Women's Wellness",
 ];
-
 
 const featuredLinks = [
   {
@@ -235,7 +212,6 @@ const featuredLinks = [
   },
 ];
 
-
 const experienceItems = [
   {
     title: "In-Centre",
@@ -243,28 +219,24 @@ const experienceItems = [
       "Physician-led wellness at our centres",
     href: "/experience",
   },
-
   {
     title: "DRIPLABS Home",
     description:
       "IV wellness, delivered to your home",
     href: "/experience",
   },
-
   {
     title: "Women's Wellness",
     description:
       "A dedicated pathway for women",
     href: "/protocols/femme",
   },
-
   {
     title: "Your Journey",
     description:
       "Consultation → Personalisation → Experience → Follow-up",
     href: "/experience",
   },
-
   {
     title: "Membership",
     description:
@@ -273,105 +245,86 @@ const experienceItems = [
   },
 ];
 
-
 const scienceLinks = [
   {
     label: "The DRIPLABS Standard",
     href: "/science#standard",
   },
-
   {
     label: "NADx",
     href: "/science#nadx",
   },
-
   {
     label: "Evidence & Research",
     href: "/science#evidence",
   },
-
   {
     label: "Ingredients",
     href: "/science#ingredients",
   },
-
   {
     label: "Quality & Traceability",
     href: "/science#traceability",
   },
-
   {
     label: "COA Library",
     href: "/science#coa",
   },
-
   {
     label: "Decode a Vial",
     href: "/science#decode",
   },
-
   {
     label: "Physician Dossier",
     href: "/science#dossier",
   },
 ];
 
-
 const circleLinks = [
   {
     label: "Membership Plans",
     href: "/circle",
   },
-
   {
     label: "Benefits",
     href: "/circle",
   },
-
   {
     label: "Priority Access",
     href: "/circle",
   },
-
   {
     label: "Home Services",
     href: "/experience",
   },
-
   {
     label: "Wellness Journeys",
     href: "/experience",
   },
-
   {
     label: "Concierge",
     href: "/circle",
   },
-
   {
     label: "Member Events",
     href: "/circle",
   },
 ];
 
-
 const locationLinks = [
   {
     label: "Centres",
     href: "/locations",
   },
-
   {
     label: "DRIPLABS Home",
     href: "/experience",
   },
-
   {
     label: "Coming Soon",
     href: "/locations",
   },
 ];
-
 
 const physicianLinks = [
   "Physician Network",
@@ -380,13 +333,11 @@ const physicianLinks = [
   "Medical Affairs",
 ];
 
-
 const clinicLinks = [
   "Become a Partner",
   "Authorized Centre",
   "Clinical Collaboration",
 ];
-
 
 const distributorLinks = [
   "Distribution Network",
@@ -394,13 +345,11 @@ const distributorLinks = [
   "Territory",
 ];
 
-
 const franchiseLinks = [
   "Franchise Opportunity",
   "The Model",
   "Training & Support",
 ];
-
 
 /* =========================================================
    TYPES
@@ -414,9 +363,8 @@ type MenuKey =
   | "locations"
   | "partners";
 
-
 /* =========================================================
-   NAVBAR
+   MAIN NAVBAR
 ========================================================= */
 
 export default function Navbar() {
@@ -440,9 +388,8 @@ export default function Navbar() {
 
   const reducedMotion = useReducedMotion();
 
-
   /* =======================================================
-     SCROLL STATE
+     SCROLL
   ======================================================= */
 
   useEffect(() => {
@@ -468,7 +415,6 @@ export default function Navbar() {
     };
   }, []);
 
-
   /* =======================================================
      MOBILE BODY LOCK
   ======================================================= */
@@ -482,9 +428,68 @@ export default function Navbar() {
     };
   }, [mobileOpen]);
 
+  /* =======================================================
+     MENU FUNCTIONS
+  ======================================================= */
+
+  const clearTimers = () => {
+    if (openTimer.current) {
+      clearTimeout(openTimer.current);
+      openTimer.current = null;
+    }
+
+    if (closeTimer.current) {
+      clearTimeout(closeTimer.current);
+      closeTimer.current = null;
+    }
+  };
+
+  const openMenu = (menu: MenuKey) => {
+    clearTimers();
+
+    openTimer.current = setTimeout(
+      () => {
+        setActiveMenu(menu);
+      },
+      reducedMotion ? 0 : 70,
+    );
+  };
+
+  const closeMenu = () => {
+    clearTimers();
+
+    closeTimer.current = setTimeout(
+      () => {
+        setActiveMenu(null);
+      },
+      reducedMotion ? 0 : 130,
+    );
+  };
+
+  const keepMenuOpen = () => {
+    clearTimers();
+  };
+
+  const closeAll = () => {
+    clearTimers();
+    setActiveMenu(null);
+    setMobileOpen(false);
+    setMobileSection(null);
+  };
+
+  const toggleMobileSection = (
+    menu: MenuKey,
+  ) => {
+    setMobileSection(
+      (current) =>
+        current === menu
+          ? null
+          : menu,
+    );
+  };
 
   /* =======================================================
-     ESCAPE KEY
+     ESCAPE
   ======================================================= */
 
   useEffect(() => {
@@ -509,78 +514,6 @@ export default function Navbar() {
     };
   }, []);
 
-
-  /* =======================================================
-     MENU TIMERS
-  ======================================================= */
-
-  const clearTimers = () => {
-    if (openTimer.current) {
-      clearTimeout(openTimer.current);
-      openTimer.current = null;
-    }
-
-    if (closeTimer.current) {
-      clearTimeout(closeTimer.current);
-      closeTimer.current = null;
-    }
-  };
-
-
-  const openMenu = (
-    menu: MenuKey,
-  ) => {
-    clearTimers();
-
-    openTimer.current =
-      setTimeout(
-        () => {
-          setActiveMenu(menu);
-        },
-        reducedMotion ? 0 : 70,
-      );
-  };
-
-
-  const closeMenu = () => {
-    clearTimers();
-
-    closeTimer.current =
-      setTimeout(
-        () => {
-          setActiveMenu(null);
-        },
-        reducedMotion ? 0 : 130,
-      );
-  };
-
-
-  const keepMenuOpen = () => {
-    clearTimers();
-  };
-
-
-  const closeAll = () => {
-    clearTimers();
-
-    setActiveMenu(null);
-    setMobileOpen(false);
-    setMobileSection(null);
-  };
-
-
-  const toggleMobileSection = (
-    menu: MenuKey,
-  ) => {
-    setMobileSection(
-      (current) =>
-        current === menu
-          ? null
-          : menu,
-    );
-  };
-
-
   /* =======================================================
      RENDER
   ======================================================= */
@@ -588,29 +521,27 @@ export default function Navbar() {
   return (
     <>
       {/* =====================================================
-          DESKTOP / MOBILE HEADER
+          HEADER
       ===================================================== */}
 
       <header
         className={[
-  "fixed inset-x-0 top-0 z-[100]",
-  "transition-all duration-500",
-  scrolled
-    ? [
-        "border-b border-white/10",
-        "bg-[#020812]",
-        "text-[#F7FAFF]",
-        "shadow-[0_12px_50px_rgba(0,0,0,0.22)]",
-      ].join(" ")
-    : [
-        "border-b border-transparent",
-        "bg-transparent",
-        "text-white",
-      ].join(" "),
-].join(" ")}
->
-
-        {/* subtle electric line */}
+          "fixed inset-x-0 top-0 z-[100]",
+          "transition-all duration-500",
+          scrolled
+            ? [
+                "border-b border-white/10",
+                "bg-[#020812]",
+                "text-[#F7FAFF]",
+                "shadow-[0_12px_50px_rgba(0,0,0,0.22)]",
+              ].join(" ")
+            : [
+                "border-b border-transparent",
+                "bg-transparent",
+                "text-white",
+              ].join(" "),
+        ].join(" ")}
+      >
         <div
           className={[
             "absolute bottom-0 left-0 right-0 h-px",
@@ -625,7 +556,6 @@ export default function Navbar() {
           ].join(" ")}
         />
 
-
         <div
           className={[
             "mx-auto flex max-w-[1800px]",
@@ -638,7 +568,6 @@ export default function Navbar() {
               : "",
           ].join(" ")}
         >
-
           {/* =================================================
               LOGO
           ================================================= */}
@@ -668,14 +597,13 @@ export default function Navbar() {
             />
           </Link>
 
-
           {/* =================================================
               DESKTOP NAVIGATION
           ================================================= */}
 
           <nav
             aria-label="Primary navigation"
-            className="ml-auto hidden lg:flex mr-0"
+            className="ml-auto mr-0 hidden lg:flex"
           >
             <div
               className={[
@@ -683,7 +611,6 @@ export default function Navbar() {
                 "gap-6 xl:gap-8",
               ].join(" ")}
             >
-
               <DesktopNavItem
                 label="Explore"
                 menu="explore"
@@ -696,7 +623,6 @@ export default function Navbar() {
                   onClose={closeAll}
                 />
               </DesktopNavItem>
-
 
               <DesktopNavItem
                 label="Experience"
@@ -711,7 +637,6 @@ export default function Navbar() {
                 />
               </DesktopNavItem>
 
-
               <DesktopNavItem
                 label="Science"
                 menu="science"
@@ -725,6 +650,9 @@ export default function Navbar() {
                 />
               </DesktopNavItem>
 
+              {/* =================================================
+                  NADx
+              ================================================= */}
 
               <Link
                 href="/nadx"
@@ -735,9 +663,8 @@ export default function Navbar() {
                   "py-3",
                   "text-[14px]",
                   "font-medium",
-                  "uppercase",
-                  "tracking-[0.17em]",
-                  "text-white/75",
+                  "tracking-[0.10em]",
+                  "text-white/80",
                   "transition-colors duration-300",
                   "hover:text-white",
                 ].join(" ")}
@@ -757,7 +684,6 @@ export default function Navbar() {
                 />
               </Link>
 
-
               <DesktopNavItem
                 label="Circle"
                 menu="circle"
@@ -770,7 +696,6 @@ export default function Navbar() {
                   onClose={closeAll}
                 />
               </DesktopNavItem>
-
 
               <DesktopNavItem
                 label="Locations"
@@ -785,7 +710,6 @@ export default function Navbar() {
                 />
               </DesktopNavItem>
 
-
               <DesktopNavItem
                 label="Partners"
                 menu="partners"
@@ -798,13 +722,11 @@ export default function Navbar() {
                   onClose={closeAll}
                 />
               </DesktopNavItem>
-
             </div>
           </nav>
 
-
           {/* =================================================
-              DESKTOP ACTIONS
+              DESKTOP CTA
           ================================================= */}
 
           <div
@@ -813,8 +735,6 @@ export default function Navbar() {
               "gap-5 lg:flex xl:ml-8",
             ].join(" ")}
           >
-            {/* CTA */}
-
             <Link
               href="/contact"
               onClick={closeAll}
@@ -822,20 +742,19 @@ export default function Navbar() {
                 "group relative inline-flex",
                 "h-[40px] items-center gap-3",
                 "overflow-hidden",
-                 "rounded-full",
+                "rounded-full",
                 "border border-[#1683FF]/70",
                 "bg-[#0066FF]",
                 "px-5",
                 "text-[14px]",
                 "font-medium",
-                "tracking-[0.17em]",
+                "tracking-[0.12em]",
                 "text-white",
                 "transition-all duration-500",
                 "hover:bg-[#1683FF]",
                 "hover:shadow-[0_10px_35px_rgba(0,102,255,.25)]",
               ].join(" ")}
             >
-
               <span>
                 Book a Consultation
               </span>
@@ -848,13 +767,8 @@ export default function Navbar() {
               >
                 <ArrowRight />
               </span>
-
             </Link>
-
-
-            
           </div>
-
 
           {/* =================================================
               MOBILE ACTIONS
@@ -866,7 +780,6 @@ export default function Navbar() {
               "gap-3 lg:hidden",
             ].join(" ")}
           >
-
             <Link
               href="/book"
               onClick={closeAll}
@@ -888,7 +801,6 @@ export default function Navbar() {
               BEGIN YOUR JOURNEY
             </Link>
 
-
             <button
               type="button"
               aria-label="Open navigation"
@@ -909,28 +821,20 @@ export default function Navbar() {
             >
               <MenuIcon open={mobileOpen} />
             </button>
-
           </div>
-
         </div>
       </header>
 
-
       {/* =====================================================
-          FULL SCREEN MENU
+          FULL SCREEN MOBILE MENU
       ===================================================== */}
 
       <AnimatePresence>
         {mobileOpen && (
           <>
-
-            {/* BACKDROP */}
-
             <motion.div
               initial={{ opacity: 0 }}
-              animate={{
-                opacity: 0.65,
-              }}
+              animate={{ opacity: 0.65 }}
               exit={{ opacity: 0 }}
               transition={{
                 duration: reducedMotion
@@ -945,15 +849,10 @@ export default function Navbar() {
               onClick={closeAll}
             />
 
-
-            {/* MENU PANEL */}
-
             <motion.div
               initial={
                 reducedMotion
-                  ? {
-                      opacity: 1,
-                    }
+                  ? { opacity: 1 }
                   : {
                       opacity: 0,
                       scale: 1.02,
@@ -967,9 +866,7 @@ export default function Navbar() {
               }}
               exit={
                 reducedMotion
-                  ? {
-                      opacity: 0,
-                    }
+                  ? { opacity: 0 }
                   : {
                       opacity: 0,
                       scale: 1.01,
@@ -994,23 +891,11 @@ export default function Navbar() {
                 "text-[#F7FAFF]",
               ].join(" ")}
             >
-
-              {/* Ambient blue glow */}
-
               <div className="pointer-events-none absolute left-1/2 top-[20%] h-[600px] w-[600px] -translate-x-1/2 rounded-full bg-[#0066FF]/[0.08] blur-[120px]" />
-
-
-              {/* Grid */}
 
               <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_right,rgba(140,203,255,.035)_1px,transparent_1px),linear-gradient(to_bottom,rgba(140,203,255,.035)_1px,transparent_1px)] bg-[size:80px_80px]" />
 
-
               <div className="relative flex h-full flex-col">
-
-                {/* =================================================
-                    OVERLAY HEADER
-                ================================================= */}
-
                 <div
                   className={[
                     "flex h-[78px] shrink-0",
@@ -1019,7 +904,6 @@ export default function Navbar() {
                     "px-5 sm:px-8 lg:px-12",
                   ].join(" ")}
                 >
-
                   <Link
                     href="/"
                     onClick={closeAll}
@@ -1037,7 +921,6 @@ export default function Navbar() {
                       ].join(" ")}
                     />
                   </Link>
-
 
                   <button
                     type="button"
@@ -1057,16 +940,9 @@ export default function Navbar() {
                   >
                     <MenuIcon open />
                   </button>
-
                 </div>
 
-
-                {/* =================================================
-                    MENU CONTENT
-                ================================================= */}
-
                 <div className="flex-1 overflow-y-auto">
-
                   <div
                     className={[
                       "mx-auto flex min-h-full",
@@ -1077,10 +953,9 @@ export default function Navbar() {
                       "lg:px-16 lg:py-16",
                     ].join(" ")}
                   >
-
-                    {/* =========================================
-                        DESKTOP / TABLET
-                    ========================================= */}
+                    {/* =================================================
+                        DESKTOP OVERLAY MENU
+                    ================================================= */}
 
                     <div
                       className={[
@@ -1090,9 +965,7 @@ export default function Navbar() {
                         "lg:gap-20",
                       ].join(" ")}
                     >
-
                       <div>
-
                         <EditorialMenuLink
                           label="Explore"
                           index="01"
@@ -1110,7 +983,6 @@ export default function Navbar() {
                             !!reducedMotion
                           }
                         />
-
 
                         <EditorialMenuLink
                           label="Experience"
@@ -1130,7 +1002,6 @@ export default function Navbar() {
                           }
                         />
 
-
                         <EditorialMenuLink
                           label="Science"
                           index="03"
@@ -1148,7 +1019,6 @@ export default function Navbar() {
                             !!reducedMotion
                           }
                         />
-
 
                         <EditorialMenuLink
                           label="Circle"
@@ -1168,7 +1038,6 @@ export default function Navbar() {
                           }
                         />
 
-
                         <EditorialMenuLink
                           label="Locations"
                           index="05"
@@ -1187,7 +1056,6 @@ export default function Navbar() {
                           }
                         />
 
-
                         <EditorialMenuLink
                           label="Partners"
                           index="06"
@@ -1205,11 +1073,7 @@ export default function Navbar() {
                             !!reducedMotion
                           }
                         />
-
                       </div>
-
-
-                      {/* DETAIL PANEL */}
 
                       <div
                         className={[
@@ -1218,9 +1082,7 @@ export default function Navbar() {
                           "pl-12",
                         ].join(" ")}
                       >
-
                         <AnimatePresence mode="wait">
-
                           {mobileSection === "explore" && (
                             <motion.div
                               key="explore"
@@ -1247,7 +1109,6 @@ export default function Navbar() {
                             </motion.div>
                           )}
 
-
                           {mobileSection === "experience" && (
                             <motion.div
                               key="experience"
@@ -1273,7 +1134,6 @@ export default function Navbar() {
                               />
                             </motion.div>
                           )}
-
 
                           {mobileSection === "science" && (
                             <motion.div
@@ -1302,7 +1162,6 @@ export default function Navbar() {
                             </motion.div>
                           )}
 
-
                           {mobileSection === "circle" && (
                             <motion.div
                               key="circle"
@@ -1330,7 +1189,6 @@ export default function Navbar() {
                             </motion.div>
                           )}
 
-
                           {mobileSection === "locations" && (
                             <motion.div
                               key="locations"
@@ -1357,7 +1215,6 @@ export default function Navbar() {
                             </motion.div>
                           )}
 
-
                           {mobileSection === "partners" && (
                             <motion.div
                               key="partners"
@@ -1383,19 +1240,15 @@ export default function Navbar() {
                               />
                             </motion.div>
                           )}
-
                         </AnimatePresence>
-
                       </div>
                     </div>
 
-
-                    {/* =========================================
-                        MOBILE
-                    ========================================= */}
+                    {/* =================================================
+                        MOBILE ACCORDIONS
+                    ================================================= */}
 
                     <div className="lg:hidden">
-
                       <MobileAccordion
                         title="Explore"
                         open={
@@ -1412,7 +1265,6 @@ export default function Navbar() {
                         />
                       </MobileAccordion>
 
-
                       <MobileAccordion
                         title="Experience"
                         open={
@@ -1428,7 +1280,6 @@ export default function Navbar() {
                           onClose={closeAll}
                         />
                       </MobileAccordion>
-
 
                       <MobileAccordion
                         title="Science"
@@ -1447,7 +1298,6 @@ export default function Navbar() {
                         />
                       </MobileAccordion>
 
-
                       <MobileAccordion
                         title="Circle"
                         open={
@@ -1465,7 +1315,6 @@ export default function Navbar() {
                         />
                       </MobileAccordion>
 
-
                       <MobileAccordion
                         title="Locations"
                         open={
@@ -1482,7 +1331,6 @@ export default function Navbar() {
                         />
                       </MobileAccordion>
 
-
                       <MobileAccordion
                         title="For partners"
                         open={
@@ -1498,16 +1346,13 @@ export default function Navbar() {
                           onClose={closeAll}
                         />
                       </MobileAccordion>
-
                     </div>
 
-
-                    {/* =========================================
+                    {/* =================================================
                         FINAL CTA
-                    ========================================= */}
+                    ================================================= */}
 
                     <div className="mt-auto pt-12 lg:pt-16">
-
                       <Link
                         href="/book"
                         onClick={closeAll}
@@ -1518,7 +1363,6 @@ export default function Navbar() {
                           "py-6",
                         ].join(" ")}
                       >
-
                         <span
                           className={[
                             "font-[var(--font-heading)]",
@@ -1530,7 +1374,6 @@ export default function Navbar() {
                         >
                           Begin Your Journey
                         </span>
-
 
                         <span
                           className={[
@@ -1548,26 +1391,18 @@ export default function Navbar() {
                         >
                           <ArrowRight />
                         </span>
-
                       </Link>
-
                     </div>
-
                   </div>
-
                 </div>
-
               </div>
-
             </motion.div>
-
           </>
         )}
       </AnimatePresence>
     </>
   );
 }
-
 
 /* =========================================================
    DESKTOP NAV ITEM
@@ -1601,7 +1436,6 @@ function DesktopNavItem({
       }
       onMouseLeave={closeMenu}
     >
-
       <button
         type="button"
         aria-expanded={isActive}
@@ -1616,19 +1450,17 @@ function DesktopNavItem({
           "group relative flex",
           "items-center gap-1.5",
           "py-3",
-          "text-[8px]",
+          "text-[14px]",
           "font-medium",
-          "tracking-[0.17em]",
-          "text-white/75",
+          "tracking-[0.10em]",
+          "text-white/80",
           "transition-colors duration-300",
           "hover:text-white",
         ].join(" ")}
       >
-
         <span>
           {label}
         </span>
-
 
         <span
           className={[
@@ -1642,9 +1474,6 @@ function DesktopNavItem({
             open={isActive}
           />
         </span>
-
-
-        {/* active line */}
 
         <span
           className={[
@@ -1661,11 +1490,7 @@ function DesktopNavItem({
                 ].join(" "),
           ].join(" ")}
         />
-
       </button>
-
-
-      {/* bridge */}
 
       <div
         className={[
@@ -1675,7 +1500,6 @@ function DesktopNavItem({
         ].join(" ")}
         aria-hidden="true"
       />
-
 
       <AnimatePresence>
         {isActive && (
@@ -1704,12 +1528,8 @@ function DesktopNavItem({
                 1,
               ],
             }}
-            onMouseEnter={
-              keepMenuOpen
-            }
-            onMouseLeave={
-              closeMenu
-            }
+            onMouseEnter={keepMenuOpen}
+            onMouseLeave={closeMenu}
             className={[
               "absolute left-1/2",
               "top-[calc(100%+14px)]",
@@ -1720,11 +1540,9 @@ function DesktopNavItem({
           </motion.div>
         )}
       </AnimatePresence>
-
     </div>
   );
 }
-
 
 /* =========================================================
    DROPDOWN FRAME
@@ -1761,7 +1579,6 @@ function DropdownFrame({
   );
 }
 
-
 /* =========================================================
    DROPDOWN HEADER
 ========================================================= */
@@ -1775,9 +1592,7 @@ function DropdownHeader({
 }) {
   return (
     <div className="mb-6">
-
       <div className="flex items-center gap-3">
-
         <span className="h-px w-6 bg-[#0066FF]" />
 
         <span
@@ -1790,9 +1605,7 @@ function DropdownHeader({
         >
           DRIPLABS
         </span>
-
       </div>
-
 
       <h3
         className={[
@@ -1808,7 +1621,6 @@ function DropdownHeader({
         {title}
       </h3>
 
-
       <p
         className={[
           "mt-2",
@@ -1819,11 +1631,9 @@ function DropdownHeader({
       >
         {subtitle}
       </p>
-
     </div>
   );
 }
-
 
 /* =========================================================
    EXPLORE DROPDOWN
@@ -1835,20 +1645,13 @@ function ExploreDropdown({
   onClose: () => void;
 }) {
   return (
-    <DropdownFrame
-      className="w-[390px] p-7"
-    >
-
+    <DropdownFrame className="w-[390px] p-7">
       <DropdownHeader
         title="Explore"
         subtitle="Discover your wellness path"
       />
 
-
-      {/* WELLNESS */}
-
       <div>
-
         <div
           className={[
             "mb-4 flex",
@@ -1857,7 +1660,6 @@ function ExploreDropdown({
             "pt-5",
           ].join(" ")}
         >
-
           <span
             className={[
               "text-[8px]",
@@ -1872,9 +1674,7 @@ function ExploreDropdown({
           <span className="text-white/35">
             <ChevronRight />
           </span>
-
         </div>
-
 
         <div
           className={[
@@ -1893,11 +1693,7 @@ function ExploreDropdown({
             ),
           )}
         </div>
-
       </div>
-
-
-      {/* FEATURED */}
 
       <div
         className={[
@@ -1906,14 +1702,12 @@ function ExploreDropdown({
           "pt-5",
         ].join(" ")}
       >
-
         <div
           className={[
             "mb-4 flex",
             "items-center justify-between",
           ].join(" ")}
         >
-
           <span
             className={[
               "text-[8px]",
@@ -1928,12 +1722,9 @@ function ExploreDropdown({
           <span className="text-white/35">
             <ChevronRight />
           </span>
-
         </div>
 
-
         <div className="space-y-3">
-
           {featuredLinks.map(
             (item) => (
               <DropdownLink
@@ -1944,26 +1735,22 @@ function ExploreDropdown({
               />
             ),
           )}
-
         </div>
-
       </div>
-      {/* FAQ */}
 
-<div
-  className={[
-    "mt-7",
-    "border-t border-white/10",
-    "pt-5",
-  ].join(" ")}
->
-  <DropdownLink
-    label="FAQ"
-    href="/faq"
-    onClose={onClose}
-  />
-</div>
-
+      <div
+        className={[
+          "mt-7",
+          "border-t border-white/10",
+          "pt-5",
+        ].join(" ")}
+      >
+        <DropdownLink
+          label="FAQ"
+          href="/faq"
+          onClose={onClose}
+        />
+      </div>
     </DropdownFrame>
   );
 }
@@ -1978,18 +1765,13 @@ function ExperienceDropdown({
   onClose: () => void;
 }) {
   return (
-    <DropdownFrame
-      className="w-[380px] p-7"
-    >
-
+    <DropdownFrame className="w-[380px] p-7">
       <DropdownHeader
         title="Experience"
         subtitle="How you can experience DRIPLABS"
       />
 
-
       <div className="space-y-5">
-
         {experienceItems.map(
           (item) => (
             <Link
@@ -1998,7 +1780,6 @@ function ExperienceDropdown({
               onClick={onClose}
               className="group block"
             >
-
               <div
                 className={[
                   "flex items-start",
@@ -2006,9 +1787,7 @@ function ExperienceDropdown({
                   "gap-5",
                 ].join(" ")}
               >
-
                 <div>
-
                   <span
                     className={[
                       "block",
@@ -2022,7 +1801,6 @@ function ExperienceDropdown({
                     {item.title}
                   </span>
 
-
                   <span
                     className={[
                       "mt-1.5 block",
@@ -2033,9 +1811,7 @@ function ExperienceDropdown({
                   >
                     {item.description}
                   </span>
-
                 </div>
-
 
                 <span
                   className={[
@@ -2049,19 +1825,14 @@ function ExperienceDropdown({
                 >
                   <ArrowRight />
                 </span>
-
               </div>
-
             </Link>
           ),
         )}
-
       </div>
-
     </DropdownFrame>
   );
 }
-
 
 /* =========================================================
    SCIENCE DROPDOWN
@@ -2073,18 +1844,13 @@ function ScienceDropdown({
   onClose: () => void;
 }) {
   return (
-    <DropdownFrame
-      className="w-[330px] p-7"
-    >
-
+    <DropdownFrame className="w-[330px] p-7">
       <DropdownHeader
         title="Science"
         subtitle="Evidence. Transparency. Trust."
       />
 
-
       <div className="space-y-3.5">
-
         {scienceLinks.map(
           (item) => (
             <DropdownLink
@@ -2095,13 +1861,10 @@ function ScienceDropdown({
             />
           ),
         )}
-
       </div>
-
     </DropdownFrame>
   );
 }
-
 
 /* =========================================================
    CIRCLE DROPDOWN
@@ -2113,18 +1876,13 @@ function CircleDropdown({
   onClose: () => void;
 }) {
   return (
-    <DropdownFrame
-      className="w-[290px] p-7"
-    >
-
+    <DropdownFrame className="w-[290px] p-7">
       <DropdownHeader
         title="Circle"
         subtitle="More than a membership"
       />
 
-
       <div className="space-y-3.5">
-
         {circleLinks.map(
           (item) => (
             <DropdownLink
@@ -2135,13 +1893,10 @@ function CircleDropdown({
             />
           ),
         )}
-
       </div>
-
     </DropdownFrame>
   );
 }
-
 
 /* =========================================================
    LOCATIONS DROPDOWN
@@ -2153,18 +1908,13 @@ function LocationsDropdown({
   onClose: () => void;
 }) {
   return (
-    <DropdownFrame
-      className="w-[285px] p-7"
-    >
-
+    <DropdownFrame className="w-[285px] p-7">
       <DropdownHeader
         title="Locations"
         subtitle="Find DRIPLABS near you"
       />
 
-
       <div className="space-y-3.5">
-
         {locationLinks.map(
           (item) => (
             <DropdownLink
@@ -2175,9 +1925,7 @@ function LocationsDropdown({
             />
           ),
         )}
-
       </div>
-
 
       <div
         className={[
@@ -2186,7 +1934,6 @@ function LocationsDropdown({
           "pt-5",
         ].join(" ")}
       >
-
         <Link
           href="/locations"
           onClick={onClose}
@@ -2201,7 +1948,6 @@ function LocationsDropdown({
             "hover:text-[#8CCBFF]",
           ].join(" ")}
         >
-
           <MapPinIcon />
 
           <span>
@@ -2217,15 +1963,11 @@ function LocationsDropdown({
           >
             <ArrowRight />
           </span>
-
         </Link>
-
       </div>
-
     </DropdownFrame>
   );
 }
-
 
 /* =========================================================
    PARTNERS DROPDOWN
@@ -2237,15 +1979,11 @@ function PartnersDropdown({
   onClose: () => void;
 }) {
   return (
-    <DropdownFrame
-      className="w-[370px] p-7"
-    >
-
+    <DropdownFrame className="w-[370px] p-7">
       <DropdownHeader
         title="Partners"
         subtitle="Build the future with us"
       />
-
 
       <PartnerDropdownGroup
         title="Physicians"
@@ -2256,7 +1994,6 @@ function PartnersDropdown({
 
       <PartnerDivider />
 
-
       <PartnerDropdownGroup
         title="Clinics & Centres"
         links={clinicLinks}
@@ -2265,7 +2002,6 @@ function PartnersDropdown({
       />
 
       <PartnerDivider />
-
 
       <PartnerDropdownGroup
         title="Distributors"
@@ -2276,14 +2012,12 @@ function PartnersDropdown({
 
       <PartnerDivider />
 
-
       <PartnerDropdownGroup
         title="Franchise"
         links={franchiseLinks}
         href="/partners"
         onClose={onClose}
       />
-
 
       <Link
         href="/contact"
@@ -2303,14 +2037,14 @@ function PartnersDropdown({
       >
         Enquire Now
       </Link>
-
     </DropdownFrame>
   );
 }
 
-
 /* =========================================================
    DROPDOWN LINK
+   IMPORTANT:
+   Keep this component only ONCE.
 ========================================================= */
 
 function DropdownLink({
@@ -2338,11 +2072,9 @@ function DropdownLink({
         "hover:text-white",
       ].join(" ")}
     >
-
       <span>
         {label}
       </span>
-
 
       <span
         className={[
@@ -2356,14 +2088,14 @@ function DropdownLink({
       >
         <ArrowRight />
       </span>
-
     </Link>
   );
 }
 
-
 /* =========================================================
    PARTNER GROUP
+   MAIN HEADING VISIBLE
+   SUBMENU APPEARS ONLY ON HOVER
 ========================================================= */
 
 function PartnerDropdownGroup({
@@ -2378,53 +2110,138 @@ function PartnerDropdownGroup({
   onClose: () => void;
 }) {
   return (
-    <div>
+    <div className="group relative">
+      {/* =================================================
+          MAIN HEADING
+      ================================================= */}
 
       <Link
         href={href}
         onClick={onClose}
         className={[
-          "text-[10px]",
+          "flex w-full",
+          "items-center justify-between",
+          "py-2",
+          "text-[11px]",
           "font-medium",
+          "tracking-[0.03em]",
           "text-white/80",
-          "transition-colors",
-          "hover:text-[#8CCBFF]",
+          "transition-all duration-300",
+          "hover:text-white",
         ].join(" ")}
       >
-        {title}
+        <span>
+          {title}
+        </span>
+
+        <span
+          className={[
+            "ml-auto",
+            "flex h-5 w-5",
+            "items-center justify-center",
+            "text-[#4D9BFF]",
+            "opacity-50",
+            "transition-all duration-300",
+            "group-hover:translate-x-0.5",
+            "group-hover:opacity-100",
+          ].join(" ")}
+        >
+          <svg
+            width="12"
+            height="12"
+            viewBox="0 0 12 12"
+            fill="none"
+            aria-hidden="true"
+            className="transition-transform duration-300 group-hover:rotate-90"
+          >
+            <path
+              d="M4.5 2.5L8 6L4.5 9.5"
+              stroke="currentColor"
+              strokeWidth="1.2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+        </span>
       </Link>
 
+      {/* =================================================
+          HIDDEN SUBMENU
+          OPENS ONLY WHEN THIS GROUP IS HOVERED
+      ================================================= */}
 
       <div
         className={[
-          "mt-2.5 grid",
-          "gap-1.5 pl-3",
+          "grid",
+          "grid-rows-[0fr]",
+          "overflow-hidden",
+          "opacity-0",
+          "-translate-y-1",
+          "transition-all duration-300 ease-out",
+
+          "group-hover:grid-rows-[1fr]",
+          "group-hover:translate-y-0",
+          "group-hover:opacity-100",
+
+          "group-focus-within:grid-rows-[1fr]",
+          "group-focus-within:translate-y-0",
+          "group-focus-within:opacity-100",
         ].join(" ")}
       >
-        {links.map(
-          (item) => (
-            <Link
-              key={item}
-              href={href}
-              onClick={onClose}
-              className={[
-                "text-[8px]",
-                "leading-4",
-                "text-white/35",
-                "transition-colors",
-                "hover:text-white/70",
-              ].join(" ")}
-            >
-              {item}
-            </Link>
-          ),
-        )}
-      </div>
+        <div className="min-h-0 overflow-hidden">
+          <div
+            className={[
+              "ml-3",
+              "border-l border-white/10",
+              "py-2 pl-4",
+            ].join(" ")}
+          >
+            <div className="grid gap-2">
+              {links.map(
+                (item) => (
+                  <Link
+                    key={item}
+                    href={href}
+                    onClick={onClose}
+                    className={[
+                      "group/sub",
+                      "flex items-center",
+                      "justify-between",
+                      "gap-3",
+                      "py-0.5",
+                      "text-[9px]",
+                      "leading-4",
+                      "text-white/40",
+                      "transition-all duration-200",
+                      "hover:text-white/90",
+                    ].join(" ")}
+                  >
+                    <span>
+                      {item}
+                    </span>
 
+                    <span
+                      className={[
+                        "text-[#4D9BFF]",
+                        "opacity-0",
+                        "-translate-x-1",
+                        "transition-all duration-200",
+                        "group-hover/sub:translate-x-0",
+                        "group-hover/sub:opacity-100",
+                      ].join(" ")}
+                    >
+                      <ArrowRight />
+                    </span>
+                  </Link>
+                ),
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
-
 
 /* =========================================================
    PARTNER DIVIDER
@@ -2432,10 +2249,9 @@ function PartnerDropdownGroup({
 
 function PartnerDivider() {
   return (
-    <div className="my-5 h-px bg-white/10" />
+    <div className="my-3 h-px bg-white/10" />
   );
 }
-
 
 /* =========================================================
    EDITORIAL MENU LINK
@@ -2495,9 +2311,6 @@ function EditorialMenuLink({
         "text-left",
       ].join(" ")}
     >
-
-      {/* number */}
-
       <span
         className={[
           "w-8 shrink-0",
@@ -2509,9 +2322,6 @@ function EditorialMenuLink({
       >
         {index}
       </span>
-
-
-      {/* title */}
 
       <span
         className={[
@@ -2532,9 +2342,6 @@ function EditorialMenuLink({
       >
         {label}
       </span>
-
-
-      {/* arrow */}
 
       <span
         className={[
@@ -2562,11 +2369,9 @@ function EditorialMenuLink({
       >
         <ArrowRight />
       </span>
-
     </motion.button>
   );
 }
-
 
 /* =========================================================
    MOBILE ACCORDION
@@ -2585,7 +2390,6 @@ function MobileAccordion({
 }) {
   return (
     <div className="border-b border-white/10">
-
       <button
         type="button"
         onClick={onClick}
@@ -2597,7 +2401,6 @@ function MobileAccordion({
           "text-left",
         ].join(" ")}
       >
-
         <span
           className={[
             "font-[var(--font-heading)]",
@@ -2614,7 +2417,6 @@ function MobileAccordion({
           {title}
         </span>
 
-
         <span
           className={[
             "flex h-9 w-9",
@@ -2627,13 +2429,9 @@ function MobileAccordion({
             "transition-all duration-300",
           ].join(" ")}
         >
-          <ChevronDown
-            open={open}
-          />
+          <ChevronDown open={open} />
         </span>
-
       </button>
-
 
       <AnimatePresence initial={false}>
         {open && (
@@ -2667,11 +2465,9 @@ function MobileAccordion({
           </motion.div>
         )}
       </AnimatePresence>
-
     </div>
   );
 }
-
 
 /* =========================================================
    MOBILE EXPLORE
@@ -2686,7 +2482,6 @@ function MobileExplore({
 }) {
   return (
     <div>
-
       <p
         className={[
           "mb-7 max-w-[360px]",
@@ -2698,9 +2493,7 @@ function MobileExplore({
         Discover your wellness path
       </p>
 
-
       <div>
-
         <div
           className={[
             "mb-5 flex",
@@ -2709,11 +2502,10 @@ function MobileExplore({
             "pt-5",
           ].join(" ")}
         >
-
           <span
             className={[
               "text-[8px]",
-              "font-medium",,
+              "font-medium",
               "tracking-[0.16em]",
               "text-white/65",
             ].join(" ")}
@@ -2724,9 +2516,7 @@ function MobileExplore({
           <span className="text-[#4D9BFF]">
             <ChevronRight />
           </span>
-
         </div>
-
 
         <div
           className={
@@ -2735,7 +2525,6 @@ function MobileExplore({
               : "grid gap-3"
           }
         >
-
           {wellnessPaths.map(
             (item) => (
               <Link
@@ -2761,11 +2550,8 @@ function MobileExplore({
               </Link>
             ),
           )}
-
         </div>
-
       </div>
-
 
       <div
         className={[
@@ -2774,14 +2560,12 @@ function MobileExplore({
           "pt-5",
         ].join(" ")}
       >
-
         <div
           className={[
             "mb-5 flex",
             "items-center justify-between",
           ].join(" ")}
         >
-
           <span
             className={[
               "text-[8px]",
@@ -2796,9 +2580,7 @@ function MobileExplore({
           <span className="text-[#4D9BFF]">
             <ChevronRight />
           </span>
-
         </div>
-
 
         <div
           className={
@@ -2807,7 +2589,6 @@ function MobileExplore({
               : "grid gap-3"
           }
         >
-
           {featuredLinks.map(
             (item) => (
               <Link
@@ -2832,15 +2613,11 @@ function MobileExplore({
               </Link>
             ),
           )}
-
         </div>
-
       </div>
-
     </div>
   );
 }
-
 
 /* =========================================================
    MOBILE EXPERIENCE
@@ -2855,7 +2632,6 @@ function MobileExperience({
 }) {
   return (
     <div className="space-y-6">
-
       <p
         className={[
           "text-[10px]",
@@ -2866,7 +2642,6 @@ function MobileExperience({
         How you can experience DRIPLABS
       </p>
 
-
       {experienceItems.map(
         (item) => (
           <Link
@@ -2875,7 +2650,6 @@ function MobileExperience({
             onClick={onClose}
             className="group block"
           >
-
             <span
               className={
                 large
@@ -2898,7 +2672,6 @@ function MobileExperience({
               {item.title}
             </span>
 
-
             <span
               className={
                 large
@@ -2919,15 +2692,12 @@ function MobileExperience({
             >
               {item.description}
             </span>
-
           </Link>
         ),
       )}
-
     </div>
   );
 }
-
 
 /* =========================================================
    MOBILE SIMPLE LINKS
@@ -2947,7 +2717,6 @@ function MobileSimpleLinks({
 }) {
   return (
     <div className="grid gap-1">
-
       {links.map(
         (item) => (
           <Link
@@ -2968,11 +2737,9 @@ function MobileSimpleLinks({
           </Link>
         ),
       )}
-
     </div>
   );
 }
-
 
 /* =========================================================
    MOBILE LOCATIONS
@@ -2987,7 +2754,6 @@ function MobileLocations({
 }) {
   return (
     <div>
-
       <p
         className={[
           "mb-5",
@@ -2999,9 +2765,7 @@ function MobileLocations({
         Find DRIPLABS near you
       </p>
 
-
       <div className="grid gap-1">
-
         {locationLinks.map(
           (item) => (
             <Link
@@ -3022,9 +2786,7 @@ function MobileLocations({
             </Link>
           ),
         )}
-
       </div>
-
 
       <div
         className={[
@@ -3033,7 +2795,6 @@ function MobileLocations({
           "pt-4",
         ].join(" ")}
       >
-
         <Link
           href="/locations"
           onClick={onClose}
@@ -3048,19 +2809,13 @@ function MobileLocations({
               : "min-h-[44px] text-[10px]",
           ].join(" ")}
         >
-
           <MapPinIcon />
-
           Find Your Nearest
-
         </Link>
-
       </div>
-
     </div>
   );
 }
-
 
 /* =========================================================
    MOBILE PARTNERS
@@ -3075,7 +2830,6 @@ function MobilePartners({
 }) {
   return (
     <div className="space-y-7">
-
       <MobilePartnerGroup
         title="Physicians"
         links={physicianLinks}
@@ -3083,7 +2837,6 @@ function MobilePartners({
         onClose={onClose}
         large={large}
       />
-
 
       <MobilePartnerGroup
         title="Clinics & Centres"
@@ -3093,7 +2846,6 @@ function MobilePartners({
         large={large}
       />
 
-
       <MobilePartnerGroup
         title="Distributors"
         links={distributorLinks}
@@ -3102,7 +2854,6 @@ function MobilePartners({
         large={large}
       />
 
-
       <MobilePartnerGroup
         title="Franchise"
         links={franchiseLinks}
@@ -3110,7 +2861,6 @@ function MobilePartners({
         onClose={onClose}
         large={large}
       />
-
 
       <Link
         href="/contact"
@@ -3132,11 +2882,9 @@ function MobilePartners({
       >
         Enquire Now
       </Link>
-
     </div>
   );
 }
-
 
 /* =========================================================
    MOBILE PARTNER GROUP
@@ -3157,7 +2905,6 @@ function MobilePartnerGroup({
 }) {
   return (
     <div>
-
       <Link
         href={href}
         onClick={onClose}
@@ -3173,7 +2920,6 @@ function MobilePartnerGroup({
         {title}
       </Link>
 
-
       <div
         className={[
           "mt-2 grid pl-3",
@@ -3182,7 +2928,6 @@ function MobilePartnerGroup({
             : "gap-1",
         ].join(" ")}
       >
-
         {links.map(
           (item) => (
             <Link
@@ -3203,9 +2948,7 @@ function MobilePartnerGroup({
             </Link>
           ),
         )}
-
       </div>
-
     </div>
   );
 }

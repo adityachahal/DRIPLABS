@@ -26,9 +26,9 @@ const trustPoints = [
   },
   {
     number: "03",
-    title: "Clinical Evidence",
+    title: "Clinical Evidence & Documented Protocols",
     short:
-      "Formulations and protocols are structured around documented clinical information.",
+      "Formulations and protocols are structured around documented data.",
     detail:
       "Clinical information and documented protocols form part of the framework behind the DRIPLABS experience.",
   },
@@ -1020,14 +1020,6 @@ function TrustCard({
               ].join(" ")}
             />
 
-            <span
-              className={[
-                "text-[5px] font-medium uppercase tracking-[0.2em] transition-colors duration-300",
-                active ? "text-[#8CCBFF]" : "text-white/20",
-              ].join(" ")}
-            >
-              {active ? "Inspecting" : "Explore"}
-            </span>
           </div>
         </div>
 
