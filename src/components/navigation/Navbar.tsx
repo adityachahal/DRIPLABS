@@ -560,7 +560,7 @@ export default function Navbar() {
           className={[
             "mx-auto flex max-w-[1800px]",
             "items-center",
-            "px-5 sm:px-7 lg:px-10 xl:px-12",
+            "px-5 sm:px-7 lg:px-1 xl:px-2",
             "h-[72px] lg:h-[78px]",
             "transition-all duration-500",
             scrolled
@@ -581,8 +581,8 @@ export default function Navbar() {
             <Image
               src="/images/brand/driplabs-logo.webp"
               alt="DRIPLABS"
-              width={130}
-              height={44}
+              width={140}
+              height={54}
               priority
               className={[
                 "h-auto w-[108px]",
@@ -603,7 +603,7 @@ export default function Navbar() {
 
           <nav
             aria-label="Primary navigation"
-            className="ml-auto mr-0 hidden lg:flex"
+           className="ml-auto mr-6 hidden lg:flex xl:mr-26"
           >
             <div
               className={[
@@ -1608,25 +1608,25 @@ function DropdownHeader({
       </div>
 
       <h3
-        className={[
-          "mt-4",
-          "font-[var(--font-heading)]",
-          "text-[26px]",
-          "font-light",
-          "leading-none",
-          "tracking-[-0.035em]",
-          "text-white",
-        ].join(" ")}
-      >
+  className={[
+    "mt-4",
+    "font-[var(--font-heading)]",
+    "text-[30px]",
+    "font-light",
+    "leading-none",
+    "tracking-[-0.035em]",
+    "text-[#1683FF]",
+  ].join(" ")}
+>
         {title}
       </h3>
 
       <p
         className={[
           "mt-2",
-          "text-[9px]",
-          "leading-4",
-          "text-white/40",
+          "text-[13px]",
+          "leading-5",
+          "text-white/65",
         ].join(" ")}
       >
         {subtitle}

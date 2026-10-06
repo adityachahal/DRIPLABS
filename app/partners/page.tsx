@@ -36,7 +36,7 @@ const pathways = [
   {
     number: "03",
     eyebrow: "For Strategic Partners",
-    title: "Build what&apos;s next.",
+    title: "Build what's next.",
     description:
       "Collaborate with DRIPLABS across complementary capabilities, locations, technology and wellness infrastructure.",
     points: [
@@ -111,60 +111,68 @@ function Arrow() {
   );
 }
 
+function SectionLabel({
+  number,
+  children,
+}: {
+  number?: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <div className="flex items-center gap-3">
+      {number && (
+        <span className="font-mono text-[9px] tracking-[0.18em] text-[#8ccfff]">
+          {number}
+        </span>
+      )}
+
+      <span className="h-px w-8 bg-[#5da8ff]/50" />
+
+      <span className="text-[9px] font-medium uppercase tracking-[0.28em] text-white/40">
+        {children}
+      </span>
+    </div>
+  );
+}
+
 export default function PartnersPage() {
   return (
-    <main className="min-h-screen overflow-hidden bg-[#020812] text-[#F7FAFF]">
+    <main className="partners-redesign min-h-screen overflow-hidden">
       <Navbar />
 
       {/* =========================================================
           HERO
       ========================================================= */}
 
-      <section className="relative min-h-[88svh] overflow-hidden">
-        {/* Atmosphere */}
+      <section className="partners-hero relative min-h-[100svh] overflow-hidden">
+        {/* Atmospheric background */}
+        <div className="pointer-events-none absolute inset-0">
+          <div className="partners-light partners-light-one" />
+          <div className="partners-light partners-light-two" />
 
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute inset-0"
-        >
-          <div className="absolute left-1/2 top-[18%] h-[600px] w-[800px] -translate-x-1/2 rounded-full bg-[#0066FF]/[0.07] blur-[120px]" />
+          <div className="absolute inset-0 opacity-[0.025] [background-image:linear-gradient(rgba(255,255,255,0.35)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.35)_1px,transparent_1px)] [background-size:90px_90px]" />
 
-          <div className="absolute -left-[20%] top-[45%] h-[500px] w-[500px] rounded-full bg-[#1683FF]/[0.035] blur-[100px]" />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_45%,transparent_0%,#03070d_72%)]" />
 
-          <div className="absolute -right-[15%] top-[35%] h-[500px] w-[500px] rounded-full bg-[#4D9BFF]/[0.025] blur-[100px]" />
-
-          <div
-            className="
-              absolute
-              inset-0
-              opacity-[0.025]
-              [background-image:linear-gradient(rgba(255,255,255,0.3)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.3)_1px,transparent_1px)]
-              [background-size:80px_80px]
-            "
-          />
-
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_20%,#020812_88%)]" />
+          <div className="absolute bottom-0 left-0 right-0 h-48 bg-gradient-to-t from-[#03070d] to-transparent" />
         </div>
 
-        <div className="relative mx-auto flex min-h-[88svh] max-w-[1600px] items-center px-5 pb-20 pt-28 sm:px-8 lg:px-12">
-          <div className="grid w-full items-center gap-10 lg:grid-cols-12 lg:gap-6">
-            {/* Copy */}
+        <div className="relative mx-auto flex min-h-[100svh] max-w-[1700px] items-center px-5 pb-20 pt-32 sm:px-8 lg:px-14">
+          <div className="grid w-full items-center gap-12 lg:grid-cols-[0.82fr_1.18fr] lg:gap-4">
+            {/* Hero copy */}
+            <div className="partners-hero-copy relative z-10">
+              <SectionLabel>DRIPLABS Partnerships</SectionLabel>
 
-            <div className="relative z-10 lg:col-span-5">
-              <div className="flex items-center gap-3">
-                <span className="h-px w-8 bg-[#1683FF]" />
-
-                <p className="text-[9px] font-medium uppercase tracking-[0.28em] text-[#4D9BFF]">
-                  DRIPLABS Partnerships
-                </p>
-              </div>
-
-              <h1 className="mt-7 max-w-[680px] font-serif text-[clamp(54px,7vw,100px)] leading-[0.87] tracking-[-0.06em]">
+              <h1 className="mt-8 max-w-[720px] font-serif text-[clamp(58px,8vw,118px)] leading-[0.82] tracking-[-0.065em]">
                 Build what&apos;s
-                <span className="block text-[#8CCBFF]">next.</span>
+                <span className="partners-gradient-text block">
+                  next.
+                </span>
               </h1>
 
-              <p className="mt-8 max-w-[520px] text-[14px] leading-7 text-white/50 sm:text-[15px]">
+              <div className="mt-8 h-px w-20 bg-gradient-to-r from-[#5da8ff] to-transparent" />
+
+              <p className="mt-7 max-w-[510px] text-[14px] leading-7 text-white/48 sm:text-[15px]">
                 Partner with DRIPLABS to create considered, physician-led
                 wellness experiences built around a consistent standard of
                 care, service and design.
@@ -173,24 +181,7 @@ export default function PartnersPage() {
               <div className="mt-9 flex flex-wrap gap-3">
                 <a
                   href="#pathways"
-                  className="
-                    group
-                    inline-flex
-                    min-h-[48px]
-                    items-center
-                    gap-4
-                    bg-[#0066FF]
-                    px-7
-                    text-[9px]
-                    font-medium
-                    uppercase
-                    tracking-[0.18em]
-                    text-white
-                    transition-all
-                    duration-500
-                    hover:bg-[#1683FF]
-                    hover:shadow-[0_15px_50px_rgba(0,102,255,0.25)]
-                  "
+                  className="partners-primary-button group inline-flex min-h-[52px] items-center gap-5 px-7 text-[9px] font-medium uppercase tracking-[0.2em] text-white"
                 >
                   Explore partnerships
                   <Arrow />
@@ -198,65 +189,56 @@ export default function PartnersPage() {
 
                 <a
                   href="#contact"
-                  className="
-                    inline-flex
-                    min-h-[48px]
-                    items-center
-                    border
-                    border-white/[0.14]
-                    bg-white/[0.025]
-                    px-7
-                    text-[9px]
-                    font-medium
-                    uppercase
-                    tracking-[0.18em]
-                    text-white/75
-                    transition-all
-                    duration-500
-                    hover:border-[#1683FF]/50
-                    hover:bg-white/[0.05]
-                    hover:text-white
-                  "
+                  className="partners-secondary-button inline-flex min-h-[52px] items-center border border-white/[0.12] px-7 text-[9px] font-medium uppercase tracking-[0.2em] text-white/65"
                 >
                   Start a conversation
                 </a>
               </div>
             </div>
 
-            {/* Graphic */}
+            {/* Hero visual */}
+            <div className="partners-hero-visual relative min-h-[440px] lg:min-h-[650px]">
+              <div className="absolute left-1/2 top-1/2 h-[380px] w-[380px] -translate-x-1/2 -translate-y-1/2 rounded-full border border-[#65b2ff]/10 lg:h-[570px] lg:w-[570px]" />
 
-            <div className="relative lg:col-span-7">
-              <div className="relative mx-auto aspect-[3/2] w-full max-w-[850px]">
-                <div className="absolute inset-0 rounded-full bg-[#0066FF]/[0.04] blur-[80px]" />
+              <div className="absolute left-1/2 top-1/2 h-[290px] w-[290px] -translate-x-1/2 -translate-y-1/2 rounded-full border border-[#65b2ff]/10 lg:h-[430px] lg:w-[430px]" />
 
+              <div className="absolute left-1/2 top-1/2 h-[180px] w-[180px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#1574ff]/10 blur-[70px]" />
+
+              <div className="absolute left-[12%] top-[18%] h-1 w-1 rounded-full bg-[#a8ddff] shadow-[0_0_18px_5px_rgba(110,190,255,0.5)]" />
+
+              <div className="absolute right-[15%] top-[35%] h-1 w-1 rounded-full bg-[#a8ddff] shadow-[0_0_18px_5px_rgba(110,190,255,0.5)]" />
+
+              <div className="absolute bottom-[18%] left-[30%] h-1 w-1 rounded-full bg-[#a8ddff] shadow-[0_0_18px_5px_rgba(110,190,255,0.5)]" />
+
+              <div className="relative mx-auto aspect-[3/2] w-full max-w-[900px] pt-10">
                 <Image
                   src="/images/sections/build-ecosystem.png"
                   alt="DRIPLABS partnership ecosystem"
                   fill
                   priority
                   sizes="(max-width: 1024px) 100vw, 60vw"
-                  className="
-                    object-contain
-                    object-center
-                    drop-shadow-[0_30px_80px_rgba(0,102,255,0.16)]
-                  "
+                  className="object-contain object-center drop-shadow-[0_40px_100px_rgba(0,105,255,0.2)]"
                 />
 
-                <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_35%,#020812_100%)] opacity-50" />
+                <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_25%,#03070d_95%)] opacity-50" />
+              </div>
+
+              <div className="absolute bottom-8 left-1/2 flex -translate-x-1/2 items-center gap-4 whitespace-nowrap text-[8px] uppercase tracking-[0.3em] text-white/25">
+                <span className="h-px w-10 bg-white/10" />
+                Partnership ecosystem
+                <span className="h-px w-10 bg-white/10" />
               </div>
             </div>
           </div>
         </div>
 
-        {/* Bottom technical line */}
-
         <div className="absolute bottom-0 left-0 right-0 border-t border-white/[0.07]">
-          <div className="mx-auto flex max-w-[1600px] items-center justify-between px-5 py-4 sm:px-8 lg:px-12">
-            <span className="font-mono text-[8px] tracking-[0.2em] text-white/25">
+          <div className="mx-auto flex max-w-[1700px] items-center justify-between px-5 py-4 sm:px-8 lg:px-14">
+            <span className="font-mono text-[8px] tracking-[0.22em] text-white/20">
               DRIPLABS / PARTNERSHIP SYSTEM
             </span>
 
-            <span className="font-mono text-[8px] tracking-[0.2em] text-white/25">
+            <span className="font-mono text-[8px] tracking-[0.22em] text-white/20">
               01 — 04
             </span>
           </div>
@@ -268,29 +250,27 @@ export default function PartnersPage() {
       ========================================================= */}
 
       <section className="relative border-t border-white/[0.07]">
-        <div className="mx-auto max-w-[1600px] px-5 py-20 sm:px-8 sm:py-24 lg:px-12 lg:py-28">
-          <div className="grid gap-12 lg:grid-cols-12 lg:gap-10">
-            <div className="lg:col-span-4">
-              <p className="text-[9px] font-medium uppercase tracking-[0.26em] text-[#4D9BFF]">
-                A connected ecosystem
-              </p>
+        <div className="mx-auto max-w-[1700px] px-5 py-24 sm:px-8 lg:px-14 lg:py-32">
+          <div className="grid gap-14 lg:grid-cols-[0.8fr_1.2fr] lg:gap-24">
+            <div>
+              <SectionLabel>A connected ecosystem</SectionLabel>
 
-              <h2 className="mt-5 max-w-[500px] font-serif text-[clamp(38px,5vw,66px)] leading-[0.92] tracking-[-0.05em]">
+              <h2 className="mt-6 max-w-[560px] font-serif text-[clamp(42px,5.5vw,78px)] leading-[0.88] tracking-[-0.055em]">
                 More than a treatment.
-                <span className="block text-white/35">
+                <span className="block text-white/25">
                   A standard.
                 </span>
               </h2>
             </div>
 
-            <div className="lg:col-span-7 lg:col-start-6">
-              <p className="max-w-[720px] text-[17px] leading-8 text-white/60">
+            <div className="lg:pt-12">
+              <p className="max-w-[740px] text-[18px] leading-8 text-white/58">
                 DRIPLABS is built as an ecosystem rather than a single
                 destination. The experience depends on the people, spaces and
                 partners behind it.
               </p>
 
-              <p className="mt-6 max-w-[720px] text-[13px] leading-7 text-white/35">
+              <p className="mt-7 max-w-[680px] text-[13px] leading-7 text-white/32">
                 Our partnership model is designed to bring together clinical
                 expertise, operational discipline and a premium wellness
                 experience while preserving the character of each partner.
@@ -308,70 +288,53 @@ export default function PartnersPage() {
         id="pathways"
         className="relative border-t border-white/[0.07]"
       >
-        <div className="mx-auto max-w-[1600px] px-5 py-20 sm:px-8 sm:py-24 lg:px-12 lg:py-28">
-          <div className="mb-12 flex flex-col justify-between gap-5 md:flex-row md:items-end">
+        <div className="mx-auto max-w-[1700px] px-5 py-24 sm:px-8 lg:px-14 lg:py-32">
+          <div className="mb-14 flex flex-col justify-between gap-8 lg:flex-row lg:items-end">
             <div>
-              <p className="text-[9px] font-medium uppercase tracking-[0.26em] text-[#4D9BFF]">
-                Partnership pathways
-              </p>
+              <SectionLabel>Partnership pathways</SectionLabel>
 
-              <h2 className="mt-4 font-serif text-[clamp(38px,5vw,68px)] leading-none tracking-[-0.05em]">
+              <h2 className="mt-6 max-w-[900px] font-serif text-[clamp(44px,6vw,82px)] leading-[0.87] tracking-[-0.06em]">
                 Find your place
-                <span className="text-white/35"> in the ecosystem.</span>
+                <span className="text-white/25"> in the ecosystem.</span>
               </h2>
             </div>
 
-            <p className="max-w-[360px] text-[12px] leading-6 text-white/35">
+            <p className="max-w-[340px] text-[12px] leading-6 text-white/30">
               Three distinct pathways. One considered approach to building the
               DRIPLABS standard.
             </p>
           </div>
 
-          <div className="grid gap-4 lg:grid-cols-3">
+          <div className="grid gap-3 lg:grid-cols-3">
             {pathways.map((item) => (
               <a
                 key={item.number}
                 href={item.href}
-                className="
-                  group
-                  relative
-                  min-h-[470px]
-                  overflow-hidden
-                  border
-                  border-white/[0.09]
-                  bg-[linear-gradient(145deg,rgba(8,32,58,0.72),rgba(2,8,18,0.96))]
-                  p-7
-                  transition-all
-                  duration-700
-                  hover:-translate-y-1
-                  hover:border-[#1683FF]/45
-                  hover:shadow-[0_30px_80px_rgba(0,102,255,0.12)]
-                  md:p-9
-                "
+                className="partners-pathway group relative min-h-[520px] overflow-hidden border border-white/[0.09] bg-[#07111d] p-7 md:p-9"
               >
-                <div className="absolute inset-0 bg-[radial-gradient(circle_at_90%_10%,rgba(0,102,255,0.13),transparent_30%)] opacity-0 transition-opacity duration-700 group-hover:opacity-100" />
+                <div className="partners-card-glow absolute inset-0 opacity-0 transition-opacity duration-700 group-hover:opacity-100" />
 
                 <div className="relative flex h-full flex-col">
                   <div className="flex items-center justify-between">
-                    <span className="font-mono text-[9px] tracking-[0.2em] text-[#4D9BFF]">
+                    <span className="font-mono text-[9px] tracking-[0.2em] text-[#72b8ff]">
                       {item.number}
                     </span>
 
-                    <span className="text-white/25 transition-all duration-500 group-hover:translate-x-1 group-hover:text-[#8CCBFF]">
+                    <span className="text-lg text-white/20 transition-all duration-500 group-hover:-translate-y-1 group-hover:translate-x-1 group-hover:text-[#9bd3ff]">
                       ↗
                     </span>
                   </div>
 
                   <div className="mt-auto">
-                    <p className="text-[9px] font-medium uppercase tracking-[0.22em] text-white/35">
+                    <p className="text-[9px] font-medium uppercase tracking-[0.25em] text-white/32">
                       {item.eyebrow}
                     </p>
 
-                    <h3 className="mt-4 font-serif text-[38px] leading-[0.95] tracking-[-0.04em]">
+                    <h3 className="mt-4 max-w-[420px] font-serif text-[clamp(36px,4vw,54px)] leading-[0.88] tracking-[-0.045em]">
                       {item.title}
                     </h3>
 
-                    <p className="mt-6 max-w-[420px] text-[13px] leading-7 text-white/45">
+                    <p className="mt-6 max-w-[430px] text-[13px] leading-7 text-white/40">
                       {item.description}
                     </p>
 
@@ -380,16 +343,16 @@ export default function PartnersPage() {
                         {item.points.map((point) => (
                           <li
                             key={point}
-                            className="flex items-center gap-3 text-[10px] uppercase tracking-[0.12em] text-white/45"
+                            className="flex items-center gap-3 text-[9px] uppercase tracking-[0.13em] text-white/42"
                           >
-                            <span className="h-1 w-1 rounded-full bg-[#1683FF]" />
+                            <span className="h-1 w-1 rounded-full bg-[#5da8ff]" />
                             {point}
                           </li>
                         ))}
                       </ul>
                     </div>
 
-                    <div className="mt-8 flex items-center gap-3 text-[9px] font-medium uppercase tracking-[0.18em] text-[#8CCBFF]">
+                    <div className="mt-8 flex items-center gap-3 text-[9px] font-medium uppercase tracking-[0.2em] text-[#91cbff]">
                       Explore pathway
                       <Arrow />
                     </div>
@@ -409,63 +372,55 @@ export default function PartnersPage() {
         id="physicians"
         className="relative overflow-hidden border-t border-white/[0.07]"
       >
-        <div className="absolute right-0 top-0 h-[500px] w-[500px] rounded-full bg-[#0066FF]/[0.035] blur-[100px]" />
+        <div className="partners-section-light absolute right-[-10%] top-[-10%]" />
 
-        <div className="relative mx-auto max-w-[1600px] px-5 py-20 sm:px-8 sm:py-24 lg:px-12 lg:py-28">
-          <div className="grid items-center gap-12 lg:grid-cols-12 lg:gap-16">
-            <div className="lg:col-span-6">
-              <div className="flex items-center gap-3">
-                <span className="font-mono text-[9px] text-[#4D9BFF]">
-                  01
-                </span>
+        <div className="relative mx-auto max-w-[1700px] px-5 py-24 sm:px-8 lg:px-14 lg:py-32">
+          <div className="grid items-center gap-16 lg:grid-cols-[1fr_0.72fr] lg:gap-24">
+            <div>
+              <SectionLabel number="01">Physicians</SectionLabel>
 
-                <span className="h-px w-10 bg-[#1683FF]/50" />
-
-                <span className="text-[9px] uppercase tracking-[0.22em] text-white/35">
-                  Physicians
-                </span>
-              </div>
-
-              <h2 className="mt-6 max-w-[650px] font-serif text-[clamp(44px,5vw,72px)] leading-[0.92] tracking-[-0.05em]">
+              <h2 className="mt-7 max-w-[800px] font-serif text-[clamp(48px,6vw,88px)] leading-[0.85] tracking-[-0.06em]">
                 Extend your
-                <span className="block text-[#8CCBFF]">
+                <span className="block partners-gradient-text">
                   practice.
                 </span>
               </h2>
 
-              <p className="mt-7 max-w-[580px] text-[14px] leading-7 text-white/45">
+              <p className="mt-8 max-w-[600px] text-[15px] leading-8 text-white/42">
                 Create a more considered wellness offering around your existing
                 clinical practice, supported by the DRIPLABS framework.
               </p>
             </div>
 
-            <div className="lg:col-span-5 lg:col-start-8">
-              <div className="border border-white/[0.09] bg-[#06152B]/45 p-7 md:p-9">
-                <p className="text-[9px] uppercase tracking-[0.22em] text-[#4D9BFF]">
-                  The physician layer
-                </p>
+            <div className="partners-premium-panel p-7 md:p-10">
+              <p className="text-[9px] uppercase tracking-[0.25em] text-[#72b8ff]">
+                The physician layer
+              </p>
 
-                <div className="mt-7 space-y-5">
-                  {[
-                    "Clinical oversight",
-                    "Protocol framework",
-                    "Patient experience",
-                    "Operational structure",
-                  ].map((item, index) => (
-                    <div
-                      key={item}
-                      className="flex items-center gap-4 border-b border-white/[0.07] pb-5 last:border-0 last:pb-0"
-                    >
-                      <span className="font-mono text-[8px] text-white/25">
-                        0{index + 1}
-                      </span>
+              <div className="mt-8 space-y-0">
+                {[
+                  "Clinical oversight",
+                  "Protocol framework",
+                  "Patient experience",
+                  "Operational structure",
+                ].map((item, index) => (
+                  <div
+                    key={item}
+                    className="group flex items-center gap-5 border-b border-white/[0.08] py-5 last:border-0"
+                  >
+                    <span className="font-mono text-[8px] text-white/20">
+                      0{index + 1}
+                    </span>
 
-                      <span className="text-[12px] text-white/65">
-                        {item}
-                      </span>
-                    </div>
-                  ))}
-                </div>
+                    <span className="text-[12px] uppercase tracking-[0.1em] text-white/60 transition-colors duration-300 group-hover:text-white">
+                      {item}
+                    </span>
+
+                    <span className="ml-auto text-white/15 transition-all duration-300 group-hover:translate-x-1 group-hover:text-[#72b8ff]">
+                      →
+                    </span>
+                  </div>
+                ))}
               </div>
             </div>
           </div>
@@ -478,15 +433,15 @@ export default function PartnersPage() {
 
       <section
         id="clinics"
-        className="relative overflow-hidden border-t border-white/[0.07] bg-[#06152B]/25"
+        className="relative overflow-hidden border-t border-white/[0.07] bg-[#06101a]"
       >
-        <div className="absolute left-1/2 top-1/2 h-[500px] w-[700px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#0066FF]/[0.035] blur-[110px]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_50%,rgba(30,125,255,0.07),transparent_38%)]" />
 
-        <div className="relative mx-auto max-w-[1600px] px-5 py-20 sm:px-8 sm:py-24 lg:px-12 lg:py-28">
-          <div className="grid items-center gap-12 lg:grid-cols-12 lg:gap-16">
-            <div className="order-2 lg:order-1 lg:col-span-5">
-              <div className="border border-white/[0.09] bg-[#020812]/70 p-7 md:p-9">
-                <div className="grid grid-cols-2 gap-px overflow-hidden border border-white/[0.06] bg-white/[0.06]">
+        <div className="relative mx-auto max-w-[1700px] px-5 py-24 sm:px-8 lg:px-14 lg:py-32">
+          <div className="grid items-center gap-16 lg:grid-cols-[0.72fr_1fr] lg:gap-24">
+            <div className="order-2 lg:order-1">
+              <div className="partners-premium-panel p-7 md:p-10">
+                <div className="grid grid-cols-2 gap-px overflow-hidden border border-white/[0.07] bg-white/[0.07]">
                   {[
                     ["01", "Experience"],
                     ["02", "Operations"],
@@ -495,13 +450,13 @@ export default function PartnersPage() {
                   ].map(([number, title]) => (
                     <div
                       key={number}
-                      className="bg-[#020812] p-6 transition-colors duration-500 hover:bg-[#06152B]"
+                      className="group min-h-[150px] bg-[#040a11] p-6 transition-colors duration-500 hover:bg-[#0a1a2b]"
                     >
-                      <span className="font-mono text-[8px] text-[#4D9BFF]">
+                      <span className="font-mono text-[8px] text-[#72b8ff]">
                         {number}
                       </span>
 
-                      <p className="mt-6 text-[11px] uppercase tracking-[0.14em] text-white/55">
+                      <p className="mt-12 text-[10px] uppercase tracking-[0.15em] text-white/45 transition-colors group-hover:text-white">
                         {title}
                       </p>
                     </div>
@@ -510,27 +465,17 @@ export default function PartnersPage() {
               </div>
             </div>
 
-            <div className="order-1 lg:order-2 lg:col-span-6 lg:col-start-7">
-              <div className="flex items-center gap-3">
-                <span className="font-mono text-[9px] text-[#4D9BFF]">
-                  02
-                </span>
+            <div className="order-1 lg:order-2">
+              <SectionLabel number="02">Clinics</SectionLabel>
 
-                <span className="h-px w-10 bg-[#1683FF]/50" />
-
-                <span className="text-[9px] uppercase tracking-[0.22em] text-white/35">
-                  Clinics
-                </span>
-              </div>
-
-              <h2 className="mt-6 max-w-[700px] font-serif text-[clamp(44px,5vw,72px)] leading-[0.92] tracking-[-0.05em]">
+              <h2 className="mt-7 max-w-[850px] font-serif text-[clamp(48px,6vw,88px)] leading-[0.85] tracking-[-0.06em]">
                 Elevate your
-                <span className="block text-[#8CCBFF]">
+                <span className="block partners-gradient-text">
                   offering.
                 </span>
               </h2>
 
-              <p className="mt-7 max-w-[580px] text-[14px] leading-7 text-white/45">
+              <p className="mt-8 max-w-[600px] text-[15px] leading-8 text-white/42">
                 Introduce a premium wellness experience into your clinic with a
                 framework designed to connect protocols, people, environment
                 and service.
@@ -548,37 +493,35 @@ export default function PartnersPage() {
         id="strategic-partners"
         className="relative overflow-hidden border-t border-white/[0.07]"
       >
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_30%,rgba(0,102,255,0.08),transparent_42%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_25%,rgba(30,130,255,0.1),transparent_45%)]" />
 
-        <div className="relative mx-auto max-w-[1600px] px-5 py-20 sm:px-8 sm:py-24 lg:px-12 lg:py-28">
-          <div className="mx-auto max-w-[900px] text-center">
+        <div className="relative mx-auto max-w-[1700px] px-5 py-28 sm:px-8 lg:px-14 lg:py-36">
+          <div className="mx-auto max-w-[1000px] text-center">
             <div className="flex items-center justify-center gap-3">
-              <span className="font-mono text-[9px] text-[#4D9BFF]">
+              <span className="font-mono text-[9px] text-[#72b8ff]">
                 03
               </span>
 
-              <span className="h-px w-10 bg-[#1683FF]/50" />
+              <span className="h-px w-8 bg-[#5da8ff]/50" />
 
-              <span className="text-[9px] uppercase tracking-[0.22em] text-white/35">
+              <span className="text-[9px] uppercase tracking-[0.28em] text-white/35">
                 Strategic Partners
               </span>
             </div>
 
-            <h2 className="mt-7 font-serif text-[clamp(46px,6vw,82px)] leading-[0.9] tracking-[-0.055em]">
+            <h2 className="mt-8 font-serif text-[clamp(52px,7vw,104px)] leading-[0.82] tracking-[-0.065em]">
               Build what&apos;s
-              <span className="block text-[#8CCBFF]">
-                next.
-              </span>
+              <span className="block partners-gradient-text">next.</span>
             </h2>
 
-            <p className="mx-auto mt-7 max-w-[650px] text-[14px] leading-7 text-white/45">
+            <p className="mx-auto mt-8 max-w-[680px] text-[14px] leading-7 text-white/40">
               We collaborate with organisations that bring complementary
               capabilities, expertise, infrastructure or opportunities to the
               DRIPLABS ecosystem.
             </p>
           </div>
 
-          <div className="mx-auto mt-14 grid max-w-[1100px] gap-px border border-white/[0.08] bg-white/[0.08] sm:grid-cols-3">
+          <div className="mx-auto mt-16 grid max-w-[1200px] gap-px border border-white/[0.08] bg-white/[0.08] md:grid-cols-3">
             {[
               {
                 title: "Capability",
@@ -595,21 +538,21 @@ export default function PartnersPage() {
             ].map((item, index) => (
               <div
                 key={item.title}
-                className="group bg-[#020812] p-7 transition-colors duration-500 hover:bg-[#06152B] md:p-9"
+                className="partners-strategy-card group bg-[#040a11] p-8 md:p-10"
               >
-                <span className="font-mono text-[8px] text-[#4D9BFF]">
+                <span className="font-mono text-[8px] text-[#72b8ff]">
                   0{index + 1}
                 </span>
 
-                <h3 className="mt-8 font-serif text-[30px] tracking-[-0.03em]">
+                <h3 className="mt-12 font-serif text-[34px] tracking-[-0.04em]">
                   {item.title}
                 </h3>
 
-                <p className="mt-4 text-[12px] leading-6 text-white/35">
+                <p className="mt-5 text-[12px] leading-6 text-white/32">
                   {item.text}
                 </p>
 
-                <div className="mt-8 h-px w-8 bg-[#1683FF]/60 transition-all duration-500 group-hover:w-full" />
+                <div className="mt-10 h-px w-8 bg-[#5da8ff] transition-all duration-700 group-hover:w-full" />
               </div>
             ))}
           </div>
@@ -621,57 +564,43 @@ export default function PartnersPage() {
       ========================================================= */}
 
       <section className="relative border-t border-white/[0.07]">
-        <div className="mx-auto max-w-[1600px] px-5 py-20 sm:px-8 sm:py-24 lg:px-12 lg:py-28">
-          <div className="grid gap-12 lg:grid-cols-12 lg:gap-16">
-            <div className="lg:col-span-4">
-              <p className="text-[9px] font-medium uppercase tracking-[0.26em] text-[#4D9BFF]">
-                Partnership standards
-              </p>
+        <div className="mx-auto max-w-[1700px] px-5 py-24 sm:px-8 lg:px-14 lg:py-32">
+          <div className="grid gap-16 lg:grid-cols-[0.75fr_1.25fr] lg:gap-24">
+            <div>
+              <SectionLabel>Partnership standards</SectionLabel>
 
-              <h2 className="mt-5 font-serif text-[clamp(40px,5vw,68px)] leading-[0.92] tracking-[-0.05em]">
+              <h2 className="mt-6 font-serif text-[clamp(44px,5.5vw,78px)] leading-[0.86] tracking-[-0.06em]">
                 The standard
-                <span className="block text-white/35">
+                <span className="block text-white/25">
                   stays consistent.
                 </span>
               </h2>
 
-              <p className="mt-7 max-w-[440px] text-[13px] leading-7 text-white/35">
+              <p className="mt-8 max-w-[440px] text-[13px] leading-7 text-white/32">
                 The partnership can evolve. The underlying principles remain
                 considered, structured and experience-led.
               </p>
             </div>
 
-            <div className="lg:col-span-7 lg:col-start-6">
-              <div className="divide-y divide-white/[0.08] border-y border-white/[0.08]">
-                {standards.map((item) => (
-                  <div
-                    key={item.number}
-                    className="
-                      group
-                      grid
-                      gap-5
-                      py-7
-                      transition-colors
-                      duration-500
-                      hover:bg-white/[0.015]
-                      md:grid-cols-[70px_220px_1fr]
-                      md:items-center
-                    "
-                  >
-                    <span className="font-mono text-[9px] text-[#4D9BFF]">
-                      {item.number}
-                    </span>
+            <div className="border-y border-white/[0.08]">
+              {standards.map((item) => (
+                <div
+                  key={item.number}
+                  className="group grid gap-5 border-b border-white/[0.08] py-7 last:border-0 md:grid-cols-[70px_220px_1fr] md:items-center"
+                >
+                  <span className="font-mono text-[9px] text-[#72b8ff]">
+                    {item.number}
+                  </span>
 
-                    <h3 className="font-serif text-[25px] tracking-[-0.02em]">
-                      {item.title}
-                    </h3>
+                  <h3 className="font-serif text-[28px] tracking-[-0.03em] transition-transform duration-500 group-hover:translate-x-2">
+                    {item.title}
+                  </h3>
 
-                    <p className="text-[12px] leading-6 text-white/35">
-                      {item.description}
-                    </p>
-                  </div>
-                ))}
-              </div>
+                  <p className="max-w-[500px] text-[12px] leading-6 text-white/32">
+                    {item.description}
+                  </p>
+                </div>
+              ))}
             </div>
           </div>
         </div>
@@ -681,54 +610,44 @@ export default function PartnersPage() {
           PROCESS
       ========================================================= */}
 
-      <section className="relative overflow-hidden border-t border-white/[0.07] bg-[#06152B]/25">
-        <div className="mx-auto max-w-[1600px] px-5 py-20 sm:px-8 sm:py-24 lg:px-12 lg:py-28">
-          <div className="mx-auto max-w-[800px] text-center">
-            <p className="text-[9px] font-medium uppercase tracking-[0.26em] text-[#4D9BFF]">
-              The process
-            </p>
+      <section className="relative overflow-hidden border-t border-white/[0.07] bg-[#06101a]">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_20%,rgba(30,125,255,0.06),transparent_45%)]" />
 
-            <h2 className="mt-5 font-serif text-[clamp(40px,5vw,68px)] leading-[0.92] tracking-[-0.05em]">
+        <div className="relative mx-auto max-w-[1700px] px-5 py-24 sm:px-8 lg:px-14 lg:py-32">
+          <div className="mx-auto max-w-[850px] text-center">
+            <SectionLabel>The process</SectionLabel>
+
+            <h2 className="mt-6 font-serif text-[clamp(44px,5.5vw,78px)] leading-[0.86] tracking-[-0.06em]">
               From conversation
-              <span className="block text-white/35">
+              <span className="block text-white/25">
                 to collaboration.
               </span>
             </h2>
           </div>
 
-          <div className="mx-auto mt-14 grid max-w-[1200px] gap-4 md:grid-cols-2 lg:grid-cols-4">
+          <div className="relative mx-auto mt-16 grid max-w-[1250px] gap-3 md:grid-cols-2 lg:grid-cols-4">
+            <div className="absolute left-[12.5%] right-[12.5%] top-[35px] hidden h-px bg-gradient-to-r from-transparent via-[#5da8ff]/30 to-transparent lg:block" />
+
             {process.map((item) => (
               <div
                 key={item.number}
-                className="
-                  group
-                  border
-                  border-white/[0.08]
-                  bg-[#020812]/70
-                  p-6
-                  transition-all
-                  duration-500
-                  hover:-translate-y-1
-                  hover:border-[#1683FF]/35
-                  hover:bg-[#06152B]
-                  md:p-7
-                "
+                className="partners-process-card group relative border border-white/[0.08] bg-[#03080f] p-7 md:p-8"
               >
-                <div className="flex items-center justify-between">
-                  <span className="font-mono text-[8px] text-[#4D9BFF]">
+                <div className="relative z-10 flex items-center justify-between">
+                  <span className="flex h-[28px] w-[28px] items-center justify-center rounded-full border border-[#5da8ff]/30 bg-[#071321] font-mono text-[8px] text-[#72b8ff]">
                     {item.number}
                   </span>
 
-                  <span className="text-white/15 transition-colors duration-500 group-hover:text-[#1683FF]">
+                  <span className="text-white/15 transition-colors duration-500 group-hover:text-[#72b8ff]">
                     +
                   </span>
                 </div>
 
-                <h3 className="mt-10 font-serif text-[27px] leading-none tracking-[-0.025em]">
+                <h3 className="mt-12 font-serif text-[28px] leading-none tracking-[-0.03em]">
                   {item.title}
                 </h3>
 
-                <p className="mt-5 text-[11px] leading-6 text-white/35">
+                <p className="mt-5 text-[11px] leading-6 text-white/32">
                   {item.description}
                 </p>
               </div>
@@ -743,48 +662,31 @@ export default function PartnersPage() {
 
       <section
         id="contact"
-        className="relative overflow-hidden border-t border-white/[0.07]"
+        className="partners-contact relative overflow-hidden border-t border-white/[0.07]"
       >
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(0,102,255,0.12),transparent_48%)]" />
+        <div className="partners-contact-glow absolute left-1/2 top-1/2 h-[600px] w-[600px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#0878ff]/10 blur-[130px]" />
 
-        <div className="relative mx-auto max-w-[1200px] px-5 py-24 text-center sm:px-8 sm:py-28 lg:py-32">
-          <p className="text-[9px] font-medium uppercase tracking-[0.28em] text-[#4D9BFF]">
-            Start a conversation
-          </p>
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_20%,#03070d_78%)]" />
 
-          <h2 className="mx-auto mt-6 max-w-[900px] font-serif text-[clamp(48px,7vw,94px)] leading-[0.88] tracking-[-0.06em]">
+        <div className="relative mx-auto max-w-[1300px] px-5 py-32 text-center sm:px-8 lg:py-44">
+          <SectionLabel>Start a conversation</SectionLabel>
+
+          <h2 className="mx-auto mt-7 max-w-[1100px] font-serif text-[clamp(54px,8vw,112px)] leading-[0.8] tracking-[-0.07em]">
             Let&apos;s build the
-            <span className="block text-[#8CCBFF]">
+            <span className="block partners-gradient-text">
               next chapter.
             </span>
           </h2>
 
-          <p className="mx-auto mt-7 max-w-[570px] text-[13px] leading-7 text-white/40">
+          <p className="mx-auto mt-9 max-w-[600px] text-[13px] leading-7 text-white/38">
             Tell us about your practice, clinic, organisation or partnership
             idea. Our team can explore the right pathway with you.
           </p>
 
-          <div className="mt-9 flex flex-wrap justify-center gap-3">
+          <div className="mt-10 flex flex-wrap justify-center gap-3">
             <a
               href="mailto:hello@thedriplabs.com"
-              className="
-                group
-                inline-flex
-                min-h-[50px]
-                items-center
-                gap-4
-                bg-[#0066FF]
-                px-8
-                text-[9px]
-                font-medium
-                uppercase
-                tracking-[0.18em]
-                text-white
-                transition-all
-                duration-500
-                hover:bg-[#1683FF]
-                hover:shadow-[0_18px_55px_rgba(0,102,255,0.28)]
-              "
+              className="partners-primary-button group inline-flex min-h-[54px] items-center gap-5 px-8 text-[9px] font-medium uppercase tracking-[0.2em] text-white"
             >
               Contact DRIPLABS
               <Arrow />
@@ -792,29 +694,13 @@ export default function PartnersPage() {
 
             <Link
               href="/locations"
-              className="
-                inline-flex
-                min-h-[50px]
-                items-center
-                border
-                border-white/[0.14]
-                px-8
-                text-[9px]
-                font-medium
-                uppercase
-                tracking-[0.18em]
-                text-white/65
-                transition-all
-                duration-500
-                hover:border-[#1683FF]/50
-                hover:text-white
-              "
+              className="partners-secondary-button inline-flex min-h-[54px] items-center border border-white/[0.13] px-8 text-[9px] font-medium uppercase tracking-[0.2em] text-white/60"
             >
               Explore locations
             </Link>
           </div>
 
-          <div className="mx-auto mt-14 flex max-w-[700px] items-center justify-center gap-4 text-[8px] uppercase tracking-[0.2em] text-white/20">
+          <div className="mx-auto mt-16 flex max-w-[800px] items-center gap-4 text-[8px] uppercase tracking-[0.25em] text-white/18">
             <span className="h-px flex-1 bg-white/[0.07]" />
             <span>DRIPLABS PARTNERSHIP SYSTEM</span>
             <span className="h-px flex-1 bg-white/[0.07]" />

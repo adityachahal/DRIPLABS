@@ -37,7 +37,7 @@ export default function NADExperience() {
           loop
           playsInline
           preload="auto"
-          initial={reducedMotion ? { scale: 1 } : { scale: 1.04 }}
+          initial={reducedMotion ? { scale: 1 } : { scale: 1.03 }}
           whileInView={{ scale: 1 }}
           viewport={{ once: true }}
           transition={{
@@ -52,7 +52,7 @@ export default function NADExperience() {
         <div className="absolute inset-0 bg-[#060F1F]/65" />
 
         {/* Stronger lower fade for readability */}
-        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(6,15,31,0.35)_0%,rgba(6,15,31,0.5)_38%,rgba(6,15,31,0.82)_78%,#060F1F_100%)]" />
+        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(6,15,31,0.30)_0%,rgba(6,15,31,0.46)_35%,rgba(6,15,31,0.78)_72%,#060F1F_100%)]" />
 
         {/* Side vignette */}
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_52%_32%,transparent_0%,rgba(6,15,31,0.08)_35%,rgba(6,15,31,0.65)_100%)]" />
@@ -71,7 +71,7 @@ export default function NADExperience() {
       <div className="pointer-events-none absolute inset-0 z-[1] overflow-hidden">
         <svg
           viewBox="0 0 900 900"
-          className="absolute right-[-12%] top-[3%] h-[78vw] max-h-[900px] w-[78vw] max-w-[900px] opacity-[0.10] md:right-[-5%]"
+          className="absolute right-[-12%] top-[2%] h-[70vw] max-h-[820px] w-[70vw] max-w-[820px] opacity-[0.10] md:right-[-5%]"
           aria-hidden="true"
         >
           <defs>
@@ -117,7 +117,8 @@ export default function NADExperience() {
           CONTENT
       ====================================================== */}
 
-      <div className="relative z-10 mx-auto max-w-[1680px] px-5 py-28 md:px-10 md:py-40 lg:px-14">
+      <div className="relative z-10 mx-auto max-w-[1680px] px-5 pb-6 pt-16 sm:px-8 md:px-10 md:pb-8 md:pt-8 lg:px-14">
+
         {/* ====================================================
             TOP LABEL
         ==================================================== */}
@@ -126,17 +127,17 @@ export default function NADExperience() {
           initial={
             reducedMotion
               ? { opacity: 1, y: 0 }
-              : { opacity: 0, y: 18 }
+              : { opacity: 0, y: 14 }
           }
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-10% 0px" }}
           transition={{
-            duration: reducedMotion ? 0.01 : 0.8,
+            duration: reducedMotion ? 0.01 : 0.7,
             ease: [0.22, 1, 0.36, 1],
           }}
           className="flex items-center gap-3"
         >
-          <span className="h-px w-8 bg-[#C9A227]" />
+          <span className="h-px w-7 bg-[#C9A227]" />
 
           <span className="text-[8px] uppercase tracking-[0.28em] text-[#E3CE8E] md:text-[9px]">
             The Flagship · Cellular & Longevity
@@ -147,20 +148,21 @@ export default function NADExperience() {
             NADx HERO COPY
         ==================================================== */}
 
-        <div className="mt-10 max-w-[1100px]">
+        <div className="mt-5 max-w-[900px]">
+
           <motion.h2
             initial={
               reducedMotion
                 ? { opacity: 1, y: 0 }
-                : { opacity: 0, y: 24 }
+                : { opacity: 0, y: 18 }
             }
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-10% 0px" }}
             transition={{
-              duration: reducedMotion ? 0.01 : 1,
+              duration: reducedMotion ? 0.01 : 0.9,
               ease: [0.22, 1, 0.36, 1],
             }}
-            className="font-[var(--font-heading)] text-[clamp(4rem,9.5vw,9rem)] font-light leading-[0.82] tracking-[-0.07em]"
+            className="font-[var(--font-heading)] text-[clamp(3.4rem,6vw,6rem)] font-light leading-[0.88] tracking-[-0.065em]"
           >
             NADx —
             <br />
@@ -173,16 +175,16 @@ export default function NADExperience() {
             initial={
               reducedMotion
                 ? { opacity: 1, y: 0 }
-                : { opacity: 0, y: 18 }
+                : { opacity: 0, y: 14 }
             }
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-10% 0px" }}
             transition={{
-              duration: reducedMotion ? 0.01 : 0.85,
-              delay: reducedMotion ? 0 : 0.12,
+              duration: reducedMotion ? 0.01 : 0.75,
+              delay: reducedMotion ? 0 : 0.1,
               ease: [0.22, 1, 0.36, 1],
             }}
-            className="mt-10 max-w-2xl text-sm leading-7 text-white/65 md:text-base"
+            className="mt-5 max-w-[640px] text-[13px] leading-[1.65] text-white/65 md:text-[14px]"
           >
             India&apos;s first physician-led, pharmacopoeia-documented
             Nicotinamide Adenine Dinucleotide (NAD⁺) IV programme —
@@ -194,20 +196,20 @@ export default function NADExperience() {
             initial={
               reducedMotion
                 ? { opacity: 1, y: 0 }
-                : { opacity: 0, y: 18 }
+                : { opacity: 0, y: 14 }
             }
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-10% 0px" }}
             transition={{
-              duration: reducedMotion ? 0.01 : 0.8,
-              delay: reducedMotion ? 0 : 0.22,
+              duration: reducedMotion ? 0.01 : 0.7,
+              delay: reducedMotion ? 0 : 0.18,
               ease: [0.22, 1, 0.36, 1],
             }}
-            className="mt-9"
+            className="mt-6"
           >
             <a
               href="/nadx"
-              className="group inline-flex items-center gap-5 border-b border-[#C9A227]/60 pb-3 text-[8px] uppercase tracking-[0.24em] text-[#E3CE8E] transition-colors duration-300 hover:text-white md:text-[9px]"
+              className="group inline-flex items-center gap-4 border-b border-[#C9A227]/60 pb-2.5 text-[8px] uppercase tracking-[0.24em] text-[#E3CE8E] transition-colors duration-300 hover:text-white md:text-[9px]"
             >
               Explore NADx
 
@@ -231,10 +233,10 @@ export default function NADExperience() {
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           transition={{
-            duration: reducedMotion ? 0.01 : 1,
-            delay: reducedMotion ? 0 : 0.35,
+            duration: reducedMotion ? 0.01 : 0.8,
+            delay: reducedMotion ? 0 : 0.25,
           }}
-          className="mt-16 flex items-center justify-between border-t border-white/15 pt-4 md:mt-24"
+          className="mt-10 flex items-center justify-between border-t border-white/15 pt-3 md:mt-12"
         >
           <div className="flex items-center gap-3">
             <span className="relative flex h-2 w-2">
@@ -256,7 +258,7 @@ export default function NADExperience() {
             EVIDENCE
         ==================================================== */}
 
-        <div className="mt-14 border-t border-white/10 md:mt-20">
+        <div className="mt-10 border-t border-white/10 md:mt-12">
           <div className="grid md:grid-cols-3">
             {evidence.map((item, index) => (
               <motion.div
@@ -264,22 +266,22 @@ export default function NADExperience() {
                 initial={
                   reducedMotion
                     ? { opacity: 1, y: 0 }
-                    : { opacity: 0, y: 18 }
+                    : { opacity: 0, y: 14 }
                 }
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-8% 0px" }}
                 transition={{
-                  duration: reducedMotion ? 0.01 : 0.8,
+                  duration: reducedMotion ? 0.01 : 0.7,
                   delay: reducedMotion ? 0 : index * 0.08,
                   ease: [0.22, 1, 0.36, 1],
                 }}
-                className="border-b border-white/10 py-8 md:border-r md:px-8 md:py-10 md:last:border-r-0"
+                className="border-b border-white/10 py-6 md:border-r md:px-7 md:py-7 md:last:border-r-0"
               >
-                <div className="font-[var(--font-heading)] text-[clamp(3.3rem,5vw,5.5rem)] font-light leading-none tracking-[-0.06em] text-[#C9A227]">
+                <div className="font-[var(--font-heading)] text-[clamp(2.5rem,4vw,4.4rem)] font-light leading-none tracking-[-0.055em] text-[#C9A227]">
                   {item.value}
                 </div>
 
-                <p className="mt-4 max-w-xs text-[9px] uppercase leading-5 tracking-[0.18em] text-white/45">
+                <p className="mt-3 max-w-xs text-[8px] uppercase leading-5 tracking-[0.18em] text-white/45">
                   {item.label}
                 </p>
               </motion.div>
@@ -291,18 +293,21 @@ export default function NADExperience() {
             SCIENCE SPLIT
         ==================================================== */}
 
-        <div className="mt-24 border-t border-white/10 pt-16 md:mt-36 md:pt-20">
-          <div className="grid gap-12 md:grid-cols-2 md:gap-16">
+        <div className="mt-14 border-t border-white/10 pt-12 md:mt-16 md:pt-14">
+          <div className="grid gap-10 md:grid-cols-2 md:gap-14">
+
+            {/* PATIENT */}
+
             <motion.div
               initial={
                 reducedMotion
                   ? { opacity: 1, y: 0 }
-                  : { opacity: 0, y: 16 }
+                  : { opacity: 0, y: 14 }
               }
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-10% 0px" }}
               transition={{
-                duration: reducedMotion ? 0.01 : 0.8,
+                duration: reducedMotion ? 0.01 : 0.7,
                 ease: [0.22, 1, 0.36, 1],
               }}
             >
@@ -310,28 +315,30 @@ export default function NADExperience() {
                 For the patient
               </p>
 
-              <p className="mt-7 max-w-xl font-[var(--font-heading)] text-[clamp(1.8rem,3vw,3.25rem)] font-light leading-[1.02] tracking-[-0.04em] text-white/90">
+              <p className="mt-5 max-w-xl font-[var(--font-heading)] text-[clamp(1.65rem,2.5vw,2.7rem)] font-light leading-[1.04] tracking-[-0.04em] text-white/90">
                 NAD⁺ is part of the chemistry your cells use for energy and
                 everyday cellular processes.
               </p>
 
-              <p className="mt-7 max-w-xl text-sm leading-7 text-white/48">
+              <p className="mt-5 max-w-xl text-[13px] leading-6 text-white/48">
                 As part of a physician-directed wellness programme, NAD⁺ is
                 approached as metabolic and cellular support rather than a
                 replacement for conventional therapy.
               </p>
             </motion.div>
 
+            {/* PHYSICIAN */}
+
             <motion.div
               initial={
                 reducedMotion
                   ? { opacity: 1, y: 0 }
-                  : { opacity: 0, y: 16 }
+                  : { opacity: 0, y: 14 }
               }
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-10% 0px" }}
               transition={{
-                duration: reducedMotion ? 0.01 : 0.8,
+                duration: reducedMotion ? 0.01 : 0.7,
                 delay: reducedMotion ? 0 : 0.1,
                 ease: [0.22, 1, 0.36, 1],
               }}
@@ -340,17 +347,18 @@ export default function NADExperience() {
                 For the physician
               </p>
 
-              <p className="mt-7 max-w-xl font-[var(--font-heading)] text-[clamp(1.8rem,3vw,3.25rem)] font-light leading-[1.02] tracking-[-0.04em] text-white/90">
+              <p className="mt-5 max-w-xl font-[var(--font-heading)] text-[clamp(1.65rem,2.5vw,2.7rem)] font-light leading-[1.04] tracking-[-0.04em] text-white/90">
                 NAD⁺ participates in pathways involved in cellular energy and
                 DNA-damage response.
               </p>
 
-              <p className="mt-7 max-w-xl text-sm leading-7 text-white/48">
+              <p className="mt-5 max-w-xl text-[13px] leading-6 text-white/48">
                 NAD⁺ functions as a cofactor for Complex I of the electron
                 transport chain and as a substrate for sirtuins and PARP
                 enzymes.
               </p>
             </motion.div>
+
           </div>
         </div>
 
@@ -362,27 +370,28 @@ export default function NADExperience() {
           initial={
             reducedMotion
               ? { opacity: 1, y: 0 }
-              : { opacity: 0, y: 16 }
+              : { opacity: 0, y: 14 }
           }
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-10% 0px" }}
           transition={{
-            duration: reducedMotion ? 0.01 : 0.8,
+            duration: reducedMotion ? 0.01 : 0.7,
             ease: [0.22, 1, 0.36, 1],
           }}
-          className="mt-16 border border-[#C9A227]/20 bg-[#0B1B33]/70 p-6 backdrop-blur-sm md:mt-20 md:p-8"
+          className="mt-10 border border-[#C9A227]/20 bg-[#0B1B33]/70 p-5 backdrop-blur-sm md:mt-12 md:p-7"
         >
           <p className="text-[8px] uppercase tracking-[0.24em] text-[#C9A227]">
             Evidence framing
           </p>
 
-          <p className="mt-4 max-w-4xl text-xs leading-6 text-white/48 md:text-sm md:leading-7">
+          <p className="mt-3 max-w-4xl text-[12px] leading-6 text-white/48 md:text-[13px] md:leading-6">
             NAD⁺ is not yet a universally accepted frontline pharmaceutical
             treatment. Current evidence supports its role as a
             metabolic-support and mitochondrial-optimisation platform —
             adjunct to, not a replacement for, conventional therapy.
           </p>
         </motion.div>
+
       </div>
     </section>
   );

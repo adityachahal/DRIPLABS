@@ -9,7 +9,7 @@ import LocationMarquee from "@/components/sections/LocationMarquee";
 import ProtocolObservatory from "@/components/home/ProtocolObservatory";
 import NADExperience from "@/components/sections/NADExperience";
 import ConsumerExperience from "@/components/sections/ConsumerExperience";
-
+import FAQ from "@/components/sections/FAQ";
 import Testimonials from "@/components/sections/Testimonials";
 import Memberships from "@/components/sections/Memberships";
 import FinalCTA from "@/components/sections/FinalCTA";
@@ -67,8 +67,9 @@ export default function Home() {
 
       {/* 14 — Partnerships */}
       <BuildingPartnership />
+
       
-      
+      <FAQ />
 
       {/* 15 — Final conversion */}
       <FinalCTA />

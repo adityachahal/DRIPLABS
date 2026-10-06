@@ -7,6 +7,7 @@ import {
   useReducedMotion,
 } from "framer-motion";
 import { Manrope } from "next/font/google";
+import Link from "next/link";
 import ProtocolMenu from "./ProtocolMenu";
 
 const manrope = Manrope({
@@ -24,6 +25,7 @@ export default function Hero() {
   >("Functional");
 
   const [protocolMenuOpen, setProtocolMenuOpen] = useState(false);
+  const [exploreOpen, setExploreOpen] = useState(false);
 
   /* =========================================================
      FUNCTIONAL / CELLULAR ROTATION
@@ -189,7 +191,7 @@ export default function Hero() {
             HERO COPY
         ======================================================= */}
 
-        <div className="mt-16 pb-5 md:mt-20 md:pb-7">
+        <div className="mt-14 pb-5 md:mt-20 md:pb-7">
           {/* =====================================================
               EYEBROW
           ===================================================== */}
@@ -201,7 +203,7 @@ export default function Hero() {
             }}
             animate={{
               opacity: 1,
-              y: 0,
+              y: 1,
             }}
             transition={{
               delay: reducedMotion ? 0 : 0.1,
@@ -239,7 +241,7 @@ export default function Hero() {
               className="
                 relative
                 top-[44px]
-                mt-1
+                mt-0
                 whitespace-nowrap
                 text-[8px]
                 font-medium
@@ -297,7 +299,7 @@ export default function Hero() {
   className="
     relative
     top-[40px]
-    mt-6
+    mt-4
     flex
     max-w-[720px]
     flex-col
@@ -422,7 +424,7 @@ export default function Hero() {
   }}
   className="
     relative
-    mt-12
+    mt-8
     max-w-[820px]
     md:mt-14
     lg:mt-16
@@ -462,7 +464,7 @@ export default function Hero() {
 
   <p
     className="
-      mt-3
+      mt-2
       max-w-[760px]
       text-[13px]
       font-normal
@@ -490,7 +492,7 @@ export default function Hero() {
 
   <p
     className="
-      mt-3
+      mt-2
       max-w-[780px]
       text-[12px]
       font-normal
@@ -511,7 +513,7 @@ export default function Hero() {
             BOTTOM AREA
         ======================================================= */}
 
-        <div className="mt-auto grid grid-cols-1 items-end gap-6 pt-4 md:grid-cols-12">
+        <div className="mt-auto grid grid-cols-1 items-end gap-6 pt-0 md:grid-cols-12">
           {/* =====================================================
               BOTTOM LEFT — CTA
           ===================================================== */}
@@ -540,9 +542,11 @@ export default function Hero() {
                 md:translate-y-[8px]
               "
             >
-              {/* Begin your journey */}
-              <motion.a
-                href="#booking"
+              {/* Explore DRIPLABS */}
+              <motion.button
+               type="button"
+                onClick={() => setExploreOpen((prev) => !prev)}
+
                 whileHover={
                   reducedMotion
                     ? undefined
@@ -598,13 +602,684 @@ export default function Hero() {
                 <span className="pointer-events-none absolute inset-x-0 bottom-0 h-1/2 rounded-full bg-gradient-to-t from-[#075F86]/20 to-transparent" />
 
                 <span className="relative z-10 flex items-center gap-3 whitespace-nowrap">
-                  Begin your journey
+                  Explore DRIPLABS
 
                   <span className="text-[15px] transition-transform duration-500 group-hover:translate-x-1">
                     →
                   </span>
                 </span>
-              </motion.a>
+                
+              </motion.button>
+              <AnimatePresence>
+  {exploreOpen && (
+    <motion.div
+      initial={
+        reducedMotion
+          ? undefined
+          : { opacity: 0, y: -8 }
+      }
+      animate={
+        reducedMotion
+          ? undefined
+          : { opacity: 1, y: 0 }
+      }
+      exit={
+        reducedMotion
+          ? undefined
+          : { opacity: 0, y: -6 }
+      }
+      transition={{
+        duration: reducedMotion ? 0.01 : 0.28,
+        ease: [0.16, 1, 0.3, 1],
+      }}
+      className="
+        absolute
+        bottom-[calc(100%+14px)]
+        left-0
+        z-[100]
+        w-[min(92vw,680px)]
+      "
+    >
+      <div
+        className="
+          relative
+          overflow-hidden
+          rounded-[24px]
+          border
+          border-white/[0.13]
+          bg-[#071525]/[0.97]
+          shadow-[0_28px_80px_rgba(0,0,0,0.48)]
+          backdrop-blur-2xl
+        "
+      >
+        {/* =====================================================
+            VERY SUBTLE TOP HIGHLIGHT
+        ===================================================== */}
+
+        <div
+          className="
+            pointer-events-none
+            absolute
+            inset-x-8
+            top-0
+            h-px
+            bg-gradient-to-r
+            from-transparent
+            via-[#28B8C8]/50
+            to-transparent
+          "
+        />
+
+        {/* =====================================================
+            HEADER
+        ===================================================== */}
+
+        <div className="relative px-6 pb-5 pt-6">
+
+          {/* TOP LABEL */}
+
+          <div className="flex items-center gap-2 pr-10">
+            <span className="h-px w-5 bg-[#28B8C8]/80" />
+
+            <span
+              className="
+                text-[10px]
+                font-medium
+                uppercase
+                tracking-[0.28em]
+                text-[#28B8C8]
+              "
+            >
+              Partnership and Collaboration
+            </span>
+          </div>
+
+          {/* CLOSE BUTTON */}
+
+          <button
+            type="button"
+            onClick={() => setExploreOpen(false)}
+            aria-label="Close menu"
+            className="
+              absolute
+              right-5
+              top-5
+              flex
+              h-8
+              w-8
+              items-center
+              justify-center
+              rounded-full
+              border
+              border-white/[0.08]
+              text-[22px]
+              font-light
+              leading-none
+              text-white/45
+              transition-all
+              duration-300
+              hover:border-[#28B8C8]/40
+              hover:bg-[#28B8C8]/[0.08]
+              hover:text-[#28B8C8]
+            "
+          >
+            ×
+          </button>
+
+          {/* MAIN HEADING */}
+
+          <div className="mt-3">
+            <h3
+              className="
+                text-[21px]
+                font-medium
+                leading-[1.1]
+                tracking-[-0.035em]
+                text-[#F5F0E7]
+              "
+            >
+              Explore the ecosystem
+            </h3>
+
+            <p
+              className="
+                mt-3
+                max-w-[440px]
+                text-[10px]
+                leading-[1.6]
+                text-white/40
+              "
+            >
+              Build meaningful relationships across healthcare,
+              wellness, clinical expertise and strategic collaboration.
+            </p>
+          </div>
+        </div>
+
+        {/* =====================================================
+            SECTION 01
+            BECOME DRIPLABS DISTRIBUTOR
+        ===================================================== */}
+
+        <div className="px-6 pb-3 pt-2">
+          <div className="flex items-center gap-2">
+            <span className="h-px w-5 bg-[#28B8C8]/70" />
+
+            <span
+              className="
+                text-[10px]
+                font-medium
+                uppercase
+                tracking-[0.24em]
+                text-[#28B8C8]
+              "
+            >
+              Become DRIPLABS Distributor
+            </span>
+          </div>
+        </div>
+
+        {/* DISTRIBUTOR OPTIONS */}
+
+        <div
+          className="
+            mx-3
+            overflow-hidden
+            rounded-[16px]
+            border
+            border-white/[0.07]
+          "
+        >
+          <div className="grid grid-cols-1 sm:grid-cols-2">
+
+            {/* =================================================
+                01 — FRANCHISE / CHANNEL PARTNER
+            ================================================= */}
+
+            <Link
+              href="/partners"
+              onClick={() => setExploreOpen(false)}
+              className="
+                group
+                relative
+                flex
+                min-h-[92px]
+                items-center
+                justify-between
+                border-b
+                border-white/[0.07]
+                px-5
+                py-4
+                transition-all
+                duration-300
+                hover:bg-white/[0.035]
+                sm:border-r
+              "
+            >
+              <div className="flex items-center gap-4">
+                <span
+                  className="
+                    text-[7px]
+                    tracking-[0.18em]
+                    text-white/20
+                  "
+                >
+                  01
+                </span>
+
+                <div>
+                  <h4
+                    className="
+                      text-[11px]
+                      font-medium
+                      text-white/80
+                      transition-colors
+                      group-hover:text-white
+                    "
+                  >
+                    Franchise / Channel Partner
+                  </h4>
+
+                  <p
+                    className="
+                      mt-1
+                      text-[8px]
+                      text-white/30
+                    "
+                  >
+                    Build and grow with DRIPLABS.
+                  </p>
+                </div>
+              </div>
+
+              <span
+                className="
+                  text-[11px]
+                  text-white/20
+                  transition-all
+                  duration-300
+                  group-hover:translate-x-1
+                  group-hover:text-[#28B8C8]
+                "
+              >
+                →
+              </span>
+            </Link>
+
+            {/* =================================================
+                02 — HEALTHCARE PROFESSIONALS
+            ================================================= */}
+
+            <Link
+              href="/physicians"
+              onClick={() => setExploreOpen(false)}
+              className="
+                group
+                relative
+                flex
+                min-h-[92px]
+                items-center
+                justify-between
+                border-b
+                border-white/[0.07]
+                px-5
+                py-4
+                transition-all
+                duration-300
+                hover:bg-white/[0.035]
+              "
+            >
+              <div className="flex items-center gap-4">
+                <span
+                  className="
+                    text-[7px]
+                    tracking-[0.18em]
+                    text-white/20
+                  "
+                >
+                  02
+                </span>
+
+                <div>
+                  <h4
+                    className="
+                      text-[11px]
+                      font-medium
+                      text-white/80
+                      transition-colors
+                      group-hover:text-white
+                    "
+                  >
+                    Healthcare Professionals
+                  </h4>
+
+                  <p
+                    className="
+                      mt-1
+                      text-[8px]
+                      text-white/30
+                    "
+                  >
+                    Physicians and healthcare specialists.
+                  </p>
+                </div>
+              </div>
+
+              <span
+                className="
+                  text-[11px]
+                  text-white/20
+                  transition-all
+                  duration-300
+                  group-hover:translate-x-1
+                  group-hover:text-[#28B8C8]
+                "
+              >
+                →
+              </span>
+            </Link>
+
+            {/* =================================================
+                03 — CLINICS AND HOSPITALS
+            ================================================= */}
+
+            <Link
+              href="/partners#clinics"
+              onClick={() => setExploreOpen(false)}
+              className="
+                group
+                relative
+                flex
+                min-h-[92px]
+                items-center
+                justify-between
+                border-b
+                border-white/[0.07]
+                px-5
+                py-4
+                transition-all
+                duration-300
+                hover:bg-white/[0.035]
+                sm:border-r
+              "
+            >
+              <div className="flex items-center gap-4">
+                <span
+                  className="
+                    text-[7px]
+                    tracking-[0.18em]
+                    text-white/20
+                  "
+                >
+                  03
+                </span>
+
+                <div>
+                  <h4
+                    className="
+                      text-[11px]
+                      font-medium
+                      text-white/80
+                      transition-colors
+                      group-hover:text-white
+                    "
+                  >
+                    Clinics and Hospitals
+                  </h4>
+
+                  <p
+                    className="
+                      mt-1
+                      text-[8px]
+                      text-white/30
+                    "
+                  >
+                    Introduce DRIPLABS to your environment.
+                  </p>
+                </div>
+              </div>
+
+              <span
+                className="
+                  text-[11px]
+                  text-white/20
+                  transition-all
+                  duration-300
+                  group-hover:translate-x-1
+                  group-hover:text-[#28B8C8]
+                "
+              >
+                →
+              </span>
+            </Link>
+
+            {/* =================================================
+                04 — RESEARCH AND INSTITUTION
+            ================================================= */}
+
+            <Link
+              href="/partners"
+              onClick={() => setExploreOpen(false)}
+              className="
+                group
+                relative
+                flex
+                min-h-[92px]
+                items-center
+                justify-between
+                border-b
+                border-white/[0.07]
+                px-5
+                py-4
+                transition-all
+                duration-300
+                hover:bg-white/[0.035]
+              "
+            >
+              <div className="flex items-center gap-4">
+                <span
+                  className="
+                    text-[7px]
+                    tracking-[0.18em]
+                    text-white/20
+                  "
+                >
+                  04
+                </span>
+
+                <div>
+                  <h4
+                    className="
+                      text-[11px]
+                      font-medium
+                      text-white/80
+                      transition-colors
+                      group-hover:text-white
+                    "
+                  >
+                    Research and Institution
+                  </h4>
+
+                  <p
+                    className="
+                      mt-1
+                      text-[8px]
+                      text-white/30
+                    "
+                  >
+                    Collaborate on the future of wellness.
+                  </p>
+                </div>
+              </div>
+
+              <span
+                className="
+                  text-[11px]
+                  text-white/20
+                  transition-all
+                  duration-300
+                  group-hover:translate-x-1
+                  group-hover:text-[#28B8C8]
+                "
+              >
+                →
+              </span>
+            </Link>
+
+          </div>
+        </div>
+
+        {/* =====================================================
+            SECTION 02
+            CONSUMERS AND CORPORATE WELLNESS
+        ===================================================== */}
+
+        <div className="px-6 pb-3 pt-6">
+          <div className="flex items-center gap-2">
+            <span className="h-px w-5 bg-[#28B8C8]/70" />
+
+            <span
+              className="
+                text-[10px]
+                font-medium
+                uppercase
+                tracking-[0.24em]
+                text-[#28B8C8]
+              "
+            >
+              Consumers and Corporate Wellness
+            </span>
+          </div>
+        </div>
+
+        {/* CONSUMER OPTIONS */}
+
+        <div
+          className="
+            mx-3
+            mb-4
+            overflow-hidden
+            rounded-[16px]
+            border
+            border-white/[0.07]
+          "
+        >
+          <div className="grid grid-cols-1 sm:grid-cols-2">
+
+            {/* =================================================
+                01 — CONSUMERS
+            ================================================= */}
+
+            <Link
+              href="/"
+              onClick={() => setExploreOpen(false)}
+              className="
+                group
+                relative
+                flex
+                min-h-[92px]
+                items-center
+                justify-between
+                border-b
+                border-white/[0.07]
+                px-5
+                py-4
+                transition-all
+                duration-300
+                hover:bg-white/[0.035]
+                sm:border-b-0
+                sm:border-r
+              "
+            >
+              <div className="flex items-center gap-4">
+                <span
+                  className="
+                    text-[7px]
+                    tracking-[0.18em]
+                    text-white/20
+                  "
+                >
+                  01
+                </span>
+
+                <div>
+                  <h4
+                    className="
+                      text-[11px]
+                      font-medium
+                      text-white/80
+                      transition-colors
+                      group-hover:text-white
+                    "
+                  >
+                    Consumers
+                  </h4>
+
+                  <p
+                    className="
+                      mt-1
+                      text-[8px]
+                      text-white/30
+                    "
+                  >
+                    Discover the DRIPLABS experience.
+                  </p>
+                </div>
+              </div>
+
+              <span
+                className="
+                  text-[11px]
+                  text-white/20
+                  transition-all
+                  duration-300
+                  group-hover:translate-x-1
+                  group-hover:text-[#28B8C8]
+                "
+              >
+                →
+              </span>
+            </Link>
+
+            {/* =================================================
+                02 — CORPORATE WELLNESS
+            ================================================= */}
+
+            <Link
+              href="/partners"
+              onClick={() => setExploreOpen(false)}
+              className="
+                group
+                relative
+                flex
+                min-h-[92px]
+                items-center
+                justify-between
+                px-5
+                py-4
+                transition-all
+                duration-300
+                hover:bg-white/[0.035]
+              "
+            >
+              <div className="flex items-center gap-4">
+                <span
+                  className="
+                    text-[7px]
+                    tracking-[0.18em]
+                    text-white/20
+                  "
+                >
+                  02
+                </span>
+
+                <div>
+                  <h4
+                    className="
+                      text-[11px]
+                      font-medium
+                      text-white/80
+                      transition-colors
+                      group-hover:text-white
+                    "
+                  >
+                    Corporate Wellness
+                  </h4>
+
+                  <p
+                    className="
+                      mt-1
+                      text-[8px]
+                      text-white/30
+                    "
+                  >
+                    Wellness solutions for organisations and teams.
+                  </p>
+                </div>
+              </div>
+
+              <span
+                className="
+                  text-[11px]
+                  text-white/20
+                  transition-all
+                  duration-300
+                  group-hover:translate-x-1
+                  group-hover:text-[#28B8C8]
+                "
+              >
+                →
+              </span>
+            </Link>
+
+          </div>
+        </div>
+
+      </div>
+    </motion.div>
+  )}
+</AnimatePresence>
+
 
               {/* Explore protocols */}
               <motion.button

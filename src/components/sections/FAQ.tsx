@@ -1,10 +1,6 @@
 ﻿"use client";
 
-import {
-  AnimatePresence,
-  motion,
-  useReducedMotion,
-} from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
 
 const faqs = [
@@ -40,367 +36,568 @@ const faqs = [
   },
 ];
 
-const easeLuxury = [0.22, 1, 0.36, 1] as const;
-
 export default function FAQ() {
-  const reducedMotion = useReducedMotion();
-  const [openIndex, setOpenIndex] = useState<number | null>(
-    null,
-  );
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
+
+  const toggle = (index: number) => {
+    setOpenIndex((current) => (current === index ? null : index));
+  };
 
   return (
     <section
       id="faq"
-      className="relative overflow-hidden bg-[#0A0A0B] text-[#F2F0EA]"
+      className="relative overflow-hidden bg-[#030507] text-white"
     >
       {/* =========================================================
-          AMBIENT BACKGROUND
+          ELECTRIC BLUE ATMOSPHERE
       ========================================================= */}
 
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-0"
-      >
-        <div className="absolute right-[-10%] top-[5%] h-[600px] w-[600px] rounded-full bg-[#C9A646]/[0.035] blur-[150px]" />
-
-        <div className="absolute bottom-[-20%] left-[-15%] h-[500px] w-[500px] rounded-full bg-[#AFC7C2]/[0.025] blur-[140px]" />
-
+      <div className="pointer-events-none absolute inset-0">
+        {/* Main electric-blue glow */}
         <div
-          className="absolute inset-0 opacity-[0.025]"
-          style={{
-            backgroundImage:
-              "linear-gradient(rgba(255,255,255,0.45) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.45) 1px, transparent 1px)",
-            backgroundSize: "100px 100px",
-          }}
+          className="
+            absolute
+            left-[58%]
+            top-[22%]
+            h-[650px]
+            w-[650px]
+            -translate-x-1/2
+            rounded-full
+            bg-[#0066FF]/[0.055]
+            blur-[150px]
+          "
         />
 
+        {/* Secondary glow */}
         <div
-          className="absolute inset-0 opacity-[0.025]"
-          style={{
-            backgroundImage:
-              "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='.7'/%3E%3C/svg%3E\")",
-          }}
+          className="
+            absolute
+            right-[-250px]
+            top-[55%]
+            h-[500px]
+            w-[500px]
+            rounded-full
+            bg-[#00A8FF]/[0.035]
+            blur-[140px]
+          "
+        />
+
+        {/* Very subtle technical grid */}
+        <div
+          className="
+            absolute
+            inset-0
+            opacity-[0.018]
+            [background-image:linear-gradient(rgba(0,102,255,0.5)_1px,transparent_1px),linear-gradient(90deg,rgba(0,102,255,0.5)_1px,transparent_1px)]
+            [background-size:90px_90px]
+          "
+        />
+
+        {/* Vignette */}
+        <div
+          className="
+            absolute
+            inset-0
+            bg-[radial-gradient(circle_at_55%_30%,transparent_0%,rgba(3,5,7,0.25)_45%,rgba(3,5,7,0.9)_100%)]
+          "
         />
       </div>
 
-      <div className="relative mx-auto max-w-[1400px] px-6 py-28 md:px-10 md:py-36 lg:px-14 lg:py-44">
+      {/* =========================================================
+          MAIN CONTAINER
+      ========================================================= */}
+
+      <div className="relative z-10 mx-auto max-w-[1380px] px-6 py-24 md:px-10 md:py-28 lg:px-0 lg:py-3">
         {/* =======================================================
-            HEADER
+            TOP HEADER
         ======================================================= */}
 
-        <div className="grid gap-14 lg:grid-cols-12 lg:gap-10">
-          <motion.div
-            initial={
-              reducedMotion
-                ? { opacity: 1, y: 0 }
-                : { opacity: 0, y: 24 }
-            }
-            whileInView={{
-              opacity: 1,
-              y: 0,
-            }}
-            viewport={{
-              once: true,
-              margin: "-10% 0px",
-            }}
-            transition={{
-              duration: reducedMotion ? 0.01 : 0.9,
-              ease: easeLuxury,
-            }}
-            className="lg:col-span-3"
-          >
-            <div className="flex items-center gap-3">
-              <span className="h-[5px] w-[5px] rounded-full bg-[#C9A646] shadow-[0_0_14px_rgba(201,166,70,0.65)]" />
-
-              <p className="text-[8px] uppercase tracking-[0.28em] text-white/40 md:text-[9px]">
-                Frequently asked
-              </p>
-            </div>
-
-            <div className="mt-7 h-px w-16 bg-gradient-to-r from-[#C9A646] to-transparent" />
-
-            <p className="mt-7 max-w-[220px] text-xs leading-6 text-white/35">
-              Straight answers for the questions people ask
-              before beginning their DRIPLABS journey.
-            </p>
-
-            <div className="mt-12 hidden items-center gap-3 lg:flex">
-              <span className="font-mono text-[8px] tracking-[0.18em] text-white/20">
-                DRIPLABS / KNOWLEDGE
-              </span>
-
-              <span className="h-px w-8 bg-white/10" />
-            </div>
-          </motion.div>
-
-          <div className="lg:col-span-8 lg:col-start-5">
+        <div className="grid grid-cols-12">
+          {/* FAQ label */}
+          <div className="col-span-12 md:col-span-3">
             <motion.div
-              initial={
-                reducedMotion
-                  ? { opacity: 1 }
-                  : { opacity: 0 }
-              }
-              whileInView={{ opacity: 1 }}
-              viewport={{
-                once: true,
-                amount: 0.2,
-              }}
+              initial={{ opacity: 0, x: -15 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
               transition={{
-                duration: reducedMotion ? 0.01 : 0.8,
+                duration: 0.7,
+                ease: [0.22, 1, 0.36, 1],
               }}
-              className="mb-7 flex items-center justify-between"
+              className="flex items-center gap-3"
             >
-              <span className="font-mono text-[8px] uppercase tracking-[0.22em] text-white/20">
-                BEFORE YOUR VISIT
-              </span>
+              <span
+                className="
+                  h-1.5
+                  w-1.5
+                  rounded-full
+                  bg-[#00A8FF]
+                  shadow-[0_0_12px_rgba(0,168,255,0.9)]
+                "
+              />
 
-              <span className="font-mono text-[8px] uppercase tracking-[0.22em] text-[#C9A646]/60">
-                {String(faqs.length).padStart(2, "0")}{" "}
-                ANSWERS
+              <span
+                className="
+                  text-[11px]
+                  uppercase
+                  tracking-[0.18em]
+                  text-[#00A8FF]
+                "
+              >
+                [FAQ]
               </span>
             </motion.div>
+          </div>
 
+          {/* Main heading */}
+          <div className="col-span-12 mt-10 md:col-span-9 md:mt-0">
             <motion.h2
-              initial={
-                reducedMotion
-                  ? {
-                      opacity: 1,
-                      y: 0,
-                      filter: "blur(0px)",
-                    }
-                  : {
-                      opacity: 0,
-                      y: 28,
-                      filter: "blur(7px)",
-                    }
-              }
-              whileInView={{
-                opacity: 1,
-                y: 0,
-                filter: "blur(0px)",
-              }}
+              initial={{ opacity: 0, y: 45 }}
+              whileInView={{ opacity: 1, y: 0 }}
               viewport={{
                 once: true,
-                margin: "-10% 0px",
+                amount: 0.25,
               }}
               transition={{
-                duration: reducedMotion ? 0.01 : 1,
-                ease: easeLuxury,
+                duration: 0.9,
+                ease: [0.22, 1, 0.36, 1],
               }}
-              className="font-[var(--font-heading)] text-[clamp(3.8rem,7.5vw,8.2rem)] font-light leading-[0.82] tracking-[-0.07em] text-[#F2F0EA]"
+              className="
+  max-w-[850px]
+  text-[clamp(3.2rem,6vw,6.4rem)]
+  font-light
+  leading-[0.84]
+  tracking-[-0.065em]
+  text-white
+              "
+              style={{
+                fontFamily:
+                  "var(--font-driplabs-manrope), sans-serif",
+              }}
             >
-              Questions,
+              FREQUENTLY
               <br />
-              <span className="text-white/38">
-                answered.
+              <span className="text-white/75">
+                ASKED QUESTIONS
               </span>
             </motion.h2>
           </div>
         </div>
 
         {/* =======================================================
-            FAQ LIST
+            LARGE BREATHING SPACE
         ======================================================= */}
 
-        <div className="mt-20 border-t border-white/[0.09] md:mt-28">
-          {/* Technical heading */}
-          <div className="hidden grid-cols-12 border-b border-white/[0.06] px-4 py-4 md:grid md:px-6">
-            <span className="col-span-1 font-mono text-[8px] uppercase tracking-[0.2em] text-white/20">
-              No.
-            </span>
+        <div className="h-8 md:h-10 lg:h-12" />
 
-            <span className="col-span-10 font-mono text-[8px] uppercase tracking-[0.2em] text-white/20">
-              Question
-            </span>
+        {/* =======================================================
+            FAQ CONTENT
+        ======================================================= */}
 
-            <span className="col-span-1 text-right font-mono text-[8px] uppercase tracking-[0.2em] text-white/20">
-              +
-            </span>
-          </div>
+        <div className="grid grid-cols-12 gap-2 md:gap-3 lg:gap-4">
+          {/* =====================================================
+              LEFT CONTACT CARD
+          ===================================================== */}
 
-          {faqs.map((faq, index) => {
-            const open = openIndex === index;
+          <motion.div
+            initial={{
+              opacity: 0,
+              y: 35,
+            }}
+            whileInView={{
+              opacity: 1,
+              y: 0,
+            }}
+            viewport={{
+              once: true,
+              amount: 0.15,
+            }}
+            transition={{
+              duration: 0.75,
+              ease: [0.22, 1, 0.36, 1],
+            }}
+            className="
+              col-span-12
+              md:col-span-4
+              lg:col-span-3
+            "
+          >
+            <div
+              className="
+                relative
+                min-h-[274px]
+                overflow-hidden
+                rounded-[18px]
+                border
+                border-white/[0.09]
+                bg-[#070A0F]
+                p-6
+                md:p-7
+              "
+            >
+              {/* Card blue glow */}
+              <div
+                className="
+                  pointer-events-none
+                  absolute
+                  -right-20
+                  -top-20
+                  h-48
+                  w-48
+                  rounded-full
+                  bg-[#0066FF]/[0.08]
+                  blur-[70px]
+                "
+              />
 
-            return (
-              <motion.div
-                key={faq.question}
-                initial={
-                  reducedMotion
-                    ? {
-                        opacity: 1,
-                        y: 0,
-                      }
-                    : {
-                        opacity: 0,
-                        y: 18,
-                      }
-                }
-                whileInView={{
-                  opacity: 1,
-                  y: 0,
-                }}
-                viewport={{
-                  once: true,
-                  margin: "-8% 0px",
-                }}
-                transition={{
-                  duration: reducedMotion ? 0.01 : 0.7,
-                  delay: reducedMotion
-                    ? 0
-                    : Math.min(index * 0.04, 0.2),
-                  ease: easeLuxury,
-                }}
-                className="group relative border-b border-white/[0.09]"
+              {/* Icon */}
+              <div
+                className="
+                  relative
+                  flex
+                  h-10
+                  w-10
+                  items-center
+                  justify-center
+                  rounded-full
+                  border
+                  border-[#00A8FF]/25
+                  bg-[#0066FF]/[0.06]
+                  text-[#00A8FF]
+                "
               >
-                {/* Active background */}
-                <motion.div
-                  initial={false}
-                  animate={{
-                    opacity: open ? 1 : 0,
-                  }}
-                  transition={{
-                    duration: 0.5,
-                  }}
-                  className="pointer-events-none absolute inset-0 bg-gradient-to-r from-[#C9A646]/[0.045] via-transparent to-transparent"
-                />
-
-                {/* Active rail */}
-                <motion.span
-                  initial={false}
-                  animate={{
-                    scaleY: open ? 1 : 0,
-                    opacity: open ? 1 : 0,
-                  }}
-                  transition={{
-                    duration: 0.5,
-                    ease: easeLuxury,
-                  }}
-                  className="absolute bottom-0 left-0 top-0 w-[2px] origin-center bg-[#C9A646] shadow-[0_0_18px_rgba(201,166,70,0.55)]"
-                />
-
-                <button
-                  type="button"
-                  onClick={() =>
-                    setOpenIndex(open ? null : index)
-                  }
-                  aria-expanded={open}
-                  className="relative flex w-full items-center justify-between gap-6 px-4 py-7 text-left md:min-h-[120px] md:px-6 md:py-8"
+                <svg
+                  width="21"
+                  height="21"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.5"
                 >
-                  <div className="flex min-w-0 items-start gap-5 md:gap-7">
-                    {/* Number */}
-                    <span
-                      className={`pt-1 font-mono text-[8px] tracking-[0.22em] transition-colors duration-500 ${
-                        open
-                          ? "text-[#C9A646]"
-                          : "text-white/25"
-                      }`}
-                    >
-                      {String(index + 1).padStart(2, "0")}
-                    </span>
+                  <path
+                    d="M21 11.5a8.38 8.38 0 0 1-.9 3.8
+                    8.5 8.5 0 0 1-7.6 4.7
+                    8.38 8.38 0 0 1-3.8-.9
+                    L3 21l1.9-5.7
+                    A8.38 8.38 0 0 1 4 11.5
+                    a8.5 8.5 0 1 1 17 0Z"
+                  />
 
-                    {/* Question */}
-                    <span
-                      className={`font-[var(--font-heading)] text-[1.45rem] font-light leading-[1.05] tracking-[-0.03em] transition-all duration-500 md:text-2xl lg:text-3xl ${
-                        open
-                          ? "translate-x-1 text-[#F2F0EA]"
-                          : "text-white/68 group-hover:text-[#F2F0EA]"
-                      }`}
-                    >
-                      {faq.question}
-                    </span>
-                  </div>
+                  <path d="M9.8 9.2a2.1 2.1 0 1 1 3.7 1.4c-.9.8-1.5 1.1-1.5 2.2" />
 
-                  {/* Plus / close */}
-                  <span
-                    className={`relative flex h-10 w-10 shrink-0 items-center justify-center rounded-full border transition-all duration-500 ${
-                      open
-                        ? "rotate-45 border-[#C9A646]/45 bg-[#C9A646]/[0.07] text-[#C9A646]"
-                        : "border-white/[0.12] text-white/30 group-hover:border-white/25 group-hover:text-white/65"
-                    }`}
+                  <circle cx="12" cy="16.2" r=".5" fill="currentColor" />
+                </svg>
+              </div>
+
+              {/* Content */}
+              <div className="relative mt-7">
+                <h3
+                  className="
+                    text-[25px]
+                    font-medium
+                    tracking-[-0.04em]
+                    text-white
+                  "
+                  style={{
+                    fontFamily:
+                      "var(--font-driplabs-manrope), sans-serif",
+                  }}
+                >
+                  Talk to us
+                </h3>
+
+                <p
+                  className="
+                    mt-4
+                    max-w-[230px]
+                    text-[14px]
+                    leading-[1.55]
+                    text-white/45
+                  "
+                  style={{
+                    fontFamily:
+                      "var(--font-driplabs-manrope), sans-serif",
+                  }}
+                >
+                  Our team is here to help you personally
+                  with any questions.
+                </p>
+              </div>
+
+              {/* Contact button */}
+              <a
+                href="#booking"
+                className="
+                  group
+                  relative
+                  mt-6
+                  flex
+                  h-[52px]
+                  w-full
+                  items-center
+                  justify-center
+                  overflow-hidden
+                  rounded-full
+                  border
+                  border-[#00A8FF]/30
+                  bg-[#0066FF]
+                  text-[14px]
+                  font-medium
+                  text-white
+                  shadow-[0_0_25px_rgba(0,102,255,0.18)]
+                  transition-all
+                  duration-300
+                  hover:bg-[#00A8FF]
+                  hover:shadow-[0_0_35px_rgba(0,168,255,0.28)]
+                "
+              >
+                <span className="relative z-10">
+                  Contact Us
+                </span>
+
+                <span
+                  className="
+                    absolute
+                    inset-0
+                    -translate-x-full
+                    bg-gradient-to-r
+                    from-transparent
+                    via-white/20
+                    to-transparent
+                    transition-transform
+                    duration-700
+                    group-hover:translate-x-full
+                  "
+                />
+              </a>
+            </div>
+          </motion.div>
+
+          {/* =====================================================
+              RIGHT FAQ CARDS
+          ===================================================== */}
+
+          <div
+            className="
+              col-span-12
+              mt-2
+              space-y-2
+              md:col-span-8
+              md:mt-0
+              lg:col-span-9
+            "
+          >
+            {faqs.map((faq, index) => {
+              const isOpen = openIndex === index;
+
+              return (
+                <motion.div
+                  key={faq.question}
+                  initial={{
+                    opacity: 0,
+                    x: 25,
+                  }}
+                  whileInView={{
+                    opacity: 1,
+                    x: 0,
+                  }}
+                  viewport={{
+                    once: true,
+                    amount: 0.12,
+                  }}
+                  transition={{
+                    duration: 0.65,
+                    delay: index * 0.05,
+                    ease: [0.22, 1, 0.36, 1],
+                  }}
+                  className="relative"
+                >
+                  <div
+                    className={`
+                      relative
+                      overflow-hidden
+                      rounded-[17px]
+                      border
+                      transition-all
+                      duration-500
+                      ${
+                        isOpen
+                          ? "border-[#0066FF]/45 bg-[#07101C] shadow-[0_0_35px_rgba(0,102,255,0.08)]"
+                          : "border-white/[0.08] bg-[#07090D] hover:border-[#0066FF]/30 hover:bg-[#080C12]"
+                      }
+                    `}
                   >
-                    <span className="absolute h-px w-3 bg-current" />
-
-                    <span className="absolute h-3 w-px bg-current" />
-                  </span>
-                </button>
-
-                {/* =================================================
-                    ANSWER
-                ================================================= */}
-
-                <AnimatePresence initial={false}>
-                  {open && (
+                    {/* Active blue edge */}
                     <motion.div
-                      initial={
-                        reducedMotion
-                          ? {
-                              opacity: 1,
-                              height: "auto",
-                            }
-                          : {
-                              opacity: 0,
-                              height: 0,
-                            }
-                      }
+                      initial={false}
                       animate={{
-                        opacity: 1,
-                        height: "auto",
+                        opacity: isOpen ? 1 : 0,
                       }}
-                      exit={
-                        reducedMotion
-                          ? {
-                              opacity: 0,
-                            }
-                          : {
-                              opacity: 0,
-                              height: 0,
-                            }
-                      }
-                      transition={{
-                        duration: reducedMotion
-                          ? 0.01
-                          : 0.5,
-                        ease: easeLuxury,
-                      }}
-                      className="overflow-hidden"
+                      className="
+                        absolute
+                        left-0
+                        top-0
+                        h-full
+                        w-[2px]
+                        bg-[#00A8FF]
+                        shadow-[0_0_16px_rgba(0,168,255,0.75)]
+                      "
+                    />
+
+                    {/* Question button */}
+                    <button
+                      type="button"
+                      onClick={() => toggle(index)}
+                      aria-expanded={isOpen}
+                      className="
+                        flex
+                        min-h-[84px]
+                        w-full
+                        items-center
+                        justify-between
+                        gap-8
+                        px-6
+                        py-5
+                        text-left
+                        md:min-h-[86px]
+                        md:px-7
+                      "
                     >
-                      <div className="relative pb-8 pl-[2.1rem] pr-4 md:pb-10 md:pl-[4rem] md:pr-16">
-                        <div className="mb-5 h-px w-12 bg-[#C9A646]/40" />
+                      <div className="flex min-w-0 items-center gap-5">
+                        {/* Number */}
+                        <span
+                          className={`
+                            hidden
+                            text-[8px]
+                            tracking-[0.15em]
+                            sm:block
+                            ${
+                              isOpen
+                                ? "text-[#00A8FF]"
+                                : "text-white/20"
+                            }
+                          `}
+                        >
+                          {String(index + 1).padStart(2, "0")}
+                        </span>
 
-                        <p className="max-w-3xl text-sm leading-7 text-white/42 md:text-base md:leading-8">
-                          {faq.answer}
-                        </p>
-
-                        <div className="mt-6 flex items-center gap-3">
-                          <span className="h-[3px] w-[3px] rounded-full bg-[#C9A646]/70" />
-
-                          <span className="font-mono text-[7px] uppercase tracking-[0.2em] text-white/20">
-                            DRIPLABS / INFORMATION
-                          </span>
-                        </div>
+                        {/* Question */}
+                        <span
+                          className={`
+                            text-[16px]
+                            font-medium
+                            tracking-[-0.025em]
+                            transition-colors
+                            duration-300
+                            md:text-[17px]
+                            ${
+                              isOpen
+                                ? "text-white"
+                                : "text-white/80"
+                            }
+                          `}
+                          style={{
+                            fontFamily:
+                              "var(--font-driplabs-manrope), sans-serif",
+                          }}
+                        >
+                          {faq.question}
+                        </span>
                       </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </motion.div>
-            );
-          })}
+
+                      {/* Plus */}
+                      <span
+                        className={`
+                          relative
+                          flex
+                          h-8
+                          w-8
+                          shrink-0
+                          items-center
+                          justify-center
+                          rounded-full
+                          text-[23px]
+                          font-light
+                          leading-none
+                          transition-all
+                          duration-300
+                          ${
+                            isOpen
+                              ? "text-[#00A8FF]"
+                              : "text-white/75 group-hover:text-[#00A8FF]"
+                          }
+                        `}
+                      >
+                        <motion.span
+                          animate={{
+                            rotate: isOpen ? 45 : 0,
+                          }}
+                          transition={{
+                            duration: 0.3,
+                            ease: [0.22, 1, 0.36, 1],
+                          }}
+                          className="block"
+                        >
+                          +
+                        </motion.span>
+                      </span>
+                    </button>
+
+                    {/* Answer */}
+                    <AnimatePresence initial={false}>
+                      {isOpen && (
+                        <motion.div
+                          initial={{
+                            height: 0,
+                            opacity: 0,
+                          }}
+                          animate={{
+                            height: "auto",
+                            opacity: 1,
+                          }}
+                          exit={{
+                            height: 0,
+                            opacity: 0,
+                          }}
+                          transition={{
+                            duration: 0.45,
+                            ease: [0.22, 1, 0.36, 1],
+                          }}
+                          className="overflow-hidden"
+                        >
+                          <div className="px-6 pb-7 md:px-7 md:pb-8">
+                            <div className="mb-5 h-px w-10 bg-[#00A8FF]/40" />
+
+                            <p
+                              className="
+                                max-w-2xl
+                                text-[13px]
+                                leading-6
+                                text-white/45
+                                md:text-[14px]
+                                md:leading-7
+                              "
+                              style={{
+                                fontFamily:
+                                  "var(--font-driplabs-manrope), sans-serif",
+                              }}
+                            >
+                              {faq.answer}
+                            </p>
+                          </div>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </div>
+                </motion.div>
+              );
+            })}
+          </div>
         </div>
 
         {/* =======================================================
-            BOTTOM RAIL
+            BOTTOM TECHNICAL LINE
         ======================================================= */}
 
-        <div className="mt-7 flex items-center justify-between">
-          <p className="font-mono text-[7px] uppercase tracking-[0.2em] text-white/20">
-            Information before consultation
-          </p>
-
-          <span className="flex items-center gap-2 font-mono text-[7px] uppercase tracking-[0.2em] text-[#C9A646]/45">
-            <span className="h-[4px] w-[4px] rounded-full bg-[#C9A646]/70 shadow-[0_0_8px_rgba(201,166,70,0.45)]" />
-            Physician-supervised wellness
-          </span>
-        </div>
       </div>
     </section>
   );

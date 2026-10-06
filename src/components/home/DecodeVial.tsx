@@ -216,12 +216,12 @@ const INGREDIENTS: Record<string, Ingredient[]> = {
   glamour: [
     {
       name: "Glutathione",
-      amount: "4.2 g",
+      amount: "4200 mg",
       detail: "Primary active",
     },
     {
       name: "Vitamin C",
-      amount: "6.3 g",
+      amount: "6300 mg",
       detail: "Micronutrient support",
     },
     {
@@ -254,12 +254,12 @@ const INGREDIENTS: Record<string, Ingredient[]> = {
   renew: [
     {
       name: "Glutathione",
-      amount: "3.6 g",
+      amount: "3600 mg",
       detail: "Primary active",
     },
     {
       name: "Vitamin C",
-      amount: "6.2 g",
+      amount: "6200 mg",
       detail: "Micronutrient support",
     },
     {
@@ -288,12 +288,12 @@ const INGREDIENTS: Record<string, Ingredient[]> = {
   radiance: [
     {
       name: "Glutathione",
-      amount: "3 g",
+      amount: "3000 mg",
       detail: "Primary active",
     },
     {
       name: "Vitamin C",
-      amount: "4.7 g",
+      amount: "4700 mg",
       detail: "Micronutrient support",
     },
     {
@@ -322,17 +322,17 @@ const INGREDIENTS: Record<string, Ingredient[]> = {
   shrink: [
     {
       name: "Glutathione",
-      amount: "2.4 g",
+      amount: "2400 mg",
       detail: "Primary active",
     },
     {
       name: "Vitamin C",
-      amount: "3 g",
+      amount: "3000 mg",
       detail: "Micronutrient support",
     },
     {
       name: "L-Carnitine",
-      amount: "3 g",
+      amount: "3000 mg",
       detail: "Formulation component",
     },
     {
@@ -363,12 +363,12 @@ const INGREDIENTS: Record<string, Ingredient[]> = {
   restore: [
     {
       name: "Glutathione",
-      amount: "1.8 g",
+      amount: "1800 mg",
       detail: "Primary active",
     },
     {
       name: "Vitamin C",
-      amount: "1.5 g",
+      amount: "1500 mg",
       detail: "Micronutrient support",
     },
     {
@@ -401,7 +401,7 @@ const INGREDIENTS: Record<string, Ingredient[]> = {
   "bounce-back": [
     {
       name: "Glutathione",
-      amount: "2.4 g",
+      amount: "2400 mg",
       detail: "Primary active",
     },
     {
@@ -416,7 +416,7 @@ const INGREDIENTS: Record<string, Ingredient[]> = {
     },
     {
       name: "Vitamin C",
-      amount: "1.5 g",
+      amount: "1500 mg",
       detail: "Micronutrient support",
     },
     {
@@ -437,12 +437,12 @@ const INGREDIENTS: Record<string, Ingredient[]> = {
   reactivate: [
     {
       name: "Glutathione",
-      amount: "2.4 g",
+      amount: "2400 mg",
       detail: "Primary active",
     },
     {
       name: "Vitamin C",
-      amount: "3 g",
+      amount: "3000 mg",
       detail: "Micronutrient support",
     },
     {
@@ -472,17 +472,17 @@ const INGREDIENTS: Record<string, Ingredient[]> = {
   fit: [
     {
       name: "Glutathione",
-      amount: "2.4 g",
+      amount: "2400 mg",
       detail: "Primary active",
     },
     {
       name: "Vitamin C",
-      amount: "1.5 g",
+      amount: "1500 mg",
       detail: "Micronutrient support",
     },
     {
       name: "L-Carnitine",
-      amount: "1 g",
+      amount: "1000 mg",
       detail: "Formulation component",
     },
     {
@@ -512,17 +512,17 @@ const INGREDIENTS: Record<string, Ingredient[]> = {
   refuel: [
     {
       name: "Glutathione",
-      amount: "2.4 g",
+      amount: "2400 mg",
       detail: "Primary active",
     },
     {
       name: "Vitamin C",
-      amount: "1.5 g",
+      amount: "1500 mg",
       detail: "Micronutrient support",
     },
     {
       name: "L-Alanyl-L-Glutamine",
-      amount: "10 g",
+      amount: "10000 mg",
       detail: "Amino acid component",
     },
     {
@@ -559,7 +559,7 @@ const INGREDIENTS: Record<string, Ingredient[]> = {
   "gut-plus": [
     {
       name: "L-Alanyl-L-Glutamine",
-      amount: "10 g",
+      amount: "10000 mg",
       detail: "Amino acid component",
     },
     {
@@ -589,12 +589,12 @@ const INGREDIENTS: Record<string, Ingredient[]> = {
   rebuild: [
     {
       name: "L-Alanyl-L-Glutamine",
-      amount: "10 g",
+      amount: "10000 mg",
       detail: "Amino acid component",
     },
     {
       name: "Vitamin C",
-      amount: "3 g",
+      amount: "3000 mg",
       detail: "Micronutrient support",
     },
     {
@@ -619,12 +619,12 @@ const INGREDIENTS: Record<string, Ingredient[]> = {
   move: [
     {
       name: "Magnesium Sulfate",
-      amount: "1 g",
+      amount: "1000 mg",
       detail: "Mineral component",
     },
     {
       name: "Vitamin C",
-      amount: "3 g",
+      amount: "3000 mg",
       detail: "Micronutrient support",
     },
     {
@@ -663,7 +663,7 @@ const INGREDIENTS: Record<string, Ingredient[]> = {
     },
     {
       name: "Vitamin C",
-      amount: "3 g",
+      amount: "3000 mg",
       detail: "Micronutrient support",
     },
     {
@@ -692,12 +692,12 @@ const INGREDIENTS: Record<string, Ingredient[]> = {
   "recover-plus": [
     {
       name: "Glutathione",
-      amount: "2.4 g",
+      amount: "2400 mg",
       detail: "Primary active",
     },
     {
       name: "Vitamin C",
-      amount: "3 g",
+      amount: "3000 mg",
       detail: "Micronutrient support",
     },
     {
@@ -726,22 +726,22 @@ const INGREDIENTS: Record<string, Ingredient[]> = {
   "performance-x": [
     {
       name: "L-Alanyl-L-Glutamine",
-      amount: "20 g",
+      amount: "20000 mg",
       detail: "Amino acid component",
     },
     {
       name: "Magnesium Sulfate",
-      amount: "1.5 g",
+      amount: "1500 mg",
       detail: "Mineral component",
     },
     {
       name: "Vitamin C",
-      amount: "3 g",
+      amount: "3000 mg",
       detail: "Micronutrient support",
     },
     {
       name: "L-Carnitine",
-      amount: "2 g",
+      amount: "2000 mg",
       detail: "Performance component",
     },
     {
@@ -1004,18 +1004,16 @@ export default function VialProductTransition() {
           HEADER
       ========================================================= */}
 
-      <div className="relative z-10 mx-auto flex max-w-[1500px] items-center justify-between border-b border-white/[0.08] px-5 py-4 sm:px-8 md:px-12 lg:px-16">
+      <div className="relative z-10 mx-auto flex max-w-[1500px] items-center justify-between border-b border-white/[0.08] px-5 py-1 sm:px-8 md:px-12 lg:px-16">
         <div className="flex items-center gap-3">
           <span className="h-px w-7 bg-[#1683FF]" />
 
-          <span className="text-[7px] font-medium tracking-[0.28em] text-[#8CCBFF]">
+          <span className="text-[9px] font-medium tracking-[0.28em] text-[#8CCBFF]">
             DECODE A VIAL
           </span>
         </div>
 
-        <span className="hidden text-[6px] tracking-[0.2em] text-white/25 sm:block">
-          DRIPLABS® / FORMULATION ARCHITECTURE
-        </span>
+        
       </div>
 
       {/* =========================================================
@@ -1048,11 +1046,11 @@ export default function VialProductTransition() {
             ease: [0.22, 1, 0.36, 1],
           }}
         >
-          <span className="mb-3 block text-[7px] font-medium tracking-[0.3em] text-[#4D9BFF]">
+          <span className="mb-1 block text-[7px] font-medium tracking-[0.3em] text-[#4D9BFF]">
             INSIDE THE FORMULATION
           </span>
 
-          <h2 className="max-w-[720px] font-[var(--font-heading)] text-[clamp(3rem,6vw,6rem)] font-light leading-[0.84] tracking-[-0.065em]">
+          <h2 className="max-w-[700px] font-[var(--font-heading)] text-[clamp(3rem,6vw,6rem)] font-light leading-[0.84] tracking-[-0.065em]">
             Know what goes
             <br />
             <em className="text-[#8CCBFF]">
@@ -1061,7 +1059,7 @@ export default function VialProductTransition() {
           </h2>
         </motion.div>
 
-        <p className="hidden max-w-[300px] pb-1 text-right text-[10px] leading-[1.7] text-white/40 md:block">
+        <p className="hidden max-w-[300px] pb-1 text-right text-[15px] leading-[1.7] text-white/40 md:block">
           Explore the DRIPLABS protocol collection through
           its formulation architecture.
         </p>
@@ -1071,10 +1069,10 @@ export default function VialProductTransition() {
           PROTOCOL COLLECTION
       ========================================================= */}
 
-      <div className="relative z-20 mx-auto max-w-[1500px] px-5 sm:px-8 md:px-12 lg:px-16">
+      <div className="relative z-20 mx-auto max-w-[2000px] px-5 sm:px-8 md:px-12 lg:px-16">
         <div className="mb-3 flex items-center justify-between">
           <span className="text-[6px] tracking-[0.22em] text-white/25">
-            PROTOCOL COLLECTION · 17
+            PROTOCOL COLLECTION · 19
           </span>
 
           <span className="font-mono text-[7px] tracking-[0.18em] text-[#4D9BFF]">
@@ -1130,7 +1128,7 @@ export default function VialProductTransition() {
           MAIN EXPERIENCE
       ========================================================= */}
 
-      <div className="relative z-10 mx-auto grid max-w-[1500px] grid-cols-1 gap-7 px-5 pb-6 pt-7 sm:px-8 md:grid-cols-[1.15fr_0.85fr] md:items-center md:gap-9 md:px-12 lg:px-16">
+      <div className="relative z-10 mx-auto grid max-w-[1800px] grid-cols-1 gap-7 px-5 pb-6 pt-7 sm:px-8 md:grid-cols-[1.15fr_0.85fr] md:items-center md:gap-9 md:px-12 lg:px-16">
         {/* =====================================================
             IMAGE STAGE
         ===================================================== */}

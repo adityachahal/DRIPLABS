@@ -106,7 +106,7 @@ export default function MembershipPreview() {
           sm:px-10
           sm:py-20
           lg:px-12
-          lg:py-24
+          lg:py-8
         "
       >
 

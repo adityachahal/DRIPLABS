@@ -61,27 +61,27 @@ function LocationCard({
       href={href}
       aria-label={`Explore DRIPLABS ${city}`}
       className="
-        location-card
-        group
-        relative
-        block
-        h-[270px]
-        w-[68vw]
-        max-w-[340px]
-        shrink-0
-        overflow-hidden
-        border
-        border-white/[0.10]
-        bg-[#06152B]
-        outline-none
-        sm:h-[300px]
-        sm:w-[48vw]
-        sm:max-w-[350px]
-        lg:h-[330px]
-        lg:w-[320px]
-        xl:h-[350px]
-        xl:w-[330px]
-      "
+  location-card
+  group
+  relative
+  block
+  h-[220px]
+  w-[58vw]
+  max-w-[280px]
+  shrink-0
+  overflow-hidden
+  border
+  border-white/[0.10]
+  bg-[#06152B]
+  outline-none
+  sm:h-[240px]
+  sm:w-[42vw]
+  sm:max-w-[290px]
+  lg:h-[260px]
+  lg:w-[270px]
+  xl:h-[280px]
+  xl:w-[280px]
+"
     >
       {/* IMAGE */}
 
@@ -336,7 +336,7 @@ export default function LocationMarquee() {
           >
             Find your
             <br />
-            <span className="text-[#4D9BFF]">nearest DRIP.</span>
+            <span className="text-[#4D9BFF]">nearest DRIPLABS.</span>
           </h2>
 
           <p className="hidden max-w-[250px] pb-1 text-right text-[9px] leading-5 tracking-[0.06em] text-white/40 lg:block">

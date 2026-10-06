@@ -1,5 +1,6 @@
 ﻿@import "tailwindcss";
 
+
 /* =========================================================
    DRIPLABS — GLOBAL DESIGN SYSTEM
    ELECTRIC BLUE / MIDNIGHT / WHITE
@@ -471,4 +472,920 @@ html.lenis body {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
+}
+/* =========================================================
+   DRIPLABS — PARTNERSHIP / ULTRA LUXURY SYSTEM
+   ========================================================= */
+
+.partners-redesign {
+  --p-bg: #05080d;
+  --p-bg-soft: #080d14;
+  --p-bg-elevated: #0b111a;
+  --p-ink: #f5f3ed;
+  --p-muted: rgba(245, 243, 237, 0.55);
+  --p-faint: rgba(245, 243, 237, 0.28);
+  --p-line: rgba(245, 243, 237, 0.11);
+  --p-blue: #86bfff;
+  --p-blue-bright: #b8dcff;
+  --p-blue-deep: #3b82f6;
+
+  position: relative;
+  min-height: 100vh;
+  overflow: hidden;
+  background:
+    radial-gradient(
+      circle at 75% 8%,
+      rgba(66, 130, 210, 0.08),
+      transparent 27%
+    ),
+    radial-gradient(
+      circle at 8% 42%,
+      rgba(49, 104, 173, 0.045),
+      transparent 28%
+    ),
+    var(--p-bg);
+  color: var(--p-ink);
+}
+
+
+/* =========================================================
+   GLOBAL TYPOGRAPHY
+   ========================================================= */
+
+.partners-redesign h1,
+.partners-redesign h2,
+.partners-redesign h3 {
+  text-wrap: balance;
+}
+
+.partners-redesign h1,
+.partners-redesign h2 {
+  letter-spacing: -0.065em !important;
+}
+
+.partners-redesign p {
+  text-wrap: pretty;
+}
+
+
+/* =========================================================
+   HERO
+   ========================================================= */
+
+.partners-redesign > section:first-of-type {
+  min-height: 100svh !important;
+  display: flex;
+  align-items: center;
+  isolation: isolate;
+  border-bottom: 1px solid var(--p-line);
+  background:
+    linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.015),
+      transparent 35%
+    ),
+    var(--p-bg) !important;
+}
+
+
+/* remove the old blue blobs */
+
+.partners-redesign > section:first-of-type
+  > div:first-child
+  > div {
+  opacity: 0 !important;
+}
+
+
+/* cinematic hero grid */
+
+.partners-redesign > section:first-of-type
+  > div:nth-child(2) {
+  max-width: 1680px !important;
+  padding-top: 9rem !important;
+  padding-bottom: 7rem !important;
+}
+
+
+/* hero copy */
+
+.partners-redesign > section:first-of-type h1 {
+  max-width: 760px !important;
+  font-size: clamp(4.8rem, 9vw, 10.5rem) !important;
+  line-height: 0.79 !important;
+  font-weight: 400 !important;
+  letter-spacing: -0.075em !important;
+  animation: partnerHeroTitle 1.2s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.partners-redesign > section:first-of-type h1 span {
+  display: inline-block !important;
+  color: var(--p-blue) !important;
+  margin-left: 0.04em;
+}
+
+.partners-redesign > section:first-of-type h1 span::after {
+  content: "";
+  display: inline-block;
+  width: 0.12em;
+  height: 0.12em;
+  margin-left: 0.1em;
+  border-radius: 50%;
+  background: var(--p-blue);
+  box-shadow:
+    0 0 30px rgba(134, 191, 255, 0.8),
+    0 0 70px rgba(134, 191, 255, 0.25);
+}
+
+
+/* hero eyebrow */
+
+.partners-redesign > section:first-of-type
+  p:first-child {
+  letter-spacing: 0.35em !important;
+}
+
+
+/* hero description */
+
+.partners-redesign > section:first-of-type
+  h1 + p {
+  max-width: 570px !important;
+  margin-top: 2.5rem !important;
+  color: rgba(245, 243, 237, 0.5) !important;
+  font-size: 0.95rem !important;
+  line-height: 1.9 !important;
+}
+
+
+/* hero image container */
+
+.partners-redesign > section:first-of-type
+  > div:nth-child(2)
+  > div
+  > div:last-child {
+  transform: translateX(5%);
+}
+
+
+/* hero image */
+
+.partners-redesign > section:first-of-type img {
+  object-fit: contain !important;
+  filter:
+    contrast(1.04)
+    brightness(0.82)
+    saturate(0.82)
+    drop-shadow(0 45px 100px rgba(0, 0, 0, 0.55))
+    drop-shadow(0 0 70px rgba(75, 145, 225, 0.12)) !important;
+  animation: partnerHeroImage 1.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+
+/* image atmosphere */
+
+.partners-redesign > section:first-of-type
+  > div:nth-child(2)
+  > div
+  > div:last-child::before {
+  content: "";
+  position: absolute;
+  inset: 8%;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(112, 176, 235, 0.11),
+    transparent 65%
+  );
+  filter: blur(50px);
+  pointer-events: none;
+}
+
+
+/* hero CTA */
+
+.partners-redesign > section:first-of-type a {
+  position: relative;
+  overflow: hidden;
+  border-radius: 0 !important;
+}
+
+.partners-redesign > section:first-of-type a:first-child {
+  background: var(--p-ink) !important;
+  color: #07101a !important;
+  box-shadow: 0 15px 50px rgba(255, 255, 255, 0.06);
+}
+
+.partners-redesign > section:first-of-type a:first-child:hover {
+  background: var(--p-blue-bright) !important;
+  transform: translateY(-3px);
+  box-shadow: 0 25px 70px rgba(120, 180, 240, 0.16);
+}
+
+.partners-redesign > section:first-of-type a:last-child {
+  border-color: rgba(245, 243, 237, 0.2) !important;
+  background: transparent !important;
+}
+
+.partners-redesign > section:first-of-type a:last-child:hover {
+  background: rgba(255, 255, 255, 0.045) !important;
+  border-color: rgba(245, 243, 237, 0.4) !important;
+}
+
+
+/* =========================================================
+   HERO TECHNICAL FOOTER
+   ========================================================= */
+
+.partners-redesign > section:first-of-type
+  > div:last-child {
+  border-color: var(--p-line) !important;
+  background: rgba(5, 8, 13, 0.6);
+  backdrop-filter: blur(16px);
+}
+
+
+/* =========================================================
+   ALL SECTIONS
+   ========================================================= */
+
+.partners-redesign section {
+  position: relative;
+  border-color: var(--p-line) !important;
+}
+
+.partners-redesign section:not(:first-of-type) {
+  background: var(--p-bg) !important;
+}
+
+
+/* =========================================================
+   INTRO — EDITORIAL
+   ========================================================= */
+
+.partners-redesign > section:nth-of-type(2) {
+  padding-top: 4rem;
+  padding-bottom: 4rem;
+}
+
+.partners-redesign > section:nth-of-type(2) > div {
+  max-width: 1500px !important;
+}
+
+.partners-redesign > section:nth-of-type(2) h2 {
+  font-size: clamp(3rem, 6vw, 6rem) !important;
+  line-height: 0.88 !important;
+}
+
+.partners-redesign > section:nth-of-type(2) h2 span {
+  color: rgba(245, 243, 237, 0.24) !important;
+}
+
+.partners-redesign > section:nth-of-type(2) p {
+  color: rgba(245, 243, 237, 0.48) !important;
+}
+
+
+/* =========================================================
+   PATHWAYS
+   ========================================================= */
+
+#pathways {
+  padding-top: 8rem !important;
+  padding-bottom: 8rem !important;
+  background:
+    linear-gradient(
+      180deg,
+      #05080d 0%,
+      #070c13 100%
+    ) !important;
+}
+
+
+/* pathway heading */
+
+#pathways h2 {
+  font-size: clamp(3rem, 6vw, 6.5rem) !important;
+  line-height: 0.84 !important;
+}
+
+#pathways h2 span {
+  color: rgba(245, 243, 237, 0.2) !important;
+}
+
+
+/* pathway cards */
+
+#pathways a {
+  min-height: 560px !important;
+  padding: 2.5rem !important;
+  border: 1px solid rgba(245, 243, 237, 0.1) !important;
+  background:
+    linear-gradient(
+      150deg,
+      rgba(17, 28, 42, 0.9),
+      rgba(5, 8, 13, 0.98)
+    ) !important;
+  transition:
+    transform 700ms cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 500ms ease,
+    box-shadow 700ms ease,
+    background 700ms ease !important;
+}
+
+#pathways a::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(
+      125deg,
+      transparent 25%,
+      rgba(255, 255, 255, 0.045) 50%,
+      transparent 75%
+    );
+  transform: translateX(-120%);
+  transition: transform 900ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+#pathways a:hover::before {
+  transform: translateX(120%);
+}
+
+#pathways a:hover {
+  transform: translateY(-12px) !important;
+  border-color: rgba(134, 191, 255, 0.32) !important;
+  background:
+    linear-gradient(
+      150deg,
+      rgba(18, 37, 58, 0.98),
+      rgba(5, 8, 13, 1)
+    ) !important;
+  box-shadow:
+    0 35px 100px rgba(0, 0, 0, 0.45),
+    0 0 80px rgba(80, 145, 220, 0.06);
+}
+
+#pathways a h3 {
+  font-size: clamp(2.2rem, 3vw, 3.5rem) !important;
+  line-height: 0.92 !important;
+}
+
+#pathways a p {
+  color: rgba(245, 243, 237, 0.44) !important;
+}
+
+#pathways a li {
+  color: rgba(245, 243, 237, 0.42) !important;
+}
+
+
+/* =========================================================
+   DETAIL SECTIONS
+   ========================================================= */
+
+#physicians,
+#clinics,
+#strategic-partners {
+  min-height: 85vh;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
+
+#physicians::before,
+#clinics::before,
+#strategic-partners::before {
+  content: "";
+  position: absolute;
+  width: 650px;
+  height: 650px;
+  border-radius: 50%;
+  pointer-events: none;
+  background: radial-gradient(
+    circle,
+    rgba(94, 157, 220, 0.07),
+    transparent 67%
+  );
+  filter: blur(20px);
+}
+
+#physicians::before {
+  right: -250px;
+  top: 5%;
+}
+
+#clinics::before {
+  left: -250px;
+  top: 20%;
+}
+
+#strategic-partners::before {
+  left: 50%;
+  top: 0;
+  transform: translateX(-50%);
+}
+
+
+/* detail headings */
+
+#physicians h2,
+#clinics h2,
+#strategic-partners h2 {
+  font-size: clamp(3.4rem, 6vw, 7rem) !important;
+  line-height: 0.83 !important;
+}
+
+#physicians h2 span,
+#clinics h2 span,
+#strategic-partners h2 span {
+  color: var(--p-blue) !important;
+}
+
+
+/* physician panel */
+
+#physicians .border {
+  background:
+    linear-gradient(
+      145deg,
+      rgba(15, 29, 45, 0.8),
+      rgba(5, 8, 13, 0.7)
+    ) !important;
+  border-color: var(--p-line) !important;
+  box-shadow: 0 35px 100px rgba(0, 0, 0, 0.22);
+}
+
+
+/* clinic panel */
+
+#clinics .border {
+  background:
+    linear-gradient(
+      145deg,
+      rgba(15, 29, 45, 0.65),
+      rgba(5, 8, 13, 0.9)
+    ) !important;
+  border-color: var(--p-line) !important;
+  box-shadow: 0 35px 100px rgba(0, 0, 0, 0.24);
+}
+
+
+/* clinic cells */
+
+#clinics .grid > div {
+  transition:
+    background 400ms ease,
+    transform 400ms ease;
+}
+
+#clinics .grid > div:hover {
+  background: rgba(255, 255, 255, 0.045) !important;
+  transform: translateY(-3px);
+}
+
+
+/* =========================================================
+   STRATEGIC PARTNERS
+   ========================================================= */
+
+#strategic-partners {
+  min-height: 90vh;
+  background:
+    radial-gradient(
+      ellipse at center,
+      rgba(49, 93, 140, 0.08),
+      transparent 50%
+    ),
+    var(--p-bg) !important;
+}
+
+#strategic-partners > div:last-child {
+  max-width: 1150px !important;
+}
+
+#strategic-partners h2 {
+  font-size: clamp(4rem, 8vw, 9rem) !important;
+}
+
+#strategic-partners > div > div:last-child {
+  border-color: var(--p-line) !important;
+  background: rgba(255, 255, 255, 0.025) !important;
+}
+
+#strategic-partners > div > div:last-child > div {
+  position: relative;
+  min-height: 300px;
+  padding: 2.5rem !important;
+  background: var(--p-bg) !important;
+  transition:
+    background 500ms ease,
+    transform 500ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+#strategic-partners > div > div:last-child > div:hover {
+  background: #0a111b !important;
+  transform: translateY(-5px);
+}
+
+#strategic-partners > div > div:last-child > div::after {
+  content: "";
+  position: absolute;
+  left: 2.5rem;
+  right: 2.5rem;
+  bottom: 2rem;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    var(--p-blue),
+    transparent
+  );
+  transform: scaleX(0.1);
+  transform-origin: left;
+  transition: transform 700ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+#strategic-partners > div > div:last-child > div:hover::after {
+  transform: scaleX(1);
+}
+
+
+/* =========================================================
+   STANDARDS
+   ========================================================= */
+
+.partners-redesign > section:nth-of-type(7) {
+  background: #080d14 !important;
+}
+
+.partners-redesign > section:nth-of-type(7) h2 {
+  font-size: clamp(3.2rem, 5.5vw, 6rem) !important;
+}
+
+.partners-redesign > section:nth-of-type(7) h2 span {
+  color: rgba(245, 243, 237, 0.22) !important;
+}
+
+
+/* standards rows */
+
+.partners-redesign > section:nth-of-type(7)
+  .divide-y > div {
+  position: relative;
+  padding-top: 2.2rem !important;
+  padding-bottom: 2.2rem !important;
+  transition:
+    padding-left 500ms cubic-bezier(0.22, 1, 0.36, 1),
+    background 400ms ease;
+}
+
+.partners-redesign > section:nth-of-type(7)
+  .divide-y > div:hover {
+  padding-left: 1.5rem !important;
+  background: rgba(255, 255, 255, 0.018);
+}
+
+.partners-redesign > section:nth-of-type(7)
+  .divide-y > div h3 {
+  font-size: 1.7rem !important;
+}
+
+
+/* =========================================================
+   PROCESS
+   ========================================================= */
+
+.partners-redesign > section:nth-of-type(8) {
+  background:
+    linear-gradient(
+      180deg,
+      #080d14,
+      #05080d
+    ) !important;
+}
+
+.partners-redesign > section:nth-of-type(8) h2 {
+  font-size: clamp(3.4rem, 6vw, 6.5rem) !important;
+}
+
+.partners-redesign > section:nth-of-type(8) h2 span {
+  color: rgba(245, 243, 237, 0.22) !important;
+}
+
+
+/* process cards */
+
+.partners-redesign > section:nth-of-type(8)
+  .grid > div {
+  position: relative;
+  min-height: 280px;
+  padding: 2rem !important;
+  border-color: var(--p-line) !important;
+  background: rgba(5, 8, 13, 0.78) !important;
+  transition:
+    transform 600ms cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 400ms ease,
+    background 400ms ease;
+}
+
+.partners-redesign > section:nth-of-type(8)
+  .grid > div:hover {
+  transform: translateY(-8px);
+  border-color: rgba(134, 191, 255, 0.28) !important;
+  background: #0a111b !important;
+}
+
+.partners-redesign > section:nth-of-type(8)
+  .grid > div::before {
+  content: "";
+  position: absolute;
+  left: 2rem;
+  top: 0;
+  width: 35px;
+  height: 1px;
+  background: var(--p-blue);
+  transition: width 500ms ease;
+}
+
+.partners-redesign > section:nth-of-type(8)
+  .grid > div:hover::before {
+  width: calc(100% - 4rem);
+}
+
+
+/* =========================================================
+   CONTACT / FINAL STATEMENT
+   ========================================================= */
+
+#contact {
+  min-height: 90vh;
+  display: flex;
+  align-items: center;
+  background:
+    radial-gradient(
+      ellipse at center,
+      rgba(69, 126, 183, 0.11),
+      transparent 42%
+    ),
+    #05080d !important;
+}
+
+#contact::before {
+  content: "";
+  position: absolute;
+  width: 800px;
+  height: 800px;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  border: 1px solid rgba(134, 191, 255, 0.07);
+  border-radius: 50%;
+  box-shadow:
+    0 0 0 100px rgba(134, 191, 255, 0.012),
+    0 0 0 200px rgba(134, 191, 255, 0.008);
+  pointer-events: none;
+}
+
+#contact h2 {
+  position: relative;
+  z-index: 2;
+  max-width: 1100px !important;
+  font-size: clamp(4rem, 9vw, 10rem) !important;
+  line-height: 0.8 !important;
+}
+
+#contact h2 span {
+  color: var(--p-blue) !important;
+}
+
+#contact a:first-of-type {
+  background: var(--p-ink) !important;
+  color: #07101a !important;
+  transition:
+    transform 400ms ease,
+    background 400ms ease,
+    box-shadow 400ms ease;
+}
+
+#contact a:first-of-type:hover {
+  transform: translateY(-4px);
+  background: var(--p-blue-bright) !important;
+  box-shadow: 0 25px 70px rgba(100, 170, 235, 0.16);
+}
+
+#contact a:last-of-type {
+  border-color: rgba(245, 243, 237, 0.18) !important;
+}
+
+#contact a:last-of-type:hover {
+  background: rgba(255, 255, 255, 0.045) !important;
+  border-color: rgba(245, 243, 237, 0.38) !important;
+}
+
+
+/* =========================================================
+   MICRO INTERACTIONS
+   ========================================================= */
+
+.partners-redesign a {
+  transition:
+    color 300ms ease,
+    border-color 300ms ease,
+    background 300ms ease,
+    transform 400ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.partners-redesign a span {
+  transition:
+    transform 400ms cubic-bezier(0.22, 1, 0.36, 1),
+    color 300ms ease;
+}
+
+
+/* =========================================================
+   SCROLL-LIKE ENTRANCE ANIMATIONS
+   ========================================================= */
+
+#pathways > div > div:last-child > a {
+  animation: partnerCardEntrance 900ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+#pathways > div > div:last-child > a:nth-child(1) {
+  animation-delay: 100ms;
+}
+
+#pathways > div > div:last-child > a:nth-child(2) {
+  animation-delay: 180ms;
+}
+
+#pathways > div > div:last-child > a:nth-child(3) {
+  animation-delay: 260ms;
+}
+
+
+/* =========================================================
+   KEYFRAMES
+   ========================================================= */
+
+@keyframes partnerHeroTitle {
+  from {
+    opacity: 0;
+    transform: translateY(45px);
+    clip-path: inset(100% 0 0 0);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+@keyframes partnerHeroImage {
+  from {
+    opacity: 0;
+    transform: scale(0.9) translateX(35px);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1) translateX(0);
+  }
+}
+
+@keyframes partnerCardEntrance {
+  from {
+    opacity: 0;
+    transform: translateY(35px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 1024px) {
+  .partners-redesign > section:first-of-type {
+    min-height: auto !important;
+  }
+
+  .partners-redesign > section:first-of-type
+    > div:nth-child(2) {
+    padding-top: 8rem !important;
+  }
+
+  .partners-redesign > section:first-of-type h1 {
+    font-size: clamp(4rem, 11vw, 7rem) !important;
+  }
+
+  .partners-redesign > section:first-of-type
+    > div:nth-child(2)
+    > div
+    > div:last-child {
+    transform: none;
+  }
+
+  #physicians,
+  #clinics,
+  #strategic-partners {
+    min-height: auto;
+  }
+}
+
+
+@media (max-width: 640px) {
+  .partners-redesign > section:first-of-type
+    > div:nth-child(2) {
+    padding-top: 7rem !important;
+    padding-bottom: 5rem !important;
+  }
+
+  .partners-redesign > section:first-of-type h1 {
+    font-size: clamp(3.8rem, 17vw, 5.8rem) !important;
+    line-height: 0.82 !important;
+  }
+
+  .partners-redesign > section:first-of-type
+    h1 + p {
+    font-size: 0.88rem !important;
+  }
+
+  #pathways {
+    padding-top: 5rem !important;
+    padding-bottom: 5rem !important;
+  }
+
+  #pathways a {
+    min-height: 460px !important;
+  }
+
+  #physicians,
+  #clinics,
+  #strategic-partners {
+    padding-top: 5rem;
+    padding-bottom: 5rem;
+  }
+
+  #physicians h2,
+  #clinics h2,
+  #strategic-partners h2 {
+    font-size: clamp(3rem, 15vw, 5rem) !important;
+  }
+
+  #contact {
+    min-height: 75vh;
+  }
+
+  #contact h2 {
+    font-size: clamp(3.4rem, 15vw, 5.8rem) !important;
+  }
+
+  #contact::before {
+    width: 500px;
+    height: 500px;
+  }
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .partners-redesign *,
+  .partners-redesign *::before,
+  .partners-redesign *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+.observatory-header h2 {
+  max-width: 750px;
+  margin: 0;
+
+  font-family: var(--font-driplabs-manrope), sans-serif;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.10em;
+
+  font-family: "Inter", "Helvetica Neue", Arial, sans-serif;
+  font-size: clamp(3rem, 5.2vw, 6.8rem);
+  font-weight: 300;
+  line-height: 0.9;
+  letter-spacing: -0.065em;
+
+  color: #f5f0e7;
+}
+
+.observatory-title span {
+  display: block;
 }

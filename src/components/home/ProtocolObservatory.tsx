@@ -66,6 +66,24 @@ function getProtocolIcon(slug: string): string | undefined {
   return PROTOCOL_ICONS[normalizeSlug(slug)];
 }
 
+/* Family-level fallback icons ensure every family always has a
+   meaningful visual identity, even when a protocol-specific icon
+   has not been added yet. */
+const FAMILY_ICON_FALLBACKS: Record<WellnessFamily, string> = {
+  "Skin & Beauty": "/images/protocol-icons/glamour.png",
+  "Cellular & Longevity": "/images/protocol-icons/nad-plus.png",
+  "Metabolic & Performance": "/images/protocol-icons/fit.png",
+  "Digestive & Systemic": "/images/protocol-icons/restore.png",
+  "Women's Wellness": "/images/protocol-icons/radiance.png",
+  "Recovery & Immune": "/images/protocol-icons/bounce-back.png",
+  "Cognitive & Neuro": "/images/protocol-icons/renew.png",
+  Musculoskeletal: "/images/protocol-icons/move.png",
+};
+
+function getFamilyIcon(family: WellnessFamily): string {
+  return FAMILY_ICON_FALLBACKS[family];
+}
+
 /* =========================================================
    FALLBACK PROTOCOL DATA
 ========================================================= */
@@ -252,6 +270,17 @@ const VIDEO_CUES = [
   { time: 65, protocol: "move" },
 ];
 
+const AUTO_FAMILY_SEQUENCE: WellnessFamily[] = [
+  "Skin & Beauty",
+  "Cellular & Longevity",
+  "Metabolic & Performance",
+  "Digestive & Systemic",
+  "Women's Wellness",
+  "Recovery & Immune",
+  "Cognitive & Neuro",
+  "Musculoskeletal",
+];
+
 /* =========================================================
    HELPERS
 ========================================================= */
@@ -344,25 +373,18 @@ export default function ProtocolObservatory() {
   const [activeSlug, setActiveSlug] =
     useState("glamour");
 
-  const [isPlaying, setIsPlaying] =
-    useState(true);
-
-  const [isMuted, setIsMuted] =
-    useState(true);
-
-  const [currentTime, setCurrentTime] =
-    useState(0);
-
-  const [duration, setDuration] =
-    useState(0);
 
   const [isVisible, setIsVisible] =
     useState(false);
 
   const [family, setFamily] =
-    useState<"All" | WellnessFamily>("All");
+    useState<"All" | WellnessFamily>("Skin & Beauty");
 
   const [focusedSlug, setFocusedSlug] = useState<string>("");
+
+  // Family auto-rotation pauses briefly after a manual selection so
+  // the interaction still feels fully user-controlled.
+  const familyPauseUntilRef = useRef(0);
 
   /* =====================================================
      LOAD API DATA
@@ -477,29 +499,12 @@ export default function ProtocolObservatory() {
       return;
     }
 
-    video
-      .play()
-      .then(() => {
-        setIsPlaying(true);
-      })
-      .catch(() => {
-        setIsPlaying(false);
-      });
+    video.play().catch(() => {});
   }, [isVisible]);
 
   /* =====================================================
      VIDEO EVENTS
   ===================================================== */
-
-  const handleLoadedMetadata = useCallback(() => {
-    const video = videoRef.current;
-
-    if (!video) {
-      return;
-    }
-
-    setDuration(video.duration || 0);
-  }, []);
 
   const handleTimeUpdate = useCallback(() => {
     const video = videoRef.current;
@@ -509,9 +514,6 @@ export default function ProtocolObservatory() {
     }
 
     const time = video.currentTime;
-
-    setCurrentTime(time);
-
     const cue = getActiveCue(time);
 
     if (cue?.protocol) {
@@ -521,46 +523,6 @@ export default function ProtocolObservatory() {
           : cue.protocol
       );
     }
-  }, []);
-
-  /* =====================================================
-     PLAY / PAUSE
-  ===================================================== */
-
-  const togglePlay = useCallback(() => {
-    const video = videoRef.current;
-
-    if (!video) {
-      return;
-    }
-
-    if (video.paused) {
-      video
-        .play()
-        .then(() => {
-          setIsPlaying(true);
-        })
-        .catch(() => {});
-    } else {
-      video.pause();
-      setIsPlaying(false);
-    }
-  }, []);
-
-  /* =====================================================
-     MUTE
-  ===================================================== */
-
-  const toggleMute = useCallback(() => {
-    const video = videoRef.current;
-
-    if (!video) {
-      return;
-    }
-
-    video.muted = !video.muted;
-
-    setIsMuted(video.muted);
   }, []);
 
   /* =====================================================
@@ -585,59 +547,12 @@ export default function ProtocolObservatory() {
         video.currentTime = cue.time;
 
         if (video.paused) {
-          video
-            .play()
-            .then(() => {
-              setIsPlaying(true);
-            })
-            .catch(() => {});
+          video.play().catch(() => {});
         }
       }
     },
     []
   );
-
-  /* =====================================================
-     NEXT / PREVIOUS
-  ===================================================== */
-
-  const activeIndex = Math.max(
-    0,
-    protocols.findIndex(
-      (protocol) => protocol.slug === activeSlug
-    )
-  );
-
-  const goNext = useCallback(() => {
-    const next =
-      protocols[
-        (activeIndex + 1) % protocols.length
-      ];
-
-    if (next) {
-      selectProtocol(next.slug);
-    }
-  }, [
-    activeIndex,
-    protocols,
-    selectProtocol,
-  ]);
-
-  const goPrevious = useCallback(() => {
-    const previous =
-      protocols[
-        (activeIndex - 1 + protocols.length) %
-          protocols.length
-      ];
-
-    if (previous) {
-      selectProtocol(previous.slug);
-    }
-  }, [
-    activeIndex,
-    protocols,
-    selectProtocol,
-  ]);
 
   /* =====================================================
      FILTERED PROTOCOLS
@@ -761,6 +676,50 @@ export default function ProtocolObservatory() {
     "Musculoskeletal",
   ] as const;
 
+  /* =====================================================
+     AUTOMATIC FAMILY ROTATION
+     Every family gets its own protocol set and therefore its
+     own revolving icon field. Manual selection pauses the
+     automation for a few seconds.
+  ===================================================== */
+
+  useEffect(() => {
+    if (!isVisible) return;
+
+    const interval = window.setInterval(() => {
+      if (Date.now() < familyPauseUntilRef.current) return;
+
+      setFamily((current) => {
+        const currentIndex = AUTO_FAMILY_SEQUENCE.indexOf(
+          current as WellnessFamily
+        );
+
+        const nextIndex =
+          currentIndex === -1
+            ? 0
+            : (currentIndex + 1) % AUTO_FAMILY_SEQUENCE.length;
+
+        return AUTO_FAMILY_SEQUENCE[nextIndex];
+      });
+    }, 7000);
+
+    return () => window.clearInterval(interval);
+  }, [isVisible]);
+
+  /* Keep the information panel synchronized with the selected
+     family. */
+  useEffect(() => {
+    if (!visibleProtocols.length) return;
+
+    const stillVisible = visibleProtocols.some(
+      (protocol) => protocol.slug === activeSlug
+    );
+
+    if (!stillVisible) {
+      setActiveSlug(visibleProtocols[0].slug);
+    }
+  }, [activeSlug, visibleProtocols]);
+
   return (
     <>
       <section
@@ -807,6 +766,13 @@ export default function ProtocolObservatory() {
               Each formulation is physician-directed and
               designed around a specific wellness pathway.
             </p>
+
+            <div className="observatory-live-family">
+              <span className="observatory-live-dot" />
+              <span>LIVE FAMILY</span>
+              <strong>{family === "All" ? "ALL PROTOCOLS" : family}</strong>
+              <small>AUTO ROTATES</small>
+            </div>
           </div>
 
           <div className="observatory-index">
@@ -830,10 +796,15 @@ export default function ProtocolObservatory() {
                 key={item}
                 type="button"
                 onClick={() => {
+                  if (item !== "All") {
+                    familyPauseUntilRef.current =
+                      Date.now() + 12000;
+                  }
+
                   setFamily(item);
 
                   // Restart the orbit whenever the family changes
-                  // so the newly selected family enters cleanly.
+                  // so the new family enters as one clean system.
                   requestAnimationFrame(() => {
                     const orbit = document.querySelector(
                       ".orbit-spin"
@@ -916,7 +887,9 @@ export default function ProtocolObservatory() {
                   protocol.slug ===
                   focusedSlug;
 
-                const icon = getProtocolIcon(protocol.slug);
+                const icon =
+  getProtocolIcon(protocol.slug) ??
+  getFamilyIcon(protocol.family);
 
                 return (
                   <button
@@ -1010,23 +983,12 @@ export default function ProtocolObservatory() {
                 ref={videoRef}
                 className="core-video"
                 src={VIDEO_SRC}
-                muted={isMuted}
+                muted
                 autoPlay
                 loop
                 playsInline
                 preload="metadata"
-                onLoadedMetadata={
-                  handleLoadedMetadata
-                }
-                onTimeUpdate={
-                  handleTimeUpdate
-                }
-                onPlay={() =>
-                  setIsPlaying(true)
-                }
-                onPause={() =>
-                  setIsPlaying(false)
-                }
+                onTimeUpdate={handleTimeUpdate}
               />
 
               <div
@@ -1167,175 +1129,6 @@ export default function ProtocolObservatory() {
           </select>
         </div>
 
-        {/* =================================================
-            CONTROLS
-        ================================================= */}
-
-        <div className="observatory-controls">
-          <button
-            type="button"
-            onClick={goPrevious}
-            aria-label="Previous protocol"
-          >
-            ←
-          </button>
-
-          <button
-            type="button"
-            onClick={togglePlay}
-            aria-label={
-              isPlaying
-                ? "Pause"
-                : "Play"
-            }
-            className="control-play"
-          >
-            {isPlaying ? "Ⅱ" : "▶"}
-          </button>
-
-          <button
-            type="button"
-            onClick={goNext}
-            aria-label="Next protocol"
-          >
-            →
-          </button>
-
-          <span className="control-divider" />
-
-          <button
-            type="button"
-            onClick={toggleMute}
-            aria-label={
-              isMuted
-                ? "Unmute"
-                : "Mute"
-            }
-            className="control-mute"
-          >
-            {isMuted ? "SOUND OFF" : "SOUND ON"}
-          </button>
-        </div>
-
-        {/* =================================================
-            TIMELINE
-        ================================================= */}
-
-        <div className="observatory-timeline">
-          <div className="timeline-track">
-            <span
-              className="timeline-progress"
-              style={{
-                width:
-                  duration > 0
-                    ? `${Math.min(
-                        100,
-                        (currentTime /
-                          duration) *
-                          100
-                      )}%`
-                    : "0%",
-              }}
-            />
-
-            {VIDEO_CUES.map(
-              (cue, index) => {
-                const protocol =
-                  protocols.find(
-                    (item) =>
-                      item.slug ===
-                      cue.protocol
-                  );
-
-                if (!protocol) {
-                  return null;
-                }
-
-                const position =
-                  duration > 0
-                    ? (cue.time /
-                        duration) *
-                      100
-                    : (index /
-                        Math.max(
-                          VIDEO_CUES.length -
-                            1,
-                          1
-                        )) *
-                      100;
-
-                const active =
-                  protocol.slug ===
-                  activeSlug;
-
-                return (
-                  <button
-                    key={cue.protocol}
-                    type="button"
-                    onClick={() =>
-                      selectProtocol(
-                        cue.protocol
-                      )
-                    }
-                    className={
-                      active
-                        ? "timeline-point active"
-                        : "timeline-point"
-                    }
-                    style={{
-                      left: `${position}%`,
-                    }}
-                    aria-label={
-                      protocol.name
-                    }
-                  >
-                    <span />
-                  </button>
-                );
-              }
-            )}
-          </div>
-
-          <div className="timeline-labels">
-            <span>PROTOCOL SEQUENCE</span>
-
-            <span>
-              {Math.floor(
-                currentTime
-              )
-                .toString()
-                .padStart(2, "0")}
-              {" / "}
-              {Math.floor(
-                duration || 0
-              )
-                .toString()
-                .padStart(2, "0")}
-            </span>
-          </div>
-        </div>
-
-        {/* =================================================
-            BOTTOM NOTE
-        ================================================= */}
-
-        <div className="observatory-footer">
-          <span>
-            DRIPLABS / CLINICAL PROTOCOL SYSTEM
-          </span>
-
-          <span>
-            PHYSICIAN GUIDED
-          </span>
-
-          <span>
-            TRACEABLE FORMULATIONS
-          </span>
-
-          <span>
-            INDIA
-          </span>
-        </div>
       </section>
 
       {/* =====================================================
@@ -1358,13 +1151,14 @@ export default function ProtocolObservatory() {
 
           position: relative;
           width: 100%;
-          min-height: 100svh;
+          min-height: calc(100svh - 82px);
+          height: calc(100svh - 82px);
           overflow: hidden;
 
           padding:
-            25px
-            clamp(20px, 4vw, 72px)
-            70px;
+            clamp(22px, 3vh, 34px)
+            clamp(24px, 4vw, 72px)
+            clamp(24px, 3vh, 34px);
 
           background:
             radial-gradient(
@@ -1511,9 +1305,9 @@ export default function ProtocolObservatory() {
 
           font-size:
             clamp(
-              44px,
-              5.8vw,
-              88px
+              40px,
+              4.6vw,
+              70px
             );
 
           font-weight: 400;
@@ -1531,7 +1325,7 @@ export default function ProtocolObservatory() {
         .observatory-header p {
           max-width: 610px;
 
-          margin: 22px 0 0;
+          margin: 14px 0 0;
 
           font-family:
             "Manrope",
@@ -1547,6 +1341,44 @@ export default function ProtocolObservatory() {
               255,
               .55
             );
+        }
+
+        .observatory-live-family {
+          display: flex;
+          align-items: center;
+          flex-wrap: wrap;
+          gap: 8px;
+          margin-top: 14px;
+          font-family: "Space Mono", monospace;
+          font-size: 7px;
+          letter-spacing: .16em;
+          text-transform: uppercase;
+          color: rgba(247,250,255,.34);
+        }
+
+        .observatory-live-family strong {
+          color: rgba(140,203,255,.9);
+          font-weight: 500;
+        }
+
+        .observatory-live-family small {
+          padding-left: 7px;
+          border-left: 1px solid rgba(255,255,255,.1);
+          color: rgba(255,255,255,.22);
+        }
+
+        .observatory-live-dot {
+          width: 5px;
+          height: 5px;
+          border-radius: 50%;
+          background: #4D9BFF;
+          box-shadow: 0 0 10px rgba(77,155,255,.75);
+          animation: family-pulse 1.8s ease-in-out infinite;
+        }
+
+        @keyframes family-pulse {
+          0%, 100% { opacity: .45; transform: scale(.8); }
+          50% { opacity: 1; transform: scale(1.15); }
         }
 
         .observatory-index {
@@ -1607,7 +1439,7 @@ export default function ProtocolObservatory() {
           gap: 8px;
 
           max-width: 1500px;
-          margin: 34px auto 0;
+          margin: 18px auto 0;
         }
 
         .observatory-filter {
@@ -3094,326 +2926,89 @@ export default function ProtocolObservatory() {
         }
 
         /* =================================================
-           CONTROLS
+           DESKTOP EDITORIAL LAYOUT
         ================================================= */
 
-        .observatory-controls {
-          position: relative;
-          z-index: 40;
-
-          display: flex;
-          justify-content: center;
-          align-items: center;
-
-          gap: 9px;
-
-          margin-top: 22px;
-        }
-
-        .observatory-controls button {
-          display: grid;
-          place-items: center;
-
-          width: 34px;
-          height: 34px;
-
-          border:
-            1px solid
-            rgba(
-              247,
-              250,
-              255,
-              .1
-            );
-
-          border-radius: 50%;
-
-          background:
-            rgba(
-              247,
-              250,
-              255,
-              .025
-            );
-
-          font-family:
-            "Manrope",
-            sans-serif;
-
-          font-size: 11px;
-
-          color:
-            rgba(
-              247,
-              250,
-              255,
-              .7
-            );
-
-          cursor: pointer;
-
-          transition:
-            border-color .3s ease,
-            background .3s ease,
-            color .3s ease;
-        }
-
-        .observatory-controls button:hover {
-          color: white;
-
-          border-color:
-            rgba(
-              77,
-              155,
-              255,
-              .6
-            );
-
-          background:
-            rgba(
-              0,
-              102,
-              255,
-              .1
-            );
-        }
-
-        .observatory-controls
-          .control-play {
-          width: 42px;
-          height: 42px;
-
-          border-color:
-            rgba(
-              22,
-              131,
-              255,
-              .55
-            );
-
-          background:
-            rgba(
-              0,
-              102,
-              255,
-              .12
-            );
-
-          color:
-            var(--blue-soft);
-        }
-
-        .control-divider {
-          width: 1px;
-          height: 18px;
-
-          margin:
-            0 5px;
-
-          background:
-            rgba(
-              247,
-              250,
-              255,
-              .1
-            );
-        }
-
-        .observatory-controls
-          .control-mute {
-          width: auto;
-
-          padding:
-            0 13px;
-
-          border-radius: 999px;
-
-          font-family:
-            "Space Mono",
-            monospace;
-
-          font-size: 7px;
-
-          letter-spacing: .14em;
-        }
-
-        /* =================================================
-           TIMELINE
-        ================================================= */
-
-        .observatory-timeline {
-          position: relative;
-          z-index: 30;
-
-          max-width: 1120px;
-
-          margin:
-            26px auto 0;
-        }
-
-        .timeline-track {
-          position: relative;
-
-          height: 1px;
-
-          background:
-            rgba(
-              247,
-              250,
-              255,
-              .1
-            );
-        }
-
-        .timeline-progress {
-          position: absolute;
-
-          left: 0;
-          top: 0;
-
-          height: 1px;
-
-          background:
-            linear-gradient(
-              90deg,
-              var(--blue),
-              var(--blue-soft)
-            );
-        }
-
-        .timeline-point {
-          position: absolute;
-
-          top: 50%;
-
-          width: 14px;
-          height: 14px;
-
-          padding: 0;
-
-          border: 0;
-
-          border-radius: 50%;
-
-          background: transparent;
-
-          transform:
-            translate(-50%, -50%);
-
-          cursor: pointer;
-        }
-
-        .timeline-point span {
-          position: absolute;
-
-          left: 50%;
-          top: 50%;
-
-          width: 3px;
-          height: 3px;
-
-          border-radius: 50%;
-
-          background:
-            rgba(
-              247,
-              250,
-              255,
-              .3
-            );
-
-          transform:
-            translate(-50%, -50%);
-
-          transition:
-            width .3s ease,
-            height .3s ease,
-            background .3s ease;
-        }
-
-        .timeline-point:hover span,
-        .timeline-point.active span {
-          width: 7px;
-          height: 7px;
-
-          background:
-            var(--blue-soft);
-
-          box-shadow:
-            0 0 12px
-              rgba(
-                77,
-                155,
-                255,
-                .7
-              );
-        }
-
-        .timeline-labels {
-          display: flex;
-          justify-content: space-between;
-
-          margin-top: 9px;
-
-          font-family:
-            "Space Mono",
-            monospace;
-
-          font-size: 7px;
-
-          letter-spacing: .16em;
-
-          color:
-            rgba(
-              247,
-              250,
-              255,
-              .3
-            );
-        }
-
-        /* =================================================
-           FOOTER
-        ================================================= */
-
-        .observatory-footer {
-          position: relative;
-          z-index: 30;
-
-          display: flex;
-          justify-content: space-between;
-
-          max-width: 1500px;
-
-          margin:
-            28px auto 0;
-
-          padding-top: 18px;
-
-          border-top:
-            1px solid
-            rgba(
-              247,
-              250,
-              255,
-              .06
-            );
-
-          font-family:
-            "Space Mono",
-            monospace;
-
-          font-size: 6px;
-
-          letter-spacing: .18em;
-
-          color:
-            rgba(
-              247,
-              250,
-              255,
-              .24
-            );
+        @media (min-width: 901px) {
+          .protocol-observatory {
+            display: grid;
+            grid-template-columns: minmax(320px, .72fr) minmax(520px, 1.28fr);
+            grid-template-rows: auto auto minmax(0, 1fr);
+            column-gap: clamp(34px, 5vw, 84px);
+            row-gap: 0;
+            align-items: center;
+            min-height: 0;
+            height: 100%;
+            padding-top: 0;
+            padding-bottom: 0;
+          }
+
+          .observatory-header {
+            grid-column: 1 / -1;
+            grid-row: 1;
+            width: 100%;
+            align-self: start;
+          }
+
+          .observatory-filters {
+            grid-column: 1 / -1;
+            grid-row: 2;
+            width: 100%;
+            margin-top: 14px;
+          }
+
+          .observatory-information {
+            grid-column: 1;
+            grid-row: 3;
+            width: 100%;
+            max-width: 560px;
+            margin: 0;
+            padding: 18px 0;
+            grid-template-columns: 68px minmax(0, 1fr);
+            gap: 18px;
+            align-self: center;
+          }
+
+          .information-number {
+            align-self: start;
+          }
+
+          .information-number span {
+            font-size: clamp(30px, 3vw, 44px);
+          }
+
+          .information-copy h3 {
+            font-size: clamp(30px, 2.8vw, 42px);
+            line-height: 1;
+          }
+
+          .information-copy p {
+            max-width: 480px;
+            margin-top: 10px;
+            font-size: 12px;
+            line-height: 1.75;
+          }
+
+          .information-link {
+            grid-column: 2;
+            justify-self: start;
+            margin-top: 14px;
+          }
+
+          .observatory-system {
+            grid-column: 2;
+            grid-row: 3;
+            width: 100%;
+            max-width: 660px;
+            max-height: 100%;
+            aspect-ratio: 1 / .86;
+            margin: 0 auto;
+            align-self: center;
+          }
+
+          .observatory-core {
+            width: clamp(260px, 24vw, 390px);
+          }
         }
 
         /* =================================================
@@ -3422,6 +3017,8 @@ export default function ProtocolObservatory() {
 
         @media (max-width: 900px) {
           .protocol-observatory {
+            min-height: auto;
+            height: auto;
             padding:
               80px 18px 50px;
           }
@@ -3517,6 +3114,8 @@ export default function ProtocolObservatory() {
 
         @media (max-width: 640px) {
           .protocol-observatory {
+            min-height: auto;
+            height: auto;
             padding:
               68px 16px 40px;
           }
@@ -3663,13 +3262,6 @@ export default function ProtocolObservatory() {
             font-size: 11px;
           }
 
-          .observatory-controls {
-            margin-top: 20px;
-          }
-
-          .observatory-footer {
-            display: none;
-          }
         }
 
         /* =================================================

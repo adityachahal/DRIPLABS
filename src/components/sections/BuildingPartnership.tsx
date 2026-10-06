@@ -11,6 +11,7 @@ type PartnerType = {
   title: string;
   description: string;
   position: string;
+  href: string;
 };
 
 const partners: PartnerType[] = [
@@ -21,7 +22,8 @@ const partners: PartnerType[] = [
     title: "Physicians",
     description:
       "Extend physician-led wellness through a considered clinical ecosystem.",
-    position: "left-[3%] top-[17%]",
+    position: "left-[3%] top-[14%]",
+    href: "/physicians",
   },
   {
     id: "clinics",
@@ -30,7 +32,8 @@ const partners: PartnerType[] = [
     title: "Clinics",
     description:
       "Bring the DRIPLABS experience into carefully considered clinical environments.",
-    position: "right-[3%] top-[17%]",
+    position: "right-[3%] top-[14%]",
+    href: "/physicians",
   },
   {
     id: "partners",
@@ -39,8 +42,19 @@ const partners: PartnerType[] = [
     title: "Partners",
     description:
       "Build new opportunities across distribution, hospitality and strategic growth.",
-    position: "left-1/2 bottom-[4%] -translate-x-1/2",
+    position: "left-[17%] bottom-[3%]",
+    href: "/partners",
   },
+  {
+  id: "channel-partners",
+  number: "04",
+  label: "Channel Partners",
+  title: "Channel Partners",
+  description:
+    "Extend the DRIPLABS ecosystem through aligned channel partnerships and strategic growth.",
+  position: "right-[17%] bottom-[3%]",
+  href: "/partners",
+},
 ];
 
 export default function BuildSection() {
@@ -93,11 +107,6 @@ export default function BuildSection() {
     };
   }, [reduceMotion]);
 
-  const isActive = (id: string) => {
-    if (!active) return true;
-    return active === id;
-  };
-
   return (
     <section
       ref={sectionRef}
@@ -114,8 +123,8 @@ export default function BuildSection() {
       ========================================================= */}
 
       <div className="pointer-events-none absolute inset-0">
-
         {/* Main atmosphere */}
+
         <motion.div
           animate={
             reduceMotion
@@ -145,6 +154,7 @@ export default function BuildSection() {
         />
 
         {/* Secondary atmosphere */}
+
         <div
           className="
             absolute
@@ -172,6 +182,7 @@ export default function BuildSection() {
         />
 
         {/* Grid */}
+
         <div
           className="
             absolute
@@ -183,6 +194,7 @@ export default function BuildSection() {
         />
 
         {/* Vignette */}
+
         <div
           className="
             absolute
@@ -190,27 +202,27 @@ export default function BuildSection() {
             bg-[radial-gradient(circle_at_center,transparent_25%,rgba(2,8,18,.72)_100%)]
           "
         />
-
       </div>
-
 
       {/* =========================================================
           TOP HEADER
       ========================================================= */}
 
-      <div className="relative mx-auto max-w-[1540px] px-6 pt-16 sm:px-10 lg:px-12 lg:pt-20">
-
+      <div
+        className="
+          relative
+          mx-auto
+          max-w-[1540px]
+          px-6
+          pt-16
+          sm:px-10
+          lg:px-10
+          lg:pt-1
+        "
+      >
         <div className="flex items-center justify-between">
-
           <div className="flex items-center gap-4">
-
-            <span
-              className="
-                h-px
-                w-8
-                bg-[#1683FF]
-              "
-            />
+            <span className="h-px w-8 bg-[#1683FF]" />
 
             <span
               className="
@@ -223,9 +235,7 @@ export default function BuildSection() {
             >
               14 — Building Partnerships
             </span>
-
           </div>
-
 
           <div
             className="
@@ -239,18 +249,25 @@ export default function BuildSection() {
           >
             DRIPLABS / Network
           </div>
-
         </div>
-
       </div>
-
 
       {/* =========================================================
           MAIN INTERACTIVE FIELD
       ========================================================= */}
 
-      <div className="relative mx-auto mt-8 h-[650px] max-w-[1540px] px-6 sm:px-10 lg:px-12">
-
+      <div
+        className="
+          relative
+          mx-auto
+          mt-8
+          h-[650px]
+          max-w-[1540px]
+          px-6
+          sm:px-10
+          lg:px-12
+        "
+      >
         {/* =======================================================
             LARGE BACKGROUND WORD
         ======================================================= */}
@@ -288,7 +305,6 @@ export default function BuildSection() {
           DRIPLABS
         </motion.div>
 
-
         {/* =======================================================
             CENTRAL ORBIT SYSTEM
         ======================================================= */}
@@ -319,8 +335,8 @@ export default function BuildSection() {
             sm:w-[470px]
           "
         >
-
           {/* Outer orbit */}
+
           <motion.div
             animate={
               reduceMotion
@@ -344,6 +360,7 @@ export default function BuildSection() {
           />
 
           {/* Middle orbit */}
+
           <motion.div
             animate={
               reduceMotion
@@ -367,6 +384,7 @@ export default function BuildSection() {
           />
 
           {/* Inner orbit */}
+
           <div
             className="
               absolute
@@ -378,6 +396,7 @@ export default function BuildSection() {
           />
 
           {/* Center glow */}
+
           <div
             className="
               absolute
@@ -394,6 +413,7 @@ export default function BuildSection() {
           />
 
           {/* Center ring */}
+
           <motion.div
             animate={
               reduceMotion
@@ -425,7 +445,6 @@ export default function BuildSection() {
               backdrop-blur-sm
             "
           >
-
             <div
               className="
                 absolute
@@ -448,11 +467,10 @@ export default function BuildSection() {
             >
               DRIPLABS
             </span>
-
           </motion.div>
 
-
           {/* Central pulse */}
+
           {!reduceMotion && (
             <>
               <motion.span
@@ -503,9 +521,7 @@ export default function BuildSection() {
               />
             </>
           )}
-
         </motion.div>
-
 
         {/* =======================================================
             CONNECTION LINES
@@ -516,47 +532,40 @@ export default function BuildSection() {
           viewBox="0 0 1000 650"
           preserveAspectRatio="none"
         >
+          {/* Physicians */}
 
-          {/* Left connection */}
           <motion.path
             d="M 150 150 C 300 190, 350 260, 500 325"
             fill="none"
             stroke="#1683FF"
             strokeWidth="1"
-            strokeOpacity={active === "physicians" ? "0.7" : "0.16"}
+            strokeOpacity={
+              active === "physicians" ? "0.7" : "0.16"
+            }
             pathLength="1"
-            initial={{
-              pathLength: 0,
-            }}
-            whileInView={{
-              pathLength: 1,
-            }}
-            viewport={{
-              once: true,
-            }}
+            initial={{ pathLength: 0 }}
+            whileInView={{ pathLength: 1 }}
+            viewport={{ once: true }}
             transition={{
               duration: 1.5,
               ease: [0.22, 1, 0.36, 1],
             }}
           />
 
-          {/* Right connection */}
+          {/* Clinics */}
+
           <motion.path
             d="M 850 150 C 700 190, 650 260, 500 325"
             fill="none"
             stroke="#1683FF"
             strokeWidth="1"
-            strokeOpacity={active === "clinics" ? "0.7" : "0.16"}
+            strokeOpacity={
+              active === "clinics" ? "0.7" : "0.16"
+            }
             pathLength="1"
-            initial={{
-              pathLength: 0,
-            }}
-            whileInView={{
-              pathLength: 1,
-            }}
-            viewport={{
-              once: true,
-            }}
+            initial={{ pathLength: 0 }}
+            whileInView={{ pathLength: 1 }}
+            viewport={{ once: true }}
             transition={{
               duration: 1.5,
               delay: 0.15,
@@ -564,23 +573,20 @@ export default function BuildSection() {
             }}
           />
 
-          {/* Bottom connection */}
+          {/* Partners */}
+
           <motion.path
-            d="M 500 325 C 500 410, 500 480, 500 560"
+            d="M 300 550 C 370 470, 420 420, 500 325"
             fill="none"
             stroke="#1683FF"
             strokeWidth="1"
-            strokeOpacity={active === "partners" ? "0.7" : "0.16"}
+            strokeOpacity={
+              active === "partners" ? "0.7" : "0.16"
+            }
             pathLength="1"
-            initial={{
-              pathLength: 0,
-            }}
-            whileInView={{
-              pathLength: 1,
-            }}
-            viewport={{
-              once: true,
-            }}
+            initial={{ pathLength: 0 }}
+            whileInView={{ pathLength: 1 }}
+            viewport={{ once: true }}
             transition={{
               duration: 1.5,
               delay: 0.3,
@@ -588,7 +594,29 @@ export default function BuildSection() {
             }}
           />
 
+          {/* Membership */}
+
+          <motion.path
+            d="M 700 550 C 630 470, 580 420, 500 325"
+            fill="none"
+            stroke="#1683FF"
+            strokeWidth="1"
+            strokeOpacity={
+              active === "membership" ? "0.7" : "0.16"
+            }
+            pathLength="1"
+            initial={{ pathLength: 0 }}
+            whileInView={{ pathLength: 1 }}
+            viewport={{ once: true }}
+            transition={{
+              duration: 1.5,
+              delay: 0.45,
+              ease: [0.22, 1, 0.36, 1],
+            }}
+          />
+
           {/* Horizontal architecture */}
+
           <path
             d="M 70 325 H 930"
             stroke="white"
@@ -596,28 +624,30 @@ export default function BuildSection() {
             strokeOpacity="0.035"
           />
 
+          {/* Vertical architecture */}
+
           <path
             d="M 500 60 V 590"
             stroke="white"
             strokeWidth="1"
             strokeOpacity="0.035"
           />
-
         </svg>
 
-
         {/* =======================================================
-            PARTNERSHIP NODES
+            FUNCTIONAL PARTNERSHIP NODES
         ======================================================= */}
 
         {partners.map((partner) => (
-          <motion.button
+          <motion.div
             key={partner.id}
-            type="button"
-            onMouseEnter={() => setActive(partner.id)}
-            onMouseLeave={() => setActive(null)}
-            onFocus={() => setActive(partner.id)}
-            onBlur={() => setActive(null)}
+            className={`
+              absolute
+              ${partner.position}
+              z-20
+              w-[240px]
+              sm:w-[270px]
+            `}
             whileHover={
               reduceMotion
                 ? undefined
@@ -625,193 +655,186 @@ export default function BuildSection() {
                     y: -4,
                   }
             }
-            className={`
-              absolute
-              ${partner.position}
-              group
-              z-20
-              w-[240px]
-              text-left
-              sm:w-[270px]
-            `}
           >
-
-            {/* Node */}
-            <div
-              className={`
-                relative
-                overflow-hidden
-                border
-                p-5
-                backdrop-blur-md
-                transition-all
-                duration-700
-                ${
-                  active === partner.id
-                    ? "border-[#1683FF]/50 bg-[#06152B]/85 shadow-[0_20px_70px_rgba(0,102,255,.12)]"
-                    : "border-white/[0.08] bg-[#020812]/65 hover:border-white/[0.16]"
-                }
-              `}
+            <Link
+              href={partner.href}
+              onMouseEnter={() => setActive(partner.id)}
+              onMouseLeave={() => setActive(null)}
+              onFocus={() => setActive(partner.id)}
+              onBlur={() => setActive(null)}
+              className="group block text-left"
             >
+              {/* Card */}
 
-              {/* Hover light */}
-              <span
+              <div
                 className={`
-                  pointer-events-none
-                  absolute
-                  inset-0
-                  bg-gradient-to-br
-                  from-[#1683FF]/[0.10]
-                  via-transparent
-                  to-transparent
-                  transition-opacity
+                  relative
+                  overflow-hidden
+                  border
+                  p-5
+                  backdrop-blur-md
+                  transition-all
                   duration-700
                   ${
                     active === partner.id
-                      ? "opacity-100"
-                      : "opacity-0"
+                      ? "border-[#1683FF]/50 bg-[#06152B]/85 shadow-[0_20px_70px_rgba(0,102,255,.12)]"
+                      : "border-white/[0.08] bg-[#020812]/65 hover:border-white/[0.16]"
                   }
                 `}
-              />
+              >
+                {/* Hover light */}
 
+                <span
+                  className={`
+                    pointer-events-none
+                    absolute
+                    inset-0
+                    bg-gradient-to-br
+                    from-[#1683FF]/[0.10]
+                    via-transparent
+                    to-transparent
+                    transition-opacity
+                    duration-700
+                    ${
+                      active === partner.id
+                        ? "opacity-100"
+                        : "opacity-0"
+                    }
+                  `}
+                />
 
-              <div className="relative">
+                <div className="relative">
+                  {/* Top */}
 
-                {/* Top */}
-                <div className="flex items-center justify-between">
+                  <div className="flex items-center justify-between">
+                    <span
+                      className={`
+                        text-[8px]
+                        tracking-[0.25em]
+                        transition-colors
+                        duration-500
+                        ${
+                          active === partner.id
+                            ? "text-[#8CCBFF]"
+                            : "text-white/25"
+                        }
+                      `}
+                    >
+                      {partner.number}
+                    </span>
 
-                  <span
-                    className={`
-                      text-[8px]
-                      tracking-[0.25em]
-                      transition-colors
-                      duration-500
-                      ${
-                        active === partner.id
-                          ? "text-[#8CCBFF]"
-                          : "text-white/25"
-                      }
-                    `}
-                  >
-                    {partner.number}
-                  </span>
+                    <span
+                      className={`
+                        h-1.5
+                        w-1.5
+                        rounded-full
+                        transition-all
+                        duration-500
+                        ${
+                          active === partner.id
+                            ? "bg-[#1683FF] shadow-[0_0_14px_rgba(22,131,255,.9)]"
+                            : "bg-white/10"
+                        }
+                      `}
+                    />
+                  </div>
 
-                  <span
-                    className={`
-                      h-1.5
-                      w-1.5
-                      rounded-full
-                      transition-all
-                      duration-500
-                      ${
-                        active === partner.id
-                          ? "bg-[#1683FF] shadow-[0_0_14px_rgba(22,131,255,.9)]"
-                          : "bg-white/10"
-                      }
-                    `}
-                  />
+                  {/* Label */}
 
-                </div>
-
-
-                {/* Label */}
-                <p
-                  className="
-                    mt-8
-                    text-[7px]
-                    uppercase
-                    tracking-[0.3em]
-                    text-[#1683FF]
-                  "
-                >
-                  {partner.label}
-                </p>
-
-
-                {/* Title */}
-                <h3
-                  className="
-                    mt-2
-                    font-serif
-                    text-3xl
-                    font-light
-                    tracking-[-0.04em]
-                    text-white
-                  "
-                >
-                  {partner.title}
-                </h3>
-
-
-                {/* Description */}
-                <motion.p
-                  initial={false}
-                  animate={{
-                    opacity:
-                      active === partner.id ? 1 : 0.45,
-                    height:
-                      active === partner.id ? "auto" : "3.2rem",
-                  }}
-                  transition={{
-                    duration: 0.45,
-                  }}
-                  className="
-                    mt-3
-                    overflow-hidden
-                    text-[10px]
-                    leading-[1.75]
-                    text-white/40
-                  "
-                >
-                  {partner.description}
-                </motion.p>
-
-
-                {/* Bottom */}
-                <div
-                  className="
-                    mt-5
-                    flex
-                    items-center
-                    justify-between
-                    border-t
-                    border-white/[0.07]
-                    pt-4
-                  "
-                >
-
-                  <span
+                  <p
                     className="
+                      mt-8
                       text-[7px]
                       uppercase
-                      tracking-[0.25em]
-                      text-white/20
-                    "
-                  >
-                    Partnership
-                  </span>
-
-                  <span
-                    className="
-                      text-sm
+                      tracking-[0.3em]
                       text-[#1683FF]
-                      transition-transform
-                      duration-500
-                      group-hover:translate-x-1
                     "
                   >
-                    →
-                  </span>
+                    {partner.label}
+                  </p>
 
+                  {/* Title */}
+
+                  <h3
+                    className="
+                      mt-2
+                      font-serif
+                      text-3xl
+                      font-light
+                      tracking-[-0.04em]
+                      text-white
+                    "
+                  >
+                    {partner.title}
+                  </h3>
+
+                  {/* Description */}
+
+                  <motion.p
+                    initial={false}
+                    animate={{
+                      opacity:
+                        active === partner.id ? 1 : 0.45,
+                      height:
+                        active === partner.id
+                          ? "auto"
+                          : "3.2rem",
+                    }}
+                    transition={{
+                      duration: 0.45,
+                    }}
+                    className="
+                      mt-3
+                      overflow-hidden
+                      text-[10px]
+                      leading-[1.75]
+                      text-white/40
+                    "
+                  >
+                    {partner.description}
+                  </motion.p>
+
+                  {/* Bottom */}
+
+                  <div
+                    className="
+                      mt-5
+                      flex
+                      items-center
+                      justify-between
+                      border-t
+                      border-white/[0.07]
+                      pt-4
+                    "
+                  >
+                    <span
+                      className="
+                        text-[7px]
+                        uppercase
+                        tracking-[0.25em]
+                        text-white/20
+                      "
+                    >
+                      Explore
+                    </span>
+
+                    <span
+                      className="
+                        text-sm
+                        text-[#1683FF]
+                        transition-transform
+                        duration-500
+                        group-hover:translate-x-1
+                      "
+                    >
+                      →
+                    </span>
+                  </div>
                 </div>
-
               </div>
-
-            </div>
-
-          </motion.button>
+            </Link>
+          </motion.div>
         ))}
-
 
         {/* =======================================================
             CENTER DECORATIVE LABELS
@@ -830,7 +853,6 @@ export default function BuildSection() {
             md:block
           "
         >
-
           <div
             className="
               absolute
@@ -860,18 +882,25 @@ export default function BuildSection() {
           >
             Strategic network
           </div>
-
         </div>
-
       </div>
-
 
       {/* =========================================================
           BOTTOM CTA
       ========================================================= */}
 
-      <div className="relative mx-auto max-w-[1540px] px-6 pb-16 sm:px-10 lg:px-12 lg:pb-20">
-
+      <div
+        className="
+          relative
+          mx-auto
+          max-w-[1540px]
+          px-6
+          pb-16
+          sm:px-10
+          lg:px-12
+          lg:pb-5
+        "
+      >
         <motion.div
           initial={
             reduceMotion
@@ -905,7 +934,6 @@ export default function BuildSection() {
             sm:justify-between
           "
         >
-
           <div
             className="
               flex
@@ -917,19 +945,12 @@ export default function BuildSection() {
               text-white/20
             "
           >
-
-            <span>
-              DRIPLABS
-            </span>
+            <span>DRIPLABS</span>
 
             <span className="h-px w-7 bg-white/10" />
 
-            <span>
-              Partnerships
-            </span>
-
+            <span>Partnerships</span>
           </div>
-
 
           <Link
             href="/partners"
@@ -948,7 +969,6 @@ export default function BuildSection() {
               hover:text-white
             "
           >
-
             Start a conversation
 
             <span
@@ -961,13 +981,9 @@ export default function BuildSection() {
             >
               →
             </span>
-
           </Link>
-
         </motion.div>
-
       </div>
-
     </section>
   );
 }
