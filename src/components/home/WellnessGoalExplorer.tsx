@@ -2,27 +2,12 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { AnimatePresence, motion } from "framer-motion";
-import { useMemo, useState } from "react";
-
-/* =========================================================
-   TYPES
-========================================================= */
-
-type Category =
-  | "Skin & Beauty"
-  | "Cellular & Longevity"
-  | "Metabolic & Performance"
-  | "Digestive & Systemic"
-  | "Women's Wellness"
-  | "Recovery & Immune"
-  | "Cognitive & Neuro"
-  | "Musculoskeletal";
+import { useState } from "react";
 
 type Protocol = {
   id: string;
   name: string;
-  family: Category;
+  family: string;
   eyebrow: string;
   description: string;
   duration: string;
@@ -30,893 +15,674 @@ type Protocol = {
   href: string;
 };
 
-/* =========================================================
-   WELLNESS FAMILIES
-========================================================= */
+type WellnessFamily = {
+  id: string;
+  name: string;
+  shortName: string;
+  description: string;
+  protocols: Protocol[];
+};
 
-const categories: Category[] = [
-  "Skin & Beauty",
-  "Cellular & Longevity",
-  "Metabolic & Performance",
-  "Digestive & Systemic",
-  "Women's Wellness",
-  "Recovery & Immune",
-  "Cognitive & Neuro",
-  "Musculoskeletal",
-];
-
-/* =========================================================
-   PROTOCOL DATA
-========================================================= */
-
-const protocols: Protocol[] = [
-  /* =======================================================
-     SKIN & BEAUTY
-  ======================================================= */
-
+const wellnessFamilies: WellnessFamily[] = [
   {
-    id: "glamour",
-    name: "GLAMOUR",
-    family: "Skin & Beauty",
-    eyebrow: "SKIN & BEAUTY",
-    description:
-      "Antioxidant + cellular nourishment for radiant skin.",
-    duration: "45–60 min",
-    image: "/images/protocols/glamour.png",
-    href: "/protocols/glamour",
+    id: "skin-beauty",
+    name: "Skin & Beauty",
+    shortName: "Skin",
+    description: "Advanced support for skin health, radiance and restoration.",
+    protocols: [
+      {
+        id: "glamour",
+        name: "GLAMOUR",
+        family: "Skin & Beauty",
+        eyebrow: "SKIN + BEAUTY",
+        description: "Beauty-focused nutritional support for a refined, radiant appearance.",
+        duration: "45–60 min",
+        image: "/images/protocols/glamour.png",
+        href: "/protocols/glamour",
+      },
+      {
+        id: "radiance",
+        name: "RADIANCE",
+        family: "Skin & Beauty",
+        eyebrow: "SKIN + BEAUTY",
+        description: "Targeted nutritional support designed around skin radiance and vitality.",
+        duration: "45–60 min",
+        image: "/images/protocols/radiance.png",
+        href: "/protocols/radiance",
+      },
+      {
+        id: "restore",
+        name: "RESTORE",
+        family: "Skin & Beauty",
+        eyebrow: "RECOVERY",
+        description: "Immune support + cellular repair for total recovery.",
+        duration: "45–60 min",
+        image: "/images/protocols/restore.png",
+        href: "/protocols/restore",
+      },
+    ],
   },
 
   {
-    id: "radiance",
-    name: "RADIANCE",
-    family: "Skin & Beauty",
-    eyebrow: "SKIN & BEAUTY",
-    description:
-      "Energy, metabolism and vitality support.",
-    duration: "45–60 min",
-    image: "/images/protocols/radiance.png",
-    href: "/protocols/radiance",
+    id: "cellular-longevity",
+    name: "Cellular & Longevity",
+    shortName: "Longevity",
+    description: "Protocols focused on cellular health, metabolic resilience and longevity.",
+    protocols: [
+      {
+        id: "renew",
+        name: "RENEW",
+        family: "Cellular & Longevity",
+        eyebrow: "CELLULAR HEALTH",
+        description: "A foundational protocol designed around cellular nutritional support.",
+        duration: "45–60 min",
+        image: "/images/protocols/renew.webp",
+        href: "/protocols/renew",
+      },
+      {
+        id: "nadx",
+        name: "NADx",
+        family: "Cellular & Longevity",
+        eyebrow: "CELLULAR FLAGSHIP",
+        description: "A physician-led NAD+ experience focused on cellular and metabolic support.",
+        duration: "3–4 hrs",
+        image: "/images/protocols/nadx.webp",
+        href: "/protocols/nadx",
+      },
+      {
+        id: "methylblu",
+        name: "METHYBLU",
+        family: "Cellular & Longevity",
+        eyebrow: "CELLULAR HEALTH",
+        description: "Targeted nutritional support within the cellular longevity pathway.",
+        duration: "45–60 min",
+        image: "/images/protocols/methylblu.webp",
+        href: "/protocols/methylblu",
+      },
+      {
+        id: "apex",
+        name: "APEX",
+        family: "Cellular & Longevity",
+        eyebrow: "LONGEVITY",
+        description: "Advanced support designed around cellular health and longevity.",
+        duration: "45–60 min",
+        image: "/images/protocols/apex.webp",
+        href: "/protocols/apex",
+      },
+    ],
   },
 
   {
-    id: "restore",
-    name: "RESTORE",
-    family: "Skin & Beauty",
-    eyebrow: "RECOVERY",
-    description:
-      "Immune support + cellular repair for total recovery.",
-    duration: "45–60 min",
-    image: "/images/protocols/restore.png",
-    href: "/protocols/restore",
-  },
-
-  /* =======================================================
-     CELLULAR & LONGEVITY
-  ======================================================= */
-
-  {
-    id: "renew",
-    name: "RENEW",
-    family: "Cellular & Longevity",
-    eyebrow: "CELLULAR",
-    description:
-      "Cellular renewal and longevity-focused nutritional support.",
-    duration: "45–60 min",
-    image: "/images/protocols/renew.webp",
-    href: "/protocols/renew",
-  },
-
-  {
-    id: "nadex",
-    name: "NADEX",
-    family: "Cellular & Longevity",
-    eyebrow: "NADx",
-    description:
-      "NAD+-pathway nutritional support within a physician-led journey.",
-    duration: "3–4 hrs",
-    image: "/images/protocols/nadex.webp",
-    href: "/protocols/nadex",
-  },
-
-  {
-    id: "methylblu",
-    name: "METHYBLU",
-    family: "Cellular & Longevity",
-    eyebrow: "CELLULAR",
-    description:
-      "Methylation and cellular nutritional support.",
-    duration: "45–60 min",
-    image: "/images/protocols/methylblu.webp",
-    href: "/protocols/methylblu",
-  },
-
-  {
-    id: "apex",
-    name: "APEX",
-    family: "Cellular & Longevity",
-    eyebrow: "LONGEVITY",
-    description:
-      "NAD+-pathway and cellular-longevity wellness support.",
-    duration: "45–60 min",
-    image: "/images/protocols/apex.webp",
-    href: "/protocols/apex",
-  },
-
-  /* =======================================================
-     METABOLIC & PERFORMANCE
-  ======================================================= */
-
-  {
-    id: "shrink",
-    name: "SHRINK",
-    family: "Metabolic & Performance",
-    eyebrow: "METABOLIC",
-    description:
-      "Metabolic and nutritional wellness support.",
-    duration: "45–60 min",
-    image: "/images/protocols/shrink.webp",
-    href: "/protocols/shrink",
+    id: "metabolic-performance",
+    name: "Metabolic & Performance",
+    shortName: "Performance",
+    description: "Nutritional support for performance, metabolic goals and physical output.",
+    protocols: [
+      {
+        id: "shrink",
+        name: "SHRINK",
+        family: "Metabolic & Performance",
+        eyebrow: "METABOLIC",
+        description: "Designed to complement a structured metabolic wellness pathway.",
+        duration: "45–60 min",
+        image: "/images/protocols/shrink.webp",
+        href: "/protocols/shrink",
+      },
+      {
+        id: "refuel",
+        name: "REFUEL",
+        family: "Metabolic & Performance",
+        eyebrow: "PERFORMANCE",
+        description: "Nutritional support for replenishment and physical readiness.",
+        duration: "45–60 min",
+        image: "/images/protocols/refuel.webp",
+        href: "/protocols/refuel",
+      },
+      {
+        id: "fit",
+        name: "FIT",
+        family: "Metabolic & Performance",
+        eyebrow: "PERFORMANCE",
+        description: "A targeted nutritional protocol supporting an active lifestyle.",
+        duration: "45–60 min",
+        image: "/images/protocols/fit.webp",
+        href: "/protocols/fit",
+      },
+      {
+        id: "rebuild",
+        name: "REBUILD",
+        family: "Metabolic & Performance",
+        eyebrow: "REBUILD",
+        description: "Nutritional support designed around recovery and rebuilding.",
+        duration: "45–60 min",
+        image: "/images/protocols/rebuild.webp",
+        href: "/protocols/rebuild",
+      },
+      {
+        id: "performance-x",
+        name: "PERFORMANCE X",
+        family: "Metabolic & Performance",
+        eyebrow: "ADVANCED PERFORMANCE",
+        description: "Advanced nutritional support for performance-oriented wellness goals.",
+        duration: "45–60 min",
+        image: "/images/protocols/performance-x.webp",
+        href: "/protocols/performance-x",
+      },
+    ],
   },
 
   {
-    id: "refuel",
-    name: "REFUEL",
-    family: "Metabolic & Performance",
-    eyebrow: "ENERGY",
-    description:
-      "Nutritional support for energy and active lifestyles.",
-    duration: "45–60 min",
-    image: "/images/protocols/refuel.webp",
-    href: "/protocols/refuel",
+    id: "digestive-systemic",
+    name: "Digestive & Systemic",
+    shortName: "Digestive",
+    description: "Targeted support for digestive and systemic wellness.",
+    protocols: [
+      {
+        id: "gut-plus",
+        name: "GUT+",
+        family: "Digestive & Systemic",
+        eyebrow: "DIGESTIVE",
+        description: "A targeted protocol within the digestive and systemic wellness pathway.",
+        duration: "45–60 min",
+        image: "/images/protocols/gut-plus.webp",
+        href: "/protocols/gut-plus",
+      },
+    ],
   },
 
   {
-    id: "fit",
-    name: "FIT",
-    family: "Metabolic & Performance",
-    eyebrow: "PERFORMANCE",
-    description:
-      "Support for active lifestyles and metabolic wellness.",
-    duration: "45–60 min",
-    image: "/images/protocols/fit.webp",
-    href: "/protocols/fit",
+    id: "womens-wellness",
+    name: "Women's Nutritional",
+    shortName: "Women's",
+    description: "Purpose-built nutritional support for women's wellness.",
+    protocols: [
+      {
+        id: "femme",
+        name: "FEMME",
+        family: "Women's Nutritional",
+        eyebrow: "WOMEN'S WELLNESS",
+        description: "A dedicated nutritional wellness protocol designed for women.",
+        duration: "45–60 min",
+        image: "/images/protocols/femme.webp",
+        href: "/protocols/femme",
+      },
+    ],
   },
 
   {
-    id: "rebuild",
-    name: "REBUILD",
-    family: "Metabolic & Performance",
-    eyebrow: "REBUILD",
-    description:
-      "Nutritional support for active recovery and rebuilding.",
-    duration: "45–60 min",
-    image: "/images/protocols/rebuild.webp",
-    href: "/protocols/rebuild",
+    id: "recovery-immune",
+    name: "Recovery & Immune",
+    shortName: "Recovery",
+    description: "Support for recovery, resilience and immune wellness.",
+    protocols: [
+      {
+        id: "reactivate",
+        name: "REACTIVATE",
+        family: "Recovery & Immune",
+        eyebrow: "RECOVERY",
+        description: "Designed to support recovery and nutritional replenishment.",
+        duration: "45–60 min",
+        image: "/images/protocols/reactivate.webp",
+        href: "/protocols/reactivate",
+      },
+      {
+        id: "bounce-back",
+        name: "BOUNCE BACK",
+        family: "Recovery & Immune",
+        eyebrow: "RECOVERY",
+        description: "A recovery-focused nutritional wellness experience.",
+        duration: "45–60 min",
+        image: "/images/protocols/bounce-back.webp",
+        href: "/protocols/bounce-back",
+      },
+      {
+        id: "recover-plus",
+        name: "RECOVER+",
+        family: "Recovery & Immune",
+        eyebrow: "RECOVERY + IMMUNE",
+        description: "Targeted nutritional support for recovery and resilience.",
+        duration: "45–60 min",
+        image: "/images/protocols/recover-plus.webp",
+        href: "/protocols/recover-plus",
+      },
+    ],
   },
 
   {
-    id: "performance-x",
-    name: "PERFORMANCE X",
-    family: "Metabolic & Performance",
-    eyebrow: "PERFORMANCE",
-    description:
-      "Advanced nutritional support for performance-focused journeys.",
-    duration: "45–60 min",
-    image: "/images/protocols/performance-x.webp",
-    href: "/protocols/performance-x",
-  },
-
-  /* =======================================================
-     DIGESTIVE & SYSTEMIC
-  ======================================================= */
-
-  {
-    id: "gut-plus",
-    name: "GUT+",
-    family: "Digestive & Systemic",
-    eyebrow: "DIGESTIVE",
-    description:
-      "Gut-focused amino-acid and micronutrient support.",
-    duration: "45–60 min",
-    image: "/images/protocols/gut-plus.webp",
-    href: "/protocols/gut-plus",
-  },
-
-  /* =======================================================
-     WOMEN'S WELLNESS
-  ======================================================= */
-
-  {
-    id: "femme",
-    name: "FEMME",
-    family: "Women's Wellness",
-    eyebrow: "WOMEN'S WELLNESS",
-    description:
-      "Nutritional support designed around women's wellness.",
-    duration: "45–60 min",
-    image: "/images/protocols/femme.webp",
-    href: "/protocols/femme",
-  },
-
-  /* =======================================================
-     RECOVERY & IMMUNE
-  ======================================================= */
-
-  {
-    id: "reactivate",
-    name: "REACTIVATE",
-    family: "Recovery & Immune",
-    eyebrow: "RECOVERY",
-    description:
-      "Rehydration and nutritional support for recovery.",
-    duration: "45–60 min",
-    image: "/images/protocols/reactivate.webp",
-    href: "/protocols/reactivate",
+    id: "cognitive-neuro",
+    name: "Cognitive & Neuro",
+    shortName: "Cognitive",
+    description: "Nutritional support for cognitive and neurological wellness.",
+    protocols: [
+      {
+        id: "focus",
+        name: "FOCUS",
+        family: "Cognitive & Neuro",
+        eyebrow: "COGNITIVE",
+        description: "Designed around cognitive wellness and nutritional support.",
+        duration: "45–60 min",
+        image: "/images/protocols/focus.webp",
+        href: "/protocols/focus",
+      },
+    ],
   },
 
   {
-    id: "bounce-back",
-    name: "BOUNCE BACK",
-    family: "Recovery & Immune",
-    eyebrow: "RECOVERY",
-    description:
-      "Support for hydration and post-exertion recovery.",
-    duration: "45–60 min",
-    image: "/images/protocols/bounce-back.webp",
-    href: "/protocols/bounce-back",
-  },
-
-  {
-    id: "recover-plus",
-    name: "RECOVER+",
-    family: "Recovery & Immune",
-    eyebrow: "RECOVERY",
-    description:
-      "Systemic nutritional support for recovery journeys.",
-    duration: "45–60 min",
-    image: "/images/protocols/recover-plus.webp",
-    href: "/protocols/recover-plus",
-  },
-
-  /* =======================================================
-     COGNITIVE & NEURO
-  ======================================================= */
-
-  {
-    id: "focus",
-    name: "FOCUS",
-    family: "Cognitive & Neuro",
-    eyebrow: "COGNITIVE",
-    description:
-      "Cognitive and neuronal nutritional wellness support.",
-    duration: "45–60 min",
-    image: "/images/protocols/focus.webp",
-    href: "/protocols/focus",
-  },
-
-  /* =======================================================
-     MUSCULOSKELETAL
-  ======================================================= */
-
-  {
-    id: "move",
-    name: "MOVE",
-    family: "Musculoskeletal",
-    eyebrow: "MUSCULOSKELETAL",
-    description:
-      "Bone, muscle and connective-tissue nutritional support.",
-    duration: "45–60 min",
-    image: "/images/protocols/move.webp",
-    href: "/protocols/move",
+    id: "musculoskeletal",
+    name: "Musculoskeletal",
+    shortName: "Movement",
+    description: "Targeted nutritional support for movement and musculoskeletal wellness.",
+    protocols: [
+      {
+        id: "move",
+        name: "MOVE",
+        family: "Musculoskeletal",
+        eyebrow: "MUSCULOSKELETAL",
+        description: "A targeted wellness pathway supporting movement and recovery.",
+        duration: "45–60 min",
+        image: "/images/protocols/move.webp",
+        href: "/protocols/move",
+      },
+    ],
   },
 ];
 
-/* =========================================================
-   MAIN COMPONENT
-========================================================= */
+export default function WellnessGoalExplorer() {
+  const [activeFamily, setActiveFamily] = useState("skin-beauty");
 
-export default function WhatAreYouLookingFor() {
-  const [activeCategory, setActiveCategory] =
-    useState<Category>("Skin & Beauty");
-
-  const [direction, setDirection] =
-    useState<1 | -1>(1);
-
-  const filteredProtocols = useMemo(() => {
-    return protocols.filter(
-      (protocol) =>
-        protocol.family === activeCategory,
-    );
-  }, [activeCategory]);
-
-  const handleCategoryChange = (
-    category: Category,
-  ) => {
-    const currentIndex =
-      categories.indexOf(activeCategory);
-
-    const nextIndex =
-      categories.indexOf(category);
-
-    setDirection(
-      nextIndex >= currentIndex
-        ? 1
-        : -1,
-    );
-
-    setActiveCategory(category);
-  };
+  const activeData =
+    wellnessFamilies.find((family) => family.id === activeFamily) ??
+    wellnessFamilies[0];
 
   return (
     <section
       className="
         relative
+        w-full
         overflow-hidden
         bg-[#020914]
-        text-white
+        py-12
+        sm:py-14
+        lg:py-16
       "
     >
-      {/* ===================================================
-          SUBTLE BACKGROUND GRID
-      =================================================== */}
+      {/* ============================================================
+          BACKGROUND
+      ============================================================ */}
 
-      <div
-        className="
-          pointer-events-none
-          absolute
-          inset-0
-          opacity-[0.055]
-        "
-        style={{
-          backgroundImage: `
-            linear-gradient(
-              rgba(255,255,255,.5) 1px,
-              transparent 1px
-            ),
-            linear-gradient(
-              90deg,
-              rgba(255,255,255,.5) 1px,
-              transparent 1px
-            )
-          `,
-          backgroundSize: "64px 64px",
-        }}
-      />
+      <div className="pointer-events-none absolute inset-0">
+        {/* subtle grid */}
+        <div
+          className="
+            absolute
+            inset-0
+            opacity-[0.035]
+          "
+          style={{
+            backgroundImage: `
+              linear-gradient(rgba(255,255,255,0.7) 1px, transparent 1px),
+              linear-gradient(90deg, rgba(255,255,255,0.7) 1px, transparent 1px)
+            `,
+            backgroundSize: "70px 70px",
+          }}
+        />
 
-      {/* ===================================================
-          BLUE ATMOSPHERIC GLOW
-      =================================================== */}
-
-      <div
-        className="
-          pointer-events-none
-          absolute
-          left-1/2
-          top-[-180px]
-          h-[420px]
-          w-[720px]
-          -translate-x-1/2
-          rounded-full
-          bg-[#006BFF]/[0.055]
-          blur-[120px]
-        "
-      />
-
-      {/* ===================================================
-          MAIN CONTAINER
-      =================================================== */}
-
-      <div
-        className="
-          relative
-          z-10
-          mx-auto
-          max-w-[1800px]
-          px-4
-          py-7
-          sm:px-6
-          sm:py-8
-          lg:px-10
-          lg:py-9
-          xl:px-14
-        "
-      >
-        {/* =================================================
-            HEADER
-        ================================================= */}
+        {/* blue atmospheric glow */}
+        <div
+          className="
+            absolute
+            left-1/2
+            top-0
+            h-[500px]
+            w-[700px]
+            -translate-x-1/2
+            rounded-full
+            bg-[#006BFF]/[0.06]
+            blur-[140px]
+          "
+        />
 
         <div
           className="
-            flex
-            flex-col
-            gap-4
-            lg:flex-row
-            lg:items-end
-            lg:justify-between
+            absolute
+            bottom-[-200px]
+            right-[-150px]
+            h-[450px]
+            w-[450px]
+            rounded-full
+            bg-[#1683FF]/[0.04]
+            blur-[120px]
           "
-        >
-          <div>
-            <p
-              className="
-                mb-2
-                text-[8px]
-                font-medium
-                uppercase
-                tracking-[0.28em]
-                text-[#1683FF]
-              "
-            >
-              DRIPLABS
-            </p>
+        />
+      </div>
+
+      <div className="relative z-10 mx-auto max-w-[1500px] px-4 sm:px-6 lg:px-8">
+        {/* ============================================================
+            HEADER
+        ============================================================ */}
+
+        <div className="mb-7 flex flex-col gap-4 lg:mb-8 lg:flex-row lg:items-end lg:justify-between">
+          <div className="max-w-[700px]">
+            <div className="mb-2 flex items-center gap-3">
+              <span className="h-px w-8 bg-[#1683FF]" />
+
+              <span className="text-[10px] font-medium uppercase tracking-[0.28em] text-[#1683FF]">
+                WELLNESS PATHWAYS
+              </span>
+            </div>
 
             <h2
               className="
-                font-[var(--font-heading)]
-                text-[clamp(2rem,3.2vw,3.4rem)]
-                font-light
-                leading-[0.9]
-                tracking-[-0.045em]
+                font-serif
+                text-[34px]
+                leading-[0.95]
+                tracking-[-0.025em]
                 text-white
+                sm:text-[42px]
+                lg:text-[48px]
               "
             >
-              What are you looking for?
+              What are you
+              <br />
+              looking for?
             </h2>
 
-            <p
-              className="
-                mt-2
-                max-w-[560px]
-                text-[11px]
-                leading-5
-                text-white/45
-                sm:text-[12px]
-              "
-            >
-              Choose your wellness goal and explore
-              our curated protocols.
+            <p className="mt-3 max-w-[600px] text-[13px] leading-6 text-white/50 sm:text-[14px]">
+              Explore physician-guided wellness pathways designed around what
+              matters to you.
             </p>
           </div>
 
-          <Link
-            href="/protocols"
-            className="
-              group
-              inline-flex
-              w-fit
-              items-center
-              gap-2
-              border-b
-              border-white/20
-              pb-1
-              text-[8px]
-              font-medium
-              uppercase
-              tracking-[0.18em]
-              text-white/65
-              transition-all
-              duration-300
-              hover:border-[#1683FF]
-              hover:text-[#1683FF]
-            "
-          >
-            <span>
-              View all protocols
+          <div className="hidden lg:block">
+            <span className="text-[10px] uppercase tracking-[0.24em] text-white/30">
+              {activeData.protocols.length} protocols
             </span>
-
-            <span
-              className="
-                text-[12px]
-                leading-none
-                transition-transform
-                duration-300
-                group-hover:translate-x-1
-              "
-            >
-              →
-            </span>
-          </Link>
+          </div>
         </div>
 
-        {/* =================================================
-            CATEGORY NAVIGATION
-        ================================================= */}
+        {/* ============================================================
+            FAMILY NAVIGATION
+        ============================================================ */}
 
         <div
           className="
-            mt-5
+            mb-7
+            flex
+            gap-2
             overflow-x-auto
             pb-1
             [scrollbar-width:none]
             [&::-webkit-scrollbar]:hidden
           "
         >
-          <div
-            className="
-              flex
-              min-w-max
-              items-center
-              gap-1.5
-            "
-          >
-            {categories.map((category) => {
-              const active =
-                category === activeCategory;
+          {wellnessFamilies.map((family) => {
+            const isActive = activeFamily === family.id;
 
-              return (
-                <button
-                  key={category}
-                  type="button"
-                  onClick={() =>
-                    handleCategoryChange(category)
+            return (
+              <button
+                key={family.id}
+                type="button"
+                onClick={() => setActiveFamily(family.id)}
+                className={`
+                  group
+                  relative
+                  shrink-0
+                  whitespace-nowrap
+                  rounded-full
+                  border
+                  px-4
+                  py-2
+                  text-[10px]
+                  font-medium
+                  uppercase
+                  tracking-[0.13em]
+                  transition-all
+                  duration-300
+                  ${
+                    isActive
+                      ? "border-[#1683FF] bg-[#006BFF]/15 text-white"
+                      : "border-white/[0.10] bg-white/[0.025] text-white/45 hover:border-white/20 hover:text-white/80"
                   }
-                  aria-pressed={active}
-                  className={[
-                    "relative",
-                    "min-h-[32px]",
-                    "rounded-full",
-                    "border",
-                    "px-3.5",
-                    "text-[8px]",
-                    "font-medium",
-                    "tracking-[0.01em]",
-                    "transition-all",
-                    "duration-300",
-                    "whitespace-nowrap",
-                    "focus:outline-none",
-                    "focus-visible:ring-2",
-                    "focus-visible:ring-[#1683FF]/60",
+                `}
+              >
+                {family.shortName}
 
-                    active
-                      ? [
-                          "border-[#1683FF]",
-                          "bg-[#1683FF]",
-                          "text-white",
-                          "shadow-[0_6px_20px_rgba(0,107,255,.22)]",
-                        ].join(" ")
-                      : [
-                          "border-white/[0.08]",
-                          "bg-white/[0.025]",
-                          "text-white/45",
-                          "hover:border-white/20",
-                          "hover:bg-white/[0.05]",
-                          "hover:text-white/80",
-                        ].join(" "),
-                  ].join(" ")}
-                >
-                  {category}
-                </button>
-              );
-            })}
+                {isActive && (
+                  <span className="absolute inset-x-4 -bottom-[1px] h-px bg-[#1683FF]" />
+                )}
+              </button>
+            );
+          })}
+        </div>
+
+        {/* ============================================================
+            ACTIVE FAMILY DESCRIPTION
+        ============================================================ */}
+
+        <div className="mb-5 flex items-center justify-between gap-4">
+          <div>
+            <h3 className="text-[15px] font-medium tracking-[-0.01em] text-white sm:text-[16px]">
+              {activeData.name}
+            </h3>
+
+            <p className="mt-1 text-[11px] leading-5 text-white/35">
+              {activeData.description}
+            </p>
           </div>
+
+          <span className="shrink-0 text-[9px] uppercase tracking-[0.2em] text-white/25">
+            {String(activeData.protocols.length).padStart(2, "0")} OPTIONS
+          </span>
         </div>
 
-        {/* =================================================
-            PROTOCOL GRID
-        ================================================= */}
-
-        <div className="relative mt-4">
-          <AnimatePresence
-            mode="wait"
-            initial={false}
-          >
-            <motion.div
-              key={activeCategory}
-              initial={{
-                opacity: 0,
-                x:
-                  direction === 1
-                    ? 18
-                    : -18,
-              }}
-              animate={{
-                opacity: 1,
-                x: 0,
-              }}
-              exit={{
-                opacity: 0,
-                x:
-                  direction === 1
-                    ? -18
-                    : 18,
-              }}
-              transition={{
-                duration: 0.3,
-                ease: [
-                  0.22,
-                  1,
-                  0.36,
-                  1,
-                ],
-              }}
-              className="
-                grid
-                grid-cols-2
-                gap-2
-                sm:gap-2.5
-                lg:grid-cols-3
-              "
-            >
-              {filteredProtocols.map(
-                (protocol, index) => (
-                  <ProtocolCard
-                    key={protocol.id}
-                    protocol={protocol}
-                    index={index}
-                  />
-                ),
-              )}
-            </motion.div>
-          </AnimatePresence>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/* =========================================================
-   PROTOCOL CARD
-========================================================= */
-
-function ProtocolCard({
-  protocol,
-  index,
-}: {
-  protocol: Protocol;
-  index: number;
-}) {
-  return (
-    <Link
-      href={protocol.href}
-      aria-label={`Explore ${protocol.name} protocol`}
-      className="
-        group
-        relative
-        block
-        aspect-[4/3]
-        overflow-hidden
-        rounded-[7px]
-        border
-        border-white/[0.07]
-        bg-[#07111D]
-        shadow-[0_10px_35px_rgba(0,0,0,.18)]
-        transition-all
-        duration-500
-        hover:-translate-y-[2px]
-        hover:border-[#1683FF]/40
-        hover:shadow-[0_18px_45px_rgba(0,0,0,.28)]
-        focus:outline-none
-        focus-visible:ring-2
-        focus-visible:ring-[#1683FF]
-        focus-visible:ring-offset-2
-        focus-visible:ring-offset-[#020914]
-      "
-    >
-      {/* =================================================
-          IMAGE
-      ================================================= */}
-
-      <div className="absolute inset-0">
-        <Image
-          src={protocol.image}
-          alt={protocol.name}
-          fill
-          priority={index < 3}
-          sizes="
-            (max-width: 640px) 50vw,
-            (max-width: 1024px) 33vw,
-            30vw
-          "
-          className="
-            object-cover
-            transition-transform
-            duration-700
-            ease-[cubic-bezier(.22,1,.36,1)]
-            group-hover:scale-[1.035]
-          "
-        />
-      </div>
-
-      {/* =================================================
-          IMAGE DARKENING
-      ================================================= */}
-
-      <div
-        className="
-          absolute
-          inset-0
-          bg-gradient-to-t
-          from-[#020914]/95
-          via-[#020914]/25
-          to-transparent
-          opacity-95
-          transition-opacity
-          duration-500
-          group-hover:opacity-90
-        "
-      />
-
-      {/* =================================================
-          BLUE EDGE ACCENT
-      ================================================= */}
-
-      <div
-        className="
-          absolute
-          inset-x-0
-          bottom-0
-          h-[2px]
-          origin-left
-          scale-x-0
-          bg-[#1683FF]
-          transition-transform
-          duration-500
-          group-hover:scale-x-100
-        "
-      />
-
-      {/* =================================================
-          TOP META
-      ================================================= */}
-
-      <div
-        className="
-          absolute
-          left-2.5
-          right-2.5
-          top-2.5
-          flex
-          items-start
-          justify-between
-        "
-      >
-        <span
-          className="
-            rounded-full
-            border
-            border-white/15
-            bg-black/20
-            px-2
-            py-1
-            text-[6px]
-            font-medium
-            uppercase
-            tracking-[0.18em]
-            text-white/65
-            backdrop-blur-md
-          "
-        >
-          {protocol.eyebrow}
-        </span>
-
-        <span
-          className="
-            flex
-            h-5
-            w-5
-            items-center
-            justify-center
-            rounded-full
-            border
-            border-white/15
-            bg-black/20
-            text-[7px]
-            text-white/55
-            backdrop-blur-md
-          "
-        >
-          {String(index + 1).padStart(2, "0")}
-        </span>
-      </div>
-
-      {/* =================================================
-          CONTENT
-      ================================================= */}
-
-      <div
-        className="
-          absolute
-          inset-x-0
-          bottom-0
-          p-3
-          sm:p-3.5
-        "
-      >
-        <h3
-          className="
-            font-[var(--font-heading)]
-            text-[clamp(1.15rem,2vw,1.75rem)]
-            font-light
-            leading-[0.9]
-            tracking-[-0.035em]
-            text-white
-            transition-colors
-            duration-300
-            group-hover:text-[#6EAEFF]
-          "
-        >
-          {protocol.name}
-        </h3>
-
-        <p
-          className="
-            mt-1.5
-            max-w-[300px]
-            text-[7px]
-            leading-[1.45]
-            text-white/55
-            sm:text-[8px]
-          "
-        >
-          {protocol.description}
-        </p>
-
-        {/* =============================================
-            BOTTOM META
-        ============================================= */}
+        {/* ============================================================
+            PROTOCOL CARDS
+        ============================================================ */}
 
         <div
           className="
-            mt-2.5
-            flex
-            items-center
-            justify-between
-            gap-2
+            grid
+            grid-cols-2
+            gap-3
+            sm:grid-cols-3
+            lg:grid-cols-4
+            xl:gap-4
           "
         >
-          <div
-            className="
-              flex
-              items-center
-              gap-1.5
-              text-[7px]
-              text-white/50
-            "
-          >
-            <span
+          {activeData.protocols.map((protocol) => (
+            <Link
+              key={protocol.id}
+              href={protocol.href}
               className="
-                h-2.5
-                w-2.5
-                rounded-full
+                group
+                relative
+                block
+                aspect-[4/3]
+                overflow-hidden
+                rounded-[10px]
                 border
-                border-white/30
-              "
-            />
-
-            <span>
-              {protocol.duration}
-            </span>
-          </div>
-
-          <span
-            className="
-              inline-flex
-              items-center
-              gap-1
-              text-[7px]
-              font-medium
-              uppercase
-              tracking-[0.12em]
-              text-white/65
-              transition-colors
-              duration-300
-              group-hover:text-[#1683FF]
-            "
-          >
-            Explore
-            <span
-              className="
-                text-[10px]
-                leading-none
-                transition-transform
-                duration-300
-                group-hover:translate-x-1
+                border-white/[0.10]
+                bg-[#07111F]
+                shadow-[0_20px_50px_rgba(0,0,0,0.25)]
+                transition-all
+                duration-500
+                hover:-translate-y-1
+                hover:border-[#1683FF]/50
+                hover:shadow-[0_25px_70px_rgba(0,107,255,0.15)]
+                focus:outline-none
+                focus-visible:ring-2
+                focus-visible:ring-[#1683FF]
+                focus-visible:ring-offset-2
+                focus-visible:ring-offset-[#020914]
               "
             >
+              {/* ========================================================
+                  IMAGE
+              ======================================================== */}
+
+              <div className="absolute inset-0">
+                <Image
+                  src={protocol.image}
+                  alt={protocol.name}
+                  fill
+                  unoptimized={protocol.image.endsWith(".png")}
+                  sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                  className="
+                    object-cover
+                    transition-transform
+                    duration-700
+                    ease-[cubic-bezier(.22,1,.36,1)]
+                    group-hover:scale-[1.035]
+                  "
+                />
+              </div>
+
+              {/* ========================================================
+                  IMAGE GRADIENT
+              ======================================================== */}
+
+              <div
+                className="
+                  absolute
+                  inset-0
+                  bg-gradient-to-t
+                  from-[#020914]
+                  via-[#020914]/20
+                  to-transparent
+                  opacity-90
+                "
+              />
+
+              {/* ========================================================
+                  TOP BLUE DETAIL
+              ======================================================== */}
+
+              <div
+                className="
+                  absolute
+                  left-0
+                  right-0
+                  top-0
+                  h-px
+                  bg-gradient-to-r
+                  from-transparent
+                  via-[#1683FF]/70
+                  to-transparent
+                  opacity-0
+                  transition-opacity
+                  duration-500
+                  group-hover:opacity-100
+                "
+              />
+
+              {/* ========================================================
+                  CONTENT
+              ======================================================== */}
+
+              <div className="absolute inset-x-0 bottom-0 p-3 sm:p-4">
+                <div className="mb-1.5 flex items-center gap-2">
+                  <span className="h-px w-4 bg-[#1683FF]" />
+
+                  <span className="text-[7px] font-medium uppercase tracking-[0.2em] text-[#62A4FF] sm:text-[8px]">
+                    {protocol.eyebrow}
+                  </span>
+                </div>
+
+                <h4
+                  className="
+                    font-serif
+                    text-[18px]
+                    leading-none
+                    tracking-[0.01em]
+                    text-white
+                    sm:text-[21px]
+                  "
+                >
+                  {protocol.name}
+                </h4>
+
+                <div className="mt-2 flex items-center justify-between">
+                  <span className="text-[8px] uppercase tracking-[0.12em] text-white/45">
+                    {protocol.duration}
+                  </span>
+
+                  <span
+                    className="
+                      flex
+                      h-6
+                      w-6
+                      items-center
+                      justify-center
+                      rounded-full
+                      border
+                      border-white/20
+                      bg-black/20
+                      text-white/70
+                      backdrop-blur-sm
+                      transition-all
+                      duration-300
+                      group-hover:border-[#1683FF]
+                      group-hover:bg-[#006BFF]
+                      group-hover:text-white
+                    "
+                  >
+                    <svg
+                      width="10"
+                      height="10"
+                      viewBox="0 0 10 10"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                      aria-hidden="true"
+                    >
+                      <path
+                        d="M1.5 5H8.5M5.5 2L8.5 5L5.5 8"
+                        stroke="currentColor"
+                        strokeWidth="1"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                  </span>
+                </div>
+              </div>
+            </Link>
+          ))}
+        </div>
+
+        {/* ============================================================
+            FOOTER MICRO CTA
+        ============================================================ */}
+
+        <div className="mt-6 flex items-center justify-between border-t border-white/[0.07] pt-4">
+          <span className="text-[9px] uppercase tracking-[0.18em] text-white/25">
+            Physician-guided protocols
+          </span>
+
+          <Link
+            href="/protocols"
+            className="
+              group
+              flex
+              items-center
+              gap-2
+              text-[9px]
+              font-medium
+              uppercase
+              tracking-[0.16em]
+              text-white/55
+              transition-colors
+              duration-300
+              hover:text-white
+            "
+          >
+            Explore all protocols
+
+            <span className="transition-transform duration-300 group-hover:translate-x-1">
               →
             </span>
-          </span>
+          </Link>
         </div>
       </div>
-    </Link>
+    </section>
   );
 }
