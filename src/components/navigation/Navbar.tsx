@@ -603,7 +603,7 @@ export default function Navbar() {
 
           <nav
             aria-label="Primary navigation"
-           className="ml-auto mr-6 hidden lg:flex xl:mr-20"
+           className="ml-auto mr-6 hidden lg:flex xl:mr-16"
           >
             <div
               className={[
