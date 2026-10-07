@@ -153,9 +153,7 @@ function MenuIcon({
         className={[
           "absolute left-0 h-px w-6 bg-current",
           "transition-all duration-300",
-          open
-            ? "top-[9px] rotate-45"
-            : "top-[3px]",
+          open ? "top-[9px] rotate-45" : "top-[3px]",
         ].join(" ")}
       />
 
@@ -163,9 +161,7 @@ function MenuIcon({
         className={[
           "absolute left-0 top-[9px] h-px w-6 bg-current",
           "transition-opacity duration-200",
-          open
-            ? "opacity-0"
-            : "opacity-100",
+          open ? "opacity-0" : "opacity-100",
         ].join(" ")}
       />
 
@@ -173,9 +169,7 @@ function MenuIcon({
         className={[
           "absolute left-0 h-px w-6 bg-current",
           "transition-all duration-300",
-          open
-            ? "top-[9px] -rotate-45"
-            : "top-[15px]",
+          open ? "top-[9px] -rotate-45" : "top-[15px]",
         ].join(" ")}
       />
     </span>
@@ -186,18 +180,15 @@ function MenuIcon({
    DATA
 ========================================================= */
 
-const wellnessPaths = [
-  "Skin & Beauty",
-  "Longevity & Cellular Health",
-  "Metabolic & Performance",
-  "Recovery & Immune",
-  "Cognitive & Neuro",
-  "Digestive & Systemic",
-  "Musculoskeletal",
-  "Women's Wellness",
-];
-
-const featuredLinks = [
+const exploreLinks = [
+  {
+    label: "Protocols",
+    href: "/protocols",
+  },
+  {
+    label: "Wellness Paths",
+    href: "/protocols",
+  },
   {
     label: "NADx",
     href: "/nadx",
@@ -206,52 +197,38 @@ const featuredLinks = [
     label: "Signature Protocols",
     href: "/protocols",
   },
-  {
-    label: "Membership",
-    href: "/circle",
-  },
 ];
 
-const experienceItems = [
+const experienceLinks = [
   {
-    title: "In-Centre",
-    description:
-      "Physician-led wellness at our centres",
+    label: "In-Centre",
     href: "/experience",
   },
   {
-    title: "DRIPLABS Home",
-    description:
-      "IV wellness, delivered to your home",
+    label: "DRIPLABS Home",
     href: "/experience",
   },
   {
-    title: "Women's Wellness",
-    description:
-      "A dedicated pathway for women",
+    label: "DRIPLABS Private",
+    href: "/experience",
+  },
+  {
+    label: "Women's Wellness",
     href: "/protocols/femme",
   },
   {
-    title: "Your Journey",
-    description:
-      "Consultation → Personalisation → Experience → Follow-up",
+    label: "Your Journey",
     href: "/experience",
-  },
-  {
-    title: "Membership",
-    description:
-      "Exclusive benefits & priority access",
-    href: "/circle",
   },
 ];
 
 const scienceLinks = [
   {
-    label: "The DRIPLABS Standard",
+    label: "The Standard",
     href: "/science#standard",
   },
   {
-    label: "NADx",
+    label: "NADx Science",
     href: "/science#nadx",
   },
   {
@@ -274,15 +251,11 @@ const scienceLinks = [
     label: "Decode a Vial",
     href: "/science#decode",
   },
-  {
-    label: "Physician Dossier",
-    href: "/science#dossier",
-  },
 ];
 
 const circleLinks = [
   {
-    label: "Membership Plans",
+    label: "Membership",
     href: "/circle",
   },
   {
@@ -290,23 +263,11 @@ const circleLinks = [
     href: "/circle",
   },
   {
-    label: "Priority Access",
-    href: "/circle",
-  },
-  {
     label: "Home Services",
     href: "/experience",
   },
   {
-    label: "Wellness Journeys",
-    href: "/experience",
-  },
-  {
     label: "Concierge",
-    href: "/circle",
-  },
-  {
-    label: "Member Events",
     href: "/circle",
   },
 ];
@@ -317,38 +278,40 @@ const locationLinks = [
     href: "/locations",
   },
   {
-    label: "DRIPLABS Home",
-    href: "/experience",
-  },
-  {
-    label: "Coming Soon",
+    label: "Find Nearest",
     href: "/locations",
   },
+  {
+    label: "Home",
+    href: "/experience",
+  },
 ];
 
-const physicianLinks = [
-  "Physician Network",
-  "Physician Dossier",
-  "Clinical Education",
-  "Medical Affairs",
-];
-
-const clinicLinks = [
-  "Become a Partner",
-  "Authorized Centre",
-  "Clinical Collaboration",
-];
-
-const distributorLinks = [
-  "Distribution Network",
-  "Product Portfolio",
-  "Territory",
-];
-
-const franchiseLinks = [
-  "Franchise Opportunity",
-  "The Model",
-  "Training & Support",
+const partnerGroups = [
+  {
+    title: "Physicians",
+    href: "/partners",
+  },
+  {
+    title: "Clinics & Hospitals",
+    href: "/partners",
+  },
+  {
+    title: "Distributors",
+    href: "/distributors",
+  },
+  {
+    title: "Franchise / MSO",
+    href: "/partners",
+  },
+  {
+    title: "Corporate",
+    href: "/partners",
+  },
+  {
+    title: "Strategic Partners",
+    href: "/partners",
+  },
 ];
 
 /* =========================================================
@@ -603,7 +566,7 @@ export default function Navbar() {
 
           <nav
             aria-label="Primary navigation"
-           className="ml-auto mr-6 hidden lg:flex xl:mr-16"
+            className="ml-auto mr-6 hidden lg:flex xl:mr-16"
           >
             <div
               className={[
@@ -649,7 +612,6 @@ export default function Navbar() {
                   onClose={closeAll}
                 />
               </DesktopNavItem>
-
               {/* =================================================
                   NADx
               ================================================= */}
@@ -884,6 +846,7 @@ export default function Navbar() {
                   1,
                 ],
               }}
+              onMouseEnter={keepMenuOpen}
               className={[
                 "fixed inset-0 z-[200]",
                 "overflow-hidden",
@@ -1332,7 +1295,7 @@ export default function Navbar() {
                       </MobileAccordion>
 
                       <MobileAccordion
-                        title="For partners"
+                        title="Partners"
                         open={
                           mobileSection === "partners"
                         }
@@ -1608,16 +1571,16 @@ function DropdownHeader({
       </div>
 
       <h3
-  className={[
-    "mt-4",
-    "font-[var(--font-heading)]",
-    "text-[30px]",
-    "font-light",
-    "leading-none",
-    "tracking-[-0.035em]",
-    "text-[#1683FF]",
-  ].join(" ")}
->
+        className={[
+          "mt-4",
+          "font-[var(--font-heading)]",
+          "text-[30px]",
+          "font-light",
+          "leading-none",
+          "tracking-[-0.035em]",
+          "text-[#1683FF]",
+        ].join(" ")}
+      >
         {title}
       </h3>
 
@@ -1651,105 +1614,15 @@ function ExploreDropdown({
         subtitle="Discover your wellness path"
       />
 
-      <div>
-        <div
-          className={[
-            "mb-4 flex",
-            "items-center justify-between",
-            "border-t border-white/10",
-            "pt-5",
-          ].join(" ")}
-        >
-          <span
-            className={[
-              "text-[8px]",
-              "font-medium",
-              "tracking-[0.16em]",
-              "text-white/75",
-            ].join(" ")}
-          >
-            Wellness Paths
-          </span>
-
-          <span className="text-white/35">
-            <ChevronRight />
-          </span>
-        </div>
-
-        <div
-          className={[
-            "grid grid-cols-2",
-            "gap-x-7 gap-y-3",
-          ].join(" ")}
-        >
-          {wellnessPaths.map(
-            (item) => (
-              <DropdownLink
-                key={item}
-                label={item}
-                href="/protocols"
-                onClose={onClose}
-              />
-            ),
-          )}
-        </div>
-      </div>
-
-      <div
-        className={[
-          "mt-7",
-          "border-t border-white/10",
-          "pt-5",
-        ].join(" ")}
-      >
-        <div
-          className={[
-            "mb-4 flex",
-            "items-center justify-between",
-          ].join(" ")}
-        >
-          <span
-            className={[
-              "text-[8px]",
-              "font-medium",
-              "tracking-[0.16em]",
-              "text-white/75",
-            ].join(" ")}
-          >
-            Featured
-          </span>
-
-          <span className="text-white/35">
-            <ChevronRight />
-          </span>
-        </div>
-
-        <div className="space-y-3">
-          {featuredLinks.map(
-            (item) => (
-              <DropdownLink
-                key={item.label}
-                label={item.label}
-                href={item.href}
-                onClose={onClose}
-              />
-            ),
-          )}
-        </div>
-      </div>
-
-      <div
-        className={[
-          "mt-7",
-          "border-t border-white/10",
-          "pt-5",
-        ].join(" ")}
-      >
-        <DropdownLink
-          label="FAQ"
-          href="/faq"
-          onClose={onClose}
-        />
+      <div className="space-y-3.5">
+        {exploreLinks.map((item) => (
+          <DropdownLink
+            key={item.label}
+            label={item.label}
+            href={item.href}
+            onClose={onClose}
+          />
+        ))}
       </div>
     </DropdownFrame>
   );
@@ -1771,64 +1644,15 @@ function ExperienceDropdown({
         subtitle="How you can experience DRIPLABS"
       />
 
-      <div className="space-y-5">
-        {experienceItems.map(
-          (item) => (
-            <Link
-              key={item.title}
-              href={item.href}
-              onClick={onClose}
-              className="group block"
-            >
-              <div
-                className={[
-                  "flex items-start",
-                  "justify-between",
-                  "gap-5",
-                ].join(" ")}
-              >
-                <div>
-                  <span
-                    className={[
-                      "block",
-                      "text-[11px]",
-                      "font-medium",
-                      "text-white/80",
-                      "transition-colors",
-                      "group-hover:text-[#8CCBFF]",
-                    ].join(" ")}
-                  >
-                    {item.title}
-                  </span>
-
-                  <span
-                    className={[
-                      "mt-1.5 block",
-                      "text-[9px]",
-                      "leading-4",
-                      "text-white/35",
-                    ].join(" ")}
-                  >
-                    {item.description}
-                  </span>
-                </div>
-
-                <span
-                  className={[
-                    "mt-1",
-                    "text-[#4D9BFF]",
-                    "opacity-0",
-                    "transition-all duration-300",
-                    "group-hover:translate-x-1",
-                    "group-hover:opacity-100",
-                  ].join(" ")}
-                >
-                  <ArrowRight />
-                </span>
-              </div>
-            </Link>
-          ),
-        )}
+      <div className="space-y-3.5">
+        {experienceLinks.map((item) => (
+          <DropdownLink
+            key={item.label}
+            label={item.label}
+            href={item.href}
+            onClose={onClose}
+          />
+        ))}
       </div>
     </DropdownFrame>
   );
@@ -1851,16 +1675,14 @@ function ScienceDropdown({
       />
 
       <div className="space-y-3.5">
-        {scienceLinks.map(
-          (item) => (
-            <DropdownLink
-              key={item.label}
-              label={item.label}
-              href={item.href}
-              onClose={onClose}
-            />
-          ),
-        )}
+        {scienceLinks.map((item) => (
+          <DropdownLink
+            key={item.label}
+            label={item.label}
+            href={item.href}
+            onClose={onClose}
+          />
+        ))}
       </div>
     </DropdownFrame>
   );
@@ -1883,16 +1705,14 @@ function CircleDropdown({
       />
 
       <div className="space-y-3.5">
-        {circleLinks.map(
-          (item) => (
-            <DropdownLink
-              key={item.label}
-              label={item.label}
-              href={item.href}
-              onClose={onClose}
-            />
-          ),
-        )}
+        {circleLinks.map((item) => (
+          <DropdownLink
+            key={item.label}
+            label={item.label}
+            href={item.href}
+            onClose={onClose}
+          />
+        ))}
       </div>
     </DropdownFrame>
   );
@@ -1915,16 +1735,14 @@ function LocationsDropdown({
       />
 
       <div className="space-y-3.5">
-        {locationLinks.map(
-          (item) => (
-            <DropdownLink
-              key={item.label}
-              label={item.label}
-              href={item.href}
-              onClose={onClose}
-            />
-          ),
-        )}
+        {locationLinks.map((item) => (
+          <DropdownLink
+            key={item.label}
+            label={item.label}
+            href={item.href}
+            onClose={onClose}
+          />
+        ))}
       </div>
 
       <div
@@ -1985,39 +1803,16 @@ function PartnersDropdown({
         subtitle="Build the future with us"
       />
 
-      <PartnerDropdownGroup
-        title="Physicians"
-        links={physicianLinks}
-        href="/physicians"
-        onClose={onClose}
-      />
-
-      <PartnerDivider />
-
-      <PartnerDropdownGroup
-        title="Clinics & Centres"
-        links={clinicLinks}
-        href="/physicians"
-        onClose={onClose}
-      />
-
-      <PartnerDivider />
-
-      <PartnerDropdownGroup
-        title="Distributors"
-        links={distributorLinks}
-        href="/distributors"
-        onClose={onClose}
-      />
-
-      <PartnerDivider />
-
-      <PartnerDropdownGroup
-        title="Franchise"
-        links={franchiseLinks}
-        href="/partners"
-        onClose={onClose}
-      />
+      <div className="space-y-3.5">
+        {partnerGroups.map((group) => (
+          <DropdownLink
+            key={group.title}
+            label={group.title}
+            href={group.href}
+            onClose={onClose}
+          />
+        ))}
+      </div>
 
       <Link
         href="/contact"
@@ -2043,8 +1838,6 @@ function PartnersDropdown({
 
 /* =========================================================
    DROPDOWN LINK
-   IMPORTANT:
-   Keep this component only ONCE.
 ========================================================= */
 
 function DropdownLink({
@@ -2089,167 +1882,6 @@ function DropdownLink({
         <ArrowRight />
       </span>
     </Link>
-  );
-}
-
-/* =========================================================
-   PARTNER GROUP
-   MAIN HEADING VISIBLE
-   SUBMENU APPEARS ONLY ON HOVER
-========================================================= */
-
-function PartnerDropdownGroup({
-  title,
-  links,
-  href,
-  onClose,
-}: {
-  title: string;
-  links: string[];
-  href: string;
-  onClose: () => void;
-}) {
-  return (
-    <div className="group relative">
-      {/* =================================================
-          MAIN HEADING
-      ================================================= */}
-
-      <Link
-        href={href}
-        onClick={onClose}
-        className={[
-          "flex w-full",
-          "items-center justify-between",
-          "py-2",
-          "text-[11px]",
-          "font-medium",
-          "tracking-[0.03em]",
-          "text-white/80",
-          "transition-all duration-300",
-          "hover:text-white",
-        ].join(" ")}
-      >
-        <span>
-          {title}
-        </span>
-
-        <span
-          className={[
-            "ml-auto",
-            "flex h-5 w-5",
-            "items-center justify-center",
-            "text-[#4D9BFF]",
-            "opacity-50",
-            "transition-all duration-300",
-            "group-hover:translate-x-0.5",
-            "group-hover:opacity-100",
-          ].join(" ")}
-        >
-          <svg
-            width="12"
-            height="12"
-            viewBox="0 0 12 12"
-            fill="none"
-            aria-hidden="true"
-            className="transition-transform duration-300 group-hover:rotate-90"
-          >
-            <path
-              d="M4.5 2.5L8 6L4.5 9.5"
-              stroke="currentColor"
-              strokeWidth="1.2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
-        </span>
-      </Link>
-
-      {/* =================================================
-          HIDDEN SUBMENU
-          OPENS ONLY WHEN THIS GROUP IS HOVERED
-      ================================================= */}
-
-      <div
-        className={[
-          "grid",
-          "grid-rows-[0fr]",
-          "overflow-hidden",
-          "opacity-0",
-          "-translate-y-1",
-          "transition-all duration-300 ease-out",
-
-          "group-hover:grid-rows-[1fr]",
-          "group-hover:translate-y-0",
-          "group-hover:opacity-100",
-
-          "group-focus-within:grid-rows-[1fr]",
-          "group-focus-within:translate-y-0",
-          "group-focus-within:opacity-100",
-        ].join(" ")}
-      >
-        <div className="min-h-0 overflow-hidden">
-          <div
-            className={[
-              "ml-3",
-              "border-l border-white/10",
-              "py-2 pl-4",
-            ].join(" ")}
-          >
-            <div className="grid gap-2">
-              {links.map(
-                (item) => (
-                  <Link
-                    key={item}
-                    href={href}
-                    onClick={onClose}
-                    className={[
-                      "group/sub",
-                      "flex items-center",
-                      "justify-between",
-                      "gap-3",
-                      "py-0.5",
-                      "text-[9px]",
-                      "leading-4",
-                      "text-white/40",
-                      "transition-all duration-200",
-                      "hover:text-white/90",
-                    ].join(" ")}
-                  >
-                    <span>
-                      {item}
-                    </span>
-
-                    <span
-                      className={[
-                        "text-[#4D9BFF]",
-                        "opacity-0",
-                        "-translate-x-1",
-                        "transition-all duration-200",
-                        "group-hover/sub:translate-x-0",
-                        "group-hover/sub:opacity-100",
-                      ].join(" ")}
-                    >
-                      <ArrowRight />
-                    </span>
-                  </Link>
-                ),
-              )}
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-/* =========================================================
-   PARTNER DIVIDER
-========================================================= */
-
-function PartnerDivider() {
-  return (
-    <div className="my-3 h-px bg-white/10" />
   );
 }
 
@@ -2493,127 +2125,36 @@ function MobileExplore({
         Discover your wellness path
       </p>
 
-      <div>
-        <div
-          className={[
-            "mb-5 flex",
-            "items-center justify-between",
-            "border-t border-white/10",
-            "pt-5",
-          ].join(" ")}
-        >
-          <span
-            className={[
-              "text-[8px]",
-              "font-medium",
-              "tracking-[0.16em]",
-              "text-white/65",
-            ].join(" ")}
-          >
-            Wellness Paths
-          </span>
-
-          <span className="text-[#4D9BFF]">
-            <ChevronRight />
-          </span>
-        </div>
-
-        <div
-          className={
-            large
-              ? "grid grid-cols-2 gap-x-10 gap-y-4"
-              : "grid gap-3"
-          }
-        >
-          {wellnessPaths.map(
-            (item) => (
-              <Link
-                key={item}
-                href="/protocols"
-                onClick={onClose}
-                className={
-                  large
-                    ? [
-                        "text-[14px]",
-                        "leading-5",
-                        "text-white/55",
-                        "transition-colors",
-                        "hover:text-[#8CCBFF]",
-                      ].join(" ")
-                    : [
-                        "text-[11px]",
-                        "text-white/55",
-                      ].join(" ")
-                }
-              >
-                {item}
-              </Link>
-            ),
-          )}
-        </div>
-      </div>
-
       <div
-        className={[
-          "mt-8",
-          "border-t border-white/10",
-          "pt-5",
-        ].join(" ")}
+        className={
+          large
+            ? "grid gap-4"
+            : "grid gap-3"
+        }
       >
-        <div
-          className={[
-            "mb-5 flex",
-            "items-center justify-between",
-          ].join(" ")}
-        >
-          <span
-            className={[
-              "text-[8px]",
-              "font-medium",
-              "tracking-[0.16em]",
-              "text-white/65",
-            ].join(" ")}
+        {exploreLinks.map((item) => (
+          <Link
+            key={item.label}
+            href={item.href}
+            onClick={onClose}
+            className={
+              large
+                ? [
+                    "text-[14px]",
+                    "leading-5",
+                    "text-white/55",
+                    "transition-colors",
+                    "hover:text-[#8CCBFF]",
+                  ].join(" ")
+                : [
+                    "text-[11px]",
+                    "text-white/55",
+                  ].join(" ")
+            }
           >
-            Featured
-          </span>
-
-          <span className="text-[#4D9BFF]">
-            <ChevronRight />
-          </span>
-        </div>
-
-        <div
-          className={
-            large
-              ? "grid gap-4"
-              : "grid gap-3"
-          }
-        >
-          {featuredLinks.map(
-            (item) => (
-              <Link
-                key={item.label}
-                href={item.href}
-                onClick={onClose}
-                className={
-                  large
-                    ? [
-                        "text-[14px]",
-                        "text-white/55",
-                        "transition-colors",
-                        "hover:text-[#8CCBFF]",
-                      ].join(" ")
-                    : [
-                        "text-[11px]",
-                        "text-white/55",
-                      ].join(" ")
-                }
-              >
-                {item.label}
-              </Link>
-            ),
-          )}
-        </div>
+            {item.label}
+          </Link>
+        ))}
       </div>
     </div>
   );
@@ -2642,59 +2183,36 @@ function MobileExperience({
         How you can experience DRIPLABS
       </p>
 
-      {experienceItems.map(
-        (item) => (
-          <Link
-            key={item.title}
-            href={item.href}
-            onClick={onClose}
-            className="group block"
+      {experienceLinks.map((item) => (
+        <Link
+          key={item.label}
+          href={item.href}
+          onClick={onClose}
+          className="group block"
+        >
+          <span
+            className={
+              large
+                ? [
+                    "block",
+                    "text-[17px]",
+                    "font-medium",
+                    "text-white/80",
+                    "transition-colors",
+                    "group-hover:text-[#8CCBFF]",
+                  ].join(" ")
+                : [
+                    "block",
+                    "text-[11px]",
+                    "font-medium",
+                    "text-white/80",
+                  ].join(" ")
+            }
           >
-            <span
-              className={
-                large
-                  ? [
-                      "block",
-                      "text-[17px]",
-                      "font-medium",
-                      "text-white/80",
-                      "transition-colors",
-                      "group-hover:text-[#8CCBFF]",
-                    ].join(" ")
-                  : [
-                      "block",
-                      "text-[11px]",
-                      "font-medium",
-                      "text-white/80",
-                    ].join(" ")
-              }
-            >
-              {item.title}
-            </span>
-
-            <span
-              className={
-                large
-                  ? [
-                      "mt-1.5 block",
-                      "max-w-[420px]",
-                      "text-[11px]",
-                      "leading-5",
-                      "text-white/35",
-                    ].join(" ")
-                  : [
-                      "mt-1 block",
-                      "text-[9px]",
-                      "leading-4",
-                      "text-white/35",
-                    ].join(" ")
-              }
-            >
-              {item.description}
-            </span>
-          </Link>
-        ),
-      )}
+            {item.label}
+          </span>
+        </Link>
+      ))}
     </div>
   );
 }
@@ -2717,26 +2235,24 @@ function MobileSimpleLinks({
 }) {
   return (
     <div className="grid gap-1">
-      {links.map(
-        (item) => (
-          <Link
-            key={item.label}
-            href={item.href}
-            onClick={onClose}
-            className={[
-              "flex items-center",
-              "transition-colors",
-              "hover:text-[#8CCBFF]",
-              large
-                ? "min-h-[48px] text-[17px]"
-                : "min-h-[44px] text-[11px]",
-              "text-white/55",
-            ].join(" ")}
-          >
-            {item.label}
-          </Link>
-        ),
-      )}
+      {links.map((item) => (
+        <Link
+          key={item.label}
+          href={item.href}
+          onClick={onClose}
+          className={[
+            "flex items-center",
+            "transition-colors",
+            "hover:text-[#8CCBFF]",
+            large
+              ? "min-h-[48px] text-[17px]"
+              : "min-h-[44px] text-[11px]",
+            "text-white/55",
+          ].join(" ")}
+        >
+          {item.label}
+        </Link>
+      ))}
     </div>
   );
 }
@@ -2766,26 +2282,24 @@ function MobileLocations({
       </p>
 
       <div className="grid gap-1">
-        {locationLinks.map(
-          (item) => (
-            <Link
-              key={item.label}
-              href={item.href}
-              onClick={onClose}
-              className={[
-                "flex items-center",
-                "text-white/55",
-                "transition-colors",
-                "hover:text-[#8CCBFF]",
-                large
-                  ? "min-h-[48px] text-[17px]"
-                  : "min-h-[44px] text-[11px]",
-              ].join(" ")}
-            >
-              {item.label}
-            </Link>
-          ),
-        )}
+        {locationLinks.map((item) => (
+          <Link
+            key={item.label}
+            href={item.href}
+            onClick={onClose}
+            className={[
+              "flex items-center",
+              "text-white/55",
+              "transition-colors",
+              "hover:text-[#8CCBFF]",
+              large
+                ? "min-h-[48px] text-[17px]"
+                : "min-h-[44px] text-[11px]",
+            ].join(" ")}
+          >
+            {item.label}
+          </Link>
+        ))}
       </div>
 
       <div
@@ -2829,49 +2343,32 @@ function MobilePartners({
   large?: boolean;
 }) {
   return (
-    <div className="space-y-7">
-      <MobilePartnerGroup
-        title="Physicians"
-        links={physicianLinks}
-        href="/physicians"
-        onClose={onClose}
-        large={large}
-      />
-
-      <MobilePartnerGroup
-        title="Clinics & Centres"
-        links={clinicLinks}
-        href="/physicians"
-        onClose={onClose}
-        large={large}
-      />
-
-      <MobilePartnerGroup
-        title="Distributors"
-        links={distributorLinks}
-        href="/distributors"
-        onClose={onClose}
-        large={large}
-      />
-
-      <MobilePartnerGroup
-        title="Franchise"
-        links={franchiseLinks}
-        href="/partners"
-        onClose={onClose}
-        large={large}
-      />
+    <div className="grid gap-1">
+      {partnerGroups.map((group) => (
+        <Link
+          key={group.title}
+          href={group.href}
+          onClick={onClose}
+          className={[
+            "flex items-center",
+            "text-white/55",
+            "transition-colors",
+            "hover:text-[#8CCBFF]",
+            large
+              ? "min-h-[48px] text-[17px]"
+              : "min-h-[44px] text-[11px]",
+          ].join(" ")}
+        >
+          {group.title}
+        </Link>
+      ))}
 
       <Link
         href="/contact"
         onClick={onClose}
         className={[
-          "inline-flex",
-          "min-h-[44px]",
-          "items-center",
-          "text-[9px]",
-          "font-medium",
-          "tracking-[0.14em]",
+          "mt-5 inline-flex min-h-[44px] items-center",
+          "text-[9px] font-medium tracking-[0.14em]",
           "text-[#4D9BFF]",
           "underline",
           "decoration-[#4D9BFF]/30",
@@ -2882,73 +2379,6 @@ function MobilePartners({
       >
         Enquire Now
       </Link>
-    </div>
-  );
-}
-
-/* =========================================================
-   MOBILE PARTNER GROUP
-========================================================= */
-
-function MobilePartnerGroup({
-  title,
-  links,
-  href,
-  onClose,
-  large = false,
-}: {
-  title: string;
-  links: string[];
-  href: string;
-  onClose: () => void;
-  large?: boolean;
-}) {
-  return (
-    <div>
-      <Link
-        href={href}
-        onClick={onClose}
-        className={[
-          "transition-colors",
-          "hover:text-[#8CCBFF]",
-          large
-            ? "text-[18px] font-medium"
-            : "text-[11px] font-medium",
-          "text-white/80",
-        ].join(" ")}
-      >
-        {title}
-      </Link>
-
-      <div
-        className={[
-          "mt-2 grid pl-3",
-          large
-            ? "gap-1.5"
-            : "gap-1",
-        ].join(" ")}
-      >
-        {links.map(
-          (item) => (
-            <Link
-              key={item}
-              href={href}
-              onClick={onClose}
-              className={[
-                "flex items-center",
-                "text-white/35",
-                "transition-colors",
-                "hover:text-[#8CCBFF]",
-                large
-                  ? "min-h-[36px] text-[13px]"
-                  : "min-h-[40px] text-[10px]",
-              ].join(" ")}
-            >
-              {item}
-            </Link>
-          ),
-        )}
-      </div>
     </div>
   );
 }

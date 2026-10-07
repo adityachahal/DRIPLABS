@@ -18,6 +18,7 @@ import DecodeVial from "@/components/home/DecodeVial";
 import EvidenceResearch from "@/components/sections/EvidenceResearch";
 import BuildingPartnership from "@/components/sections/BuildingPartnership";
 import SignatureProtocols from "@/components/sections/SignatureProtocols";
+import WellnessGoalExplorer from "@/components/home/WellnessGoalExplorer";
 
 export default function Home() {
   return (
@@ -35,7 +36,7 @@ export default function Home() {
 
       {/* 04 — The trust moat */}
       <CredibilitySection />
-
+      <WellnessGoalExplorer />
       {/* 05 — Protocol system */}
       <ProtocolObservatory />
 
