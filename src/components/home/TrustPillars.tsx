@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 
+
 const pillars = [
   {
     number: "01",
