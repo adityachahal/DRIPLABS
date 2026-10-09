@@ -2411,13 +2411,33 @@ export default function CredibilitySection() {
 
 
 
-            <p className="max-w-[330px] pb-1 text-[8px] uppercase leading-4 tracking-[0.16em] text-white/28 md:text-right">
+            <p
+  className="
 
-              A clinical system designed around precision,
+                max-w-[700px]
 
-              transparency and supervision.
+                font-[var(--font-heading)]
 
-            </p>
+                text-[clamp(2.4rem,4vw,4.8rem)]
+
+                font-light
+
+                leading-[0.88]
+
+                tracking-[-0.06em]
+
+                text-[#F7FAFF]
+
+              "
+>
+  Innovation 
+  <br />
+
+              <span className="text-[#8CCBFF]/70">
+meets integrity
+ </span>
+</p>
+
 
           </div>
 
