@@ -15,9 +15,9 @@ import Memberships from "@/components/sections/Memberships";
 import FinalCTA from "@/components/sections/FinalCTA";
 import Footer from "@/components/sections/Footer";
 import DecodeVial from "@/components/home/DecodeVial";
-import EvidenceResearch from "@/components/sections/EvidenceResearch";
+
 import BuildingPartnership from "@/components/sections/BuildingPartnership";
-import SignatureProtocols from "@/components/sections/SignatureProtocols";
+
 import WellnessGoalExplorer from "@/components/home/WellnessGoalExplorer";
 
 export default function Home() {
@@ -50,10 +50,10 @@ export default function Home() {
       {/* 09 — Human experience */}
       <ConsumerExperience />
 
-      {/* 10 — Evidence & research */}
-      <EvidenceResearch />
+      {/* 10 — Evidence & research"<EvidenceResearch />" "import EvidenceResearch from "@/components/sections/EvidenceResearch";"*/}
+      
 
-      <SignatureProtocols />
+      
 
        {/* 06 — Geographic presence */}
       <LocationMarquee />

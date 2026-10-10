@@ -93,7 +93,7 @@ export default function WellnessGoalExplorer() {
             loop
             playsInline
             preload="auto"
-            className="absolute inset-0 h-full w-full object-cover opacity-[2]"
+            className="absolute inset-0 h-full w-full object-cover opacity-[2.256]"
             aria-hidden="true"
           >
             <source
@@ -130,7 +130,7 @@ export default function WellnessGoalExplorer() {
               <div className="mb-3 flex items-center gap-3">
                 <span className="h-px w-8 bg-[#1683FF]" />
 
-                <span className="text-[8px] font-medium uppercase tracking-[0.3em] text-[#1683FF]">
+                <span className="text-[10px] font-medium uppercase tracking-[0.3em] text-[#1683FF]">
                   WELLNESS PATHWAYS
                 </span>
               </div>
@@ -141,14 +141,14 @@ export default function WellnessGoalExplorer() {
                 <span className="italic text-[#1683FF]">wellness.</span>
               </h2>
 
-              <p className="mt-4 max-w-[560px] text-[11px] leading-5 text-[#626863] sm:text-[12px]">
+              <p className="mt-4 max-w-[560px] text-[13px] leading-5 text-[#626863] sm:text-[13px]">
                 Explore physician-guided wellness pathways designed around
                 different areas of wellbeing.
               </p>
             </div>
 
             <div className="hidden pb-1 sm:block">
-              <span className="text-[8px] uppercase tracking-[0.25em] text-[#858984]">
+              <span className="text-[13px] uppercase tracking-[0.25em] text-[#00008]">
                 {wellnessFamilies.length} WELLNESS FAMILIES
               </span>
             </div>
@@ -157,7 +157,7 @@ export default function WellnessGoalExplorer() {
           {/* FAMILY CARDS */}
           <div className="relative mt-2 sm:mt-3 lg:mt-5">
             {/* RIGHT FADE */}
-            <div className="pointer-events-none absolute right-0 top-0 z-30 h-full w-20 bg-gradient-to-l from-[#F5F1E8] to-transparent" />
+            
 
             {/* HORIZONTAL SCROLL */}
             <div className="flex gap-4 overflow-x-auto overscroll-x-contain pb-5 pr-20 snap-x snap-mandatory [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
@@ -166,7 +166,7 @@ export default function WellnessGoalExplorer() {
                   key={family.id}
                   href={`/protocols?family=${family.id}`}
                   className="
-                    group relative w-[64vw] max-w-[330px] shrink-0 snap-start
+                    group relative w-[64vw] max-w-[10px] shrink-0 snap-start
                     overflow-hidden border border-white/45 bg-[#17202A]
                     shadow-[0_20px_55px_rgba(20,25,25,0.14)]
                     transition-all duration-700
@@ -210,7 +210,8 @@ export default function WellnessGoalExplorer() {
 
                     <div className="absolute bottom-[-80px] left-1/2 h-[220px] w-[320px] -translate-x-1/2 rounded-full bg-[#1683FF]/[0.12] blur-[80px] transition-opacity duration-700 group-hover:bg-[#1683FF]/[0.2]" />
 
-                   
+                    {/* INNER FRAME */}
+                    
                     {/* INDEX */}
                     <span className="absolute left-5 top-5 flex h-7 min-w-7 items-center justify-center border border-white/40 bg-[#020812]/20 px-2 text-[6px] font-medium tracking-[0.18em] text-white backdrop-blur-md">
                       {String(index + 1).padStart(2, "0")}
@@ -266,30 +267,21 @@ export default function WellnessGoalExplorer() {
                   </div>
 
                   {/* HOVER BLUE LINE */}
-                  <div className="pointer-events-none absolute inset-x-0 bottom-0 z-20 h-[2px] origin-left scale-x-0 bg-[#1683FF] shadow-[0_0_18px_rgba(22,131,255,0.8)] transition-transform duration-600 group-hover:scale-x-100" />
+                  
                 </Link>
               ))}
             </div>
 
             {/* SCROLL INDICATOR */}
-            <div className="mt-0 flex items-center justify-between">
-              <span className="text-[7px] uppercase tracking-[0.2em] text-[#858984]">
-                Explore wellness families
-              </span>
-
-              <div className="flex items-center gap-2">
-                <span className="h-px w-8 bg-[#CFC8BC]" />
-
-                <span className="text-[9px] text-[#858984]">
-                  →
-                </span>
-              </div>
+            
             </div>
           </div>
         </div>
 
+        {/* BOTTOM DEPTH */}
         
-      </div>
+    
+
     </section>
   );
 }

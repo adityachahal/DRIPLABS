@@ -164,11 +164,9 @@ export default function NADExperience() {
             }}
             className="font-[var(--font-heading)] text-[clamp(3.4rem,6vw,6rem)] font-light leading-[0.88] tracking-[-0.065em]"
           >
-            NADx —
-            <br />
-            the cellular
-            <br />
-            flagship.
+            NADx—
+            the cellular <br/> key to
+            longivity.
           </motion.h2>
 
           <motion.p
@@ -184,7 +182,7 @@ export default function NADExperience() {
               delay: reducedMotion ? 0 : 0.1,
               ease: [0.22, 1, 0.36, 1],
             }}
-            className="mt-5 max-w-[640px] text-[13px] leading-[1.65] text-white/65 md:text-[14px]"
+            className="mt-10 max-w-[640px] text-[13px] leading-[1.65] text-white/65 md:text-[14px]"
           >
             India&apos;s first physician-led, pharmacopoeia-documented
             Nicotinamide Adenine Dinucleotide (NAD⁺) IV programme —
@@ -209,7 +207,7 @@ export default function NADExperience() {
           >
             <a
               href="/nadx"
-              className="group inline-flex items-center gap-4 border-b border-[#C9A227]/60 pb-2.5 text-[8px] uppercase tracking-[0.24em] text-[#E3CE8E] transition-colors duration-300 hover:text-white md:text-[9px]"
+              className="group inline-flex items-center gap-4 border-b border-[#C9A227]/60 pb-2.5 text-[10px] uppercase tracking-[0.24em] text-[#E3CE8E] transition-colors duration-300 hover:text-white md:text-[9px]"
             >
               Explore NADx
 
@@ -289,109 +287,8 @@ export default function NADExperience() {
           </div>
         </div>
 
-        {/* ====================================================
-            SCIENCE SPLIT
-        ==================================================== */}
-
-        <div className="mt-14 border-t border-white/10 pt-12 md:mt-16 md:pt-14">
-          <div className="grid gap-10 md:grid-cols-2 md:gap-14">
-
-            {/* PATIENT */}
-
-            <motion.div
-              initial={
-                reducedMotion
-                  ? { opacity: 1, y: 0 }
-                  : { opacity: 0, y: 14 }
-              }
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-10% 0px" }}
-              transition={{
-                duration: reducedMotion ? 0.01 : 0.7,
-                ease: [0.22, 1, 0.36, 1],
-              }}
-            >
-              <p className="text-[8px] uppercase tracking-[0.28em] text-[#E3CE8E]">
-                For the patient
-              </p>
-
-              <p className="mt-5 max-w-xl font-[var(--font-heading)] text-[clamp(1.65rem,2.5vw,2.7rem)] font-light leading-[1.04] tracking-[-0.04em] text-white/90">
-                NAD⁺ is part of the chemistry your cells use for energy and
-                everyday cellular processes.
-              </p>
-
-              <p className="mt-5 max-w-xl text-[13px] leading-6 text-white/48">
-                As part of a physician-directed wellness programme, NAD⁺ is
-                approached as metabolic and cellular support rather than a
-                replacement for conventional therapy.
-              </p>
-            </motion.div>
-
-            {/* PHYSICIAN */}
-
-            <motion.div
-              initial={
-                reducedMotion
-                  ? { opacity: 1, y: 0 }
-                  : { opacity: 0, y: 14 }
-              }
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-10% 0px" }}
-              transition={{
-                duration: reducedMotion ? 0.01 : 0.7,
-                delay: reducedMotion ? 0 : 0.1,
-                ease: [0.22, 1, 0.36, 1],
-              }}
-            >
-              <p className="text-[8px] uppercase tracking-[0.28em] text-[#E3CE8E]">
-                For the physician
-              </p>
-
-              <p className="mt-5 max-w-xl font-[var(--font-heading)] text-[clamp(1.65rem,2.5vw,2.7rem)] font-light leading-[1.04] tracking-[-0.04em] text-white/90">
-                NAD⁺ participates in pathways involved in cellular energy and
-                DNA-damage response.
-              </p>
-
-              <p className="mt-5 max-w-xl text-[13px] leading-6 text-white/48">
-                NAD⁺ functions as a cofactor for Complex I of the electron
-                transport chain and as a substrate for sirtuins and PARP
-                enzymes.
-              </p>
-            </motion.div>
-
-          </div>
-        </div>
-
-        {/* ====================================================
-            COMPLIANCE RAIL
-        ==================================================== */}
-
-        <motion.div
-          initial={
-            reducedMotion
-              ? { opacity: 1, y: 0 }
-              : { opacity: 0, y: 14 }
-          }
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-10% 0px" }}
-          transition={{
-            duration: reducedMotion ? 0.01 : 0.7,
-            ease: [0.22, 1, 0.36, 1],
-          }}
-          className="mt-10 border border-[#C9A227]/20 bg-[#0B1B33]/70 p-5 backdrop-blur-sm md:mt-12 md:p-7"
-        >
-          <p className="text-[8px] uppercase tracking-[0.24em] text-[#C9A227]">
-            Evidence framing
-          </p>
-
-          <p className="mt-3 max-w-4xl text-[12px] leading-6 text-white/48 md:text-[13px] md:leading-6">
-            NAD⁺ is not yet a universally accepted frontline pharmaceutical
-            treatment. Current evidence supports its role as a
-            metabolic-support and mitochondrial-optimisation platform —
-            adjunct to, not a replacement for, conventional therapy.
-          </p>
-        </motion.div>
-
+        
+       
       </div>
     </section>
   );

@@ -7,12 +7,6 @@ import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 
 import Link from "next/link";
-import {
-  Stethoscope,
-  ClipboardCheck,
-  Droplets,
-  HeartPulse,
-} from "lucide-react";
 
 
 
@@ -21,7 +15,6 @@ const steps = [
   {
 
     number: "01",
-    icon: Stethoscope,
 
     title: "Consultation & Assessment",
 
@@ -35,7 +28,7 @@ const steps = [
 
       "Every DRIPLABS journey begins with professional assessment. Your goals, relevant health information and suitability are reviewed before a protocol is confirmed.",
 
-    image: "/images/journey/step-01-consultation.jpg",
+    image: "/images/journey/step-01-consultation.png",
 
     imagePosition: "60% center",
 
@@ -44,7 +37,6 @@ const steps = [
   {
 
     number: "02",
-    icon: ClipboardCheck,
 
     title: "Personalised Recommendation",
 
@@ -58,7 +50,7 @@ const steps = [
 
       "Following assessment, the treating physician determines the appropriate protocol, dosage and treatment plan for your individual profile.",
 
-    image: "/images/journey/step-02-recommendation.jpg",
+    image: "/images/journey/step-02-recommendation.png",
 
     imagePosition: "48% center",
 
@@ -67,7 +59,6 @@ const steps = [
   {
 
     number: "03",
-    icon: Droplets,
 
     title: "Comfortable IV Session",
 
@@ -81,7 +72,7 @@ const steps = [
 
       "Your selected protocol is administered by trained medical professionals in a carefully monitored environment designed around comfort and care.",
 
-    image: "/images/journey/step-03-iv-session.jpg",
+    image: "/images/journey/step-03-iv-session.png",
 
     imagePosition: "55% center",
 
@@ -90,7 +81,6 @@ const steps = [
   {
 
     number: "04",
-    icon: HeartPulse,
 
     title: "Recovery & Follow-Up",
 
@@ -104,7 +94,7 @@ const steps = [
 
       "DRIPLABS considers the journey beyond the infusion, with appropriate recovery guidance and structured follow-up forming part of the experience.",
 
-    image: "/images/journey/step-04-follow-up.jpg",
+    image: "/images/journey/step-04-follow-up.png",
 
     imagePosition: "66% center",
 
@@ -518,31 +508,11 @@ export default function ConsumerExperience() {
 
 
 
-                        <step.icon
-
-                          aria-hidden="true"
-
-                          strokeWidth={1.5}
-
-                          className={[
-
-                            "relative z-10 h-4 w-4 transition-colors duration-300",
-
-                            isActive || isCompleted
-
-                              ? "text-[#1683FF]"
-
-                              : "text-[#77766f]",
-
-                          ].join(" ")}
-
-                        />
-
                         <span
 
                           className={[
 
-                            "absolute -bottom-4 font-mono text-[6px] tracking-[0.14em]",
+                            "relative z-10 font-mono text-[8px] tracking-[0.18em]",
 
                             isActive || isCompleted
 
@@ -728,29 +698,23 @@ export default function ConsumerExperience() {
 
                       >
 
-                        <step.icon
-
-                          aria-hidden="true"
-
-                          strokeWidth={1.5}
+                        <span
 
                           className={[
 
-                            "h-4 w-4 transition-colors duration-300",
+                            "font-mono text-[8px] tracking-[0.18em]",
 
                             isActive
 
                               ? "text-[#1683FF]"
 
-                              : "text-[#77766f]",
+                              : "text-[#99978f]",
 
                           ].join(" ")}
 
-                        />
+                        >
 
-                        <span className="sr-only">
-
-                          Step {step.number}
+                          {step.number}
 
                         </span>
 
