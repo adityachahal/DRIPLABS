@@ -19,9 +19,12 @@ import DecodeVial from "@/components/home/DecodeVial";
 import BuildingPartnership from "@/components/sections/BuildingPartnership";
 
 import WellnessGoalExplorer from "@/components/home/WellnessGoalExplorer";
+import { Suspense } from "react";
 
 export default function Home() {
   return (
+    <Suspense fallback={null}>
+
     <main className="bg-[#F7F4EC] text-[#111318]">
       <Navbar />
 
@@ -51,11 +54,7 @@ export default function Home() {
       <ConsumerExperience />
 
       {/* 10 — Evidence & research"<EvidenceResearch />" "import EvidenceResearch from "@/components/sections/EvidenceResearch";"*/}
-      
-
-      
-
-       {/* 06 — Geographic presence */}
+        {/* 06 — Geographic presence */}
       <LocationMarquee />
 
 
@@ -77,6 +76,9 @@ export default function Home() {
 
       {/* 16 — Global footer */}
       <Footer />
+    
     </main>
+    </Suspense>
+
   );
 }
