@@ -503,7 +503,7 @@ export default function Hero() {
 
           sizes="100vw"
 
-          className="object-cover object-[60%_center] brightness-[1.1] saturate-[1.08] contrast-[1.02]"
+          className="object-cover object-[60%_center] brightness-[1.1] saturate-[1.08] contrast-[1.02] max-md:object-[68%_center] max-md:scale-[1.035]"
 
           aria-hidden="true"
 
@@ -511,7 +511,7 @@ export default function Hero() {
 
         <canvas
           ref={gridCanvasRef}
-          className="pointer-events-none absolute inset-0 z-[2] h-full w-full"
+          className="pointer-events-none absolute inset-0 z-[2] h-full w-full max-md:hidden"
           aria-hidden="true"
         />
 
@@ -538,7 +538,7 @@ export default function Hero() {
 
         <div
           ref={flowLayerRef}
-          className="pointer-events-none absolute inset-[-10%] z-[3] overflow-hidden will-change-transform"
+          className="pointer-events-none absolute inset-[-10%] z-[3] overflow-hidden will-change-transform max-md:hidden"
           style={{
             backgroundImage:
               "linear-gradient(30deg, rgba(22,131,255,0.13) 1px, transparent 1px), linear-gradient(150deg, rgba(140,203,255,0.08) 1px, transparent 1px)",
@@ -571,7 +571,7 @@ export default function Hero() {
         {/* Editorial pointer label — changes on every meaningful cursor move. */}
         <div
           ref={cursorLabelRef}
-          className="pointer-events-none absolute left-1/2 top-1/2 z-[8] -translate-y-1/2"
+          className="pointer-events-none absolute left-1/2 top-1/2 z-[8] -translate-y-1/2 max-md:hidden"
           aria-hidden="true"
         >
           <div className="flex items-center gap-2 whitespace-nowrap">
@@ -593,7 +593,7 @@ export default function Hero() {
 
         {/* Blue atmospheric glow */}
 
-        <div className="pointer-events-none absolute right-[8%] top-[18%] h-[25vw] w-[25vw] rounded-full bg-[#28B8C8]/[0.06] blur-[80px]" />
+        <div className="pointer-events-none absolute right-[8%] top-[18%] h-[25vw] w-[25vw] rounded-full bg-[#28B8C8]/[0.06] blur-[80px] max-md:h-[48vw] max-md:w-[48vw] max-md:blur-[70px]" />
 
         {/* Subtle film grain */}
 
@@ -657,7 +657,7 @@ export default function Hero() {
 
           h-px
 
-          w-[30vw]
+          w-[30vw] max-md:w-[42vw]
 
           origin-left
 
@@ -697,7 +697,7 @@ export default function Hero() {
 
           pb-6
 
-          pt-[2rem]
+          pt-[2rem] max-md:px-5 max-md:pb-5 max-md:pt-[4.75rem]
 
           sm:px-6
 
@@ -747,7 +747,7 @@ export default function Hero() {
 
           }}
 
-          className="flex items-start justify-end"
+          className="flex items-start justify-end max-md:hidden"
 
         >
 
@@ -767,7 +767,7 @@ export default function Hero() {
 
         ======================================================= */}
 
-        <div className="mt-14 pb-5 md:mt-20 md:pb-7">
+        <div className="mt-14 pb-5 md:mt-20 md:pb-7 max-md:mt-[4.75rem] max-md:pb-0">
 
           {/* =====================================================
 
@@ -803,7 +803,7 @@ export default function Hero() {
 
             }}
 
-            className="mb-6 flex w-fit items-center"
+            className="mb-6 flex w-fit items-center max-md:mb-4"
 
           >
 
@@ -835,7 +835,7 @@ export default function Hero() {
 
               }}
 
-              className="relative top-[44px] mr-2 flex items-center"
+              className="relative top-[44px] mr-2 flex items-center max-md:top-0 max-md:mr-1"
 
               aria-hidden="true"
 
@@ -862,6 +862,8 @@ export default function Hero() {
                 top-[44px]
 
                 mt-0
+
+                max-md:top-0
 
                 whitespace-nowrap
 
@@ -911,7 +913,7 @@ export default function Hero() {
 
               }}
 
-              className="relative top-[44px] ml-2 flex items-center"
+              className="relative top-[44px] ml-2 flex items-center max-md:top-0 max-md:ml-1"
 
               aria-hidden="true"
 
@@ -970,6 +972,16 @@ export default function Hero() {
     top-[40px]
 
     mt-4
+
+    max-md:mt-0
+
+    max-md:max-w-[350px]
+
+    max-md:text-[clamp(3.15rem,14vw,4.6rem)]
+
+    max-md:leading-[0.9]
+
+    max-md:tracking-[-0.075em]
 
     flex
 
@@ -1209,6 +1221,10 @@ export default function Hero() {
 
     max-w-[820px]
 
+    max-md:mt-7
+
+    max-md:max-w-[340px]
+
     md:mt-14
 
     lg:mt-16
@@ -1230,6 +1246,8 @@ export default function Hero() {
       whitespace-normal
 
       text-[16px]
+
+      max-md:text-[15px]
 
       font-normal
 
@@ -1283,6 +1301,10 @@ export default function Hero() {
 
       max-w-[760px]
 
+      max-md:max-w-[330px]
+
+      max-md:text-[12.5px]
+
       text-[13px]
 
       font-normal
@@ -1335,6 +1357,10 @@ export default function Hero() {
 
       max-w-[780px]
 
+      max-md:max-w-[330px]
+
+      max-md:text-[11.5px]
+
       text-[12px]
 
       font-normal
@@ -1369,7 +1395,7 @@ export default function Hero() {
 
         ======================================================= */}
 
-        <div className="mt-auto grid grid-cols-1 items-end gap-6 pt-0 md:grid-cols-12">
+        <div className="mt-auto grid grid-cols-1 items-end gap-6 pt-0 md:grid-cols-12 max-md:mt-8 max-md:gap-4">
 
           {/* =====================================================
 
@@ -1377,7 +1403,7 @@ export default function Hero() {
 
           ===================================================== */}
 
-          <div className="md:col-span-5">
+          <div className="md:col-span-5 max-md:w-full">
 
             <motion.div
 
@@ -1418,6 +1444,8 @@ export default function Hero() {
                 items-center
 
                 gap-3
+
+                max-md:w-full max-md:flex-col max-md:items-stretch max-md:gap-2
 
                 md:translate-y-[8px]
 
@@ -1478,6 +1506,8 @@ export default function Hero() {
   relative
 
   inline-flex
+
+  max-md:w-full max-md:min-h-[50px] max-md:px-6
 
   min-h-[48px]
 
@@ -1605,6 +1635,14 @@ export default function Hero() {
 
         w-[min(92vw,680px)]
 
+        max-md:bottom-[calc(100%+10px)]
+
+        max-md:left-1/2
+
+        max-md:w-[calc(100vw-40px)]
+
+        max-md:-translate-x-1/2
+
       "
 
     >
@@ -1617,7 +1655,7 @@ export default function Hero() {
 
           overflow-hidden
 
-          rounded-[24px]
+          rounded-[24px] max-md:max-h-[72svh] max-md:overflow-y-auto max-md:overscroll-contain
 
           border
 
@@ -2831,6 +2869,8 @@ export default function Hero() {
 
                   inline-flex
 
+                  max-md:w-full max-md:min-h-[48px] max-md:px-6
+
                   min-h-[48px]
 
                   items-center
@@ -3045,11 +3085,11 @@ export default function Hero() {
 
             }}
 
-            className="md:col-span-6"
+            className="md:col-span-6 max-md:mt-2"
 
           >
 
-            <div className="flex w-full items-stretch justify-between">
+            <div className="flex w-full items-stretch justify-between max-md:rounded-[14px] max-md:border max-md:border-white/[0.10] max-md:bg-[#071525]/[0.28] max-md:px-1 max-md:py-2">
 
               {/* =================================================
 
@@ -3057,7 +3097,7 @@ export default function Hero() {
 
               ================================================= */}
 
-              <div className="flex min-w-0 flex-1 items-center justify-center px-2 sm:px-3">
+              <div className="flex min-w-0 flex-1 items-center justify-center px-2 sm:px-3 max-md:px-1">
 
                 <div className="flex flex-col items-center text-center">
 
@@ -3073,7 +3113,7 @@ export default function Hero() {
 
                     xmlns="http://www.w3.org/2000/svg"
 
-                    className="mb-2 h-7 w-7 text-white/65 sm:h-8 sm:w-8"
+                    className="mb-2 h-7 w-7 text-white/65 sm:h-8 sm:w-8 max-md:mb-1 max-md:h-5 max-md:w-5"
 
                     aria-hidden="true"
 
@@ -3107,7 +3147,7 @@ export default function Hero() {
 
                   </svg>
 
-                  <span className="whitespace-nowrap text-[7px] font-medium leading-[1.7] tracking-[0.10em] text-white/70 sm:text-[8px]">
+                  <span className="whitespace-nowrap text-[7px] font-medium leading-[1.7] tracking-[0.10em] text-white/70 sm:text-[8px] max-md:text-[6px] max-md:tracking-[0.08em]">
 
                     Pharma-grade
 
@@ -3121,7 +3161,7 @@ export default function Hero() {
 
               </div>
 
-              <div className="my-1 w-px bg-white/25" />
+              <div className="my-1 w-px bg-white/25 max-md:bg-white/15" />
 
               {/* =================================================
 
@@ -3129,7 +3169,7 @@ export default function Hero() {
 
               ================================================= */}
 
-              <div className="flex min-w-0 flex-1 items-center justify-center px-2 sm:px-3">
+              <div className="flex min-w-0 flex-1 items-center justify-center px-2 sm:px-3 max-md:px-1">
 
                 <div className="flex flex-col items-center text-center">
 
@@ -3145,7 +3185,7 @@ export default function Hero() {
 
                     xmlns="http://www.w3.org/2000/svg"
 
-                    className="mb-2 h-7 w-7 text-white/65 sm:h-8 sm:w-8"
+                    className="mb-2 h-7 w-7 text-white/65 sm:h-8 sm:w-8 max-md:mb-1 max-md:h-5 max-md:w-5"
 
                     aria-hidden="true"
 
@@ -3213,7 +3253,7 @@ export default function Hero() {
 
                   </svg>
 
-                  <span className="whitespace-nowrap text-[7px] font-medium leading-[1.7] tracking-[0.10em] text-white/70 sm:text-[8px]">
+                  <span className="whitespace-nowrap text-[7px] font-medium leading-[1.7] tracking-[0.10em] text-white/70 sm:text-[8px] max-md:text-[6px] max-md:tracking-[0.08em]">
 
                     Physician
 
@@ -3227,7 +3267,7 @@ export default function Hero() {
 
               </div>
 
-              <div className="my-1 w-px bg-white/25" />
+              <div className="my-1 w-px bg-white/25 max-md:bg-white/15" />
 
               {/* =================================================
 
@@ -3235,7 +3275,7 @@ export default function Hero() {
 
               ================================================= */}
 
-              <div className="flex min-w-0 flex-1 items-center justify-center px-2 sm:px-3">
+              <div className="flex min-w-0 flex-1 items-center justify-center px-2 sm:px-3 max-md:px-1">
 
                 <div className="flex flex-col items-center text-center">
 
@@ -3251,7 +3291,7 @@ export default function Hero() {
 
                     xmlns="http://www.w3.org/2000/svg"
 
-                    className="mb-2 h-7 w-7 text-white/65 sm:h-8 sm:w-8"
+                    className="mb-2 h-7 w-7 text-white/65 sm:h-8 sm:w-8 max-md:mb-1 max-md:h-5 max-md:w-5"
 
                     aria-hidden="true"
 
@@ -3439,7 +3479,7 @@ export default function Hero() {
 
                   </svg>
 
-                  <span className="whitespace-nowrap text-[7px] font-medium leading-[1.7] tracking-[0.10em] text-white/70 sm:text-[8px]">
+                  <span className="whitespace-nowrap text-[7px] font-medium leading-[1.7] tracking-[0.10em] text-white/70 sm:text-[8px] max-md:text-[6px] max-md:tracking-[0.08em]">
 
                     Indian Pharmacopoeia
 
@@ -3453,7 +3493,7 @@ export default function Hero() {
 
               </div>
 
-              <div className="my-1 w-px bg-white/25" />
+              <div className="my-1 w-px bg-white/25 max-md:bg-white/15" />
 
               {/* =================================================
 
@@ -3461,7 +3501,7 @@ export default function Hero() {
 
               ================================================= */}
 
-              <div className="flex min-w-0 flex-1 items-center justify-center px-2 sm:px-3">
+              <div className="flex min-w-0 flex-1 items-center justify-center px-2 sm:px-3 max-md:px-1">
 
                 <div className="flex flex-col items-center text-center">
 
@@ -3477,7 +3517,7 @@ export default function Hero() {
 
                     xmlns="http://www.w3.org/2000/svg"
 
-                    className="mb-2 h-7 w-7 text-white/65 sm:h-8 sm:w-8"
+                    className="mb-2 h-7 w-7 text-white/65 sm:h-8 sm:w-8 max-md:mb-1 max-md:h-5 max-md:w-5"
 
                     aria-hidden="true"
 
@@ -3535,7 +3575,7 @@ export default function Hero() {
 
                   </svg>
 
-                  <span className="whitespace-nowrap text-[7px] font-medium leading-[1.7] tracking-[0.10em] text-white/70 sm:text-[8px]">
+                  <span className="whitespace-nowrap text-[7px] font-medium leading-[1.7] tracking-[0.10em] text-white/70 sm:text-[8px] max-md:text-[6px] max-md:tracking-[0.08em]">
 
                     WHO-GMP-GLP
 

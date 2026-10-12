@@ -8,7 +8,6 @@ import React, {
   useState,
 } from "react";
 import Link from "next/link";
-import { useSearchParams } from "next/navigation";
 
 /* =========================================================
    TYPES
@@ -365,7 +364,6 @@ function getActiveCue(currentTime: number) {
 ========================================================= */
 
 export default function ProtocolObservatory() {
-  const searchParams = useSearchParams();
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const sectionRef = useRef<HTMLElement | null>(null);
 
@@ -382,38 +380,10 @@ export default function ProtocolObservatory() {
   const [family, setFamily] =
     useState<"All" | WellnessFamily>("Skin & Beauty");
 
-  const [focusedSlug, setFocusedSlug] = useState<string>("");
 
   // Family auto-rotation pauses briefly after a manual selection so
   // the interaction still feels fully user-controlled.
   const familyPauseUntilRef = useRef(0);
-  const initialFamilyAppliedRef = useRef(false);
-  const pointerFrameRef = useRef<number | null>(null);
-  const pointerTargetRef = useRef({ x: 50, y: 48 });
-  const pointerCurrentRef = useRef({ x: 50, y: 48 });
-
-  /* =====================================================
-     CONNECT FROM WELLNESS PATHWAYS
-     A family selected above can open this observatory already
-     focused on the same wellness family.
-  ===================================================== */
-
-  useEffect(() => {
-    if (initialFamilyAppliedRef.current) return;
-
-    const requestedFamily = searchParams.get("family");
-
-    if (!requestedFamily) {
-      initialFamilyAppliedRef.current = true;
-      return;
-    }
-
-    const resolvedFamily = normalizeFamily(requestedFamily);
-
-    setFamily(resolvedFamily);
-    familyPauseUntilRef.current = Date.now() + 12000;
-    initialFamilyAppliedRef.current = true;
-  }, [searchParams]);
 
   /* =====================================================
      LOAD API DATA
@@ -523,12 +493,23 @@ export default function ProtocolObservatory() {
 
   useEffect(() => {
     const video = videoRef.current;
+    if (!video) return;
 
-    if (!video || !isVisible) {
-      return;
-    }
+    const syncPlayback = () => {
+      if (isVisible && document.visibilityState === "visible") {
+        video.play().catch(() => {});
+      } else {
+        video.pause();
+      }
+    };
 
-    video.play().catch(() => {});
+    syncPlayback();
+    document.addEventListener("visibilitychange", syncPlayback);
+
+    return () => {
+      document.removeEventListener("visibilitychange", syncPlayback);
+      video.pause();
+    };
   }, [isVisible]);
 
   /* =====================================================
@@ -629,58 +610,6 @@ export default function ProtocolObservatory() {
   }, [family, visibleProtocols]);
 
   /* =====================================================
-     ORBIT FOCUS TRACKER
-     Only the protocol crossing the top/center focus point
-     reveals its name.
-  ===================================================== */
-
-  useEffect(() => {
-    if (!visibleProtocols.length) {
-      setFocusedSlug("");
-      return;
-    }
-
-    let frame = 0;
-    const startedAt = performance.now();
-    const duration = 52000;
-
-    const normalize = (value: number) =>
-      ((value % 360) + 360) % 360;
-
-    const angleDistance = (a: number, b: number) => {
-      const delta = Math.abs(normalize(a) - normalize(b));
-      return Math.min(delta, 360 - delta);
-    };
-
-    const tick = (now: number) => {
-      const rotation =
-        ((now - startedAt) / duration) * 360;
-
-      let closestSlug = visibleProtocols[0].slug;
-      let closestDistance = Infinity;
-
-      orbitPositions.forEach(({ protocol, angle }) => {
-        const distance = angleDistance(angle + rotation, -90);
-
-        if (distance < closestDistance) {
-          closestDistance = distance;
-          closestSlug = protocol.slug;
-        }
-      });
-
-      setFocusedSlug((previous) =>
-        previous === closestSlug ? previous : closestSlug
-      );
-
-      frame = requestAnimationFrame(tick);
-    };
-
-    frame = requestAnimationFrame(tick);
-
-    return () => cancelAnimationFrame(frame);
-  }, [orbitPositions, visibleProtocols]);
-
-  /* =====================================================
      ACTIVE PROTOCOL
   ===================================================== */
 
@@ -749,112 +678,18 @@ export default function ProtocolObservatory() {
     }
   }, [activeSlug, visibleProtocols]);
 
-  useEffect(() => {
-    return () => {
-      if (pointerFrameRef.current !== null) {
-        cancelAnimationFrame(pointerFrameRef.current);
-      }
-    };
-  }, []);
-
-  const handleObservatoryPointerMove = useCallback(
-    (event: React.PointerEvent<HTMLElement>) => {
-      const element = sectionRef.current;
-      if (!element || event.pointerType === "touch") return;
-
-      const rect = element.getBoundingClientRect();
-      pointerTargetRef.current.x = ((event.clientX - rect.left) / rect.width) * 100;
-      pointerTargetRef.current.y = ((event.clientY - rect.top) / rect.height) * 100;
-
-      if (pointerFrameRef.current !== null) return;
-
-      const tick = () => {
-        const current = pointerCurrentRef.current;
-        const target = pointerTargetRef.current;
-        current.x += (target.x - current.x) * 0.12;
-        current.y += (target.y - current.y) * 0.12;
-        element.style.setProperty("--pointer-x", `${current.x}%`);
-        element.style.setProperty("--pointer-y", `${current.y}%`);
-
-        if (Math.abs(target.x - current.x) > 0.08 || Math.abs(target.y - current.y) > 0.08) {
-          pointerFrameRef.current = requestAnimationFrame(tick);
-        } else {
-          pointerFrameRef.current = null;
-        }
-      };
-      pointerFrameRef.current = requestAnimationFrame(tick);
-    },
-    []
-  );
-
-  const handleObservatoryPointerLeave = useCallback(() => {
-    pointerTargetRef.current.x = 50;
-    pointerTargetRef.current.y = 48;
-    if (pointerFrameRef.current !== null) return;
-    const element = sectionRef.current;
-    if (!element) return;
-
-    const tick = () => {
-      const current = pointerCurrentRef.current;
-      const target = pointerTargetRef.current;
-      current.x += (target.x - current.x) * 0.08;
-      current.y += (target.y - current.y) * 0.08;
-      element.style.setProperty("--pointer-x", `${current.x}%`);
-      element.style.setProperty("--pointer-y", `${current.y}%`);
-
-      if (Math.abs(target.x - current.x) > 0.08 || Math.abs(target.y - current.y) > 0.08) {
-        pointerFrameRef.current = requestAnimationFrame(tick);
-      } else {
-        pointerFrameRef.current = null;
-      }
-    };
-    pointerFrameRef.current = requestAnimationFrame(tick);
-  }, []);
-
   return (
     <>
       <section
         ref={sectionRef}
-        className={[
-          "protocol-observatory",
-          "protocol-observatory-connected",
-          isVisible ? "is-visible" : "",
-        ]
-          .filter(Boolean)
-          .join(" ")}
-        onPointerMove={handleObservatoryPointerMove}
-        onPointerLeave={handleObservatoryPointerLeave}
+        className="protocol-observatory"
       >
-        {/* =================================================
-            WELLNESS → PROTOCOL OBSERVATORY CONNECTION
-        ================================================= */}
-
-        <div
-          className="observatory-entry-bridge"
-          aria-hidden="true"
-        >
-          <span className="handoff-horizon" />
-          <span className="handoff-horizon-glow" />
-          <span className="handoff-spine" />
-          <span className="handoff-spine-glow" />
-          <span className="handoff-orbit handoff-orbit-a" />
-          <span className="handoff-orbit handoff-orbit-b" />
-          <span className="handoff-packet handoff-packet-a" />
-          <span className="handoff-packet handoff-packet-b" />
-          <span className="handoff-packet handoff-packet-c" />
-          <span className="observatory-entry-point" />
-        </div>
         {/* =================================================
             ATMOSPHERE
         ================================================= */}
 
         <div
           className="observatory-atmosphere"
-          aria-hidden="true"
-        />
-
-        <div
-          className="observatory-pointer-field"
           aria-hidden="true"
         />
 
@@ -926,20 +761,7 @@ export default function ProtocolObservatory() {
 
                   setFamily(item);
 
-                  // Restart the orbit whenever the family changes
-                  // so the new family enters as one clean system.
-                  requestAnimationFrame(() => {
-                    const orbit = document.querySelector(
-                      ".orbit-spin"
-                    ) as HTMLElement | null;
 
-                    if (!orbit) return;
-
-                    orbit.style.animation = "none";
-                    void orbit.offsetWidth;
-                    orbit.style.animation =
-                      "observatory-orbit 52s linear infinite";
-                  });
                 }}
                 className={
                   selected
@@ -967,9 +789,6 @@ export default function ProtocolObservatory() {
             .filter(Boolean)
             .join(" ")}
         >
-          <div className="observatory-system-beam" aria-hidden="true" />
-          <div className="observatory-system-sweep" aria-hidden="true" />
-
           {/* ===============================================
               ORBITAL RINGS
           =============================================== */}
@@ -1009,14 +828,10 @@ export default function ProtocolObservatory() {
                   protocol.slug ===
                   activeSlug;
 
-                const isFocused =
-                  protocol.slug ===
-                  focusedSlug;
-
                 const icon =
   getProtocolIcon(protocol.slug) ??
   getFamilyIcon(protocol.family);
-
+  
                 return (
                   <button
                     key={protocol.slug}
@@ -1030,7 +845,6 @@ export default function ProtocolObservatory() {
                     className={[
                       "orbit-node",
                       isActive ? "active" : "",
-                      isFocused ? "focused" : "",
                     ]
                       .filter(Boolean)
                       .join(" ")}
@@ -1050,7 +864,7 @@ export default function ProtocolObservatory() {
                             src={icon}
                             alt={`${protocol.name} protocol icon`}
                             draggable={false}
-                            loading="eager"
+                            loading="lazy"
                             onError={(event) => {
                               event.currentTarget.style.display = "none";
                             }}
@@ -1063,11 +877,7 @@ export default function ProtocolObservatory() {
                       </span>
 
                       <span
-                        className={
-                          isFocused
-                            ? "orbit-node-info visible"
-                            : "orbit-node-info"
-                        }
+                        className="orbit-node-info"
                       >
                         <small>
                           {protocol.number}
@@ -1113,7 +923,7 @@ export default function ProtocolObservatory() {
                 autoPlay
                 loop
                 playsInline
-                preload="metadata"
+                preload="none"
                 onTimeUpdate={handleTimeUpdate}
               />
 
@@ -1267,6 +1077,7 @@ export default function ProtocolObservatory() {
         ================================================= */
 
         .protocol-observatory {
+          contain: layout paint;
           --midnight: #020812;
           --deep: #06152b;
           --blue: #0066ff;
@@ -1303,114 +1114,6 @@ export default function ProtocolObservatory() {
         }
 
         /* =================================================
-           WELLNESS → OBSERVATORY HANDOFF
-        ================================================= */
-
-        .protocol-observatory-connected {
-          --pointer-x: 50%;
-          --pointer-y: 48%;
-          margin-top: -1px;
-          border-top: 1px solid rgba(140,203,255,.055);
-          background:
-            linear-gradient(180deg, rgba(22,131,255,.075), transparent 13%),
-            radial-gradient(circle at 50% 0%, rgba(140,203,255,.11), transparent 17%),
-            radial-gradient(circle at 50% 47%, rgba(0,102,255,.085), transparent 24%),
-            radial-gradient(circle at 50% 50%, rgba(22,131,255,.035), transparent 52%),
-            #020812;
-        }
-
-        .observatory-entry-bridge {
-          position: absolute;
-          z-index: 45;
-          top: 0;
-          left: 50%;
-          width: min(100vw,1500px);
-          height: 150px;
-          transform: translateX(-50%);
-          pointer-events: none;
-          overflow: visible;
-        }
-
-        .handoff-horizon {
-          position: absolute;
-          left: 2%; right: 2%; top: 0; height: 1px;
-          background: linear-gradient(90deg, transparent, rgba(140,203,255,.08) 14%, rgba(140,203,255,.82) 50%, rgba(140,203,255,.08) 86%, transparent);
-          transform: scaleX(0); transform-origin: center; opacity: 0;
-        }
-
-        .handoff-horizon-glow {
-          position: absolute;
-          left: 15%; right: 15%; top: -9px; height: 20px;
-          border-radius: 999px;
-          background: radial-gradient(ellipse, rgba(22,131,255,.22), transparent 70%);
-          filter: blur(12px); opacity: 0;
-        }
-
-        .handoff-spine {
-          position: absolute;
-          left: 50%; top: 0; width: 1px; height: 132px;
-          transform: translateX(-50%) scaleY(0); transform-origin: top;
-          background: linear-gradient(to bottom, rgba(247,250,255,.9), rgba(140,203,255,.68) 16%, rgba(22,131,255,.24) 62%, transparent);
-          box-shadow: 0 0 22px rgba(22,131,255,.5); opacity: .85;
-        }
-
-        .handoff-spine-glow {
-          position: absolute;
-          left: 50%; top: 0; width: 34px; height: 130px;
-          transform: translateX(-50%) scaleY(.3); transform-origin: top;
-          background: linear-gradient(to bottom, rgba(22,131,255,.18), transparent 80%);
-          filter: blur(9px); opacity: 0;
-        }
-
-        .handoff-orbit {
-          position: absolute;
-          left: 50%; top: 58px; width: 76px; height: 76px;
-          border: 1px solid rgba(140,203,255,.08); border-radius: 50%;
-          transform: translate(-50%,-50%) scale(.55); opacity: 0;
-        }
-
-        .handoff-orbit-a { animation: handoff-orbit-a 9s linear infinite; }
-        .handoff-orbit-b { width: 112px; height: 112px; border-color: rgba(22,131,255,.06); animation: handoff-orbit-b 13s linear infinite reverse; }
-
-        .handoff-packet {
-          position: absolute;
-          left: 50%; top: 0; width: 3px; height: 18px;
-          border-radius: 999px;
-          background: linear-gradient(to bottom, transparent, #8ccbff, transparent);
-          box-shadow: 0 0 12px rgba(140,203,255,.9);
-          opacity: 0; transform: translateX(-50%) translateY(-10px);
-        }
-
-        .handoff-packet-a { animation: handoff-packet 3.8s 1.2s ease-in infinite; }
-        .handoff-packet-b { animation: handoff-packet 4.7s 2.4s ease-in infinite; }
-        .handoff-packet-c { animation: handoff-packet 5.4s 3.3s ease-in infinite; }
-
-        .observatory-entry-point {
-          position: absolute;
-          top: 58px; left: 50%; width: 6px; height: 6px;
-          transform: translateX(-50%) scale(.7); border-radius: 50%;
-          background: #f7faff;
-          box-shadow: 0 0 8px rgba(247,250,255,.95), 0 0 28px rgba(22,131,255,.75), 0 0 55px rgba(22,131,255,.25);
-          opacity: 0;
-        }
-
-        .protocol-observatory-connected.is-visible .handoff-horizon { animation: handoff-horizon 1.4s .08s cubic-bezier(.16,1,.3,1) forwards; }
-        .protocol-observatory-connected.is-visible .handoff-horizon-glow { animation: handoff-glow 3.6s .45s ease-in-out infinite; }
-        .protocol-observatory-connected.is-visible .handoff-spine { animation: handoff-spine 1.25s .42s cubic-bezier(.16,1,.3,1) forwards; }
-        .protocol-observatory-connected.is-visible .handoff-spine-glow { animation: handoff-spine-glow 3.8s .8s ease-in-out infinite; }
-        .protocol-observatory-connected.is-visible .handoff-orbit { opacity: 1; }
-        .protocol-observatory-connected.is-visible .observatory-entry-point { animation: handoff-point 2.8s .95s ease-in-out infinite; }
-
-        @keyframes handoff-horizon { from { transform: scaleX(0); opacity: 0; } to { transform: scaleX(1); opacity: 1; } }
-        @keyframes handoff-glow { 0%,100% { opacity:.2; transform:scaleX(.7); } 50% { opacity:.8; transform:scaleX(1); } }
-        @keyframes handoff-spine { from { transform:translateX(-50%) scaleY(0); } to { transform:translateX(-50%) scaleY(1); } }
-        @keyframes handoff-spine-glow { 0%,100% { opacity:.18; transform:translateX(-50%) scaleY(.72); } 50% { opacity:.55; transform:translateX(-50%) scaleY(1); } }
-        @keyframes handoff-point { 0%,100% { opacity:.55; transform:translateX(-50%) scale(.75); } 50% { opacity:1; transform:translateX(-50%) scale(1.35); } }
-        @keyframes handoff-orbit-a { from { transform:translate(-50%,-50%) rotate(0deg) scale(.78); } to { transform:translate(-50%,-50%) rotate(360deg) scale(1); } }
-        @keyframes handoff-orbit-b { from { transform:translate(-50%,-50%) rotate(0deg) scale(.92); } to { transform:translate(-50%,-50%) rotate(-360deg) scale(1); } }
-        @keyframes handoff-packet { 0% { opacity:0; transform:translateX(-50%) translateY(-10px) scale(.7); } 12% { opacity:.95; } 78% { opacity:.7; } 100% { opacity:0; transform:translateX(-50%) translateY(138px) scale(.35); } }
-
-        /* =================================================
            ATMOSPHERE
         ================================================= */
 
@@ -1435,12 +1138,6 @@ export default function ProtocolObservatory() {
               rgba(22,131,255,.04),
               transparent 30%
             );
-        }
-
-        .observatory-pointer-field {
-          position: absolute; inset: 0; pointer-events: none; opacity: .75;
-          background: radial-gradient(520px circle at var(--pointer-x) var(--pointer-y), rgba(77,155,255,.065), transparent 70%);
-          mix-blend-mode: screen; transition: opacity .6s ease;
         }
 
         .observatory-grid {
@@ -1759,14 +1456,12 @@ export default function ProtocolObservatory() {
             );
         }
 
-        .observatory-filter.active { position:relative; overflow:hidden; box-shadow:0 0 0 1px rgba(22,131,255,.05),0 8px 24px rgba(0,102,255,.08); }
-        .observatory-filter.active::after { content:""; position:absolute; left:-35%; top:0; width:35%; height:100%; background:linear-gradient(90deg,transparent,rgba(255,255,255,.16),transparent); transform:skewX(-20deg); animation:filter-sheen 3.8s ease-in-out infinite; }
-        @keyframes filter-sheen { 0%,55% { transform:translateX(0) skewX(-20deg); opacity:0; } 65% { opacity:1; } 100% { transform:translateX(390%) skewX(-20deg); opacity:0; } }
         /* =================================================
            SYSTEM
         ================================================= */
 
         .observatory-system {
+          contain: layout paint;
           --orbit-radius: clamp(190px, 25vw, 285px);
           --orbit-radius-outer: clamp(220px, 30vw, 335px);
 
@@ -1784,22 +1479,6 @@ export default function ProtocolObservatory() {
 
           isolation: isolate;
         }
-
-        .observatory-system-beam {
-          position:absolute; left:50%; top:-8%; width:1px; height:72%; transform:translateX(-50%);
-          background:linear-gradient(to bottom, transparent, rgba(140,203,255,.18) 18%, rgba(22,131,255,.1) 70%, transparent);
-          box-shadow:0 0 28px rgba(22,131,255,.12); pointer-events:none; opacity:.8;
-        }
-
-        .observatory-system-sweep {
-          position:absolute; left:50%; top:50%; width:86%; aspect-ratio:1; transform:translate(-50%,-50%); border-radius:50%;
-          border:1px solid transparent;
-          background:conic-gradient(from 0deg, transparent 0deg, rgba(140,203,255,.16) 24deg, transparent 44deg, transparent 360deg) border-box;
-          -webkit-mask:linear-gradient(#000 0 0) padding-box,linear-gradient(#000 0 0);
-          -webkit-mask-composite:xor; mask-composite:exclude; opacity:.45; animation:observatory-sweep 18s linear infinite; pointer-events:none;
-        }
-
-        @keyframes observatory-sweep { to { transform:translate(-50%,-50%) rotate(360deg); } }
 
         /* =================================================
            RINGS
@@ -2330,12 +2009,6 @@ export default function ProtocolObservatory() {
             );
         }
 
-        .orbit-node.active .orbit-icon::after {
-          content:""; position:absolute; inset:-15px; border-radius:50%; border:1px solid rgba(77,155,255,.14);
-          box-shadow:0 0 30px rgba(22,131,255,.18); opacity:.8; animation:active-node-breathe 2.8s ease-in-out infinite; pointer-events:none;
-        }
-        @keyframes active-node-breathe { 0%,100% { transform:scale(.9); opacity:.3; } 50% { transform:scale(1.06); opacity:.85; } }
-
         /* =================================================
            NODE INFORMATION
         ================================================= */
@@ -2496,11 +2169,7 @@ export default function ProtocolObservatory() {
           filter:
             blur(20px);
 
-          animation:
-            core-breathe
-            4s
-            ease-in-out
-            infinite;
+          animation: none;
         }
 
         @keyframes core-breathe {
@@ -2535,11 +2204,7 @@ export default function ProtocolObservatory() {
         }
 
         .core-ring-one {
-          animation:
-            core-ring-spin
-            28s
-            linear
-            infinite;
+          animation: none;
         }
 
         .core-ring-two {
@@ -2555,12 +2220,7 @@ export default function ProtocolObservatory() {
               .07
             );
 
-          animation:
-            core-ring-spin
-            42s
-            linear
-            infinite
-            reverse;
+          animation: none;
         }
 
         @keyframes core-ring-spin {
@@ -2619,19 +2279,8 @@ export default function ProtocolObservatory() {
               );
         }
 
-        .core-video-shell::before {
-          content:""; position:absolute; inset:-1px; border-radius:50%;
-          background:conic-gradient(from 205deg,transparent 0 36%,rgba(140,203,255,.65) 41%,rgba(22,131,255,.18) 47%,transparent 55% 100%);
-          -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0); -webkit-mask-composite:xor; mask-composite:exclude;
-          padding:1px; opacity:.8; animation:core-iris 9s linear infinite; pointer-events:none; z-index:4;
-        }
-        .core-video-shell::after {
-          content:""; position:absolute; inset:9%; border-radius:50%; border:1px solid rgba(140,203,255,.06);
-          box-shadow:inset 0 0 45px rgba(0,102,255,.08); opacity:.7; pointer-events:none; z-index:3;
-        }
-        @keyframes core-iris { to { transform:rotate(360deg); } }
-
         .core-video {
+          transform: translateZ(0);
           width: 100%;
           height: 100%;
 
@@ -2714,11 +2363,7 @@ export default function ProtocolObservatory() {
 
           opacity: .5;
 
-          animation:
-            scanline
-            5s
-            linear
-            infinite;
+          animation: none;
         }
 
         @keyframes scanline {
@@ -2924,34 +2569,21 @@ export default function ProtocolObservatory() {
           width: 56%;
           aspect-ratio: 1;
 
-          animation:
-            energy-spin
-            13s
-            linear
-            infinite;
+          animation: none;
         }
 
         .energy-orbit-two {
           width: 70%;
           aspect-ratio: 1;
 
-          animation:
-            energy-spin
-            20s
-            linear
-            infinite
-            reverse;
+          animation: none;
         }
 
         .energy-orbit-three {
           width: 88%;
           aspect-ratio: 1;
 
-          animation:
-            energy-spin
-            31s
-            linear
-            infinite;
+          animation: none;
         }
 
         .energy-orbit-two span {
@@ -3194,13 +2826,6 @@ export default function ProtocolObservatory() {
           font-size: 15px;
         }
 
-        .observatory-information::before {
-          content:""; position:absolute; left:0; top:-1px; width:90px; height:1px;
-          background:linear-gradient(90deg,transparent,rgba(140,203,255,.8),transparent); box-shadow:0 0 16px rgba(22,131,255,.4);
-          animation:information-sweep 5.5s ease-in-out infinite;
-        }
-        @keyframes information-sweep { 0%,25% { transform:translateX(0); opacity:0; } 35% { opacity:1; } 70% { opacity:.45; } 100% { transform:translateX(460px); opacity:0; } }
-
         /* =================================================
            MOBILE SELECTOR
         ================================================= */
@@ -3300,13 +2925,6 @@ export default function ProtocolObservatory() {
         ================================================= */
 
         @media (max-width: 900px) {
-          .observatory-entry-bridge { height: 92px; width: 100vw; }
-          .handoff-spine { height:82px; }
-          .handoff-spine-glow { height:80px; }
-          .handoff-orbit-a { width:56px; height:56px; }
-          .handoff-orbit-b { width:82px; height:82px; }
-          .observatory-entry-point { top:58px; }
-
           .protocol-observatory {
             min-height: auto;
             height: auto;
@@ -3568,24 +3186,14 @@ export default function ProtocolObservatory() {
           .core-scanline,
           .energy-orbit-one,
           .energy-orbit-two,
-          .energy-orbit-three,
-          .observatory-entry-point {
-            animation: none !important;
+          .energy-orbit-three {
+            animation: none;
           }
 
           .orbit-node,
           .orbit-icon,
           .orbit-icon img {
             transition: none !important;
-          }
-
-          .observatory-entry-bridge *,
-          .observatory-system-sweep,
-          .core-video-shell::before,
-          .orbit-node.active .orbit-icon::after,
-          .observatory-information::before,
-          .observatory-filter.active::after {
-            animation:none !important;
           }
         }
       `}</style>

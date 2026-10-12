@@ -1,500 +1,280 @@
 ﻿"use client";
 
 import Link from "next/link";
+import {
+  ArrowRight,
+  Building2,
+  CalendarDays,
+  Home,
+  Hotel,
+  MapPin,
+} from "lucide-react";
 
 const locations = [
-  {
-    number: "01",
-    city: "Delhi NCR",
-    position: 0,
-    href: "/locations",
-  },
-  {
-    number: "02",
-    city: "Mumbai",
-    position: 1,
-    href: "/locations",
-  },
-  {
-    number: "03",
-    city: "Bengaluru",
-    position: 2,
-    href: "/locations",
-  },
-  {
-    number: "04",
-    city: "Hyderabad",
-    position: 3,
-    href: "/locations",
-  },
-  {
-    number: "05",
-    city: "Pune",
-    position: 4,
-    href: "/locations",
-  },
-  {
-    number: "06",
-    city: "Chandigarh",
-    position: 5,
-    href: "/locations",
-  },
+  "Delhi NCR",
+  "Mumbai",
+  "Bengaluru",
+  "Hyderabad",
+  "Pune",
+  "Chandigarh",
 ];
 
-const marqueeLocations = [...locations, ...locations];
-
-function LocationCard({
-  city,
-  number,
-  position,
-  href,
-}: {
-  city: string;
-  number: string;
-  position: number;
-  href: string;
-}) {
-  const imagePosition = `-${position * 16.6666667}%`;
-
-  return (
-    <Link
-      href={href}
-      aria-label={`Explore DRIPLABS ${city}`}
-      className="
-  location-card
-  group
-  relative
-  block
-  h-[220px]
-  w-[58vw]
-  max-w-[280px]
-  shrink-0
-  overflow-hidden
-  border
-  border-white/[0.10]
-  bg-[#06152B]
-  outline-none
-  sm:h-[240px]
-  sm:w-[42vw]
-  sm:max-w-[290px]
-  lg:h-[260px]
-  lg:w-[270px]
-  xl:h-[280px]
-  xl:w-[280px]
-"
-    >
-      {/* IMAGE */}
-
-      <div className="absolute inset-0 overflow-hidden">
-        <div
-          className="
-            location-image
-            absolute
-            inset-y-0
-            w-[600%]
-            bg-cover
-            bg-center
-          "
-          style={{
-            backgroundImage:
-              "url('/images/locations/location-marquee.png')",
-            transform: `translateX(${imagePosition})`,
-          }}
-        />
-      </div>
-
-      {/* IMAGE OVERLAY */}
-
-      <div
-        aria-hidden="true"
-        className="
-          absolute
-          inset-0
-          bg-gradient-to-b
-          from-[#020812]/15
-          via-[#020812]/30
-          to-[#020812]/95
-        "
-      />
-
-      {/* BLUE HOVER WASH */}
-
-      <div
-        aria-hidden="true"
-        className="
-          pointer-events-none
-          absolute
-          inset-0
-          bg-[#0066FF]/0
-          transition-colors
-          duration-500
-          group-hover:bg-[#0066FF]/[0.08]
-        "
-      />
-
-      {/* TOP META */}
-
-      <div className="absolute inset-x-0 top-0 z-10 flex items-center justify-between p-4 sm:p-5">
-        <span className="font-mono text-[7px] tracking-[0.22em] text-white/55">
-          {number}
-        </span>
-
-        <span className="text-[7px] font-medium tracking-[0.28em] text-white/60">
-          DRIPLABS
-        </span>
-      </div>
-
-      {/* TOP BLUE LINE */}
-
-      <span
-        aria-hidden="true"
-        className="
-          absolute
-          left-0
-          right-0
-          top-0
-          z-20
-          h-px
-          origin-left
-          scale-x-0
-          bg-[#1683FF]
-          transition-transform
-          duration-700
-          group-hover:scale-x-100
-        "
-      />
-
-      {/* BOTTOM CONTENT */}
-
-      <div className="absolute inset-x-0 bottom-0 z-10 p-4 sm:p-5">
-        <div className="mb-2.5 flex items-center gap-2.5">
-          <span className="h-px w-7 bg-[#1683FF] transition-all duration-500 group-hover:w-12" />
-
-          <span className="text-[7px] font-medium uppercase tracking-[0.28em] text-[#8CCBFF]">
-            India
-          </span>
-        </div>
-
-        <h3
-          className="
-            font-[var(--font-heading)]
-            text-[clamp(2rem,4vw,3.5rem)]
-            font-light
-            leading-[0.88]
-            tracking-[-0.055em]
-            text-white
-          "
-        >
-          {city}
-        </h3>
-
-        <div className="mt-3 flex items-center gap-2.5">
-          <span
-            className="
-              flex
-              h-8
-              w-8
-              items-center
-              justify-center
-              rounded-full
-              border
-              border-white/20
-              bg-[#020812]/40
-              transition-all
-              duration-500
-              group-hover:border-[#1683FF]
-              group-hover:bg-[#0066FF]
-            "
-          >
-            <svg
-              viewBox="0 0 24 24"
-              className="h-3 w-3"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="1.5"
-              aria-hidden="true"
-            >
-              <path
-                d="M5 12h13M13 6l6 6-6 6"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-          </span>
-
-          <span className="text-[7px] font-medium uppercase tracking-[0.23em] text-white/55 transition-colors duration-500 group-hover:text-white">
-            Explore location
-          </span>
-        </div>
-      </div>
-
-      {/* BLUE SIDE RAIL */}
-
-      <span
-        aria-hidden="true"
-        className="
-          absolute
-          bottom-0
-          left-0
-          top-0
-          z-20
-          w-[2px]
-          origin-bottom
-          scale-y-0
-          bg-[#1683FF]
-          transition-transform
-          duration-700
-          group-hover:scale-y-100
-        "
-      />
-
-      {/* HOVER BORDER */}
-
-      <span
-        aria-hidden="true"
-        className="
-          pointer-events-none
-          absolute
-          inset-0
-          z-20
-          border
-          border-transparent
-          transition-colors
-          duration-500
-          group-hover:border-[#1683FF]/60
-        "
-      />
-    </Link>
-  );
-}
+const homeServices = [
+  {
+    label: "Home",
+    icon: Home,
+  },
+  {
+    label: "Hotel",
+    icon: Hotel,
+  },
+  {
+    label: "Office",
+    icon: Building2,
+  },
+  {
+    label: "Events",
+    icon: CalendarDays,
+  },
+];
 
 export default function LocationMarquee() {
   return (
     <section
-      id="location-marquee"
-      className="
-        relative
-        overflow-hidden
-        bg-[#020812]
-        py-8
-        text-[#F7FAFF]
-        sm:py-10
-        lg:py-12
-      "
+      id="locations"
+      className="relative overflow-hidden bg-[#F5F1E8] px-4 py-6 sm:px-6 md:px-8 lg:px-10"
     >
-      {/* ATMOSPHERE */}
+      <div className="mx-auto max-w-[1500px]">
+        <div className="grid gap-4 lg:grid-cols-[1.28fr_1fr]">
 
-      <div
-        aria-hidden="true"
-        className="
-          pointer-events-none
-          absolute
-          left-1/2
-          top-0
-          h-[260px]
-          w-[600px]
-          -translate-x-1/2
-          rounded-full
-          bg-[#0066FF]/[0.045]
-        "
-      />
+          {/* =========================================================
+              LEFT — OUR LOCATIONS
+          ========================================================= */}
 
-      {/* HEADER */}
+          <div className="group relative min-h-[310px] overflow-hidden rounded-[6px] bg-[#06152B] sm:min-h-[330px] lg:min-h-[350px]">
 
-      <div
-        className="
-          relative
-          z-10
-          mx-auto
-          mb-6
-          max-w-[1680px]
-          px-5
-          sm:mb-7
-          sm:px-7
-          lg:mb-8
-          lg:px-14
-        "
-      >
-        <div className="mb-2.5 flex items-center gap-3">
-          <span className="h-px w-8 bg-[#0066FF]" />
+            {/* Background image */}
+            {/* LOCATION BACKGROUND */}
+<div
+  aria-hidden="true"
+  className="absolute inset-0 overflow-hidden"
+>
+  <img
+    src="/images/locations/location-bg.png"
+    alt=""
+    className="
+      absolute
+      inset-0
+      h-full
+      w-full
+      object-cover
+      object-center
+    "
+  />
+</div>
 
-          <span className="text-[8px] font-medium uppercase tracking-[0.28em] text-[#8CCBFF]">
-            06 — Locations
-          </span>
-        </div>
+{/* DARK OVERLAY FOR READABILITY */}
+<div
+  aria-hidden="true"
+  className="
+    absolute
+    inset-0
+    bg-gradient-to-r
+    from-[#020812]/90
+    via-[#020812]/55
+    to-[#020812]/20
+  "
+/>
 
-        <div className="flex items-end justify-between gap-8">
-          <h2
-            className="
-              max-w-[650px]
-              font-[var(--font-heading)]
-              text-[clamp(2.8rem,5.2vw,5.6rem)]
-              font-light
-              leading-[0.86]
-              tracking-[-0.055em]
-            "
-          >
-            Find your
-            <br />
-            <span className="text-[#4D9BFF]">nearest DRIPLABS.</span>
-          </h2>
+<div
+  aria-hidden="true"
+  className="
+    absolute
+    inset-0
+    bg-gradient-to-t
+    from-[#020812]/80
+    via-transparent
+    to-[#020812]/10
+  "
+/>
 
-          <p className="hidden max-w-[250px] pb-1 text-right text-[9px] leading-5 tracking-[0.06em] text-white/40 lg:block">
-            Physician-led wellness,
-            <br />
-            wherever your journey takes you.
-          </p>
-        </div>
-      </div>
-
-      {/* MARQUEE */}
-
-      <div className="relative z-10 overflow-hidden">
-        {/* LEFT FADE */}
-
-        <div
-          aria-hidden="true"
-          className="
-            pointer-events-none
-            absolute
-            inset-y-0
-            left-0
-            z-20
-            w-10
-            bg-gradient-to-r
-            from-[#020812]
-            to-transparent
-            sm:w-16
-            lg:w-28
-          "
-        />
-
-        {/* RIGHT FADE */}
-
-        <div
-          aria-hidden="true"
-          className="
-            pointer-events-none
-            absolute
-            inset-y-0
-            right-0
-            z-20
-            w-10
-            bg-gradient-to-l
-            from-[#020812]
-            to-transparent
-            sm:w-16
-            lg:w-28
-          "
-        />
-
-        {/* TRACK */}
-
-        <div className="location-marquee-track flex w-max gap-3 pl-5 sm:gap-4 sm:pl-7 lg:gap-4 lg:pl-14">
-          {marqueeLocations.map((location, index) => (
-            <LocationCard
-              key={`${location.city}-${index}`}
-              city={location.city}
-              number={location.number}
-              position={location.position}
-              href={location.href}
+            <div
+              aria-hidden="true"
+              className="absolute inset-0 bg-gradient-to-t from-[#020812]/90 via-transparent to-[#020812]/20"
             />
-          ))}
+
+            {/* Subtle DRIPLABS blue tint */}
+            <div
+              aria-hidden="true"
+              className="absolute inset-0 bg-[#0066FF]/[0.035]"
+            />
+
+            {/* Content */}
+            <div className="relative z-10 flex min-h-[310px] flex-col justify-between p-6 sm:min-h-[330px] sm:p-7 lg:min-h-[350px] lg:p-8">
+
+              {/* Heading */}
+              <div className="max-w-[430px]">
+                <p className="font-[var(--font-heading)] text-[clamp(1.8rem,3vw,2.7rem)] font-medium leading-[0.95] tracking-[-0.045em] text-[#F7FAFF]">
+                  Our Locations
+                </p>
+
+                <p className="mt-2 text-[12px] font-medium tracking-[-0.01em] text-white/80 sm:text-[13px]">
+                  Six cities. One standard of care.
+                </p>
+
+                <p className="mt-5 max-w-[360px] text-[11px] leading-[1.55] text-white/75 sm:text-[12px]">
+                  Find a centre near you or book a home visit.
+                </p>
+
+                {/* CTA */}
+                <Link
+                  href="/locations"
+                  className="mt-5 inline-flex h-[38px] items-center gap-3 rounded-full bg-[#F7FAFF] px-5 text-[10px] font-semibold uppercase tracking-[0.08em] text-[#06152B] transition-all duration-300 hover:bg-[#1683FF] hover:text-white"
+                >
+                  Find Locations
+
+                  <ArrowRight
+                    className="h-3.5 w-3.5"
+                    strokeWidth={2}
+                  />
+                </Link>
+              </div>
+
+              {/* City navigation */}
+              <div className="mt-7 border-t border-white/15 pt-4">
+                <div
+                  className="flex items-center gap-0 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+                >
+                  {locations.map((city, index) => (
+                    <Link
+                      key={city}
+                      href="/locations"
+                      aria-label={`Explore DRIPLABS ${city}`}
+                      className={`group/city relative flex min-w-fit items-center px-3 text-[9px] font-medium tracking-[-0.01em] text-white transition-colors duration-300 hover:text-white sm:px-4 sm:text-[10px] ${
+                        index === 0 ? "pl-0" : ""
+                      }`}
+                    >
+                      {index === 0 && (
+                        <MapPin
+                          className="mr-1.5 h-3 w-3 text-white"
+                          strokeWidth={1.8}
+                        />
+                      )}
+
+                      {/* City name — solid white */}
+                      <span className="whitespace-nowrap text-white">
+                        {city}
+                      </span>
+
+                      {index === 0 && (
+                        <ArrowRight
+                          className="ml-1.5 h-3 w-3 text-white/75 transition-transform duration-300 group-hover/city:translate-x-0.5"
+                          strokeWidth={1.8}
+                        />
+                      )}
+
+                      {index < locations.length - 1 && (
+                        <span
+                          aria-hidden="true"
+                          className="ml-3 h-3 w-px bg-white/20 sm:ml-4"
+                        />
+                      )}
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* =========================================================
+              RIGHT — DRIPLABS HOME
+          ========================================================= */}
+
+          <div className="group relative min-h-[310px] overflow-hidden rounded-[6px] bg-[#F7F4EC] text-[#06152B] sm:min-h-[330px] lg:min-h-[350px]">
+
+            {/* Home image */}
+            <div
+              aria-hidden="true"
+              className="absolute right-0 top-0 h-full w-[48%] overflow-hidden"
+            >
+              <div
+                className="absolute inset-0 bg-cover bg-center bg-no-repeat transition-transform duration-700 ease-out group-hover:scale-[1.025]"
+                style={{
+                  backgroundImage:
+                    "url('/images/experience/driplabs-home.png')",
+                  backgroundPosition: "62% center",
+                }}
+              />
+
+              {/* Fade image into ivory content area */}
+              <div className="absolute inset-y-0 left-0 w-[52%] bg-gradient-to-r from-[#F7F4EC] via-[#F7F4EC]/80 to-transparent" />
+
+              {/* Very subtle image wash */}
+              <div className="absolute inset-0 bg-[#F7F4EC]/[0.025]" />
+            </div>
+
+            {/* Content */}
+            <div className="relative z-10 flex min-h-[310px] w-full flex-col justify-between p-6 sm:min-h-[330px] sm:p-7 lg:min-h-[350px] lg:p-8">
+
+              {/* Main content */}
+              <div className="max-w-[440px]">
+
+                {/* Heading */}
+                <p className="font-[var(--font-heading)] text-[clamp(1.65rem,2.7vw,2.45rem)] font-medium leading-[0.95] tracking-[-0.045em] text-[#06152B]">
+                  DRIPLABS Home
+                </p>
+
+                <p className="mt-2 text-[12px] font-medium tracking-[-0.01em] text-[#1683FF] sm:text-[13px]">
+                  IV wellness, at your convenience.
+                </p>
+
+                {/* Service options */}
+                <div className="mt-7 flex max-w-[430px] items-start gap-5 sm:gap-7">
+                  {homeServices.map(({ label, icon: Icon }) => (
+                    <div
+                      key={label}
+                      className="flex min-w-[42px] flex-col items-center gap-2"
+                    >
+                      <div className="flex h-8 w-8 items-center justify-center text-[#173B5E]">
+                        <Icon
+                          className="h-[22px] w-[22px]"
+                          strokeWidth={1.45}
+                        />
+                      </div>
+
+                      <span className="text-[9px] font-medium tracking-[-0.01em] text-[#173B5E] sm:text-[10px]">
+                        {label}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Divider */}
+                <div className="mt-6 h-px w-[min(100%,330px)] bg-[#173B5E]/10" />
+
+                {/* CTA */}
+                <Link
+                  href="/experience"
+                  className="mt-5 inline-flex h-[38px] items-center gap-3 rounded-full bg-[#07334A] px-5 text-[10px] font-semibold uppercase tracking-[0.08em] text-white transition-all duration-300 hover:bg-[#1683FF]"
+                >
+                  Request Home Visit
+
+                  <ArrowRight
+                    className="h-3.5 w-3.5"
+                    strokeWidth={2}
+                  />
+                </Link>
+              </div>
+
+              {/* Bottom label */}
+              <div className="relative z-10 flex items-center gap-2 text-[8px] uppercase tracking-[0.18em] text-[#173B5E]/40">
+                <span className="h-px w-5 bg-[#1683FF]/50" />
+                DRIPLABS HOME
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-
-      {/* FOOTER MICRO LINE */}
-
-      <div
-        className="
-          relative
-          z-10
-          mx-auto
-          mt-6
-          max-w-[1680px]
-          px-5
-          sm:mt-7
-          sm:px-7
-          lg:mt-8
-          lg:px-14
-        "
-      >
-        <div className="flex items-center justify-between border-t border-white/[0.08] pt-3">
-          <span className="text-[7px] uppercase tracking-[0.25em] text-white/30">
-            DRIPLABS / INDIA
-          </span>
-
-          <span className="text-[7px] uppercase tracking-[0.25em] text-white/30">
-            Six locations
-          </span>
-        </div>
-      </div>
-
-      {/* CSS ANIMATION */}
-
-      <style>{`
-        .location-marquee-track {
-          animation: locationMarquee 42s linear infinite;
-          transform: translate3d(0, 0, 0);
-          will-change: transform;
-        }
-
-        .location-marquee-track:hover {
-          animation-play-state: paused;
-        }
-
-        .location-card {
-          contain: layout paint;
-        }
-
-        .location-image {
-          will-change: transform;
-          transition:
-            transform 800ms cubic-bezier(0.22, 1, 0.36, 1),
-            filter 600ms ease;
-          filter: brightness(0.76) saturate(0.82);
-        }
-
-        .location-card:hover .location-image {
-          filter: brightness(0.94) saturate(1);
-          transform: scale(1.035);
-        }
-
-        @keyframes locationMarquee {
-          from {
-            transform: translate3d(0, 0, 0);
-          }
-
-          to {
-            transform: translate3d(-50%, 0, 0);
-          }
-        }
-
-        @media (max-width: 768px) {
-          .location-marquee-track {
-            animation-duration: 48s;
-          }
-        }
-
-        @media (prefers-reduced-motion: reduce) {
-          .location-marquee-track {
-            animation: none;
-            transform: translate3d(0, 0, 0);
-            overflow-x: auto;
-            width: 100%;
-            padding-right: 20px;
-          }
-
-          .location-card {
-            scroll-snap-align: start;
-          }
-
-          .location-image {
-            transition: none;
-            filter: brightness(0.9) saturate(0.9);
-          }
-        }
-      `}</style>
     </section>
   );
 }

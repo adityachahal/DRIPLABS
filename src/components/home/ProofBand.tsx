@@ -55,7 +55,7 @@ export default function ProofBand() {
 
         <div className="absolute inset-0">
           <Image
-            src="/images/home/Proof%20of%20band.png"
+            src="/images/home/pob.png"
             alt="DRIPLABS clinical wellness environment"
             fill
             sizes="100vw"

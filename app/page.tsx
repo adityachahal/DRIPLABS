@@ -71,8 +71,8 @@ export default function Home() {
       
       <FAQ />
 
-      {/* 15 — Final conversion */}
-      <FinalCTA />
+      {/* 15 — Final conversion   " <FinalCTA />" */}
+    
 
       {/* 16 — Global footer */}
       <Footer />
