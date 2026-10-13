@@ -1,7 +1,7 @@
-﻿"use client";
+"use client";
 
 import { motion, useReducedMotion } from "framer-motion";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 const paths = [
   {
@@ -43,18 +43,23 @@ const paths = [
 ];
 
 export default function FourPaths() {
-  const [selected, setSelected] = useState("01");
-  const prefersReducedMotion = useReducedMotion();
+  const [selected, setSelected] = useState(() => {
+    if (typeof window === "undefined") {
+      return "01";
+    }
 
-  useEffect(() => {
     try {
       const stored = localStorage.getItem("driplabs-path");
 
       if (stored && paths.some((path) => path.number === stored)) {
-        setSelected(stored);
+        return stored;
       }
     } catch {}
-  }, []);
+
+    return "01";
+  });
+
+  const prefersReducedMotion = useReducedMotion();
 
   function choosePath(path: string) {
     setSelected(path);

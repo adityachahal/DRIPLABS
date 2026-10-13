@@ -125,9 +125,11 @@ export default function AdminBookingsPage() {
     }
   }, []);
 
-  useEffect(() => {
-    void fetchBookings();
-  }, [fetchBookings]);
+ useEffect(() => {
+  // This effect intentionally synchronizes UI state with the bookings API.
+  // eslint-disable-next-line react-hooks/set-state-in-effect
+  void fetchBookings();
+}, [fetchBookings]);
 
   const filteredBookings = useMemo(() => {
     const query = search.trim().toLowerCase();

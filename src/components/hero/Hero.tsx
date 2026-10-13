@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { type PointerEvent, useEffect, useRef, useState } from "react";
 
@@ -568,7 +568,7 @@ export default function Hero() {
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,rgba(2,8,18,0.06)_48%,rgba(2,8,18,0.3)_100%)]" />
         </div>
 
-        {/* Editorial pointer label — changes on every meaningful cursor move. */}
+        {/* Editorial pointer label � changes on every meaningful cursor move. */}
         <div
           ref={cursorLabelRef}
           className="pointer-events-none absolute left-1/2 top-1/2 z-[8] -translate-y-1/2 max-md:hidden"
@@ -845,7 +845,7 @@ export default function Hero() {
 
               <span className="ml-[-1px] text-[15px] font-light leading-none text-[#28B8C8]">
 
-                ‹
+                �
 
               </span>
 
@@ -881,7 +881,7 @@ export default function Hero() {
 
             >
 
-              Nourish • Recharge • Restore
+              Nourish � Recharge � Restore
 
             </span>
 
@@ -921,7 +921,7 @@ export default function Hero() {
 
               <span className="mr-[-1px] text-[15px] font-light leading-none text-[#28B8C8]">
 
-                ›
+                �
 
               </span>
 
@@ -1087,7 +1087,7 @@ export default function Hero() {
 
             transition={{
 
-              duration: reducedMotion ? 0.01 : Math.max(0.14, 0.52 - currentVelocityRef.current * 0.32),
+              duration: reducedMotion ? 0.01 : 0.52,
 
               ease: [0.16, 1, 0.3, 1],
 
@@ -1399,7 +1399,7 @@ export default function Hero() {
 
           {/* =====================================================
 
-              BOTTOM LEFT — CTA
+              BOTTOM LEFT � CTA
 
           ===================================================== */}
 
@@ -1571,7 +1571,7 @@ export default function Hero() {
 
                   <span className="text-[15px] transition-transform duration-500 group-hover:translate-x-1">
 
-                    →
+                    ?
 
                   </span>
 
@@ -1797,7 +1797,7 @@ export default function Hero() {
 
           >
 
-            ×
+            �
 
           </button>
 
@@ -1919,7 +1919,7 @@ export default function Hero() {
 
             {/* =================================================
 
-                01 — FRANCHISE / CHANNEL PARTNER
+                01 � FRANCHISE / CHANNEL PARTNER
 
             ================================================= */}
 
@@ -2049,7 +2049,7 @@ export default function Hero() {
 
               >
 
-                →
+                ?
 
               </span>
 
@@ -2057,7 +2057,7 @@ export default function Hero() {
 
             {/* =================================================
 
-                02 — HEALTHCARE PROFESSIONALS
+                02 � HEALTHCARE PROFESSIONALS
 
             ================================================= */}
 
@@ -2185,7 +2185,7 @@ export default function Hero() {
 
               >
 
-                →
+                ?
 
               </span>
 
@@ -2193,7 +2193,7 @@ export default function Hero() {
 
             {/* =================================================
 
-                03 — CLINICS AND HOSPITALS
+                03 � CLINICS AND HOSPITALS
 
             ================================================= */}
 
@@ -2323,7 +2323,7 @@ export default function Hero() {
 
               >
 
-                →
+                ?
 
               </span>
 
@@ -2331,7 +2331,7 @@ export default function Hero() {
 
             {/* =================================================
 
-                04 — RESEARCH AND INSTITUTION
+                04 � RESEARCH AND INSTITUTION
 
             ================================================= */}
 
@@ -2459,7 +2459,7 @@ export default function Hero() {
 
               >
 
-                →
+                ?
 
               </span>
 
@@ -2535,7 +2535,7 @@ export default function Hero() {
 
             {/* =================================================
 
-                01 — CONSUMERS
+                01 � CONSUMERS
 
             ================================================= */}
 
@@ -2667,7 +2667,7 @@ export default function Hero() {
 
               >
 
-                →
+                ?
 
               </span>
 
@@ -2675,7 +2675,7 @@ export default function Hero() {
 
             {/* =================================================
 
-                02 — CORPORATE WELLNESS
+                02 � CORPORATE WELLNESS
 
             ================================================= */}
 
@@ -2799,7 +2799,7 @@ export default function Hero() {
 
               >
 
-                →
+                ?
 
               </span>
 
@@ -2917,7 +2917,7 @@ export default function Hero() {
 
                   <span className="text-[12px] transition-transform duration-500 group-hover:translate-x-1">
 
-                    →
+                    ?
 
                   </span>
 
@@ -2931,7 +2931,7 @@ export default function Hero() {
 
           {/* =====================================================
 
-              CENTER — SCROLL
+              CENTER � SCROLL
 
           ===================================================== */}
 
@@ -3053,7 +3053,7 @@ export default function Hero() {
 
           {/* =====================================================
 
-              BOTTOM RIGHT — TRUST STRIP
+              BOTTOM RIGHT � TRUST STRIP
 
           ===================================================== */}
 
@@ -3093,7 +3093,7 @@ export default function Hero() {
 
               {/* =================================================
 
-                  01 — PHARMA-GRADE
+                  01 � PHARMA-GRADE
 
               ================================================= */}
 
@@ -3165,7 +3165,7 @@ export default function Hero() {
 
               {/* =================================================
 
-                  02 — PHYSICIAN GUIDED
+                  02 � PHYSICIAN GUIDED
 
               ================================================= */}
 
@@ -3271,7 +3271,7 @@ export default function Hero() {
 
               {/* =================================================
 
-                  03 — INDIAN PHARMACOPOEIA
+                  03 � INDIAN PHARMACOPOEIA
 
               ================================================= */}
 
@@ -3497,7 +3497,7 @@ export default function Hero() {
 
               {/* =================================================
 
-                  04 — WHO-GMP-GLP
+                  04 � WHO-GMP-GLP
 
               ================================================= */}
 

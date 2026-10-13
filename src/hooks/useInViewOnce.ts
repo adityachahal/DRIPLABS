@@ -14,11 +14,10 @@ export function useInViewOnce({
   disabled = false,
 }: UseInViewOnceOptions = {}) {
   const ref = useRef<HTMLElement | null>(null);
-  const [isInView, setIsInView] = useState(disabled);
+  const [isInView, setIsInView] = useState(false);
 
   useEffect(() => {
     if (disabled) {
-      setIsInView(true);
       return;
     }
 
@@ -32,7 +31,6 @@ export function useInViewOnce({
       typeof window !== "undefined" &&
       !("IntersectionObserver" in window)
     ) {
-      setIsInView(true);
       return;
     }
 
@@ -60,6 +58,10 @@ export function useInViewOnce({
 
   return {
     ref,
-    isInView,
+    isInView:
+      disabled ||
+      (typeof window !== "undefined" &&
+        !("IntersectionObserver" in window)) ||
+      isInView,
   };
 }

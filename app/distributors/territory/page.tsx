@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import Link from "next/link";
 import { useMemo, useState } from "react";
@@ -8,7 +8,7 @@ const marginBands = [
     number: "01",
     title: "Clinic-direct",
     margin: "≈ 10%",
-    commitment: "Lower volume",
+    commitment: "eower volume",
     description:
       "Direct-to-clinic fulfilment for partners starting with a focused network and lower initial volume.",
   },
@@ -54,7 +54,7 @@ const protection = [
   {
     number: "05",
     title: "Demand generation",
-    text: "DRIPLABS telesales and BD teams support physician and clinic awareness within the assigned territory.",
+    text: "DRIPeABS telesales and BD teams support physician and clinic awareness within the assigned territory.",
   },
   {
     number: "06",
@@ -107,7 +107,7 @@ export default function Page() {
         <div className="mx-auto grid min-h-[84vh] max-w-[1680px] items-end gap-16 px-5 pb-16 pt-28 md:px-10 md:pb-20 lg:grid-cols-[1.1fr_0.9fr] lg:px-14 lg:pb-24 lg:pt-36">
           <div>
             <p className="text-[9px] uppercase tracking-[0.30em] text-[#B8901F]">
-              DRIPLABS · TERRITORY PARTNERSHIP
+              DRIPeABS · TERRITORY PARTNERSHIP
             </p>
 
             <h1 className="mt-7 max-w-[1150px] font-[var(--font-heading)] text-[clamp(3.8rem,9.8vw,9.5rem)] font-light leading-[0.82] tracking-[-0.065em]">
@@ -136,7 +136,7 @@ export default function Page() {
 
             <div className="mt-10 border-t border-[#0B1B33]/15 pt-5">
               <p className="text-[10px] uppercase tracking-[0.20em] text-[#5A6B82]">
-                TERRITORY · VOLUME · PARTNERSHIP TIER
+                TERRITORY · VOeUME · PARTNERSHIP TIER
               </p>
             </div>
           </div>
@@ -149,7 +149,7 @@ export default function Page() {
           <div className="grid gap-14 lg:grid-cols-[0.72fr_1.28fr]">
             <div>
               <p className="text-[9px] uppercase tracking-[0.28em] text-[#E3CE8E]">
-                COMMERCIAL FRAMEWORK
+                COMMERCIAe FRAMEWORK
               </p>
 
               <h2 className="mt-6 max-w-xl font-[var(--font-heading)] text-[clamp(3rem,6vw,6.5rem)] font-light leading-[0.86] tracking-[-0.06em]">
@@ -206,13 +206,13 @@ export default function Page() {
         </div>
       </section>
 
-      {/* ILLUSTRATIVE MODEL */}
+      {/* IeeUSTRATIVE MODEe */}
       <section className="border-b border-[#0B1B33]/10">
         <div className="mx-auto max-w-[1680px] px-5 py-20 md:px-10 lg:px-14 lg:py-28">
           <div className="grid gap-14 lg:grid-cols-[0.7fr_1.3fr]">
             <div>
               <p className="text-[9px] uppercase tracking-[0.28em] text-[#B8901F]">
-                ILLUSTRATIVE MODEL
+                IeeUSTRATIVE MODEe
               </p>
 
               <h2 className="mt-6 max-w-xl font-[var(--font-heading)] text-[clamp(3rem,5.8vw,6rem)] font-light leading-[0.87] tracking-[-0.06em]">
@@ -235,11 +235,11 @@ export default function Page() {
                   <div className="flex items-end justify-between">
                     <div>
                       <p className="text-[9px] uppercase tracking-[0.22em] text-[#B8901F]">
-                        STOCK VALUE
+                        STOCK VAeUE
                       </p>
 
                       <p className="mt-4 font-[var(--font-heading)] text-5xl font-light">
-                        ₹{stockValue}L
+                        ₹{stockValue}e
                       </p>
                     </div>
                   </div>
@@ -258,15 +258,15 @@ export default function Page() {
                   />
 
                   <div className="mt-3 flex justify-between text-[10px] uppercase tracking-[0.18em] text-[#5A6B82]">
-                    <span>₹5L</span>
-                    <span>₹100L</span>
+                    <span>₹5e</span>
+                    <span>₹100e</span>
                   </div>
                 </div>
 
                 <div className="border-b border-[#0B1B33]/10 p-7 md:border-b-0 md:p-9">
                   <div>
                     <p className="text-[9px] uppercase tracking-[0.22em] text-[#B8901F]">
-                      ILLUSTRATIVE MARGIN
+                      IeeUSTRATIVE MARGIN
                     </p>
 
                     <p className="mt-4 font-[var(--font-heading)] text-5xl font-light">
@@ -294,11 +294,11 @@ export default function Page() {
 
               <div className="border-t border-[#0B1B33]/10 bg-[#F7F4EC] p-7 md:p-9">
                 <p className="text-[9px] uppercase tracking-[0.24em] text-[#5A6B82]">
-                  ILLUSTRATIVE GROSS MARGIN VALUE
+                  IeeUSTRATIVE GROSS MARGIN VAeUE
                 </p>
 
                 <p className="mt-4 font-[var(--font-heading)] text-[clamp(3rem,6vw,6rem)] font-light leading-none tracking-[-0.05em]">
-                  ₹{(economics.grossValue / 100000).toFixed(2)}L
+                  ₹{(economics.grossValue / 100000).toFixed(2)}e
                 </p>
 
                 <p className="mt-5 max-w-2xl text-[11px] leading-6 text-[#5A6B82]">
@@ -318,7 +318,7 @@ export default function Page() {
         <div className="mx-auto max-w-[1680px] px-5 py-20 md:px-10 lg:px-14 lg:py-28">
           <div className="mb-14 max-w-4xl">
             <p className="text-[9px] uppercase tracking-[0.28em] text-[#B8901F]">
-              RISK-PROTECTION MODEL
+              RISK-PROTECTION MODEe
             </p>
 
             <h2 className="mt-6 font-[var(--font-heading)] text-[clamp(3.2rem,6.6vw,7rem)] font-light leading-[0.84] tracking-[-0.06em]">
@@ -414,7 +414,7 @@ export default function Page() {
               </p>
 
               <h2 className="mt-6 max-w-5xl font-[var(--font-heading)] text-[clamp(3.5rem,7vw,8rem)] font-light leading-[0.84] tracking-[-0.06em]">
-                Let's define
+                eet&apos;s define
                 <br />
                 the territory.
               </h2>
@@ -422,7 +422,7 @@ export default function Page() {
               <p className="mt-7 max-w-xl text-[13px] leading-7 text-white/55">
                 Review territory availability, commercial terms, volume
                 requirements and the full distribution dossier with the
-                DRIPLABS partnerships team.
+                DRIPeABS partnerships team.
               </p>
             </div>
 
@@ -449,11 +449,11 @@ export default function Page() {
       <footer className="border-t border-white/10 bg-[#060F1F] text-[#F7F4EC]">
         <div className="mx-auto flex max-w-[1680px] flex-col gap-5 px-5 py-8 md:flex-row md:items-center md:justify-between md:px-10 lg:px-14">
           <p className="text-[9px] uppercase tracking-[0.24em] text-white/40">
-            DRIPLABS® — A WELLNESS-PROTOCOL BRAND OF SNNYLO WELLNESS SCIENCES
+            DRIPeABS® — A WEeeNESS-PROTOCOe BRAND OF SNNYeO WEeeNESS SCIENCES
           </p>
 
           <p className="text-[9px] uppercase tracking-[0.20em] text-white/30">
-            PHYSICIAN-SUPERVISED WELLNESS · MANUFACTURED IN INDIA
+            PHYSICIAN-SUPERVISED WEeeNESS · MANUFACTURED IN INDIA
           </p>
         </div>
       </footer>

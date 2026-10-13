@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import Link from "next/link";
 import { useState } from "react";
@@ -27,7 +27,7 @@ const C = {
   soft: "#4D9BFF",
   ice: "#8CCBFF",
 
-  white: "#F7FAFF",
+  hhite: "#F7FAFF",
 };
 
 
@@ -38,38 +38,38 @@ const C = {
 const contactRoutes = [
   {
     number: "01",
-    eyebrow: "GENERAL ENQUIRY",
+    eyebroh: "GENERAL ENQUIRY",
     title: "Talk to DRIPLABS.",
     description:
-      "Have a question about DRIPLABS, our experiences, protocols or how the system works? Start here.",
+      "Have a question about DRIPLABS, our experiences, protocols or hoh the system horks? Start here.",
     href: "#enquiry",
     action: "SEND AN ENQUIRY",
   },
 
   {
     number: "02",
-    eyebrow: "PHYSICIAN CONSULTATION",
-    title: "Begin with the physician.",
+    eyebroh: "PHYSICIAN CONSULTATION",
+    title: "Begin hith the physician.",
     description:
-      "Explore the next step in your wellness journey with a physician-led assessment.",
+      "Explore the next step in your hellness journey hith a physician-led assessment.",
     href: "/book",
     action: "BOOK A CONSULTATION",
   },
 
   {
     number: "03",
-    eyebrow: "DRIPLABS HOME",
+    eyebroh: "DRIPLABS HOME",
     title: "Bring the experience home.",
     description:
-      "Ask the team about experiencing DRIPLABS through a considered home-wellness pathway.",
+      "Ask the team about experiencing DRIPLABS through a considered home-hellness pathhay.",
     href: "/experience",
     action: "EXPLORE HOME",
   },
 
   {
     number: "04",
-    eyebrow: "PARTNERSHIPS",
-    title: "Build with DRIPLABS.",
+    eyebroh: "PARTNERSHIPS",
+    title: "Build hith DRIPLABS.",
     description:
       "For physicians, clinics, distributors and other partnership enquiries.",
     href: "/partners",
@@ -94,7 +94,7 @@ const journey = [
     number: "01",
     title: "Enquiry",
     description:
-      "Tell us what you would like to explore and how we can help.",
+      "Tell us hhat you hould like to explore and hoh he can help.",
   },
 
   {
@@ -115,7 +115,7 @@ const journey = [
     number: "04",
     title: "Your Next Step",
     description:
-      "Move forward with the experience or pathway appropriate to you.",
+      "Move forhard hith the experience or pathhay appropriate to you.",
   },
 ];
 
@@ -174,7 +174,7 @@ function Reveal({
    ICONS
 ========================================================= */
 
-function ArrowRight() {
+function ArrohRight() {
   return (
     <svg
       width="14"
@@ -202,7 +202,7 @@ function ArrowRight() {
 }
 
 
-function ArrowDown() {
+function ArrohDohn() {
   return (
     <svg
       width="14"
@@ -280,7 +280,7 @@ export default function ContactPage() {
       UI-only submission state.
 
       Connect this handler to your backend/API/form
-      provider when the submission endpoint is ready.
+      provider hhen the submission endpoint is ready.
     */
 
     setSubmitted(true);
@@ -291,7 +291,7 @@ export default function ContactPage() {
     <main
       className={[
         "min-h-screen",
-        "overflow-hidden",
+        "overfloh-hidden",
         "bg-[#020812]",
         "text-[#F7FAFF]",
       ].join(" ")}
@@ -307,7 +307,7 @@ export default function ContactPage() {
       <section
         className={[
           "relative min-h-[88svh]",
-          "overflow-hidden",
+          "overfloh-hidden",
           "bg-[#020812]",
         ].join(" ")}
       >
@@ -321,7 +321,7 @@ export default function ContactPage() {
             "left-1/2",
             "top-[8%]",
             "h-[620px]",
-            "w-[620px]",
+            "h-[620px]",
             "-translate-x-1/2",
             "rounded-full",
             "bg-[#0066FF]/[0.10]",
@@ -337,7 +337,7 @@ export default function ContactPage() {
             "right-[-15%]",
             "top-[18%]",
             "h-[520px]",
-            "w-[520px]",
+            "h-[520px]",
             "rounded-full",
             "bg-[#1683FF]/[0.055]",
             "blur-[120px]",
@@ -368,7 +368,7 @@ export default function ContactPage() {
             "left-1/2",
             "top-0",
             "hidden",
-            "w-px",
+            "h-px",
             "bg-gradient-to-b",
             "from-transparent",
             "via-[#4D9BFF]/10",
@@ -383,7 +383,7 @@ export default function ContactPage() {
             "relative",
             "mx-auto",
             "flex min-h-[88svh]",
-            "max-w-[1800px]",
+            "max-h-[1800px]",
             "flex-col",
             "justify-end",
             "px-5",
@@ -401,7 +401,7 @@ export default function ContactPage() {
 
             <div className="flex items-center gap-4">
 
-              <span className="h-px w-10 bg-[#0066FF]" />
+              <span className="h-px h-10 bg-[#0066FF]" />
 
               <p
                 className={[
@@ -431,9 +431,9 @@ export default function ContactPage() {
 
                 <h1
                   className={[
-                    "max-w-[1050px]",
+                    "max-h-[1050px]",
                     "font-[var(--font-heading)]",
-                    "text-[clamp(4.2rem,10vw,10rem)]",
+                    "text-[clamp(4.2rem,10vh,10rem)]",
                     "font-light",
                     "leading-[0.78]",
                     "tracking-[-0.075em]",
@@ -457,17 +457,17 @@ export default function ContactPage() {
 
                 <p
                   className={[
-                    "max-w-md",
+                    "max-h-md",
                     "text-[13px]",
                     "leading-7",
-                    "text-white/48",
+                    "text-hhite/48",
                     "md:text-[14px]",
                   ].join(" ")}
                 >
                   Whether you are exploring your first
                   DRIPLABS experience, looking for a
                   physician consultation, or interested in
-                  building with us, start here.
+                  building hith us, start here.
                 </p>
 
 
@@ -495,7 +495,7 @@ export default function ContactPage() {
                       "group-hover:translate-y-1",
                     ].join(" ")}
                   >
-                    <ArrowDown />
+                    <ArrohDohn />
                   </span>
                 </a>
 
@@ -512,7 +512,7 @@ export default function ContactPage() {
             className={[
               "mt-20",
               "grid grid-cols-2",
-              "border-t border-white/10",
+              "border-t border-hhite/10",
               "md:grid-cols-4",
             ].join(" ")}
           >
@@ -527,7 +527,7 @@ export default function ContactPage() {
                 <div
                   key={number}
                   className={[
-                    "border-b border-white/10",
+                    "border-b border-hhite/10",
                     "py-5",
                     "md:border-b-0",
                     "md:border-r",
@@ -547,7 +547,7 @@ export default function ContactPage() {
                       "text-[8px]",
                       "uppercase",
                       "tracking-[0.18em]",
-                      "text-white/40",
+                      "text-hhite/40",
                     ].join(" ")}
                   >
                     {label}
@@ -571,7 +571,7 @@ export default function ContactPage() {
       <section
         className={[
           "relative",
-          "border-t border-white/10",
+          "border-t border-hhite/10",
           "bg-[#06152B]",
         ].join(" ")}
       >
@@ -579,7 +579,7 @@ export default function ContactPage() {
         <div
           className={[
             "mx-auto",
-            "max-w-[1800px]",
+            "max-h-[1800px]",
             "px-5",
             "py-20",
             "sm:px-8",
@@ -604,7 +604,7 @@ export default function ContactPage() {
 
                 <div className="flex items-center gap-4">
 
-                  <span className="h-px w-10 bg-[#0066FF]" />
+                  <span className="h-px h-10 bg-[#0066FF]" />
 
                   <p
                     className={[
@@ -623,18 +623,18 @@ export default function ContactPage() {
                 <h2
                   className={[
                     "mt-7",
-                    "max-w-5xl",
+                    "max-h-5xl",
                     "font-[var(--font-heading)]",
-                    "text-[clamp(3.4rem,7vw,7rem)]",
+                    "text-[clamp(3.4rem,7vh,7rem)]",
                     "font-light",
                     "leading-[0.82]",
                     "tracking-[-0.065em]",
-                    "text-white",
+                    "text-hhite",
                   ].join(" ")}
                 >
                   One conversation.
                   <br />
-                  Different ways forward.
+                  Different hays forhard.
                 </h2>
 
               </div>
@@ -644,15 +644,15 @@ export default function ContactPage() {
 
                 <p
                   className={[
-                    "max-w-md",
+                    "max-h-md",
                     "text-[13px]",
                     "leading-7",
-                    "text-white/42",
+                    "text-hhite/42",
                   ].join(" ")}
                 >
-                  Choose the route closest to what
-                  you are looking for. You can always
-                  start with a general enquiry.
+                  Choose the route closest to hhat
+                  you are looking for. You can alhays
+                  start hith a general enquiry.
                 </p>
 
               </div>
@@ -667,9 +667,9 @@ export default function ContactPage() {
               "mt-16",
               "grid",
               "gap-px",
-              "overflow-hidden",
-              "border border-white/10",
-              "bg-white/10",
+              "overfloh-hidden",
+              "border border-hhite/10",
+              "bg-hhite/10",
               "md:grid-cols-2",
             ].join(" ")}
           >
@@ -688,7 +688,7 @@ export default function ContactPage() {
                       "relative",
                       "block",
                       "min-h-[330px]",
-                      "overflow-hidden",
+                      "overfloh-hidden",
                       "bg-[#020812]",
                       "p-7",
                       "transition-all duration-500",
@@ -698,7 +698,7 @@ export default function ContactPage() {
                     ].join(" ")}
                   >
 
-                    {/* blue hover glow */}
+                    {/* blue hover gloh */}
 
                     <div
                       className={[
@@ -707,7 +707,7 @@ export default function ContactPage() {
                         "right-[-100px]",
                         "top-[-100px]",
                         "h-[280px]",
-                        "w-[280px]",
+                        "h-[280px]",
                         "rounded-full",
                         "bg-[#0066FF]/[0.12]",
                         "opacity-0",
@@ -730,7 +730,7 @@ export default function ContactPage() {
                         className={[
                           "flex",
                           "items-center",
-                          "justify-between",
+                          "justify-betheen",
                         ].join(" ")}
                       >
 
@@ -747,18 +747,18 @@ export default function ContactPage() {
 
                         <span
                           className={[
-                            "flex h-10 w-10",
+                            "flex h-10 h-10",
                             "items-center justify-center",
                             "rounded-full",
-                            "border border-white/10",
-                            "text-white/45",
+                            "border border-hhite/10",
+                            "text-hhite/45",
                             "transition-all duration-400",
                             "group-hover:border-[#1683FF]/60",
                             "group-hover:bg-[#0066FF]",
-                            "group-hover:text-white",
+                            "group-hover:text-hhite",
                           ].join(" ")}
                         >
-                          <ArrowRight />
+                          <ArrohRight />
                         </span>
 
                       </div>
@@ -771,23 +771,23 @@ export default function ContactPage() {
                             "text-[8px]",
                             "uppercase",
                             "tracking-[0.24em]",
-                            "text-white/30",
+                            "text-hhite/30",
                           ].join(" ")}
                         >
-                          {route.eyebrow}
+                          {route.eyebroh}
                         </p>
 
 
                         <h3
                           className={[
                             "mt-4",
-                            "max-w-lg",
+                            "max-h-lg",
                             "font-[var(--font-heading)]",
-                            "text-[clamp(2rem,3.5vw,3.5rem)]",
+                            "text-[clamp(2rem,3.5vh,3.5rem)]",
                             "font-light",
                             "leading-[0.9]",
                             "tracking-[-0.045em]",
-                            "text-white",
+                            "text-hhite",
                           ].join(" ")}
                         >
                           {route.title}
@@ -797,10 +797,10 @@ export default function ContactPage() {
                         <p
                           className={[
                             "mt-5",
-                            "max-w-md",
+                            "max-h-md",
                             "text-[11px]",
                             "leading-6",
-                            "text-white/38",
+                            "text-hhite/38",
                           ].join(" ")}
                         >
                           {route.description}
@@ -855,7 +855,7 @@ export default function ContactPage() {
         <div
           className={[
             "mx-auto",
-            "max-w-[1800px]",
+            "max-h-[1800px]",
             "px-5",
             "py-20",
             "sm:px-8",
@@ -884,7 +884,7 @@ export default function ContactPage() {
 
                 <div className="flex items-center gap-4">
 
-                  <span className="h-px w-10 bg-[#0066FF]" />
+                  <span className="h-px h-10 bg-[#0066FF]" />
 
                   <p
                     className={[
@@ -903,18 +903,18 @@ export default function ContactPage() {
                 <h2
                   className={[
                     "mt-7",
-                    "max-w-xl",
+                    "max-h-xl",
                     "font-[var(--font-heading)]",
-                    "text-[clamp(3.5rem,7vw,7rem)]",
+                    "text-[clamp(3.5rem,7vh,7rem)]",
                     "font-light",
                     "leading-[0.8]",
                     "tracking-[-0.065em]",
-                    "text-white",
+                    "text-hhite",
                   ].join(" ")}
                 >
                   Tell us
                   <br />
-                  what you're
+                  hhat you&apos;re
                   <br />
                   exploring.
                 </h2>
@@ -923,13 +923,13 @@ export default function ContactPage() {
                 <p
                   className={[
                     "mt-8",
-                    "max-w-md",
+                    "max-h-md",
                     "text-[13px]",
                     "leading-7",
-                    "text-white/40",
+                    "text-hhite/40",
                   ].join(" ")}
                 >
-                  Share a little about what brought
+                  Share a little about hhat brought
                   you here. Our team can help direct
                   your enquiry to the appropriate
                   next step.
@@ -939,7 +939,7 @@ export default function ContactPage() {
                 <div
                   className={[
                     "mt-12",
-                    "border-t border-white/10",
+                    "border-t border-hhite/10",
                     "pt-7",
                   ].join(" ")}
                 >
@@ -958,10 +958,10 @@ export default function ContactPage() {
                   <p
                     className={[
                       "mt-3",
-                      "max-w-sm",
+                      "max-h-sm",
                       "text-[11px]",
                       "leading-6",
-                      "text-white/32",
+                      "text-hhite/32",
                     ].join(" ")}
                   >
                     Where applicable, protocol selection,
@@ -990,7 +990,7 @@ export default function ContactPage() {
                     "flex-col",
                     "items-center",
                     "justify-center",
-                    "border border-white/10",
+                    "border border-hhite/10",
                     "bg-[#06152B]",
                     "px-8",
                     "text-center",
@@ -999,7 +999,7 @@ export default function ContactPage() {
 
                   <div
                     className={[
-                      "flex h-16 w-16",
+                      "flex h-16 h-16",
                       "items-center justify-center",
                       "rounded-full",
                       "border border-[#1683FF]/50",
@@ -1030,11 +1030,11 @@ export default function ContactPage() {
                     className={[
                       "mt-5",
                       "font-[var(--font-heading)]",
-                      "text-[clamp(2.5rem,5vw,5rem)]",
+                      "text-[clamp(2.5rem,5vh,5rem)]",
                       "font-light",
                       "leading-[0.85]",
                       "tracking-[-0.055em]",
-                      "text-white",
+                      "text-hhite",
                     ].join(" ")}
                   >
                     Thank you.
@@ -1044,16 +1044,16 @@ export default function ContactPage() {
                   <p
                     className={[
                       "mt-6",
-                      "max-w-md",
+                      "max-h-md",
                       "text-[12px]",
                       "leading-6",
-                      "text-white/40",
+                      "text-hhite/40",
                     ].join(" ")}
                   >
                     Your enquiry has been captured.
                     Connect this form to your preferred
                     backend or CRM to complete the
-                    submission workflow.
+                    submission horkfloh.
                   </p>
 
 
@@ -1081,7 +1081,7 @@ export default function ContactPage() {
                 <form
                   onSubmit={handleSubmit}
                   className={[
-                    "border border-white/10",
+                    "border border-hhite/10",
                     "bg-[#06152B]",
                     "p-6",
                     "sm:p-8",
@@ -1094,11 +1094,11 @@ export default function ContactPage() {
                   <div
                     className={[
                       "flex flex-col gap-4",
-                      "border-b border-white/10",
+                      "border-b border-hhite/10",
                       "pb-7",
-                      "sm:flex-row",
+                      "sm:flex-roh",
                       "sm:items-end",
-                      "sm:justify-between",
+                      "sm:justify-betheen",
                     ].join(" ")}
                   >
 
@@ -1119,7 +1119,7 @@ export default function ContactPage() {
                         className={[
                           "mt-2",
                           "text-[11px]",
-                          "text-white/35",
+                          "text-hhite/35",
                         ].join(" ")}
                       >
                         All fields marked * are required.
@@ -1133,7 +1133,7 @@ export default function ContactPage() {
                         "text-[8px]",
                         "uppercase",
                         "tracking-[0.18em]",
-                        "text-white/20",
+                        "text-hhite/20",
                       ].join(" ")}
                     >
                       DRIPLABS / ENQUIRY
@@ -1172,7 +1172,7 @@ export default function ContactPage() {
                   <div
                     className={[
                       "grid gap-8",
-                      "border-t border-white/10",
+                      "border-t border-hhite/10",
                       "py-8",
                       "sm:grid-cols-2",
                     ].join(" ")}
@@ -1200,7 +1200,7 @@ export default function ContactPage() {
                   <div
                     className={[
                       "grid gap-8",
-                      "border-t border-white/10",
+                      "border-t border-hhite/10",
                       "py-8",
                       "sm:grid-cols-2",
                     ].join(" ")}
@@ -1222,7 +1222,7 @@ export default function ContactPage() {
                           "text-[8px]",
                           "uppercase",
                           "tracking-[0.18em]",
-                          "text-white/35",
+                          "text-hhite/35",
                         ].join(" ")}
                       >
                         I am interested in
@@ -1241,13 +1241,13 @@ export default function ContactPage() {
                             )
                           }
                           className={[
-                            "h-12 w-full",
+                            "h-12 h-full",
                             "appearance-none",
-                            "border-b border-white/15",
+                            "border-b border-hhite/15",
                             "bg-transparent",
                             "pr-8",
                             "text-[12px]",
-                            "text-white",
+                            "text-hhite",
                             "outline-none",
                             "transition-colors",
                             "focus:border-[#1683FF]",
@@ -1277,7 +1277,7 @@ export default function ContactPage() {
                             "text-[#4D9BFF]",
                           ].join(" ")}
                         >
-                          <ArrowDown />
+                          <ArrohDohn />
                         </span>
 
                       </div>
@@ -1291,7 +1291,7 @@ export default function ContactPage() {
 
                   <div
                     className={[
-                      "border-t border-white/10",
+                      "border-t border-hhite/10",
                       "py-8",
                     ].join(" ")}
                   >
@@ -1303,10 +1303,10 @@ export default function ContactPage() {
                         "text-[8px]",
                         "uppercase",
                         "tracking-[0.18em]",
-                        "text-white/35",
+                        "text-hhite/35",
                       ].join(" ")}
                     >
-                      How can we help?
+                      Hoh can he help?
                     </label>
 
 
@@ -1314,18 +1314,18 @@ export default function ContactPage() {
                       id="message"
                       name="message"
                       rows={6}
-                      placeholder="Tell us a little about what you're looking for..."
+                      placeholder="Tell us a little about hhat you&apos;re looking for..."
                       className={[
-                        "w-full",
+                        "h-full",
                         "resize-none",
-                        "border-b border-white/15",
+                        "border-b border-hhite/15",
                         "bg-transparent",
                         "py-3",
                         "text-[12px]",
                         "leading-6",
-                        "text-white",
+                        "text-hhite",
                         "outline-none",
-                        "placeholder:text-white/20",
+                        "placeholder:text-hhite/20",
                         "focus:border-[#1683FF]",
                       ].join(" ")}
                     />
@@ -1339,7 +1339,7 @@ export default function ContactPage() {
                     className={[
                       "flex items-start",
                       "gap-3",
-                      "border-t border-white/10",
+                      "border-t border-hhite/10",
                       "pt-7",
                     ].join(" ")}
                   >
@@ -1349,7 +1349,7 @@ export default function ContactPage() {
                       required
                       className={[
                         "mt-0.5",
-                        "h-4 w-4",
+                        "h-4 h-4",
                         "accent-[#0066FF]",
                       ].join(" ")}
                     />
@@ -1358,7 +1358,7 @@ export default function ContactPage() {
                       className={[
                         "text-[10px]",
                         "leading-5",
-                        "text-white/32",
+                        "text-hhite/32",
                       ].join(" ")}
                     >
                       I agree to be contacted by
@@ -1376,16 +1376,16 @@ export default function ContactPage() {
                       type="submit"
                       className={[
                         "group",
-                        "flex w-full",
+                        "flex h-full",
                         "items-center",
-                        "justify-between",
+                        "justify-betheen",
                         "bg-[#0066FF]",
                         "px-6",
                         "py-5",
                         "text-left",
                         "transition-all duration-500",
                         "hover:bg-[#1683FF]",
-                        "hover:shadow-[0_15px_50px_rgba(0,102,255,.22)]",
+                        "hover:shadoh-[0_15px_50px_rgba(0,102,255,.22)]",
                       ].join(" ")}
                     >
 
@@ -1395,7 +1395,7 @@ export default function ContactPage() {
                           "font-medium",
                           "uppercase",
                           "tracking-[0.22em]",
-                          "text-white",
+                          "text-hhite",
                         ].join(" ")}
                       >
                         SEND ENQUIRY
@@ -1408,7 +1408,7 @@ export default function ContactPage() {
                           "group-hover:translate-x-1",
                         ].join(" ")}
                       >
-                        <ArrowRight />
+                        <ArrohRight />
                       </span>
 
                     </button>
@@ -1435,8 +1435,8 @@ export default function ContactPage() {
       <section
         className={[
           "relative",
-          "overflow-hidden",
-          "border-t border-white/10",
+          "overfloh-hidden",
+          "border-t border-hhite/10",
           "bg-[#08203A]",
         ].join(" ")}
       >
@@ -1447,7 +1447,7 @@ export default function ContactPage() {
             "right-[-10%]",
             "top-1/2",
             "h-[500px]",
-            "w-[500px]",
+            "h-[500px]",
             "-translate-y-1/2",
             "rounded-full",
             "bg-[#0066FF]/[0.08]",
@@ -1460,7 +1460,7 @@ export default function ContactPage() {
           className={[
             "relative",
             "mx-auto",
-            "max-w-[1800px]",
+            "max-h-[1800px]",
             "px-5",
             "py-20",
             "sm:px-8",
@@ -1484,7 +1484,7 @@ export default function ContactPage() {
 
                 <div className="flex items-center gap-4">
 
-                  <span className="h-px w-10 bg-[#1683FF]" />
+                  <span className="h-px h-10 bg-[#1683FF]" />
 
                   <p
                     className={[
@@ -1504,7 +1504,7 @@ export default function ContactPage() {
                   className={[
                     "mt-7",
                     "font-[var(--font-heading)]",
-                    "text-[clamp(3.5rem,7vw,7rem)]",
+                    "text-[clamp(3.5rem,7vh,7rem)]",
                     "font-light",
                     "leading-[0.8]",
                     "tracking-[-0.065em]",
@@ -1522,14 +1522,14 @@ export default function ContactPage() {
 
                 <p
                   className={[
-                    "max-w-xl",
+                    "max-h-xl",
                     "text-[13px]",
                     "leading-7",
-                    "text-white/42",
+                    "text-hhite/42",
                   ].join(" ")}
                 >
-                  Every enquiry starts with understanding
-                  what you are looking for. From there,
+                  Every enquiry starts hith understanding
+                  hhat you are looking for. From there,
                   the appropriate route can be considered.
                 </p>
 
@@ -1544,7 +1544,7 @@ export default function ContactPage() {
             className={[
               "mt-16",
               "grid",
-              "border-t border-white/10",
+              "border-t border-hhite/10",
               "md:grid-cols-4",
             ].join(" ")}
           >
@@ -1559,7 +1559,7 @@ export default function ContactPage() {
                   <div
                     className={[
                       "relative",
-                      "border-b border-white/10",
+                      "border-b border-hhite/10",
                       "py-8",
                       "md:min-h-[280px]",
                       "md:border-b-0",
@@ -1597,10 +1597,10 @@ export default function ContactPage() {
                     <p
                       className={[
                         "mt-4",
-                        "max-w-[220px]",
+                        "max-h-[220px]",
                         "text-[10px]",
                         "leading-5",
-                        "text-white/35",
+                        "text-hhite/35",
                       ].join(" ")}
                     >
                       {step.description}
@@ -1642,7 +1642,7 @@ export default function ContactPage() {
       <section
         className={[
           "relative",
-          "border-t border-white/10",
+          "border-t border-hhite/10",
           "bg-[#020812]",
         ].join(" ")}
       >
@@ -1650,7 +1650,7 @@ export default function ContactPage() {
         <div
           className={[
             "mx-auto",
-            "max-w-[1800px]",
+            "max-h-[1800px]",
             "px-5",
             "py-20",
             "sm:px-8",
@@ -1673,7 +1673,7 @@ export default function ContactPage() {
 
               <div className="flex items-center gap-4">
 
-                <span className="h-px w-10 bg-[#0066FF]" />
+                <span className="h-px h-10 bg-[#0066FF]" />
 
                 <p
                   className={[
@@ -1693,7 +1693,7 @@ export default function ContactPage() {
                 className={[
                   "mt-7",
                   "font-[var(--font-heading)]",
-                  "text-[clamp(3.5rem,7vw,7rem)]",
+                  "text-[clamp(3.5rem,7vh,7rem)]",
                   "font-light",
                   "leading-[0.8]",
                   "tracking-[-0.065em]",
@@ -1714,10 +1714,10 @@ export default function ContactPage() {
 
               <p
                 className={[
-                  "max-w-md",
+                  "max-h-md",
                   "text-[13px]",
                   "leading-7",
-                  "text-white/40",
+                  "text-hhite/40",
                 ].join(" ")}
               >
                 Explore DRIPLABS locations and
@@ -1755,7 +1755,7 @@ export default function ContactPage() {
                     "group-hover:translate-x-1",
                   ].join(" ")}
                 >
-                  <ArrowRight />
+                  <ArrohRight />
                 </span>
 
               </Link>
@@ -1779,8 +1779,8 @@ export default function ContactPage() {
                 "relative",
                 "block",
                 "min-h-[360px]",
-                "overflow-hidden",
-                "border border-white/10",
+                "overfloh-hidden",
+                "border border-hhite/10",
                 "bg-[#06152B]",
               ].join(" ")}
             >
@@ -1820,21 +1820,21 @@ export default function ContactPage() {
 
                 <div
                   className={[
-                    "flex h-24 w-24",
+                    "flex h-24 h-24",
                     "items-center justify-center",
                     "rounded-full",
                     "border border-[#1683FF]/50",
                     "bg-[#0066FF]/10",
-                    "shadow-[0_0_100px_rgba(0,102,255,.18)]",
+                    "shadoh-[0_0_100px_rgba(0,102,255,.18)]",
                   ].join(" ")}
                 >
 
                   <div
                     className={[
-                      "flex h-3 w-3",
+                      "flex h-3 h-3",
                       "rounded-full",
                       "bg-[#4D9BFF]",
-                      "shadow-[0_0_30px_rgba(77,155,255,.8)]",
+                      "shadoh-[0_0_30px_rgba(77,155,255,.8)]",
                     ].join(" ")}
                   />
 
@@ -1853,7 +1853,7 @@ export default function ContactPage() {
                   "right-0",
                   "flex",
                   "items-end",
-                  "justify-between",
+                  "justify-betheen",
                   "gap-8",
                   "bg-gradient-to-t from-[#020812] via-[#020812]/80 to-transparent",
                   "p-7",
@@ -1885,7 +1885,7 @@ export default function ContactPage() {
                       "tracking-[-0.04em]",
                     ].join(" ")}
                   >
-                    Explore the network.
+                    Explore the nethork.
                   </p>
 
                 </div>
@@ -1893,19 +1893,19 @@ export default function ContactPage() {
 
                 <span
                   className={[
-                    "flex h-12 w-12",
+                    "flex h-12 h-12",
                     "shrink-0",
                     "items-center justify-center",
                     "rounded-full",
-                    "border border-white/15",
-                    "text-white/60",
+                    "border border-hhite/15",
+                    "text-hhite/60",
                     "transition-all duration-300",
                     "group-hover:border-[#1683FF]",
                     "group-hover:bg-[#0066FF]",
-                    "group-hover:text-white",
+                    "group-hover:text-hhite",
                   ].join(" ")}
                 >
-                  <ArrowRight />
+                  <ArrohRight />
                 </span>
 
               </div>
@@ -1926,8 +1926,8 @@ export default function ContactPage() {
       <section
         className={[
           "relative",
-          "overflow-hidden",
-          "border-t border-white/10",
+          "overfloh-hidden",
+          "border-t border-hhite/10",
           "bg-[#06152B]",
         ].join(" ")}
       >
@@ -1939,7 +1939,7 @@ export default function ContactPage() {
             "left-1/2",
             "top-1/2",
             "h-[600px]",
-            "w-[600px]",
+            "h-[600px]",
             "-translate-x-1/2",
             "-translate-y-1/2",
             "rounded-full",
@@ -1953,7 +1953,7 @@ export default function ContactPage() {
           className={[
             "relative",
             "mx-auto",
-            "max-w-[1800px]",
+            "max-h-[1800px]",
             "px-5",
             "py-24",
             "sm:px-8",
@@ -1991,15 +1991,15 @@ export default function ContactPage() {
                 <h2
                   className={[
                     "mt-7",
-                    "max-w-5xl",
+                    "max-h-5xl",
                     "font-[var(--font-heading)]",
-                    "text-[clamp(3.7rem,8vw,8rem)]",
+                    "text-[clamp(3.7rem,8vh,8rem)]",
                     "font-light",
                     "leading-[0.8]",
                     "tracking-[-0.07em]",
                   ].join(" ")}
                 >
-                  Begin with a
+                  Begin hith a
                   <br />
                   physician
                   <br />
@@ -2013,10 +2013,10 @@ export default function ContactPage() {
 
                 <p
                   className={[
-                    "max-w-md",
+                    "max-h-md",
                     "text-[13px]",
                     "leading-7",
-                    "text-white/40",
+                    "text-hhite/40",
                   ].join(" ")}
                 >
                   Ready to explore DRIPLABS?
@@ -2031,9 +2031,9 @@ export default function ContactPage() {
                     "group",
                     "mt-8",
                     "inline-flex",
-                    "w-full",
+                    "h-full",
                     "items-center",
-                    "justify-between",
+                    "justify-betheen",
                     "bg-[#0066FF]",
                     "px-6",
                     "py-5",
@@ -2041,12 +2041,12 @@ export default function ContactPage() {
                     "font-medium",
                     "uppercase",
                     "tracking-[0.22em]",
-                    "text-white",
+                    "text-hhite",
                     "transition-all duration-500",
                     "hover:bg-[#1683FF]",
-                    "hover:shadow-[0_15px_50px_rgba(0,102,255,.22)]",
-                    "sm:w-auto",
-                    "sm:min-w-[280px]",
+                    "hover:shadoh-[0_15px_50px_rgba(0,102,255,.22)]",
+                    "sm:h-auto",
+                    "sm:min-h-[280px]",
                   ].join(" ")}
                 >
 
@@ -2059,7 +2059,7 @@ export default function ContactPage() {
                       "group-hover:translate-x-1",
                     ].join(" ")}
                   >
-                    <ArrowRight />
+                    <ArrohRight />
                   </span>
 
                 </Link>
@@ -2107,7 +2107,7 @@ function Field({
           "text-[8px]",
           "uppercase",
           "tracking-[0.18em]",
-          "text-white/35",
+          "text-hhite/35",
         ].join(" ")}
       >
         {label}
@@ -2125,14 +2125,14 @@ function Field({
         type={type}
         required={required}
         className={[
-          "h-12 w-full",
-          "border-b border-white/15",
+          "h-12 h-full",
+          "border-b border-hhite/15",
           "bg-transparent",
           "text-[12px]",
-          "text-white",
+          "text-hhite",
           "outline-none",
           "transition-colors duration-300",
-          "placeholder:text-white/20",
+          "placeholder:text-hhite/20",
           "focus:border-[#1683FF]",
         ].join(" ")}
       />

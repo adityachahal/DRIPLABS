@@ -120,7 +120,10 @@ export default function WellnessProfile() {
           setActiveProtocolSlug(result.data[0].slug);
 
           setActiveFamilySlug(
-            result.data[0].family,
+            result.data[0].family
+              .toLowerCase()
+              .replace(/&/g, "and")
+              .replace(/\s+/g, "-"),
           );
         }
       } catch (err) {
@@ -187,47 +190,6 @@ export default function WellnessProfile() {
       }),
     );
   }, [protocols]);
-
-  /* =========================================================
-     KEEP FAMILY / PROTOCOL SELECTION IN SYNC
-  ========================================================= */
-
-  useEffect(() => {
-    if (!families.length) {
-      return;
-    }
-
-    const currentFamily = families.find(
-      (family) => family.slug === activeFamilySlug,
-    );
-
-    if (!currentFamily) {
-      const firstFamily = families[0];
-
-      setActiveFamilySlug(firstFamily.slug);
-      setActiveProtocolSlug(
-        firstFamily.protocols[0]?.slug ?? "",
-      );
-
-      return;
-    }
-
-    const protocolStillExists =
-      currentFamily.protocols.some(
-        (protocol) =>
-          protocol.slug === activeProtocolSlug,
-      );
-
-    if (!protocolStillExists) {
-      setActiveProtocolSlug(
-        currentFamily.protocols[0]?.slug ?? "",
-      );
-    }
-  }, [
-    families,
-    activeFamilySlug,
-    activeProtocolSlug,
-  ]);
 
   const activeFamily =
     families.find(

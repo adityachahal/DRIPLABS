@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 
 
@@ -116,11 +116,11 @@ export default function ConsumerExperience() {
 
   const [paused, setPaused] = useState(false);
 
-  const [imageSrc, setImageSrc] = useState(steps[0].image);
-
-
-
   const active = steps[activeStep];
+  const imageSrc = active.image;
+
+
+
 
 
 
@@ -149,29 +149,8 @@ export default function ConsumerExperience() {
     return () => window.clearInterval(interval);
 
   }, [paused]);
-
-
-
-  /*
-
-   * Update image whenever roadmap step changes.
-
-   */
-
-  useEffect(() => {
-
-    setImageSrc(active.image);
-
-  }, [active]);
-
-
-
   const selectStep = (index: number) => {
-
     setActiveStep(index);
-
-    setImageSrc(steps[index].image);
-
   };
 
 
@@ -1162,11 +1141,11 @@ export default function ConsumerExperience() {
 
                     }}
 
-                    onError={() => {
+                    onError={(event) => {
 
                       if (imageSrc !== FALLBACK_IMAGE) {
 
-                        setImageSrc(FALLBACK_IMAGE);
+                        event.currentTarget.src = FALLBACK_IMAGE;
 
                       }
 

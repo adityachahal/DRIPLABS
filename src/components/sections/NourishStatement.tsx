@@ -19,6 +19,46 @@ const philosophy = [
   },
 ];
 
+function PhilosophyWord({
+  item,
+  index,
+  scrollYProgress,
+}: {
+  item: (typeof philosophy)[number];
+  index: number;
+  scrollYProgress: ReturnType<typeof useScroll>["scrollYProgress"];
+}) {
+  const x = useTransform(
+    scrollYProgress,
+    [0, 1],
+    item.x,
+  );
+
+  return (
+    <div
+      className={`overflow-hidden ${
+        index !== 0 ? "mt-1 md:mt-2" : ""
+      }`}
+    >
+      <motion.div
+        style={{ x }}
+        className="whitespace-nowrap"
+      >
+        <h2
+          className={`inline-block font-light leading-[0.74] tracking-[-0.085em] ${
+            index === 1
+              ? "pl-[3vw]"
+              : index === 2
+                ? "pl-[8vw]"
+                : "pl-[1vw]"
+          } text-[clamp(5.5rem,14.3vw,17rem)]`}
+        >
+          {item.word}
+        </h2>
+      </motion.div>
+    </div>
+  );
+}
 export default function NourishStatement() {
   const sectionRef = useRef<HTMLElement>(null);
 
@@ -57,39 +97,14 @@ export default function NourishStatement() {
           LARGE PHILOSOPHY TYPOGRAPHY
       ========================================================= */}
       <div className="relative overflow-hidden pb-8 md:pb-12">
-        {philosophy.map((item, index) => {
-          const x = useTransform(
-            scrollYProgress,
-            [0, 1],
-            item.x,
-          );
-
-          return (
-            <div
-              key={item.word}
-              className={`overflow-hidden ${
-                index !== 0 ? "mt-1 md:mt-2" : ""
-              }`}
-            >
-              <motion.div
-                style={{ x }}
-                className="whitespace-nowrap"
-              >
-                <h2
-                  className={`inline-block font-light leading-[0.74] tracking-[-0.085em] ${
-                    index === 1
-                      ? "pl-[3vw]"
-                      : index === 2
-                        ? "pl-[8vw]"
-                        : "pl-[1vw]"
-                  } text-[clamp(5.5rem,14.3vw,17rem)]`}
-                >
-                  {item.word}
-                </h2>
-              </motion.div>
-            </div>
-          );
-        })}
+        {philosophy.map((item, index) => (
+          <PhilosophyWord
+            key={item.word}
+            item={item}
+            index={index}
+            scrollYProgress={scrollYProgress}
+          />
+        ))}
       </div>
 
       {/* =========================================================

@@ -566,7 +566,7 @@ export default async function ProtocolPage({
 
               <div className="lg:col-span-4">
                 <SectionLabel>
-                  What's inside
+                  What&apos;s inside
                 </SectionLabel>
 
                 <div

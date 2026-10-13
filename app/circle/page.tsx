@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
@@ -554,7 +554,7 @@ export default function CirclePage() {
               <Reveal>
 
                 <h2 className="max-w-[1000px] font-[var(--font-heading)] text-[clamp(3.2rem,6.5vw,7rem)] font-light leading-[0.86] tracking-[-0.065em]">
-                  Wellness shouldn't
+                  Wellness shouldn&apos;t
                   <br />
                   end when the
                   <br />
@@ -643,7 +643,7 @@ export default function CirclePage() {
                 <h2 className="mt-8 max-w-lg font-[var(--font-heading)] text-[clamp(3rem,5.5vw,6rem)] font-light leading-[0.86] tracking-[-0.06em]">
                   Know what
                   <br />
-                  you're
+                  you&apos;re
                   <br />
                   choosing.
                 </h2>

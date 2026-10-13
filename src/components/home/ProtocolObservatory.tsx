@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import React, {
   useCallback,
@@ -29,6 +29,16 @@ type Protocol = {
   number: string;
   family: WellnessFamily;
   description: string;
+};
+
+type ProtocolApiItem = {
+  slug?: string;
+  id?: string | number;
+  name?: string;
+  title?: string;
+  number?: string | number;
+  family?: string;
+  description?: string;
 };
 
 /* =========================================================
@@ -416,7 +426,7 @@ export default function ProtocolObservatory() {
         }
 
         const mapped: Protocol[] = source
-          .map((item: any, index: number) => {
+          .map((item: ProtocolApiItem, index: number) => {
             const slug = normalizeSlug(
               item?.slug ??
                 item?.id ??
@@ -673,9 +683,13 @@ export default function ProtocolObservatory() {
       (protocol) => protocol.slug === activeSlug
     );
 
-    if (!stillVisible) {
+    if (stillVisible) return;
+
+    const timeout = window.setTimeout(() => {
       setActiveSlug(visibleProtocols[0].slug);
-    }
+    }, 0);
+
+    return () => window.clearTimeout(timeout);
   }, [activeSlug, visibleProtocols]);
 
   return (

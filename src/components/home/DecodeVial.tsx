@@ -3663,30 +3663,7 @@ export default function VialProductTransition() {
 
 
   ================================================================ */
-
-
-
-
-
-
-
-  useEffect(() => {
-
-
-
-    setShowMore(false);
-
-
-
-  }, [activeIndex]);
-
-
-
-
-
-
-
-  /* ================================================================
+/* ================================================================
 
 
 
@@ -4337,3 +4314,7 @@ export default function VialProductTransition() {
     </section>
   );
 }
+
+
+
+

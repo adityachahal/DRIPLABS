@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import Link from "next/link";
 import { motion } from "framer-motion";
@@ -207,7 +207,7 @@ export default function PhysiciansEconomicsPage() {
                 </p>
 
                 <p className="mt-2 text-xs leading-6 text-[var(--dl-slate)]">
-                  The source deck's example produces ₹5,16,000 in estimated
+                  The source deck&apos;s example produces ₹5,16,000 in estimated
                   monthly revenue.
                 </p>
               </div>

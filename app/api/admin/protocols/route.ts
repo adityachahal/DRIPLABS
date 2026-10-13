@@ -1,4 +1,4 @@
-﻿import { NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import { isAdminAuthenticated } from "@/lib/admin-auth";
 import { db } from "@/lib/db";
 
@@ -44,7 +44,9 @@ function cleanBoolean(value: unknown) {
   return typeof value === "boolean" ? value : undefined;
 }
 
-function serializeProtocol(protocol: any) {
+type ProtocolRecord = Record<string, unknown>;
+
+function serializeProtocol(protocol: ProtocolRecord) {
   return {
     id: protocol.id,
     number: protocol.number,
