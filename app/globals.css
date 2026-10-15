@@ -2744,3 +2744,180 @@ html.lenis body {
   display: block;
 
 }
+/* =====================================================================
+   DRIPLABS — LUMINOUS GRADIENT THEME
+   Electric blue • ice white • restrained amber
+
+   This is an additive layer. Existing section layouts, content, routes,
+   and component styles above are preserved.
+   ===================================================================== */
+
+:root {
+  --dl-ice-white: #f5faff;
+  --dl-ice-blue: #cfe7ff;
+  --dl-amber: #ff9b68;
+  --dl-amber-soft: rgba(255, 155, 104, 0.12);
+  --dl-electric-glow: rgba(0, 102, 255, 0.16);
+  --dl-luminous-gradient: linear-gradient(
+    108deg,
+    #0066ff 0%,
+    #5caaff 43%,
+    #f5faff 72%,
+    #ffb287 100%
+  );
+  --dl-luminous-border: linear-gradient(
+    110deg,
+    rgba(22, 131, 255, 0.58),
+    rgba(207, 231, 255, 0.28) 64%,
+    rgba(255, 155, 104, 0.24)
+  );
+}
+
+/* Ambient color stays translucent, so existing ivory and dark sections
+   keep their original base colors. */
+main.driplabs-gradient-theme,
+main:has(.observatory-header) {
+  background-image:
+    radial-gradient(
+      ellipse at 7% 4%,
+      rgba(0, 102, 255, 0.12) 0%,
+      rgba(0, 102, 255, 0.045) 28%,
+      transparent 56%
+    ),
+    radial-gradient(
+      ellipse at 94% 20%,
+      rgba(255, 155, 104, 0.075) 0%,
+      rgba(255, 155, 104, 0.025) 25%,
+      transparent 49%
+    ),
+    radial-gradient(
+      ellipse at 50% 82%,
+      rgba(140, 203, 255, 0.065) 0%,
+      transparent 48%
+    ) !important;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  background-blend-mode: normal;
+}
+
+/* A narrow animated brand signal gives the page a quiet, premium finish. */
+body::before {
+  content: "";
+  position: fixed;
+  z-index: 99999;
+  top: 0;
+  right: 0;
+  left: 0;
+  height: 2px;
+  pointer-events: none;
+  background: linear-gradient(
+    90deg,
+    rgba(0, 102, 255, 0) 0%,
+    #0066ff 18%,
+    #8ccbff 43%,
+    #f5faff 57%,
+    #ffb287 79%,
+    rgba(255, 155, 104, 0) 100%
+  );
+  background-size: 200% 100%;
+  animation: dlGradientSignal 14s ease-in-out infinite alternate;
+  opacity: 0.92;
+}
+
+@keyframes dlGradientSignal {
+  from {
+    background-position: 0% 50%;
+    opacity: 0.72;
+  }
+
+  to {
+    background-position: 100% 50%;
+    opacity: 1;
+  }
+}
+
+/* Scoped accents: only the DRIPLABS gradient theme receives these effects. */
+main.driplabs-gradient-theme .driplabs-label,
+main:has(.observatory-header) .driplabs-label {
+  color: var(--dl-blue-bright);
+}
+
+main.driplabs-gradient-theme .driplabs-divider,
+main:has(.observatory-header) .driplabs-divider {
+  background: var(--dl-luminous-gradient);
+}
+
+main.driplabs-gradient-theme .driplabs-button,
+main:has(.observatory-header) .driplabs-button {
+  background-color: var(--dl-blue);
+  background-image: linear-gradient(
+    108deg,
+    #0066ff 0%,
+    #1683ff 66%,
+    #8ccbff 100%
+  );
+  box-shadow: 0 8px 28px rgba(0, 102, 255, 0.14);
+}
+
+main.driplabs-gradient-theme .driplabs-button:hover,
+main:has(.observatory-header) .driplabs-button:hover {
+  background-image: linear-gradient(
+    108deg,
+    #1683ff 0%,
+    #5caaff 72%,
+    #ffb287 135%
+  );
+  box-shadow:
+    0 12px 34px rgba(0, 102, 255, 0.22),
+    0 0 28px rgba(255, 155, 104, 0.07);
+}
+
+main.driplabs-gradient-theme .driplabs-button-outline,
+main:has(.observatory-header) .driplabs-button-outline {
+  border-image: var(--dl-luminous-border) 1;
+  transition:
+    border-color var(--duration-fast) var(--ease-luxury),
+    color var(--duration-fast) var(--ease-luxury),
+    background var(--duration-fast) var(--ease-luxury),
+    box-shadow var(--duration-fast) var(--ease-luxury);
+}
+
+main.driplabs-gradient-theme .driplabs-button-outline:hover,
+main:has(.observatory-header) .driplabs-button-outline:hover {
+  background: rgba(0, 102, 255, 0.055);
+  box-shadow: 0 0 26px rgba(0, 102, 255, 0.09);
+}
+
+main.driplabs-gradient-theme .driplabs-glass,
+main:has(.observatory-header) .driplabs-glass {
+  background-image:
+    radial-gradient(
+      ellipse at top left,
+      rgba(0, 102, 255, 0.10),
+      transparent 58%
+    ),
+    linear-gradient(
+      140deg,
+      rgba(247, 250, 255, 0.035),
+      rgba(255, 155, 104, 0.018)
+    );
+  border-color: rgba(140, 203, 255, 0.16);
+}
+
+main.driplabs-gradient-theme .observatory-title span,
+main:has(.observatory-header) .observatory-title span {
+  color: transparent;
+  background-image: var(--dl-luminous-gradient);
+  background-size: 100% 100%;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Keep motion comfortable for users who request reduced animation. */
+@media (prefers-reduced-motion: reduce) {
+  body::before {
+    animation: none;
+    background-position: 50% 50%;
+  }
+}

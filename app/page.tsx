@@ -6,26 +6,27 @@ import ProofBand from "@/components/home/ProofBand";
 import CredibilitySection from "@/components/sections/CredibilitySection";
 
 import LocationMarquee from "@/components/sections/LocationMarquee";
-import ProtocolObservatory from "@/components/home/ProtocolObservatory";
+//import ProtocolObservatory from "@/components/home/ProtocolObservatory";
 import NADExperience from "@/components/sections/NADExperience";
 import ConsumerExperience from "@/components/sections/ConsumerExperience";
 import FAQ from "@/components/sections/FAQ";
 import Testimonials from "@/components/sections/Testimonials";
 import Memberships from "@/components/sections/Memberships";
-import FinalCTA from "@/components/sections/FinalCTA";
+//import FinalCTA from "@/components/sections/FinalCTA";
 import Footer from "@/components/sections/Footer";
-import DecodeVial from "@/components/home/DecodeVial";
-
+//import DecodeVial from "@/components/home/DecodeVial";
+import UnifiedWellnessObservatory from "@/components/home/UnifiedWellnessObservatory";
 import BuildingPartnership from "@/components/sections/BuildingPartnership";
+//import EvidenceResearch from "@/components/sections/EvidenceResearch";
 
-import WellnessGoalExplorer from "@/components/home/WellnessGoalExplorer";
+//import WellnessGoalExplorer from "@/components/home/WellnessGoalExplorer";
 import { Suspense } from "react";
 
 export default function Home() {
   return (
     <Suspense fallback={null}>
 
-    <main className="bg-[#F7F4EC] text-[#111318]">
+    <main className="driplabs-gradient-theme bg-[#F7F4EC] text-[#111318]">
       <Navbar />
 
       {/* 01 — Cinematic opening */}
@@ -39,13 +40,17 @@ export default function Home() {
 
       {/* 04 — The trust moat */}
       <CredibilitySection />
+        {/* 05 — Unified wellness + protocols + decode a vial */}
+        <UnifiedWellnessObservatory />
+    
+
+      {/*
       <WellnessGoalExplorer />
-      {/* 05 — Protocol system */}
+
       <ProtocolObservatory />
 
-     
-      {/* 07 — Decode a vial */}
       <DecodeVial />
+      */}
 
       {/* 08 — NADx flagship */}
       <NADExperience />
@@ -53,7 +58,7 @@ export default function Home() {
       {/* 09 — Human experience */}
       <ConsumerExperience />
 
-      {/* 10 — Evidence & research"<EvidenceResearch />" "import EvidenceResearch from "@/components/sections/EvidenceResearch";"*/}
+      {/* 10 — Evidence & research"<EvidenceResearch />" "*/}
         {/* 06 — Geographic presence */}
       <LocationMarquee />
 

@@ -1,0 +1,103 @@
+/* =========================================================
+   DRIPLABS — LUMINOUS CLINICAL LUXURY THEME
+   Palette: Electric Blue / Ice White / Warm Amber
+========================================================= */
+
+:root {
+  --drip-navy: #0A1B2D;
+  --drip-blue: #478FE4;
+  --drip-ice: #EDF5FC;
+  --drip-amber: #E8A16F;
+}
+
+/* Dark clinical sections */
+main.driplabs-gradient-theme > section:is(
+  [class*="bg-[#020812]"],
+  [class*="bg-[#06152B]"],
+  [class*="bg-[#01050b]"],
+  [class*="bg-[#08203a]"]
+) {
+  background-image:
+    radial-gradient(
+      ellipse 76% 60% at 12% 0%,
+      rgba(71, 143, 228, 0.28) 0%,
+      transparent 72%
+    ),
+    radial-gradient(
+      ellipse 46% 48% at 96% 18%,
+      rgba(232, 161, 111, 0.13) 0%,
+      transparent 74%
+    ),
+    radial-gradient(
+      ellipse 64% 48% at 52% 100%,
+      rgba(237, 245, 252, 0.075) 0%,
+      transparent 76%
+    ),
+    linear-gradient(
+      120deg,
+      rgba(237, 245, 252, 0.02),
+      rgba(71, 143, 228, 0.045) 55%,
+      rgba(232, 161, 111, 0.025)
+    ) !important;
+  background-blend-mode: screen, screen, screen, normal;
+}
+
+/* Light ivory and white sections */
+main.driplabs-gradient-theme > section:is(
+  [class*="bg-[#F7F4EC]"],
+  [class*="bg-[#F3EFE6]"],
+  [class*="bg-[#EDF5FC]"],
+  [class*="bg-[#F7FAFF]"]
+) {
+  background-image:
+    radial-gradient(
+      ellipse 76% 58% at 10% 0%,
+      rgba(71, 143, 228, 0.12) 0%,
+      transparent 72%
+    ),
+    radial-gradient(
+      ellipse 42% 44% at 96% 12%,
+      rgba(232, 161, 111, 0.10) 0%,
+      transparent 74%
+    ),
+    linear-gradient(
+      125deg,
+      rgba(255, 255, 255, 0.12),
+      rgba(237, 245, 252, 0.035) 58%,
+      rgba(232, 161, 111, 0.035)
+    ) !important;
+}
+
+/* Homepage navigation — subtle blue and amber light */
+main.driplabs-gradient-theme > header {
+  background-image:
+    radial-gradient(
+      ellipse at 12% 0%,
+      rgba(71, 143, 228, 0.15),
+      transparent 65%
+    ),
+    linear-gradient(
+      105deg,
+      rgba(10, 27, 45, 0.18),
+      transparent 68%,
+      rgba(232, 161, 111, 0.07)
+    );
+}
+
+/* Reusable blue-to-white-to-amber brand accent */
+.driplabs-gradient-theme .gradient-accent {
+  background: linear-gradient(
+    90deg,
+    #478FE4 0%,
+    #EDF5FC 58%,
+    #E8A16F 100%
+  );
+}
+
+/* Accessible, restrained motion */
+@media (prefers-reduced-motion: reduce) {
+  .driplabs-gradient-theme .gradient-accent {
+    animation: none !important;
+    transition: none !important;
+  }
+}

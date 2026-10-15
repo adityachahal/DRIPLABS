@@ -1,2752 +1,580 @@
 ﻿"use client";
 
-
-
+import Image from "next/image";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
-
 import { useState } from "react";
 
+type TrustPoint = {
+  number: "01" | "02" | "03" | "04" | "05" | "06";
+  title: string;
+  short: string;
+  detail: string;
+  image: string;
+};
 
-
-
-/* =========================================================
-
-   STANDARD DATA
-
-   ========================================================= */
-
-
-
-const trustPoints = [
-
+const trustPoints: TrustPoint[] = [
   {
-
     number: "01",
-
     title: "Physician-Led",
-
     short:
-
       "Every protocol begins with a physician assessment. Never a menu you self-select.",
-
     detail:
-
       "Protocol selection begins with professional assessment and supervision rather than a self-selected treatment menu.",
-
+    image: "/images/credibility/01-physician-led.png",
   },
-
   {
-
     number: "02",
-
     title: "Licensed & Pharma-Grade",
-
     short:
-
       "IP/BP/USP pharmacopoeial standards and pharmaceutical manufacturing discipline.",
-
     detail:
-
       "The product framework incorporates pharmacopoeial standards including IP, BP and USP.",
-
+    image: "/images/credibility/02-pharma-grade.png",
   },
-
   {
-
     number: "03",
-
     title: "Clinical Evidence & Documented Protocols",
-
     short:
-
       "Formulations and protocols are structured around documented data.",
-
     detail:
-
       "Clinical information and documented protocols form part of the framework behind the DRIPLABS experience.",
-
+    image: "/images/credibility/03-clinical-evidence.png",
   },
-
   {
-
     number: "04",
-
     title: "Batch Traceable",
-
     short:
-
       "Every kit carries a batch number, expiry information and Certificate of Analysis.",
-
     detail:
-
       "Batch identification, expiry information and Certificate of Analysis documentation create a traceable product record.",
-
+    image: "/images/credibility/04-batch-traceable.png",
   },
-
   {
-
     number: "05",
-
     title: "Third-Party Tested",
-
     short:
-
       "Quality verification forms part of the product documentation and formulation story.",
-
     detail:
-
       "Product quality verification is represented as part of the broader documentation layer.",
-
+    image: "/images/credibility/05-third-party-tested.png",
   },
-
   {
-
     number: "06",
-
     title: "Researched & Science Backed",
-
     short:
-
       "Formulation decisions are connected to documented research and scientific references.",
-
     detail:
-
       "Research, scientific pathways and documented references provide the foundation for the science layer.",
-
+    image: "/images/credibility/06-science-backed.png",
   },
-
-] as const;
-
-
+];
 
 const standardStates = {
-
   "01": {
-
     eyebrow: "01 / 06",
-
-    title: "Physician-Led",
-
-    sub: "Professional supervision",
-
-    formulation: "ASSESSMENT",
-
-    formulationValue: "PHYSICIAN",
-
     leftLabel: "PERSONALISED",
-
     leftValue: "PROTOCOL",
-
     rightLabel: "ADMINISTRATION",
-
     rightValue: "SUPERVISED",
-
+    title: "Physician-Led",
     bottom: "Every protocol begins with professional assessment.",
-
   },
-
-
-
   "02": {
-
     eyebrow: "02 / 06",
-
-    title: "Licensed & Pharma-Grade",
-
-    sub: "Pharmacopoeial framework",
-
-    formulation: "STANDARD",
-
-    formulationValue: "IP / BP / USP",
-
     leftLabel: "MANUFACTURING",
-
     leftValue: "PHARMA",
-
     rightLabel: "QUALITY",
-
     rightValue: "DOCUMENTED",
-
+    title: "Licensed & Pharma-Grade",
     bottom: "A formulation framework built around pharmaceutical standards.",
-
   },
-
-
-
   "03": {
-
     eyebrow: "03 / 06",
-
-    title: "Clinical Evidence",
-
-    sub: "Documented protocols",
-
-    formulation: "FRAMEWORK",
-
-    formulationValue: "CLINICAL",
-
     leftLabel: "PROTOCOLS",
-
     leftValue: "DOCUMENTED",
-
     rightLabel: "REFERENCES",
-
     rightValue: "SCIENCE",
-
+    title: "Clinical Evidence",
     bottom: "Protocols are structured around documented clinical information.",
-
   },
-
-
-
   "04": {
-
     eyebrow: "04 / 06",
-
-    title: "Batch Traceable",
-
-    sub: "Product record",
-
-    formulation: "BATCH",
-
-    formulationValue: "TRACEABLE",
-
     leftLabel: "MFG / EXP",
-
     leftValue: "RECORDED",
-
     rightLabel: "CERTIFICATE",
-
     rightValue: "OF ANALYSIS",
-
+    title: "Batch Traceable",
     bottom: "Every formulation carries a record.",
-
   },
-
-
-
   "05": {
-
     eyebrow: "05 / 06",
-
-    title: "Third-Party Tested",
-
-    sub: "Quality verification",
-
-    formulation: "VERIFICATION",
-
-    formulationValue: "TESTED",
-
     leftLabel: "IDENTITY",
-
     leftValue: "CHECKED",
-
     rightLabel: "QUALITY",
-
     rightValue: "VERIFIED",
-
+    title: "Third-Party Tested",
     bottom: "Quality verification forms part of the product documentation.",
-
   },
-
-
-
   "06": {
-
     eyebrow: "06 / 06",
-
-    title: "Researched & Science Backed",
-
-    sub: "Scientific foundation",
-
-    formulation: "RESEARCH",
-
-    formulationValue: "DOCUMENTED",
-
     leftLabel: "PATHWAYS",
-
     leftValue: "SCIENCE",
-
     rightLabel: "REFERENCES",
-
     rightValue: "AVAILABLE",
-
-    bottom:
-
-      "Research and scientific references connect to the formulation story.",
-
+    title: "Researched & Science Backed",
+    bottom: "Research and scientific references connect to the formulation story.",
   },
-
 } as const;
-
-
 
 type StandardKey = keyof typeof standardStates;
 
-
-
-/* =========================================================
-
-   HUD DATA
-
-   ========================================================= */
-
-
-
-function HudData({
-
-  label,
-
-  value,
-
-  side,
-
+function TrustCard({
+  point,
   active,
-
+  onActivate,
+  reducedMotion,
 }: {
-
-  label: string;
-
-  value: string;
-
-  side: "left" | "right";
-
+  point: TrustPoint;
   active: boolean;
-
+  onActivate: () => void;
+  reducedMotion: boolean | null;
 }) {
-
   return (
-
-    <motion.div
-
-      animate={{
-
-        opacity: active ? 1 : 0.18,
-
-        x: active ? 0 : side === "left" ? -5 : 5,
-
-      }}
-
-      transition={{
-
-        duration: 0.35,
-
-        ease: [0.22, 1, 0.36, 1],
-
-      }}
-
+    <motion.button
+      type="button"
+      onMouseEnter={onActivate}
+      onFocus={onActivate}
+      onClick={onActivate}
+      initial={reducedMotion ? false : { opacity: 0, y: 14 }}
+      whileInView={reducedMotion ? undefined : { opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.15 }}
+      transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+      whileHover={reducedMotion ? undefined : { y: -2 }}
+      whileTap={reducedMotion ? undefined : { scale: 0.995 }}
       className={[
-
-        "absolute z-30 w-[92px] sm:w-[108px]",
-
-        side === "left"
-
-          ? "left-[4%] sm:left-[7%]"
-
-          : "right-[4%] sm:right-[7%]",
-
+        "group relative min-h-0 overflow-hidden rounded-[2px] border text-left",
+        "transition-[border-color,background-color,box-shadow] duration-500",
+        active
+          ? "border-[#F2A65A]/70 bg-[#071827]/85 shadow-[0_0_35px_rgba(242,166,90,.08)]"
+          : "border-white/[0.11] bg-[#071421]/65 hover:border-[#8CCBFF]/35",
       ].join(" ")}
-
+      aria-pressed={active}
     >
-
-      <div
-
+      <Image
+        src={point.image}
+        alt=""
+        fill
+        sizes="(max-width: 767px) 50vw, 25vw"
         className={[
-
-          "relative overflow-hidden border px-2.5 py-2 sm:px-3 sm:py-2.5",
-
-          "transition-colors duration-300",
-
-          active
-
-            ? "border-[#1683FF]/65 bg-[#06152B]/90"
-
-            : "border-white/[0.07] bg-[#020812]/60",
-
+          "object-cover object-center transition-all duration-700",
+          active ? "scale-[1.04] opacity-[0.30]" : "opacity-[0.13] group-hover:scale-[1.025] group-hover:opacity-[0.22]",
         ].join(" ")}
-
-      >
-
-        <p className="text-[5px] font-medium uppercase tracking-[0.2em] text-[#8CCBFF]/55 sm:text-[6px]">
-
-          {label}
-
-        </p>
-
-
-
-        <p
-
-          className={[
-
-            "mt-1 text-[8px] font-medium tracking-[0.06em] sm:text-[9px]",
-
-            active ? "text-[#F7FAFF]" : "text-white/30",
-
-          ].join(" ")}
-
-        >
-
-          {value}
-
-        </p>
-
-
-
-        <span
-
-          className={[
-
-            "absolute bottom-0 left-0 h-px transition-all duration-300",
-
-            active
-
-              ? "w-full bg-[#1683FF]"
-
-              : "w-0",
-
-          ].join(" ")}
-
-        />
-
-      </div>
-
-    </motion.div>
-
-  );
-
-}
-
-
-
-/* =========================================================
-
-   CONNECTOR
-
-   ========================================================= */
-
-
-
-function Connector({
-
-  side,
-
-  active,
-
-}: {
-
-  side: "left" | "right";
-
-  active: boolean;
-
-}) {
-
-  return (
-
-    <div
-
-      aria-hidden="true"
-
-      className={[
-
-        "absolute top-1/2 z-10 hidden h-px md:block",
-
-        side === "left"
-
-          ? "left-0 right-[49%]"
-
-          : "left-[49%] right-0",
-
-      ].join(" ")}
-
-    >
-
-      <motion.div
-
-        animate={{
-
-          opacity: active ? 1 : 0.16,
-
-          scaleX: active ? 1 : 0.9,
-
-        }}
-
-        transition={{ duration: 0.35 }}
-
-        className={[
-
-          "h-px origin-center",
-
-          active
-
-            ? "bg-[#1683FF] shadow-[0_0_10px_rgba(22,131,255,.8)]"
-
-            : "bg-[#8CCBFF]/15",
-
-        ].join(" ")}
-
       />
 
+      <div className="absolute inset-0 bg-gradient-to-r from-[#04101C]/[0.98] via-[#061321]/[0.86] to-[#061321]/[0.34]" />
+      <div
+        className={[
+          "absolute inset-0 transition-opacity duration-500",
+          active
+            ? "bg-[radial-gradient(circle_at_88%_50%,rgba(242,166,90,.13),transparent_35%)] opacity-100"
+            : "opacity-0",
+        ].join(" ")}
+      />
 
+      <span className="absolute left-4 top-3 z-10 text-[7px] font-medium tracking-[0.18em] text-[#8CCBFF]/65">
+        {point.number}
+      </span>
 
       <span
-
         className={[
-
-          "absolute top-1/2 h-1.5 w-1.5 -translate-y-1/2 rounded-full border",
-
-          side === "left" ? "right-0" : "left-0",
-
+          "absolute right-3 top-3 z-10 grid h-7 w-7 place-items-center rounded-full border transition-all duration-500",
           active
-
-            ? "border-[#8CCBFF] bg-[#1683FF] shadow-[0_0_12px_rgba(22,131,255,.9)]"
-
-            : "border-[#8CCBFF]/25 bg-[#06152B]",
-
+            ? "border-[#F2A65A]/75 bg-[#F2A65A]/10 text-[#FFD9A0] shadow-[0_0_18px_rgba(242,166,90,.14)]"
+            : "border-white/[0.16] bg-white/[0.02] text-white/45 group-hover:border-[#8CCBFF]/45",
         ].join(" ")}
+        aria-hidden="true"
+      >
+        <span className="relative h-2.5 w-2.5">
+          <span className="absolute left-1/2 top-0 h-2.5 w-px -translate-x-1/2 bg-current" />
+          <span className="absolute left-0 top-1/2 h-px w-2.5 -translate-y-1/2 bg-current" />
+        </span>
+      </span>
 
-      />
+      <div className="relative z-10 flex h-full min-h-[112px] flex-col justify-end p-4 pr-14 sm:min-h-[124px] sm:p-5 sm:pr-16">
+        <h3 className="max-w-[90%] font-[var(--font-heading)] text-[clamp(1rem,1.55vw,1.45rem)] font-light leading-[0.96] tracking-[-0.035em] text-[#F7FAFF]">
+          {point.title}
+        </h3>
 
-    </div>
+        <p className="mt-2 max-w-[94%] text-[8px] leading-[1.45] tracking-[0.01em] text-white/48 sm:text-[9px]">
+          {point.short}
+        </p>
 
+        <span
+          className={[
+            "mt-3 h-px transition-all duration-500",
+            active
+              ? "w-12 bg-[#F2A65A] shadow-[0_0_10px_rgba(242,166,90,.55)]"
+              : "w-5 bg-[#1683FF]/70 group-hover:w-8",
+          ].join(" ")}
+        />
+      </div>
+    </motion.button>
   );
-
 }
 
-
-
-/* =========================================================
-
-   PREMIUM VIAL
-
-   ========================================================= */
-
-
-
-function PremiumVial({
-
+function Vial({
   active,
-
   reducedMotion,
-
 }: {
-
   active: boolean;
-
   reducedMotion: boolean | null;
-
 }) {
-
   return (
-
     <motion.div
-
       animate={
-
         reducedMotion
-
           ? undefined
-
           : {
-
               y: [0, -3, 0],
-
-              rotate: active ? [0, 0.8, -0.8, 0] : [0, 0.25, -0.25, 0],
-
+              rotate: active ? [0, 0.5, -0.5, 0] : [0, 0.2, -0.2, 0],
             }
-
       }
-
       transition={
-
         reducedMotion
-
           ? undefined
-
-          : {
-
-              duration: active ? 5 : 7,
-
-              repeat: Infinity,
-
-              ease: "easeInOut",
-
-            }
-
+          : { duration: active ? 5 : 7, repeat: Infinity, ease: "easeInOut" }
       }
-
-      className="
-
-        absolute
-
-        left-1/2
-
-        top-[47%]
-
-        z-20
-
-        h-[190px]
-
-        w-[88px]
-
-        -translate-x-1/2
-
-        -translate-y-1/2
-
-        sm:h-[225px]
-
-        sm:w-[102px]
-
-        md:h-[260px]
-
-        md:w-[118px]
-
-      "
-
+      className="absolute left-1/2 top-[53%] z-20 h-[190px] w-[82px] -translate-x-1/2 -translate-y-1/2 sm:h-[225px] sm:w-[96px] lg:h-[250px] lg:w-[108px]"
     >
-
-      {/* Aura */}
-
-      <div
-
-        className={[
-
-          "absolute -inset-8 rounded-full bg-[#0066FF]/10 blur-[35px]",
-
-          active ? "opacity-80" : "opacity-40",
-
-        ].join(" ")}
-
+      <motion.div
+        animate={
+          reducedMotion
+            ? undefined
+            : { opacity: active ? 0.9 : 0.55, scale: active ? 1.08 : 1 }
+        }
+        transition={{ duration: 0.6 }}
+        className="absolute -inset-12 rounded-full bg-[#1683FF]/10 blur-[45px]"
       />
 
+      <div className="absolute left-1/2 top-0 h-[12%] w-[56%] -translate-x-1/2 rounded-[7px_7px_3px_3px] border border-white/35 bg-gradient-to-b from-white/60 via-[#A8B4BF]/35 to-[#253645]/80 shadow-[0_0_18px_rgba(255,255,255,.1)]">
+        <div className="absolute inset-x-2 top-1 h-px bg-white/55" />
+        <div className="absolute inset-x-2 bottom-1 h-px bg-[#F2A65A]/55" />
+      </div>
 
+      <div className="absolute left-1/2 top-[10%] h-[14%] w-[40%] -translate-x-1/2 rounded-t-[7px] border border-white/25 bg-white/[0.07]" />
 
-      {/* Glass body */}
-
-      <div
-
-        className="
-
-          absolute
-
-          left-1/2
-
-          top-[14%]
-
-          h-[76%]
-
-          w-[78%]
-
-          -translate-x-1/2
-
-          overflow-hidden
-
-          rounded-[22px_22px_18px_18px]
-
-          border
-
-          border-white/30
-
-          bg-gradient-to-r
-
-          from-white/[0.14]
-
-          via-white/[0.025]
-
-          to-white/[0.12]
-
-          shadow-[inset_8px_0_18px_rgba(255,255,255,.05),inset_-8px_0_18px_rgba(0,102,255,.08),0_18px_45px_rgba(0,0,0,.5)]
-
-        "
-
-      >
-
-        {/* Highlight */}
-
-        <div className="absolute bottom-0 left-[10%] top-3 w-[7%] rounded-full bg-white/15 blur-[3px]" />
-
-
-
-        {/* Liquid */}
+      <div className="absolute left-1/2 top-[20%] h-[70%] w-[78%] -translate-x-1/2 overflow-hidden rounded-[19px_19px_16px_16px] border border-white/35 bg-gradient-to-r from-white/[0.18] via-white/[0.025] to-white/[0.13] shadow-[inset_8px_0_20px_rgba(255,255,255,.06),inset_-8px_0_20px_rgba(0,102,255,.10),0_25px_60px_rgba(0,0,0,.55)]">
+        <div className="absolute inset-y-2 left-[11%] w-[7%] rounded-full bg-white/20 blur-[2px]" />
 
         <motion.div
-
-          animate={{
-
-            scaleY: active ? [0.91, 1, 0.91] : 0.88,
-
-          }}
-
-          transition={{
-
-            duration: 5,
-
-            repeat: Infinity,
-
-            ease: "easeInOut",
-
-          }}
-            style={{ transformOrigin: "bottom" }}
-
-
-          className="
-
-            absolute
-
-            bottom-0
-
-            left-[3%]
-
-            right-[3%]
-
-            h-[57%]
-
-            overflow-hidden
-
-            rounded-[0_0_17px_17px]
-
-            bg-gradient-to-t
-
-            from-[#0047FF]/85
-
-            via-[#008CFF]/35
-
-            to-[#1683FF]/10
-
-          "
-
+          animate={{ scaleY: active ? [0.94, 1, 0.94] : 0.96 }}
+          transition={{ duration: 4.5, repeat: Infinity, ease: "easeInOut" }}
+          style={{ transformOrigin: "bottom" }}
+          className="absolute bottom-0 left-[3%] right-[3%] h-[58%] rounded-[0_0_15px_15px] bg-gradient-to-t from-[#0047FF]/90 via-[#008BFF]/42 to-[#1683FF]/8"
         >
-
-          <div className="absolute inset-x-0 bottom-0 h-[70%] bg-gradient-to-t from-[#0066FF]/45 to-transparent" />
-
-
-
           {!reducedMotion && (
-
             <>
-
               <motion.span
-
-                animate={{
-
-                  y: [-5, -35],
-
-                  opacity: [0, 0.9, 0],
-
-                }}
-
-                transition={{
-
-                  duration: 3.5,
-
-                  repeat: Infinity,
-
-                  delay: 0.5,
-
-                }}
-
+                animate={{ y: [-3, -32], opacity: [0, 0.8, 0] }}
+                transition={{ duration: 3.5, repeat: Infinity, delay: 0.4 }}
                 className="absolute bottom-4 left-[30%] h-1 w-1 rounded-full bg-white"
-
               />
-
-
-
               <motion.span
-
-                animate={{
-
-                  y: [-5, -42],
-
-                  opacity: [0, 0.8, 0],
-
-                }}
-
-                transition={{
-
-                  duration: 4,
-
-                  repeat: Infinity,
-
-                  delay: 1.4,
-
-                }}
-
-                className="absolute bottom-3 left-[65%] h-1 w-1 rounded-full bg-[#C9E9FF]"
-
+                animate={{ y: [-3, -38], opacity: [0, 0.7, 0] }}
+                transition={{ duration: 4, repeat: Infinity, delay: 1.2 }}
+                className="absolute bottom-4 left-[66%] h-1 w-1 rounded-full bg-[#C9E9FF]"
               />
-
             </>
-
           )}
-
         </motion.div>
 
-
-
-        {/* Label */}
-
-        <div
-
-          className="
-
-            absolute
-
-            left-1/2
-
-            top-[37%]
-
-            flex
-
-            h-[65px]
-
-            w-[34px]
-
-            -translate-x-1/2
-
-            items-center
-
-            justify-center
-
-            border
-
-            border-white/10
-
-            bg-[#020812]/85
-
-            sm:h-[75px]
-
-            sm:w-[38px]
-
-          "
-
-        >
-
-          <span className="-rotate-90 whitespace-nowrap text-[7px] font-medium tracking-[0.25em] text-white/75 sm:text-[8px]">
-
+        <div className="absolute left-1/2 top-[34%] flex h-[72px] w-[35px] -translate-x-1/2 items-center justify-center border border-white/10 bg-[#020812]/90 sm:h-[78px] sm:w-[38px]">
+          <span className="-rotate-90 whitespace-nowrap text-[7px] font-medium tracking-[0.25em] text-white/85">
             DRIPLABS
-
           </span>
-
-
-
           <span className="absolute bottom-2 text-[5px] tracking-[0.16em] text-[#8CCBFF]">
-
             NAD+
-
           </span>
-
         </div>
-
-
-
-        <div className="absolute inset-y-2 left-[18%] w-px bg-white/20" />
-
       </div>
 
-
-
-      {/* Neck */}
-
-      <div
-
-        className="
-
-          absolute
-
-          left-1/2
-
-          top-[5%]
-
-          h-[18%]
-
-          w-[42%]
-
-          -translate-x-1/2
-
-          rounded-t-[8px]
-
-          border
-
-          border-white/30
-
-          bg-gradient-to-r
-
-          from-white/15
-
-          via-white/5
-
-          to-white/15
-
-        "
-
-      />
-
-
-
-      {/* Cap */}
-
-      <div
-
-        className="
-
-          absolute
-
-          left-1/2
-
-          top-0
-
-          h-[14%]
-
-          w-[58%]
-
-          -translate-x-1/2
-
-          rounded-[7px_7px_4px_4px]
-
-          border
-
-          border-white/40
-
-          bg-gradient-to-b
-
-          from-white/50
-
-          via-[#8B9BB0]/35
-
-          to-[#26394F]/65
-
-        "
-
-      >
-
-        <div className="absolute inset-x-2 top-1 h-px bg-white/45" />
-
-        <div className="absolute inset-x-2 bottom-1 h-px bg-[#1683FF]/45" />
-
-      </div>
-
-
-
-      {/* Base */}
-
-      <div
-
-        className="
-
-          absolute
-
-          bottom-[3%]
-
-          left-1/2
-
-          h-[8%]
-
-          w-[88%]
-
-          -translate-x-1/2
-
-          rounded-full
-
-          border
-
-          border-[#8CCBFF]/20
-
-          bg-[#06152B]/70
-
-          shadow-[0_0_25px_rgba(0,102,255,.18)]
-
-        "
-
-      />
-
+      <div className="absolute bottom-[3%] left-1/2 h-[9%] w-[90%] -translate-x-1/2 rounded-full border border-[#8CCBFF]/25 bg-[#06152B]/80 shadow-[0_0_28px_rgba(0,102,255,.2)]" />
     </motion.div>
-
   );
-
 }
-
-
-
-/* =========================================================
-
-   CENTRAL VISUAL
-
-   ========================================================= */
-
-
 
 function ClinicalVisual({
-
   activePoint,
-
   reducedMotion,
-
 }: {
-
-  activePoint: StandardKey | null;
-
+  activePoint: StandardKey;
   reducedMotion: boolean | null;
-
 }) {
-
-  const active =
-
-    activePoint !== null ? standardStates[activePoint] : null;
-
-
-
-  const isActive = activePoint !== null;
-
-
+  const state = standardStates[activePoint];
 
   return (
-
-    <div
-
-      className="
-
-        relative
-
-        h-full
-
-        min-h-[300px]
-
-        overflow-hidden
-
-        border
-
-        border-[#8CCBFF]/12
-
-        bg-[#030B17]
-
-      "
-
-    >
-
-      {/* Atmosphere */}
-
-      <div className="pointer-events-none absolute inset-0">
-
-        <div className="absolute left-1/2 top-[42%] h-[260px] w-[260px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#0066FF]/10 blur-[75px]" />
-
-
-
-        <div className="absolute left-1/2 top-[55%] h-[170px] w-[170px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#1683FF]/10 blur-[55px]" />
-
-      </div>
-
-
-
-      {/* Technical grid */}
-
-      <div
-
-        aria-hidden="true"
-
-        className="pointer-events-none absolute inset-0 opacity-[0.24]"
-
-        style={{
-
-          backgroundImage: `
-
-            linear-gradient(rgba(140,203,255,0.045) 1px, transparent 1px),
-
-            linear-gradient(90deg, rgba(140,203,255,0.045) 1px, transparent 1px)
-
-          `,
-
-          backgroundSize: "36px 36px",
-
-        }}
-
+    <div className="relative h-full min-h-[330px] overflow-hidden rounded-[2px] border border-white/[0.10] bg-[#020812]">
+      <Image
+        src="/images/credibility/driplabs-credibility-background.png"
+        alt=""
+        fill
+        priority
+        sizes="(max-width: 1023px) 100vw, 42vw"
+        className="object-cover object-center opacity-[0.78]"
       />
 
+      <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(2,8,18,.30),rgba(2,8,18,.12)_42%,rgba(2,8,18,.76))]" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_48%,rgba(22,131,255,.10),transparent_36%)]" />
 
-
-      {/* Top label */}
-
-      <div className="absolute left-1/2 top-4 z-40 -translate-x-1/2 text-center">
-
-        <p className="text-[6px] uppercase tracking-[0.3em] text-[#8CCBFF]/45">
-
-          {active?.eyebrow ?? "DRIPLABS STANDARD"}
-
-        </p>
-
-
-
-        <p className="mt-1.5 whitespace-nowrap text-[9px] font-medium tracking-[0.28em] text-white/70 sm:text-[11px]">
-
-          DRIPLABS STANDARD
-
-        </p>
-
-
-
-        <div className="mx-auto mt-2 flex items-center justify-center gap-1.5">
-
-          <span className="h-px w-5 bg-[#1683FF]/35" />
-
-
-
-          <span className="text-[5px] uppercase tracking-[0.22em] text-[#8CCBFF]/35">
-
-            Clinical · Transparent · Traceable
-
-          </span>
-
-
-
-          <span className="h-px w-5 bg-[#1683FF]/35" />
-
-        </div>
-
-      </div>
-
-
-
-      {/* Outer ring */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 opacity-[0.13]"
+        style={{
+          backgroundImage:
+            "linear-gradient(rgba(140,203,255,.05) 1px, transparent 1px),linear-gradient(90deg,rgba(140,203,255,.05) 1px,transparent 1px)",
+          backgroundSize: "38px 38px",
+        }}
+      />
 
       <motion.div
-
-        animate={
-
-          reducedMotion
-
-            ? undefined
-
-            : {
-
-                rotate: 360,
-
-              }
-
-        }
-
+        aria-hidden="true"
+        animate={reducedMotion ? undefined : { rotate: 360 }}
         transition={
-
           reducedMotion
-
             ? undefined
-
-            : {
-
-                duration: 38,
-
-                repeat: Infinity,
-
-                ease: "linear",
-
-              }
-
+            : { duration: 48, repeat: Infinity, ease: "linear" }
         }
-
-        className="
-
-          absolute
-
-          left-1/2
-
-          top-[48%]
-
-          h-[240px]
-
-          w-[240px]
-
-          -translate-x-1/2
-
-          -translate-y-1/2
-
-          rounded-full
-
-          border
-
-          border-[#8CCBFF]/10
-
-          sm:h-[285px]
-
-          sm:w-[285px]
-
-          md:h-[330px]
-
-          md:w-[330px]
-
-        "
-
+        className="absolute left-1/2 top-[51%] h-[300px] w-[300px] -translate-x-1/2 -translate-y-1/2 rounded-full border border-[#F2A65A]/50 sm:h-[345px] sm:w-[345px] lg:h-[390px] lg:w-[390px]"
       >
-
-        <span className="absolute left-1/2 top-0 h-1.5 w-1.5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#1683FF] shadow-[0_0_14px_#1683FF]" />
-
-
-
-        <span className="absolute bottom-[8%] left-[14%] h-1 w-1 rounded-full bg-[#8CCBFF] shadow-[0_0_10px_#8CCBFF]" />
-
-
-
-        <span className="absolute right-[9%] top-[22%] h-1 w-1 rounded-full bg-[#1683FF] shadow-[0_0_10px_#1683FF]" />
-
+        <span className="absolute left-1/2 top-0 h-1.5 w-1.5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#F2A65A] shadow-[0_0_14px_rgba(242,166,90,.9)]" />
+        <span className="absolute bottom-[9%] left-[10%] h-1 w-1 rounded-full bg-[#8CCBFF] shadow-[0_0_10px_#8CCBFF]" />
       </motion.div>
 
-
-
-      {/* Inner dashed ring */}
-
       <motion.div
-
-        animate={
-
-          reducedMotion
-
-            ? undefined
-
-            : {
-
-                rotate: -360,
-
-              }
-
-        }
-
+        aria-hidden="true"
+        animate={reducedMotion ? undefined : { rotate: -360 }}
         transition={
-
           reducedMotion
-
             ? undefined
-
-            : {
-
-                duration: 30,
-
-                repeat: Infinity,
-
-                ease: "linear",
-
-              }
-
+            : { duration: 34, repeat: Infinity, ease: "linear" }
         }
-
-        className="
-
-          absolute
-
-          left-1/2
-
-          top-[48%]
-
-          h-[185px]
-
-          w-[185px]
-
-          -translate-x-1/2
-
-          -translate-y-1/2
-
-          rounded-full
-
-          border
-
-          border-dashed
-
-          border-[#8CCBFF]/15
-
-          sm:h-[225px]
-
-          sm:w-[225px]
-
-          md:h-[260px]
-
-          md:w-[260px]
-
-        "
-
+        className="absolute left-1/2 top-[51%] h-[205px] w-[205px] -translate-x-1/2 -translate-y-1/2 rounded-full border border-dashed border-[#8CCBFF]/22 sm:h-[255px] sm:w-[255px] lg:h-[285px] lg:w-[285px]"
       />
 
-
-
-      {/* Inner ring */}
-
-      <div
-
-        className="
-
-          absolute
-
-          left-1/2
-
-          top-[48%]
-
-          h-[145px]
-
-          w-[145px]
-
-          -translate-x-1/2
-
-          -translate-y-1/2
-
-          rounded-full
-
-          border
-
-          border-[#1683FF]/15
-
-          sm:h-[175px]
-
-          sm:w-[175px]
-
-          md:h-[210px]
-
-          md:w-[210px]
-
-        "
-
-      />
-
-
-
-      {/* Scanning beam */}
+      <div className="absolute left-1/2 top-[51%] h-[145px] w-[145px] -translate-x-1/2 -translate-y-1/2 rounded-full border border-[#1683FF]/20 sm:h-[180px] sm:w-[180px] lg:h-[210px] lg:w-[210px]" />
 
       {!reducedMotion && (
-
         <motion.div
-
-          animate={{
-
-            y: ["-100%", "250%"],
-
-          }}
-
-          transition={{
-
-            duration: 7,
-
-            repeat: Infinity,
-
-            ease: "linear",
-
-          }}
-
-          className="
-
-            pointer-events-none
-
-            absolute
-
-            left-1/2
-
-            top-[22%]
-
-            z-10
-
-            h-px
-
-            w-[62%]
-
-            -translate-x-1/2
-
-            bg-gradient-to-r
-
-            from-transparent
-
-            via-[#1683FF]/55
-
-            to-transparent
-
-          "
-
+          aria-hidden="true"
+          animate={{ y: ["-10%", "210%"] }}
+          transition={{ duration: 7, repeat: Infinity, ease: "linear" }}
+          className="absolute left-1/2 top-[20%] z-10 h-px w-[78%] -translate-x-1/2 bg-gradient-to-r from-transparent via-[#F2A65A]/60 to-transparent"
         />
-
       )}
 
-
-
-      {/* HUD */}
-
-      <HudData
-
-        label={active?.leftLabel ?? "PRODUCT RECORD"}
-
-        value={active?.leftValue ?? "READY"}
-
-        side="left"
-
-        active={isActive}
-
-      />
-
-
-
-      <HudData
-
-        label={active?.rightLabel ?? "VERIFICATION"}
-
-        value={active?.rightValue ?? "READY"}
-
-        side="right"
-
-        active={isActive}
-
-      />
-
-
-
-      {/* Special batch modules */}
-
-      <AnimatePresence>
-
-        {activePoint === "04" && (
-
-          <>
-
-            <motion.div
-
-              initial={{ opacity: 0, x: -8 }}
-
-              animate={{ opacity: 1, x: 0 }}
-
-              exit={{ opacity: 0, x: -8 }}
-
-              className="
-
-                absolute
-
-                left-[5%]
-
-                top-[52%]
-
-                z-40
-
-                hidden
-
-                w-[110px]
-
-                border
-
-                border-[#1683FF]/45
-
-                bg-[#020812]/90
-
-                p-2.5
-
-                sm:block
-
-              "
-
-            >
-
-              <p className="text-[5px] uppercase tracking-[0.2em] text-[#8CCBFF]/55">
-
-                Batch
-
-              </p>
-
-
-
-              <p className="mt-1.5 text-[7px] tracking-[0.1em] text-white/70">
-
-                PRODUCT RECORD
-
-              </p>
-
-
-
-              <div className="mt-2 space-y-1.5 border-t border-white/10 pt-1.5">
-
-                <div>
-
-                  <p className="text-[4px] uppercase tracking-[0.16em] text-white/25">
-
-                    Manufactured
-
-                  </p>
-
-
-
-                  <p className="mt-0.5 text-[6px] text-[#8CCBFF]">
-
-                    RECORDED
-
-                  </p>
-
-                </div>
-
-
-
-                <div>
-
-                  <p className="text-[4px] uppercase tracking-[0.16em] text-white/25">
-
-                    Expiry
-
-                  </p>
-
-
-
-                  <p className="mt-0.5 text-[6px] text-[#8CCBFF]">
-
-                    RECORDED
-
-                  </p>
-
-                </div>
-
-              </div>
-
-            </motion.div>
-
-
-
-            <motion.div
-
-              initial={{ opacity: 0, x: 8 }}
-
-              animate={{ opacity: 1, x: 0 }}
-
-              exit={{ opacity: 0, x: 8 }}
-
-              className="
-
-                absolute
-
-                right-[5%]
-
-                top-[51%]
-
-                z-40
-
-                hidden
-
-                w-[92px]
-
-                border
-
-                border-[#1683FF]/45
-
-                bg-[#020812]/90
-
-                p-2.5
-
-                text-center
-
-                sm:block
-
-              "
-
-            >
-
-              <div className="mx-auto grid h-9 w-9 place-items-center border border-[#8CCBFF]/25">
-
-                <div className="grid h-6 w-6 grid-cols-5 gap-[1px] opacity-75">
-
-                  {Array.from({ length: 25 }).map((_, i) => (
-
-                    <span
-
-                      key={i}
-
-                      className={[
-
-                        "h-[3px] w-[3px]",
-
-                        [0, 1, 4, 5, 9, 10, 14, 15, 19, 20, 21, 24].includes(
-
-                          i,
-
-                        )
-
-                          ? "bg-[#F7FAFF]"
-
-                          : "bg-[#1683FF]/30",
-
-                      ].join(" ")}
-
-                    />
-
-                  ))}
-
-                </div>
-
-              </div>
-
-
-
-              <p className="mt-2 text-[5px] uppercase tracking-[0.16em] text-[#8CCBFF]">
-
-                Certificate
-
-              </p>
-
-
-
-              <p className="mt-0.5 text-[5px] uppercase tracking-[0.13em] text-white/30">
-
-                Of Analysis
-
-              </p>
-
-            </motion.div>
-
-          </>
-
-        )}
-
-      </AnimatePresence>
-
-
-
-      {/* Vial */}
-
-      <PremiumVial
-
-        active={isActive}
-
-        reducedMotion={reducedMotion}
-
-      />
-
-
-
-      {/* Platform */}
-
-      <div
-
-        className="
-
-          absolute
-
-          left-1/2
-
-          top-[72%]
-
-          z-10
-
-          h-[50px]
-
-          w-[150px]
-
-          -translate-x-1/2
-
-          rounded-full
-
-          border
-
-          border-[#1683FF]/15
-
-          bg-[#0066FF]/[0.025]
-
-          shadow-[0_0_45px_rgba(0,102,255,.10)]
-
-          sm:h-[60px]
-
-          sm:w-[190px]
-
-        "
-
-      >
-
-        <div className="absolute left-1/2 top-1/2 h-[30px] w-[115px] -translate-x-1/2 -translate-y-1/2 rounded-full border border-[#8CCBFF]/10 sm:h-[36px] sm:w-[145px]" />
-
-
-
-        <div className="absolute left-1/2 top-1/2 h-px w-[90px] -translate-x-1/2 bg-[#1683FF]/65 shadow-[0_0_12px_#1683FF] sm:w-[120px]" />
-
+      <div className="absolute left-1/2 top-4 z-30 -translate-x-1/2 text-center">
+        <p className="text-[6px] uppercase tracking-[0.32em] text-[#F2A65A]/80">
+          {state.eyebrow}
+        </p>
+        <p className="mt-1 whitespace-nowrap text-[9px] font-medium tracking-[0.30em] text-white/80 sm:text-[11px]">
+          DRIPLABS STANDARD
+        </p>
+        <p className="mt-1 text-[5px] uppercase tracking-[0.24em] text-[#8CCBFF]/45">
+          Clinical · Transparent · Traceable
+        </p>
       </div>
 
+      <HudPill side="left" label={state.leftLabel} value={state.leftValue} />
+      <HudPill side="right" label={state.rightLabel} value={state.rightValue} />
 
+      <div className="absolute left-[8%] top-[29%] z-30 hidden border border-[#F2A65A]/50 bg-[#071525]/70 px-3 py-2 backdrop-blur-md sm:block">
+        <p className="text-[5px] uppercase tracking-[0.20em] text-[#F2A65A]/75">
+          PERSONALISED
+        </p>
+        <p className="mt-1 text-[7px] font-medium tracking-[0.12em] text-white/80">
+          PROTOCOL
+        </p>
+      </div>
 
-      {/* Bottom statement */}
+      <div className="absolute right-[8%] top-[29%] z-30 hidden border border-[#F2A65A]/50 bg-[#071525]/70 px-3 py-2 text-right backdrop-blur-md sm:block">
+        <p className="text-[5px] uppercase tracking-[0.20em] text-[#F2A65A]/75">
+          ADMINISTRATION
+        </p>
+        <p className="mt-1 text-[7px] font-medium tracking-[0.12em] text-white/80">
+          SUPERVISED
+        </p>
+      </div>
 
-      <div className="absolute bottom-3 left-1/2 z-50 w-[86%] -translate-x-1/2 text-center">
+      <div className="absolute left-0 right-0 top-[51%] h-px bg-gradient-to-r from-transparent via-[#1683FF]/55 to-transparent" />
+      <span className="absolute left-[11%] top-[51%] h-1.5 w-1.5 -translate-y-1/2 rounded-full bg-[#1683FF] shadow-[0_0_12px_#1683FF]" />
+      <span className="absolute right-[11%] top-[51%] h-1.5 w-1.5 -translate-y-1/2 rounded-full bg-[#F2A65A] shadow-[0_0_12px_rgba(242,166,90,.8)]" />
 
+      <Vial active reducedMotion={reducedMotion} />
+
+      <div className="absolute bottom-[7%] left-1/2 z-30 w-[88%] -translate-x-1/2 text-center">
         <AnimatePresence mode="wait">
-
           <motion.div
-
-            key={activePoint ?? "idle"}
-
+            key={activePoint}
             initial={{ opacity: 0, y: 5 }}
-
             animate={{ opacity: 1, y: 0 }}
-
             exit={{ opacity: 0, y: -5 }}
-
-            transition={{
-
-              duration: 0.3,
-
-              ease: [0.22, 1, 0.36, 1],
-
-            }}
-
+            transition={{ duration: 0.3 }}
           >
-
-            <p className="text-[5px] uppercase tracking-[0.25em] text-[#8CCBFF]/55">
-
-              {active?.title ?? "CLINICAL SYSTEM"}
-
+            <p className="text-[5px] uppercase tracking-[0.26em] text-[#F2A65A]/70">
+              {state.title}
             </p>
-
-
-
-            <p className="mt-1 font-[var(--font-heading)] text-[13px] font-light leading-[1] tracking-[-0.03em] text-[#F7FAFF] sm:text-[16px]">
-
-              {active?.bottom ?? "Precision by design."}
-
+            <p className="mt-1 font-[var(--font-heading)] text-[12px] font-light leading-[1] tracking-[-0.03em] text-white/90 sm:text-[15px]">
+              {state.bottom}
             </p>
-
           </motion.div>
-
         </AnimatePresence>
-
       </div>
 
-
-
-      {/* Index */}
-
-      <div className="absolute bottom-2 left-1/2 z-50 flex -translate-x-1/2 items-center gap-2">
-
+      <div className="absolute bottom-2 left-1/2 z-30 flex -translate-x-1/2 items-center gap-2">
         {trustPoints.map((point) => (
-
           <span
-
             key={point.number}
-
             className={[
-
-              "text-[5px] tracking-[0.12em] transition-all duration-300",
-
+              "h-1 w-1 rounded-full transition-all duration-300",
               activePoint === point.number
-
-                ? "scale-125 text-[#8CCBFF]"
-
-                : "text-white/15",
-
+                ? "scale-150 bg-[#F2A65A] shadow-[0_0_8px_rgba(242,166,90,.75)]"
+                : "bg-white/20",
             ].join(" ")}
-
-          >
-
-            {point.number}
-
-          </span>
-
-        ))}
-
-      </div>
-
-
-
-      {/* Connectors */}
-
-      <Connector
-
-        side="left"
-
-        active={
-
-          activePoint === "01" ||
-
-          activePoint === "03" ||
-
-          activePoint === "05"
-
-        }
-
-      />
-
-
-
-      <Connector
-
-        side="right"
-
-        active={
-
-          activePoint === "02" ||
-
-          activePoint === "04" ||
-
-          activePoint === "06"
-
-        }
-
-      />
-
-
-
-      {/* Active glow */}
-
-      <AnimatePresence>
-
-        {activePoint && (
-
-          <motion.div
-
-            initial={{ opacity: 0 }}
-
-            animate={{ opacity: 1 }}
-
-            exit={{ opacity: 0 }}
-
-            className="pointer-events-none absolute inset-0 z-[5] bg-[radial-gradient(circle_at_50%_48%,rgba(0,102,255,0.10),transparent_38%)]"
-
           />
-
-        )}
-
-      </AnimatePresence>
-
-
-
-      <div className="absolute bottom-0 left-0 h-px w-full bg-gradient-to-r from-transparent via-[#1683FF]/70 to-transparent" />
-
+        ))}
+      </div>
     </div>
-
   );
-
 }
 
-
-
-/* =========================================================
-
-   TRUST CARD
-
-   ========================================================= */
-
-
-
-function TrustCard({
-
-  point,
-
+function HudPill({
   side,
-
-  active,
-
-  onActivate,
-
-  reducedMotion,
-
+  label,
+  value,
 }: {
-
-  point: (typeof trustPoints)[number];
-
   side: "left" | "right";
-
-  active: boolean;
-
-  onActivate: () => void;
-
-  reducedMotion: boolean | null;
-
+  label: string;
+  value: string;
 }) {
-
   return (
-
     <motion.div
-
-      initial={
-
-        reducedMotion
-
-          ? false
-
-          : {
-
-              opacity: 0,
-
-              y: 12,
-
-            }
-
-      }
-
-      whileInView={
-
-        reducedMotion
-
-          ? undefined
-
-          : {
-
-              opacity: 1,
-
-              y: 0,
-
-            }
-
-      }
-
-      viewport={{
-
-        once: true,
-
-        amount: 0.15,
-
-      }}
-
-      transition={{
-
-        duration: 0.5,
-
-        ease: [0.22, 1, 0.36, 1],
-
-      }}
-
-      className="group relative h-full min-h-0"
-
-      onMouseEnter={onActivate}
-
-      onFocus={onActivate}
-
+      initial={{ opacity: 0.35 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.4 }}
+      className={[
+        "absolute top-[13%] z-30 hidden w-[92px] border border-[#F2A65A]/45 bg-[#071525]/75 px-2.5 py-2 backdrop-blur-md sm:block sm:w-[108px]",
+        side === "left" ? "left-[4%]" : "right-[4%]",
+      ].join(" ")}
     >
-
-      <button
-
-        type="button"
-
-        onClick={onActivate}
-
-        className={[
-
-          "relative flex h-full w-full cursor-pointer flex-col overflow-hidden text-left",
-
-          "border p-4 sm:p-4.5 md:p-5",
-
-          "transition-all duration-500",
-
-          "focus:outline-none",
-
-          active
-
-            ? "border-[#1683FF]/70 bg-[#08203A] shadow-[0_18px_45px_rgba(0,70,150,.20)]"
-
-            : "border-[#8CCBFF]/10 bg-[#06152B]/90 hover:border-[#1683FF]/40 hover:bg-[#071A32]",
-
-        ].join(" ")}
-
-      >
-
-        {/* Small glow */}
-
-        <div
-
-          className={[
-
-            "pointer-events-none absolute -right-16 -top-16 h-36 w-36 rounded-full bg-[#0066FF]/10 blur-[45px] transition-opacity duration-500",
-
-            active ? "opacity-100" : "opacity-0",
-
-          ].join(" ")}
-
-        />
-
-
-
-        {/* Number + action */}
-
-        <div className="relative flex items-start justify-between">
-
-          <span
-
-            className={[
-
-              "text-[7px] font-medium tracking-[0.18em] sm:text-[8px]",
-
-              active ? "text-[#8CCBFF]" : "text-[#8CCBFF]/35",
-
-            ].join(" ")}
-
-          >
-
-            {point.number}
-
-          </span>
-
-
-
-          <span
-
-            className={[
-
-              "flex h-6 w-6 items-center justify-center rounded-full border text-[9px] transition-all duration-300",
-
-              active
-
-                ? "rotate-90 border-[#1683FF] bg-[#0066FF] text-white shadow-[0_0_15px_rgba(0,102,255,.35)]"
-
-                : "border-white/10 text-white/25",
-
-            ].join(" ")}
-
-          >
-
-            +
-
-          </span>
-
-        </div>
-
-
-
-        {/* Content */}
-
-        <div className="relative mt-auto pt-3">
-
-          <h3
-
-            className={[
-
-              "font-[var(--font-heading)] font-light leading-[0.98] tracking-[-0.04em]",
-
-              "text-[1.18rem] sm:text-[1.28rem] md:text-[1.38rem]",
-
-              point.number === "03" || point.number === "06"
-
-                ? "max-w-[280px]"
-
-                : "max-w-[310px]",
-
-              active ? "text-white" : "text-[#F7FAFF]",
-
-            ].join(" ")}
-
-          >
-
-            {point.title}
-
-          </h3>
-
-
-
-          <p className="mt-2 max-w-[320px] text-[9px] leading-[1.45] text-white/45 sm:text-[10px] md:text-[10px]">
-
-            {point.short}
-
-          </p>
-
-
-
-          <div className="mt-2.5 flex items-center gap-2">
-
-            <span
-
-              className={[
-
-                "h-px bg-[#1683FF] transition-all duration-300",
-
-                active
-
-                  ? "w-8 shadow-[0_0_8px_rgba(22,131,255,.55)]"
-
-                  : "w-4",
-
-              ].join(" ")}
-
-            />
-
-
-
-          </div>
-
-        </div>
-
-
-
-        {/* Active bottom line */}
-
-        <motion.span
-
-          animate={{
-
-            width: active ? "100%" : "0%",
-
-          }}
-
-          transition={{ duration: 0.35 }}
-
-          className={[
-
-            "absolute bottom-0 h-px bg-[#1683FF] shadow-[0_0_12px_rgba(22,131,255,.65)]",
-
-            side === "left" ? "left-0" : "right-0",
-
-          ].join(" ")}
-
-        />
-
-
-
-        {/* Side line */}
-
-        <motion.span
-
-          animate={{
-
-            opacity: active ? 1 : 0,
-
-          }}
-
-          className={[
-
-            "absolute bottom-0 top-0 w-px bg-[#1683FF]",
-
-            side === "left" ? "left-0" : "right-0",
-
-          ].join(" ")}
-
-        />
-
-      </button>
-
+      <p className="text-[5px] uppercase tracking-[0.20em] text-[#F2A65A]/65">
+        {label}
+      </p>
+      <p className="mt-1 text-[8px] font-medium tracking-[0.08em] text-white/80">
+        {value}
+      </p>
     </motion.div>
-
   );
-
 }
-
-
-
-/* =========================================================
-
-   MAIN SECTION
-
-   ========================================================= */
-
-
 
 export default function CredibilitySection() {
-
   const reducedMotion = useReducedMotion();
-
-
-
-  const [activePoint, setActivePoint] =
-
-    useState<StandardKey | null>(null);
-
-
-
-  return (
-
-    <section
-
-      id="standard"
-
-      className="relative overflow-hidden bg-[#020812] text-[#F7FAFF]"
-
-    >
-
-      {/* Background atmosphere */}
-
-      <div
-
-        aria-hidden="true"
-
-        className="
-
-          pointer-events-none
-
-          absolute
-
-          left-1/2
-
-          top-[-220px]
-
-          h-[500px]
-
-          w-[850px]
-
-          -translate-x-1/2
-
-          rounded-full
-
-          bg-[#0066FF]/[0.045]
-
-          blur-[110px]
-
-        "
-
-      />
-
-
-
-      <div
-
-        aria-hidden="true"
-
-        className="
-
-          pointer-events-none
-
-          absolute
-
-          bottom-[-200px]
-
-          right-[-180px]
-
-          h-[500px]
-
-          w-[500px]
-
-          rounded-full
-
-          bg-[#1683FF]/[0.035]
-
-          blur-[110px]
-
-        "
-
-      />
-
-
-
-      {/* Technical background */}
-
-      <div
-
-        aria-hidden="true"
-
-        className="pointer-events-none absolute inset-0 opacity-[0.10]"
-
-        style={{
-
-          backgroundImage: `
-
-            linear-gradient(rgba(140,203,255,0.045) 1px, transparent 1px),
-
-            linear-gradient(90deg, rgba(140,203,255,0.045) 1px, transparent 1px)
-
-          `,
-
-          backgroundSize: "64px 64px",
-
-        }}
-
-      />
-
-
-
-      {/* Top line */}
-
-      <div className="h-px w-full bg-gradient-to-r from-transparent via-[#0066FF]/65 to-transparent" />
-
-
-
-      {/* =====================================================
-
-          CONTROLLED VIEWPORT CONTAINER
-
-
-
-          Desktop:
-
-          navbar + section content are deliberately compact.
-
-          The grid has a fixed viewport-aware height.
-
-         ===================================================== */}
-
-
-
-      <div
-
-        className="
-
-          relative
-
-          mx-auto
-
-          flex
-
-          max-w-[1700px]
-
-          flex-col
-
-          px-4
-
-          py-7
-
-          sm:px-6
-
-          sm:py-8
-
-          md:px-8
-
-          md:py-9
-
-          lg:h-[calc(100svh-80px)]
-
-          lg:min-h-[650px]
-
-          lg:max-h-[900px]
-
-          lg:px-10
-
-          lg:py-7
-
-          xl:px-12
-
-        "
-
-      >
-
-        {/* Header */}
-
-        <motion.div
-
-          initial={
-
-            reducedMotion
-
-              ? false
-
-              : {
-
-                  opacity: 0,
-
-                  y: 10,
-
-                }
-
-          }
-
-          whileInView={
-
-            reducedMotion
-
-              ? undefined
-
-              : {
-
-                  opacity: 1,
-
-                  y: 0,
-
-                }
-
-          }
-
-          viewport={{
-
-            once: true,
-
-            amount: 0.2,
-
-          }}
-
-          transition={{
-
-            duration: 0.55,
-
-            ease: [0.22, 1, 0.36, 1],
-
-          }}
-
-          className="
-
-            shrink-0
-
-            pb-5
-
-            sm:pb-6
-
-            lg:pb-5
-
-          "
-
-        >
-
-          <div className="flex items-center gap-2">
-
-            <span className="h-px w-6 bg-[#0066FF] shadow-[0_0_8px_rgba(0,102,255,.35)]" />
-
-
-
-            <span className="text-[7px] font-medium uppercase tracking-[0.25em] text-[#8CCBFF]/60">
-
-              04 — WHY DRIPLABS
-
-            </span>
-
-          </div>
-
-
-
-          <div className="mt-2 flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
-
-            <h2
-
-              className="
-
-                max-w-[700px]
-
-                font-[var(--font-heading)]
-
-                text-[clamp(2.4rem,4vw,4.8rem)]
-
-                font-light
-
-                leading-[0.88]
-
-                tracking-[-0.06em]
-
-                text-[#F7FAFF]
-
-              "
-
-            >
-
-              Built around the
-
-              <br />
-
-              <span className="text-[#8CCBFF]/70">
-
-                details that matter.
-
-              </span>
-
-            </h2>
-
-
-
-            <p
-  className="
-
-                max-w-[700px]
-
-                font-[var(--font-heading)]
-
-                text-[clamp(2.4rem,4vw,4.8rem)]
-
-                font-light
-
-                leading-[0.88]
-
-                tracking-[-0.06em]
-
-                text-[#F7FAFF]
-
-              "
->
-  Innovation 
-  <br />
-
-              <span className="text-[#8CCBFF]/70">
-meets integrity
- </span>
-</p>
-
-
-          </div>
-
-        </motion.div>
-
-
-
-        {/* =================================================
-
-            DESKTOP GRID
-
-
-
-            3 compact rows.
-
-            Center spans all 3.
-
-           ================================================= */}
-
-
-
-        <div
-
-          className="
-
-            grid
-
-            min-h-0
-
-            flex-1
-
-            gap-2.5
-
-            lg:grid-cols-[0.95fr_1.25fr_0.95fr]
-
-            lg:grid-rows-[repeat(3,minmax(0,1fr))]
-
-          "
-
-        >
-
-          {/* 01 */}
-
-          <TrustCard
-
-            point={trustPoints[0]}
-
-            side="left"
-
-            active={activePoint === "01"}
-
-            onActivate={() => setActivePoint("01")}
-
-            reducedMotion={reducedMotion}
-
-          />
-
-
-
-          {/* CENTRAL VISUAL */}
-
-          <motion.div
-
-            initial={
-
-              reducedMotion
-
-                ? false
-
-                : {
-
-                    opacity: 0,
-
-                    scale: 0.99,
-
-                  }
-
-            }
-
-            whileInView={
-
-              reducedMotion
-
-                ? undefined
-
-                : {
-
-                    opacity: 1,
-
-                    scale: 1,
-
-                  }
-
-            }
-
-            viewport={{
-
-              once: true,
-
-              amount: 0.1,
-
-            }}
-
-            transition={{
-
-              duration: 0.7,
-
-              ease: [0.22, 1, 0.36, 1],
-
-            }}
-
-            className="min-h-0 lg:col-start-2 lg:row-span-3"
-
-            onMouseLeave={() => setActivePoint(null)}
-
-          >
-
-            <ClinicalVisual
-
-              activePoint={activePoint}
-
-              reducedMotion={reducedMotion}
-
-            />
-
-          </motion.div>
-
-
-
-          {/* 02 */}
-
-          <TrustCard
-
-            point={trustPoints[1]}
-
-            side="right"
-
-            active={activePoint === "02"}
-
-            onActivate={() => setActivePoint("02")}
-
-            reducedMotion={reducedMotion}
-
-          />
-
-
-
-          {/* 03 */}
-
-          <TrustCard
-
-            point={trustPoints[2]}
-
-            side="left"
-
-            active={activePoint === "03"}
-
-            onActivate={() => setActivePoint("03")}
-
-            reducedMotion={reducedMotion}
-
-          />
-
-
-
-          {/* 04 */}
-
-          <TrustCard
-
-            point={trustPoints[3]}
-
-            side="right"
-
-            active={activePoint === "04"}
-
-            onActivate={() => setActivePoint("04")}
-
-            reducedMotion={reducedMotion}
-
-          />
-
-
-
-          {/* 05 */}
-
-          <TrustCard
-
-            point={trustPoints[4]}
-
-            side="left"
-
-            active={activePoint === "05"}
-
-            onActivate={() => setActivePoint("05")}
-
-            reducedMotion={reducedMotion}
-
-          />
-
-
-
-          {/* 06 */}
-
-          <TrustCard
-
-            point={trustPoints[5]}
-
-            side="right"
-
-            active={activePoint === "06"}
-
-            onActivate={() => setActivePoint("06")}
-
-            reducedMotion={reducedMotion}
-
-          />
-
-        </div>
-
-
-
-        {/* Footer descriptor */}
-
-        <motion.div
-
-          initial={
-
-            reducedMotion
-
-              ? false
-
-              : {
-
-                  opacity: 0,
-
-                }
-
-          }
-
-          whileInView={
-
-            reducedMotion
-
-              ? undefined
-
-              : {
-
-                  opacity: 1,
-
-                }
-
-          }
-
-          viewport={{
-
-            once: true,
-
-          }}
-
-          transition={{
-
-            delay: 0.25,
-
-            duration: 0.5,
-
-          }}
-
-          className="
-
-            mt-3
-
-            flex
-
-            shrink-0
-
-            items-center
-
-            justify-between
-
-            border-t
-
-            border-[#8CCBFF]/[0.08]
-
-            pt-3
-
-          "
-
-        >
-
-          <p className="text-[6px] uppercase tracking-[0.22em] text-white/25 sm:text-[7px]">
-
-            Physician-supervised wellness
-
-          </p>
-
-
-
-          <p className="text-right text-[6px] uppercase tracking-[0.22em] text-[#8CCBFF]/35 sm:text-[7px]">
-
-            Manufactured · Lyophilised · Quality-tested · India
-
-          </p>
-
-        </motion.div>
-
-      </div>
-
-    </section>
-
+  const [activePoint, setActivePoint] = useState<StandardKey>("01");
+
+  const leftPoints = trustPoints.filter((point) =>
+    ["01", "03", "05"].includes(point.number),
+  );
+  const rightPoints = trustPoints.filter((point) =>
+    ["02", "04", "06"].includes(point.number),
   );
 
+  return (
+    <section
+      id="standard"
+      className="relative isolate min-h-[100svh] overflow-hidden bg-[#02070D] text-[#F7FAFF] lg:h-[100svh] lg:min-h-[700px] lg:max-h-[980px]"
+    >
+      <div
+        aria-hidden="true"
+        className="absolute inset-0 bg-[radial-gradient(circle_at_18%_42%,rgba(242,166,90,.08),transparent_26%),radial-gradient(circle_at_82%_35%,rgba(22,131,255,.06),transparent_28%),linear-gradient(110deg,#02070D_0%,#07121F_48%,#02070D_100%)]"
+      />
+
+      <div className="relative mx-auto flex min-h-[100svh] max-w-[1750px] flex-col px-4 py-5 sm:px-6 sm:py-6 lg:h-full lg:px-8 lg:py-6 xl:px-10">
+        <motion.header
+          initial={reducedMotion ? false : { opacity: 0, y: 14 }}
+          whileInView={reducedMotion ? undefined : { opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.2 }}
+          transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
+          className="shrink-0 pb-5 lg:pb-4"
+        >
+          <div className="flex items-center gap-2">
+            <span className="h-px w-7 bg-[#1683FF] shadow-[0_0_9px_rgba(22,131,255,.4)]" />
+            <span className="text-[7px] font-medium uppercase tracking-[0.25em] text-[#8CCBFF]/65 sm:text-[8px]">
+              04 — WHY DRIPLABS
+            </span>
+          </div>
+
+          <div className="mt-2 flex items-end justify-between gap-8">
+            <h2 className="max-w-[650px] font-[var(--font-heading)] text-[clamp(2.35rem,4.25vw,4.7rem)] font-light leading-[0.86] tracking-[-0.065em] text-[#F7FAFF]">
+              Built around the
+              <br />
+              <span className="text-[#78B8EA]/80">details that matter.</span>
+            </h2>
+
+            <p className="max-w-[430px] text-right font-[var(--font-heading)] text-[clamp(2.35rem,4.25vw,4.7rem)] font-light leading-[0.86] tracking-[-0.065em] text-[#F7FAFF]">
+              Innovation
+              <br />
+              <span className="text-[#78B8EA]/80">meets integrity</span>
+            </p>
+          </div>
+        </motion.header>
+
+        <div className="grid min-h-0 flex-1 gap-2 lg:grid-cols-[1fr_1.42fr_1fr] lg:grid-rows-3">
+          <div className="grid min-h-0 grid-rows-3 gap-2 lg:col-start-1 lg:row-span-3">
+            {leftPoints.map((point) => (
+              <TrustCard
+                key={point.number}
+                point={point}
+                active={activePoint === point.number}
+                onActivate={() => setActivePoint(point.number)}
+                reducedMotion={reducedMotion}
+              />
+            ))}
+          </div>
+
+          <div className="order-first min-h-[390px] lg:order-none lg:col-start-2 lg:row-span-3">
+            <ClinicalVisual
+              activePoint={activePoint}
+              reducedMotion={reducedMotion}
+            />
+          </div>
+
+          <div className="grid min-h-0 grid-rows-3 gap-2 lg:col-start-3 lg:row-span-3">
+            {rightPoints.map((point) => (
+              <TrustCard
+                key={point.number}
+                point={point}
+                active={activePoint === point.number}
+                onActivate={() => setActivePoint(point.number)}
+                reducedMotion={reducedMotion}
+              />
+            ))}
+          </div>
+        </div>
+
+        <motion.footer
+          initial={reducedMotion ? false : { opacity: 0 }}
+          whileInView={reducedMotion ? undefined : { opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.2, duration: 0.5 }}
+          className="mt-2 flex shrink-0 items-center justify-between border-t border-white/[0.08] pt-2"
+        >
+          <p className="text-[6px] uppercase tracking-[0.22em] text-white/25 sm:text-[7px]">
+            Physician-supervised wellness
+          </p>
+          <p className="text-right text-[6px] uppercase tracking-[0.22em] text-[#8CCBFF]/35 sm:text-[7px]">
+            Manufactured · Lyophilised · Quality-tested · India
+          </p>
+        </motion.footer>
+      </div>
+    </section>
+  );
 }

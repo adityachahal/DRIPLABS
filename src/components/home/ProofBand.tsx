@@ -31,7 +31,7 @@ const proofPoints = [
     icon: Factory,
   },
   {
-    value: "9",
+    value: "8+",
     label: "Wellness families",
     icon: Sparkles,
   },
@@ -41,7 +41,7 @@ export default function ProofBand() {
   return (
     <section
       aria-labelledby="proof-band-heading"
-      className="relative isolate overflow-hidden bg-[#F3EFE6]"
+      className="relative isolate overflow-hidden bg-[#F7FAFF]"
     >
       {/* =========================================================
           STATIC MAIN VISUAL
@@ -69,20 +69,7 @@ export default function ProofBand() {
         ======================================================= */}
 
         {/* Warm ivory left side */}
-        <div
-          className="
-            pointer-events-none
-            absolute
-            inset-y-0
-            left-0
-            z-10
-            w-[54%]
-            bg-gradient-to-r
-            from-[#F8F4EB]/[0.94]
-            via-[#F5F1E8]/[0.64]
-            to-transparent
-          "
-        />
+        
 
         {/* Preserve the blue clinical side */}
         <div
@@ -101,7 +88,7 @@ export default function ProofBand() {
         />
 
         {/* Subtle overall tonal treatment */}
-        <div className="pointer-events-none absolute inset-0 z-10 bg-[#F5F1E8]/[0.025]" />
+        <div className="pointer-events-none absolute inset-0 z-10 bg-[#1683FF]/[0.025]" />
 
         {/* Bottom cinematic depth */}
         <div
@@ -137,14 +124,6 @@ export default function ProofBand() {
             -translate-y-1/2
           "
         >
-          {/* Eyebrow */}
-          <div className="mb-3 flex items-center gap-3">
-            <span className="h-px w-7 bg-[#0066FF]" />
-
-            <p className="text-[9px] font-medium uppercase tracking-[0.34em] text-[#020812]/55">
-              Proof of band
-            </p>
-          </div>
 
           {/* Main heading */}
           <h2
@@ -155,12 +134,12 @@ export default function ProofBand() {
               font-normal
               leading-[0.87]
               tracking-[-0.055em]
-              text-[#020812]
+              text-[#F7FAFF]
             "
           >
             Trusted by
             <br />
-            <span className="text-[066FF#0]">
+            <span className="text-[#4D9BFF]">
               those who know.
             </span>
           </h2>
@@ -173,7 +152,7 @@ export default function ProofBand() {
               text-[17px]
               leading-[1.55]
               tracking-[-0.01em]
-              text-[#020812]/55
+              text-[#F7FAFF]/100
               sm:text-[16px]
             "
           >
@@ -182,9 +161,9 @@ export default function ProofBand() {
 
           {/* Small brand marker */}
           <div className="mt-6 flex items-center gap-2">
-            <span className="h-1 w-1 rounded-full bg-[#0066FF]" />
+            <span className="h-1 w-1 rounded-full bg-[#F2A65A]" />
 
-            <span className="text-[10px] uppercase tracking-[0.28em] text-[066FF#0]/40">
+            <span className="text-[10px] uppercase tracking-[0.28em] text-[#F7FAFF]/110">
               Clinical · Transparent · Traceable
             </span>
           </div>
@@ -377,7 +356,7 @@ export default function ProofBand() {
           MOBILE VERSION
       ========================================================= */}
 
-      <div className="bg-[#F3EFE6] px-5 py-7 md:hidden">
+      <div className="bg-[#F7FAFF] px-5 py-7 md:hidden">
         {/* Heading */}
         <div className="mb-5">
           <div className="mb-3 flex items-center gap-3">
@@ -411,7 +390,7 @@ export default function ProofBand() {
         </div>
 
         {/* Mobile proof grid */}
-        <div className="grid grid-cols-2 overflow-hidden border border-[#020812]/10 bg-[#F8F5EE]">
+        <div className="grid grid-cols-2 overflow-hidden border border-[#020812]/10 bg-[#F7FAFF]">
           {proofPoints.map((point, index) => {
             const Icon = point.icon;
 

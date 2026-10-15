@@ -31,17 +31,28 @@ export default function BuildingPartnership() {
   return (
     <section
       id="partnerships"
-      className="relative overflow-hidden bg-[#020812] px-4 py-6 sm:px-6 md:px-8 lg:px-10"
+      className="relative isolate overflow-hidden bg-gradient-to-br from-[#F0E5FF] via-[#F7FAFF] to-[#DCEFFF] px-4 py-6 sm:px-6 md:px-8 lg:px-10"
     >
-      <div className="mx-auto max-w-[1700px]">
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute -left-32 top-[-10rem] h-[28rem] w-[28rem] rounded-full bg-[#C7B3FF]/85 blur-[100px]"
+      />
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute -right-24 bottom-[-12rem] h-[32rem] w-[32rem] rounded-full bg-[#80C9FF]/85 blur-[110px]"
+      />
+      <div className="relative mx-auto max-w-[1700px]">
         <div
           className="
             group
             relative
             overflow-hidden
+            rounded-[28px]
             border
-            border-white/[0.10]
-            bg-[#020812]
+            border-white/80
+            bg-white/85
+            shadow-[0_24px_80px_rgba(45,95,160,0.12)]
+            backdrop-blur-2xl
           "
         >
           {/* =========================================================
@@ -71,11 +82,11 @@ export default function BuildingPartnership() {
                 flex
                 flex-col
                 justify-between
-                bg-[#020812]
+                bg-white/25
                 p-7
                 sm:p-9
                 lg:border-r
-                lg:border-white/[0.10]
+                lg:border-[#AFC7E5]/125
                 lg:p-10
                 xl:p-12
               "
@@ -88,21 +99,21 @@ export default function BuildingPartnership() {
                     font-mono
                     text-[8px]
                     tracking-[0.28em]
-                    text-[#8CCBFF]
+                    text-[#1677F8]
                   "
                 >
                   15
                 </span>
 
-                <span className="h-px w-8 bg-[#8CCBFF]/45" />
+                <span className="h-px w-8 bg-[#1677F8]/45" />
 
                 <span
                   className="
-                    text-[8px]
+                    text-[10px]
                     font-medium
                     uppercase
                     tracking-[0.28em]
-                    text-white/55
+                    text-[#526783]
                   "
                 >
                   Partnership
@@ -120,12 +131,12 @@ export default function BuildingPartnership() {
                     font-light
                     leading-[0.86]
                     tracking-[-0.055em]
-                    text-[#F7FAFF]
+                    text-[#10233F]
                   "
                 >
                   Build the next
                   <br />
-                  <span className="text-[#8CCBFF]">DRIPLABS.</span>
+                  <span className="text-[#1677F8]">DRIPLABS.</span>
                 </h2>
 
                 <p
@@ -136,7 +147,7 @@ export default function BuildingPartnership() {
                     font-light
                     leading-[1.65]
                     tracking-[0.005em]
-                    text-white/55
+                    text-[#526783]
                     sm:text-[13px]
                   "
                 >
@@ -147,7 +158,7 @@ export default function BuildingPartnership() {
 
                 <Link
                   href="/partners"
-                   className="mt-5 inline-flex h-[38px] items-center gap-3 rounded-full bg-[#F7FAFF] px-5 text-[10px] font-semibold uppercase tracking-[0.08em] text-[#06152B] transition-all duration-300 hover:bg-[#1683FF] hover:text-white"
+                   className="mt-5 inline-flex h-[38px] items-center gap-3 rounded-full bg-[#1677F8] px-5 text-[10px] font-semibold uppercase tracking-[0.08em] text-white shadow-[0_8px_24px_rgba(22,119,248,0.24)] transition-all duration-300 hover:bg-[#0865E8] hover:text-white"
                 >
                   <span className="relative z-10">
                     Explore Partnership
@@ -187,14 +198,14 @@ export default function BuildingPartnership() {
               {/* BOTTOM MICRO LABEL */}
 
               <div className="mt-12 hidden lg:block">
-                <div className="mb-3 h-px w-full bg-white/[0.08]" />
+                <div className="mb-3 h-px w-full bg-[#AFC7E5]/45" />
 
                 <span
                   className="
-                    text-[7px]
+                    text-[9px]
                     uppercase
                     tracking-[0.25em]
-                    text-white/25
+                    text-[#7D8FA8]
                   "
                 >
                   Clinical · Operational · Experience
@@ -212,7 +223,7 @@ export default function BuildingPartnership() {
                 min-h-[330px]
                 overflow-hidden
                 border-b
-                border-white/[0.10]
+                border-[#AFC7E5]/55
                 lg:min-h-0
                 lg:border-b-0
                 lg:border-r
@@ -247,9 +258,9 @@ export default function BuildingPartnership() {
                   absolute
                   inset-0
                   bg-gradient-to-r
-                  from-[#020812]/10
+                  from-[#0A2D5C]/10
                   via-transparent
-                  to-[#020812]/25
+                  to-[#0A2D5C]/20
                 "
               />
 
@@ -260,7 +271,7 @@ export default function BuildingPartnership() {
                   absolute
                   inset-0
                   bg-gradient-to-t
-                  from-[#020812]/40
+                  from-[#0A2D5C]/30
                   via-transparent
                   to-transparent
                 "
@@ -313,7 +324,7 @@ export default function BuildingPartnership() {
                     text-[7px]
                     uppercase
                     tracking-[0.25em]
-                    text-white/55
+                    text-white/80
                   "
                 >
                   DRIPLABS
@@ -331,7 +342,7 @@ export default function BuildingPartnership() {
                 flex
                 flex-col
                 justify-between
-                bg-[#020812]
+                bg-white/25
                 p-7
                 sm:p-9
                 lg:p-9
@@ -344,11 +355,11 @@ export default function BuildingPartnership() {
                 <div className="flex items-center justify-between">
                   <span
                     className="
-                      text-[8px]
+                      text-[12px]
                       font-medium
                       uppercase
                       tracking-[0.28em]
-                      text-[#8CCBFF]
+                      text-[#1677F8]
                     "
                   >
                     Partner pathways
@@ -359,14 +370,14 @@ export default function BuildingPartnership() {
                       font-mono
                       text-[8px]
                       tracking-[0.18em]
-                      text-white/30
+                      text-[#70839D]
                     "
                   >
                     04
                   </span>
                 </div>
 
-                <div className="mt-4 h-px w-full bg-white/[0.12]" />
+                <div className="mt-4 h-px w-full bg-[#AFC7E5]/65" />
               </div>
 
               {/* PARTNER LINKS */}
@@ -383,7 +394,7 @@ export default function BuildingPartnership() {
                       items-center
                       justify-between
                       border-b
-                      border-white/[0.10]
+                      border-[#AFC7E5]/55
                       transition-all
                       duration-300
                       hover:border-[#1683FF]/35
@@ -395,10 +406,10 @@ export default function BuildingPartnership() {
                           font-mono
                           text-[7px]
                           tracking-[0.14em]
-                          text-white/25
+                          text-[#7D8FA8]
                           transition-colors
                           duration-300
-                          group-hover/item:text-[#8CCBFF]
+                          group-hover/item:text-[#1677F8]
                         "
                       >
                         {partner.number}
@@ -409,10 +420,10 @@ export default function BuildingPartnership() {
                           text-[12px]
                           font-light
                           tracking-[-0.01em]
-                          text-white/75
+                          text-[#263D5C]
                           transition-colors
                           duration-300
-                          group-hover/item:text-white
+                          group-hover/item:text-[#10233F]
                           xl:text-[13px]
                         "
                       >
@@ -424,11 +435,11 @@ export default function BuildingPartnership() {
                       size={14}
                       strokeWidth={1.15}
                       className="
-                        text-white/25
+                        text-[#7D8FA8]
                         transition-all
                         duration-300
                         group-hover/item:translate-x-1
-                        group-hover/item:text-[#8CCBFF]
+                        group-hover/item:text-[#1677F8]
                       "
                     />
                   </Link>
@@ -438,7 +449,7 @@ export default function BuildingPartnership() {
               {/* BOTTOM */}
 
               <div className="mt-10">
-                <div className="mb-4 h-px w-full bg-white/[0.08]" />
+                <div className="mb-4 h-px w-full bg-[#AFC7E5]/45" />
 
                 <div className="flex items-center justify-between">
                   <span
@@ -446,7 +457,7 @@ export default function BuildingPartnership() {
                       text-[7px]
                       uppercase
                       tracking-[0.24em]
-                      text-white/25
+                      text-[#7D8FA8]
                     "
                   >
                     DRIPLABS®
@@ -457,7 +468,7 @@ export default function BuildingPartnership() {
                       font-mono
                       text-[7px]
                       tracking-[0.18em]
-                      text-white/20
+                      text-[#91A1B7]
                     "
                   >
                     2026
@@ -474,7 +485,7 @@ export default function BuildingPartnership() {
           <div
             className="
               border-t
-              border-white/[0.08]
+              border-[#AFC7E5]/55
               px-7
               py-4
               sm:px-9
@@ -487,7 +498,7 @@ export default function BuildingPartnership() {
                   text-[7px]
                   uppercase
                   tracking-[0.25em]
-                  text-white/25
+                  text-[#7D8FA8]
                 "
               >
                 Clinical · Operational · Experience

@@ -3,10 +3,6 @@
 import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
 
-/* =========================================================
-   EXPERIENCE DATA
-========================================================= */
-
 const experiences = [
   {
     number: "01",
@@ -40,26 +36,15 @@ const experiences = [
   },
 ];
 
-/* =========================================================
-   EXPERIENCE SECTION
-========================================================= */
-
 export default function ExperienceSection() {
   const reducedMotion = useReducedMotion();
 
   return (
     <section
       id="experience"
-      className="relative overflow-hidden px-5 pb-3 pt-8 sm:px-6 md:px-10 md:pb-4 md:pt-10 lg:px-14 lg:pb-5 lg:pt-12"
-      style={{
-        background: "#020812",
-        color: "#F7FAFF",
-      }}
+      className="relative isolate overflow-hidden bg-[#F7FAFF] px-5 pb-3 pt-3 text-[#06152B] sm:px-6 sm:pt-4 md:px-10 md:pb-4 md:pt-5 lg:px-14 lg:pb-5 lg:pt-6"
     >
-      {/* =====================================================
-          AMBIENT BLUE LIGHT
-      ===================================================== */}
-
+      {/* Ambient electric-blue light */}
       <div
         aria-hidden="true"
         className="pointer-events-none absolute left-1/2 top-[-300px] h-[700px] w-[900px] -translate-x-1/2 rounded-full blur-[180px]"
@@ -87,423 +72,176 @@ export default function ExperienceSection() {
         }}
       />
 
-      {/* =====================================================
-          TECHNICAL GRID
-      ===================================================== */}
-
+      {/* Fine technical grid */}
       <div
         aria-hidden="true"
         className="pointer-events-none absolute inset-0 opacity-[0.035]"
         style={{
           backgroundImage: `
-            linear-gradient(
-              rgba(140,203,255,0.6) 1px,
-              transparent 1px
-            ),
-            linear-gradient(
-              90deg,
-              rgba(140,203,255,0.6) 1px,
-              transparent 1px
-            )
+            linear-gradient(rgba(0,102,255,0.6) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(0,102,255,0.6) 1px, transparent 1px)
           `,
           backgroundSize: "90px 90px",
-          maskImage:
-            "linear-gradient(to bottom, black 0%, transparent 92%)",
+          maskImage: "linear-gradient(to bottom, black 0%, transparent 92%)",
           WebkitMaskImage:
             "linear-gradient(to bottom, black 0%, transparent 92%)",
         }}
       />
 
-      {/* =====================================================
-          MAIN CONTENT
-      ===================================================== */}
-
       <div className="relative z-10 mx-auto max-w-[1680px]">
-
-        {/* ===================================================
-            SECTION HEADER
-        =================================================== */}
-
+        {/* Section header */}
         <motion.div
-          initial={
-            reducedMotion
-              ? false
-              : {
-                  opacity: 0,
-                  y: 24,
-                }
-          }
-          whileInView={
-            reducedMotion
-              ? undefined
-              : {
-                  opacity: 1,
-                  y: 0,
-                }
-          }
-          viewport={{
-            once: true,
-            amount: 0.2,
-          }}
+          initial={reducedMotion ? false : { opacity: 0, y: 18 }}
+          whileInView={reducedMotion ? undefined : { opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.2 }}
           transition={{
-            duration: 0.7,
+            duration: 0.65,
             ease: [0.22, 1, 0.36, 1],
           }}
-          className="mb-8 grid gap-5 md:mb-10 md:grid-cols-12 md:items-end"
+          className="mb-4 grid gap-4 sm:mb-5 md:grid-cols-12 md:items-end md:gap-5"
         >
-          {/* =================================================
-    LEFT LABEL
-================================================= */}
-
-<div className="md:col-span-5">
-  <div className="relative -top-5 flex items-center gap-4">
-    <span
-      className="h-px w-10 shrink-0"
-      style={{
-        background: "#0066FF",
-        boxShadow: "0 0 14px rgba(0,102,255,0.5)",
-      }}
-    />
-
-    <span
-      className="text-[9px] font-medium uppercase tracking-[0.28em] leading-none"
-      style={{
-        color: "rgba(140,203,255,0.75)",
-      }}
-    >
-      02 — CHOOSE HOW YOU EXPERIENCE DRIPLABS
-    </span>
-  </div>
-</div>
-
-          {/* =================================================
-              RIGHT TITLE
-          ================================================= */}
-
-          <div className="relative -top-5 md:-top-7 lg:-top-10 md:col-span-7 md:text-right">
-            <h2
-              className="font-[var(--font-heading)] text-[clamp(2.4rem,4.5vw,5rem)] font-light leading-[0.94] tracking-[-0.045em]"
-              style={{
-                color: "#F7FAFF",
-              }}
-            >
-              Your wellness.
-              <br />
-
+          <div className="md:col-span-4">
+            <div className="flex items-center gap-4">
               <span
-                style={{
-                  color: "#4D9BFF",
-                }}
-              >
-                Your way.
+                className="h-px w-10 shrink-0 bg-[#0066FF]"
+                style={{ boxShadow: "0 0 14px rgba(0,102,255,0.5)" }}
+              />
+              <span className="text-[8px] font-medium uppercase leading-none tracking-[0.24em] text-[#0066FF]/80 sm:text-[9px] sm:tracking-[0.28em]">
+                02 — CHOOSE HOW YOU EXPERIENCE DRIPLABS
               </span>
+            </div>
+          </div>
+
+          <div className="md:col-span-8 md:text-right">
+            <h2 className="whitespace-nowrap font-[var(--font-heading)] text-[clamp(1.75rem,4.05vw,4.5rem)] font-light leading-[0.98] tracking-[-0.055em] text-[#06152B]">
+              Your wellness{" "}
+              <span className="text-[#0066FF]">your way.</span>
             </h2>
           </div>
         </motion.div>
 
-        {/* ===================================================
-            EXPERIENCE CARDS
-        =================================================== */}
-
-        <div className="relative -top-10 grid gap-3 lg:grid-cols-3">
+        {/* Experience cards */}
+        <div className="grid gap-3 lg:grid-cols-3">
           {experiences.map((experience, index) => (
-            <motion.div
+            <motion.article
               key={experience.number}
-              initial={
-                reducedMotion
-                  ? false
-                  : {
-                      opacity: 0,
-                      y: 40,
-                    }
-              }
-              whileInView={
-                reducedMotion
-                  ? undefined
-                  : {
-                      opacity: 1,
-                      y: 0,
-                    }
-              }
-              viewport={{
-                once: true,
-                amount: 0.15,
-              }}
+              initial={reducedMotion ? false : { opacity: 0, y: 24 }}
+              whileInView={reducedMotion ? undefined : { opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.15 }}
               transition={{
-                duration: 0.8,
+                duration: 0.65,
                 delay: reducedMotion ? 0 : index * 0.1,
                 ease: [0.22, 1, 0.36, 1],
               }}
-              className="group relative min-h-[310px] overflow-hidden bg-[#06152B] sm:min-h-[330px] lg:min-h-[360px]"
+              whileHover={reducedMotion ? undefined : { y: -3 }}
+              className="
+                group relative isolate min-h-[250px] overflow-hidden
+                rounded-2xl border border-white/[0.15]
+                bg-[#06152B]/65
+                shadow-[0_14px_44px_rgba(0,0,0,0.24)]
+                backdrop-blur-md
+                transition-[border-color,box-shadow] duration-500
+                hover:border-white/30
+                hover:shadow-[0_22px_54px_rgba(0,0,0,0.34)]
+                sm:min-h-[270px] lg:min-h-[290px]
+              "
             >
-              {/* =================================================
-                  WHOLE CARD LINK
-              ================================================= */}
-
-              <Link
-                href={experience.href}
-                className="absolute inset-0 z-30"
-                aria-label={experience.cta}
-              />
-
-              {/* =================================================
-                  IMAGE
-              ================================================= */}
-
+              {/* Background image with restrained zoom */}
               <motion.div
-                className="absolute inset-0"
+                aria-hidden="true"
+                className="absolute inset-0 z-0 overflow-hidden rounded-2xl"
                 initial={false}
-                whileHover={
-                  reducedMotion
-                    ? undefined
-                    : {
-                        scale: 1.045,
-                      }
-                }
+                whileHover={reducedMotion ? undefined : { scale: 1.045 }}
                 transition={{
-                  duration: 1.1,
+                  duration: 1,
                   ease: [0.22, 1, 0.36, 1],
                 }}
               >
                 <div
-                  className="absolute inset-0 bg-cover bg-center"
-                  style={{
-                    backgroundImage: `url(${experience.image})`,
-                  }}
+                  className="absolute inset-0 bg-cover bg-center transition-[filter] duration-700 ease-out group-hover:blur-[3px]"
+                  style={{ backgroundImage: `url(${experience.image})` }}
                 />
               </motion.div>
 
-              {/* =================================================
-                  DARK BLUE IMAGE TREATMENT
-              ================================================= */}
-
+              {/* Image contrast and depth */}
               <div
-                className="absolute inset-0 transition-all duration-700"
-                style={{
-                  background: "rgba(2,8,18,0.25)",
-                }}
+                aria-hidden="true"
+                className="pointer-events-none absolute inset-0 z-[1] rounded-2xl bg-[#020812]/25 transition-colors duration-700 group-hover:bg-[#020812]/10"
               />
 
-              {/* =================================================
-                  MAIN GRADIENT
-              ================================================= */}
-
               <div
-                className="absolute inset-0"
-                style={{
-                  background: `
-                    linear-gradient(
-                      to bottom,
-                      rgba(2,8,18,0.48) 0%,
-                      rgba(2,8,18,0.08) 30%,
-                      rgba(2,8,18,0.22) 48%,
-                      rgba(2,8,18,0.94) 100%
-                    )
-                  `,
-                }}
-              />
-
-              {/* =================================================
-                  BLUE SIDE ATMOSPHERE
-              ================================================= */}
-
-              <div
-                className="absolute inset-0 opacity-80 transition-opacity duration-700 group-hover:opacity-100"
-                style={{
-                  background: `
-                    radial-gradient(
-                      circle at 75% 18%,
-                      rgba(0,102,255,0.22),
-                      transparent 38%
-                    ),
-                    linear-gradient(
-                      135deg,
-                      rgba(0,102,255,0.04),
-                      transparent 55%
-                    )
-                  `,
-                }}
-              />
-
-              {/* =================================================
-                  LEFT ELECTRIC BLUE EDGE
-              ================================================= */}
-
-              <div
-                className="
-                  absolute
-                  bottom-0
-                  left-0
-                  top-0
-                  z-10
-                  w-[2px]
-                  origin-bottom
-                  scale-y-0
-                  transition-transform
-                  duration-700
-                  group-hover:scale-y-100
-                "
+                aria-hidden="true"
+                className="pointer-events-none absolute inset-0 z-[2] rounded-2xl"
                 style={{
                   background:
-                    "linear-gradient(to bottom, #4D9BFF, #0066FF, #1683FF)",
-                  boxShadow: "0 0 20px rgba(0,102,255,0.65)",
+                    "linear-gradient(180deg, rgba(2,8,18,.45) 0%, rgba(2,8,18,.08) 30%, rgba(2,8,18,.35) 53%, rgba(2,8,18,.91) 100%)",
                 }}
               />
 
-              {/* =================================================
-                  TOP ELECTRIC BLUE LINE
-              ================================================= */}
-
+              {/* Electric-blue atmospheric light */}
               <div
-                className="absolute inset-x-0 top-0 z-10 h-px opacity-80"
+                aria-hidden="true"
+                className="pointer-events-none absolute inset-0 z-[3] rounded-2xl opacity-70 transition-opacity duration-700 group-hover:opacity-100"
                 style={{
                   background:
-                    "linear-gradient(90deg, transparent, rgba(77,155,255,0.9), transparent)",
+                    "radial-gradient(circle at 78% 15%, rgba(0,102,255,.19), transparent 38%), linear-gradient(135deg, rgba(242,166,90,.04), transparent 58%)",
                 }}
               />
 
-              {/* =================================================
-                  CARD CONTENT
-              ================================================= */}
+              {/* Frosted-glass surface */}
+              <div
+                aria-hidden="true"
+                className="pointer-events-none absolute inset-0 z-[4] rounded-2xl border border-white/[0.08] bg-white/[0.025]"
+              />
 
-              <div className="relative z-20 flex h-full min-h-[310px] flex-col justify-between p-5 text-white sm:min-h-[330px] sm:p-6 lg:min-h-[360px] lg:p-7">
+              {/* Fine illuminated top edge */}
+              <div
+                aria-hidden="true"
+                className="pointer-events-none absolute inset-x-8 top-0 z-[5] h-px opacity-70 transition-opacity duration-500 group-hover:opacity-100"
+                style={{
+                  background:
+                    "linear-gradient(90deg, transparent, rgba(242,166,90,.8), transparent)",
+                }}
+              />
 
-                {/* =================================================
-                    TEXT GLOW
-                ================================================= */}
-
-                <div
-                  aria-hidden="true"
-                  className="pointer-events-none absolute bottom-[18%] left-[-10%] h-[48%] w-[80%] rounded-full opacity-80 blur-[65px]"
-                  style={{
-                    background:
-                      "radial-gradient(circle, rgba(0,102,255,0.26) 0%, rgba(22,131,255,0.13) 38%, transparent 72%)",
-                  }}
-                />
-
-                {/* =================================================
-                    TOP META
-                ================================================= */}
-
-                <div className="relative z-10 flex items-start justify-between">
-                  <span
-                    className="text-[10px] font-medium tracking-[0.22em]"
-                    style={{
-                      color: "rgba(247,250,255,0.72)",
-                    }}
-                  >
+              {/* Card content */}
+              <div className="relative z-10 flex min-h-[250px] flex-col p-4 text-white sm:min-h-[270px] sm:p-5 lg:min-h-[290px] lg:p-6">
+                <div className="flex items-start justify-between gap-3">
+                  <span className="text-[9px] font-medium tracking-[0.22em] text-white/75">
                     {experience.number}
                   </span>
 
-                  <span
-                    className="rounded-full border px-3 py-1.5 text-[8px] uppercase tracking-[0.22em] backdrop-blur-md"
-                    style={{
-                      borderColor: "rgba(140,203,255,0.25)",
-                      background: "rgba(2,8,18,0.28)",
-                      color: "rgba(247,250,255,0.72)",
-                    }}
-                  >
-                    {experience.eyebrow === "IN-CENTRE"
-                      ? "In-Centre"
-                      : experience.eyebrow === "DRIPLABS HOME"
-                        ? "Mobile IV / Home"
-                        : "Women’s Wellness"}
+                  <span className="rounded-full border border-[#8CCBFF]/30 bg-[#020812]/35 px-3 py-1.5 text-[7px] uppercase tracking-[0.18em] text-white/75 backdrop-blur-lg sm:text-[8px] sm:tracking-[0.22em]">
+                    {experience.eyebrow}
                   </span>
                 </div>
 
-                {/* =================================================
-                    BOTTOM CONTENT
+                <div className="mt-auto pt-7">
+                  <div className="mb-3 flex items-center gap-3">
+                    <span className="h-px w-7 bg-[#1683FF] shadow-[0_0_10px_rgba(0,102,255,.45)] transition-all duration-500 group-hover:w-11" />
+                    <span className="text-[8px] font-medium uppercase tracking-[0.24em] text-[#8CCBFF]">
+                      {experience.eyebrow}
+                    </span>
+                  </div>
 
-                    EYEBROW REMOVED
-                ================================================= */}
-
-                <div className="relative z-10">
-
-                  {/* =================================================
-                      TITLE
-                  ================================================= */}
-
-                  <h3
-                    className="max-w-[430px] font-[var(--font-heading)] text-[clamp(2rem,3vw,3.4rem)] font-light leading-[0.96] tracking-[-0.035em] drop-shadow-[0_2px_20px_rgba(0,102,255,0.38)]"
-                    style={{
-                      color: "#F7FAFF",
-                    }}
-                  >
+                  <h3 className="max-w-[430px] font-[var(--font-heading)] text-[clamp(1.65rem,2.25vw,2.7rem)] font-light leading-[0.98] tracking-[-0.045em] text-[#F7FAFF]">
                     {experience.title}
                   </h3>
 
-                  {/* =================================================
-                      DESCRIPTION
-                  ================================================= */}
+                  <p className="mt-3 max-w-[350px] text-[11px] leading-[1.55] text-white/70 sm:text-xs sm:leading-5">
+                    {experience.description}
+                  </p>
 
-                  <div className="mt-4 max-w-[350px]">
-                    <p
-                      className="text-sm leading-6 drop-shadow-[0_1px_12px_rgba(0,0,0,0.9)]"
-                      style={{
-                        color: "rgba(247,250,255,0.72)",
-                      }}
-                    >
-                      {experience.description}
-                    </p>
-                  </div>
-
-                  {/* =================================================
-                      CTA
-                  ================================================= */}
-
-                  <div className="mt-5 flex items-center gap-4">
-
-                    {/* INTERACTIVE CIRCLE */}
-
-                    <span
-                      className="
-                        relative
-                        flex
-                        h-11
-                        w-11
-                        items-center
-                        justify-center
-                        overflow-hidden
-                        rounded-full
-                        border
-                        backdrop-blur-md
-                        transition-all
-                        duration-500
-                        group-hover:scale-105
-                      "
-                      style={{
-                        borderColor: "rgba(140,203,255,0.38)",
-                        background: "rgba(2,8,18,0.24)",
-                      }}
-                    >
-                      {/* Blue expanding circle */}
-
-                      <span
-                        className="
-                          absolute
-                          h-2
-                          w-2
-                          rounded-full
-                          transition-all
-                          duration-500
-                          group-hover:scale-[5]
-                        "
-                        style={{
-                          background: "#0066FF",
-                        }}
-                      />
-
-                      {/* Arrow */}
-
+                  <div className="mt-4 flex items-center gap-3 sm:mt-5 sm:gap-4">
+                    <span className="relative flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden rounded-full border border-[#8CCBFF]/40 bg-[#020812]/35 backdrop-blur-md transition-all duration-500 group-hover:scale-105 group-hover:border-[#8CCBFF]/70 sm:h-10 sm:w-10">
+                      <span className="absolute h-2 w-2 rounded-full bg-[#0066FF] transition-transform duration-500 group-hover:scale-[5]" />
                       <svg
                         viewBox="0 0 24 24"
-                        className="relative z-10 h-4 w-4"
+                        className="relative z-10 h-4 w-4 text-white"
                         fill="none"
                         stroke="currentColor"
                         strokeWidth="1.5"
-                        style={{
-                          color: "#F7FAFF",
-                        }}
+                        aria-hidden="true"
                       >
                         <path
                           d="M5 12h13M13 6l6 6-6 6"
@@ -513,94 +251,56 @@ export default function ExperienceSection() {
                       </svg>
                     </span>
 
-                    {/* CTA TEXT */}
-
-                    <span
-                      className="text-[9px] font-medium uppercase tracking-[0.24em] transition-colors duration-500 group-hover:text-white"
-                      style={{
-                        color: "rgba(247,250,255,0.75)",
-                      }}
-                    >
+                    <span className="text-[8px] font-medium uppercase tracking-[0.19em] text-white/80 transition-colors duration-500 group-hover:text-white sm:text-[9px] sm:tracking-[0.22em]">
                       {experience.cta}
                     </span>
                   </div>
                 </div>
               </div>
 
-              {/* =================================================
-                  HOVER LIGHT SWEEP
-              ================================================= */}
-
-              <div className="pointer-events-none absolute inset-0 z-10 overflow-hidden opacity-0 transition-opacity duration-700 group-hover:opacity-100">
+              {/* Hover light sweep */}
+              <div className="pointer-events-none absolute inset-0 z-[6] overflow-hidden rounded-2xl opacity-0 transition-opacity duration-700 group-hover:opacity-100">
                 <div
-                  className="
-                    absolute
-                    -left-[30%]
-                    top-0
-                    h-full
-                    w-[35%]
-                    rotate-[18deg]
-                    blur-2xl
-                    transition-transform
-                    duration-[1400ms]
-                    group-hover:translate-x-[390%]
-                  "
-                  style={{
-                    background: "rgba(140,203,255,0.09)",
-                  }}
+                  className="absolute -left-[30%] top-0 h-full w-[35%] rotate-[18deg] blur-2xl transition-transform duration-[1400ms] group-hover:translate-x-[390%]"
+                  style={{ background: "rgba(140,203,255,0.09)" }}
                 />
               </div>
 
-              {/* =================================================
-                  HOVER BORDER
-              ================================================= */}
-
+              {/* Hover border */}
               <div
-                className="
-                  pointer-events-none
-                  absolute
-                  inset-0
-                  z-20
-                  border
-                  opacity-0
-                  transition-opacity
-                  duration-700
-                  group-hover:opacity-100
-                "
-                style={{
-                  borderColor: "rgba(0,102,255,0.62)",
-                  boxShadow:
-                    "inset 0 0 35px rgba(0,102,255,0.035)",
-                }}
+                aria-hidden="true"
+                className="pointer-events-none absolute inset-0 z-[7] rounded-2xl border border-[#4D9BFF]/0 transition-all duration-500 group-hover:border-[#4D9BFF]/60 group-hover:shadow-[inset_0_0_35px_rgba(0,102,255,.05)]"
               />
-            </motion.div>
+
+              {/* Whole-card destination link */}
+              <Link
+                href={experience.href}
+                className="absolute inset-0 z-20 rounded-2xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-4px] focus-visible:outline-[#8CCBFF]"
+                aria-label={experience.cta}
+              />
+            </motion.article>
           ))}
         </div>
 
-        {/* =====================================================
-            BOTTOM MICRO INFORMATION
-        ===================================================== */}
-
+        {/* Footer micro-information */}
         <motion.div
-  initial={reducedMotion ? false : { opacity: 0 }}
-  whileInView={reducedMotion ? undefined : { opacity: 1 }}
-  viewport={{ once: true }}
-  transition={{
-    delay: 0.45,
-    duration: 0.7,
-  }}
-  className="relative -top-18 mt-0 flex items-center justify-between pt-3"
->
+          initial={reducedMotion ? false : { opacity: 0 }}
+          whileInView={reducedMotion ? undefined : { opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.2, duration: 0.55 }}
+          className="mt-4 flex items-center justify-between border-t border-[#0066FF]/[0.16] pt-3 sm:mt-5 sm:pt-4"
+        >
+          <p className="text-[7px] uppercase tracking-[0.22em] text-[#06152B]/55 sm:text-[8px] sm:tracking-[0.24em]">
+            Physician-led wellness
+          </p>
 
-</motion.div>
-          
-       
+          <p className="text-[7px] uppercase tracking-[0.22em] text-[#06152B]/55 sm:text-[8px] sm:tracking-[0.24em]">
+            India
+          </p>
+        </motion.div>
       </div>
 
-      {/* =====================================================
-          BOTTOM ELECTRIC BLUE DIVIDER
-      ===================================================== */}
-
+      {/* Bottom electric-blue divider */}
       <div
         aria-hidden="true"
         className="absolute bottom-0 left-0 right-0 h-px"

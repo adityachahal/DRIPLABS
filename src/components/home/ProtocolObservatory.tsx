@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import React, {
   useCallback,
@@ -23,22 +23,19 @@ type WellnessFamily =
   | "Cognitive & Neuro"
   | "Musculoskeletal";
 
+type ProtocolAdvantage = {
+  name: string;
+  detail?: string;
+  icon?: string;
+};
+
 type Protocol = {
   slug: string;
   name: string;
   number: string;
   family: WellnessFamily;
   description: string;
-};
-
-type ProtocolApiItem = {
-  slug?: string;
-  id?: string | number;
-  name?: string;
-  title?: string;
-  number?: string | number;
-  family?: string;
-  description?: string;
+  advantages?: ProtocolAdvantage[];
 };
 
 /* =========================================================
@@ -390,6 +387,7 @@ export default function ProtocolObservatory() {
   const [family, setFamily] =
     useState<"All" | WellnessFamily>("Skin & Beauty");
 
+  const [focusedSlug, setFocusedSlug] = useState<string>("");
 
   // Family auto-rotation pauses briefly after a manual selection so
   // the interaction still feels fully user-controlled.
@@ -426,7 +424,7 @@ export default function ProtocolObservatory() {
         }
 
         const mapped: Protocol[] = source
-          .map((item: ProtocolApiItem, index: number) => {
+          .map((item: any, index: number) => {
             const slug = normalizeSlug(
               item?.slug ??
                 item?.id ??
@@ -451,6 +449,27 @@ export default function ProtocolObservatory() {
                 item?.description ??
                   "A physician-led DRIPLABS wellness experience."
               ),
+              advantages: Array.isArray(item?.advantages)
+                ? item.advantages
+                    .map((advantage: any) => ({
+                      name: String(
+                        advantage?.name ??
+                          advantage?.title ??
+                          "Protocol focus"
+                      ),
+                      detail: advantage?.detail
+                        ? String(advantage.detail)
+                        : undefined,
+                      icon: advantage?.icon
+                        ? String(advantage.icon)
+                        : undefined,
+                    }))
+                    .filter(
+                      (advantage: ProtocolAdvantage) =>
+                        Boolean(advantage.name)
+                    )
+                    .slice(0, 4)
+                : undefined,
             };
           })
           .filter(Boolean);
@@ -503,23 +522,12 @@ export default function ProtocolObservatory() {
 
   useEffect(() => {
     const video = videoRef.current;
-    if (!video) return;
 
-    const syncPlayback = () => {
-      if (isVisible && document.visibilityState === "visible") {
-        video.play().catch(() => {});
-      } else {
-        video.pause();
-      }
-    };
+    if (!video || !isVisible) {
+      return;
+    }
 
-    syncPlayback();
-    document.addEventListener("visibilitychange", syncPlayback);
-
-    return () => {
-      document.removeEventListener("visibilitychange", syncPlayback);
-      video.pause();
-    };
+    video.play().catch(() => {});
   }, [isVisible]);
 
   /* =====================================================
@@ -620,6 +628,58 @@ export default function ProtocolObservatory() {
   }, [family, visibleProtocols]);
 
   /* =====================================================
+     ORBIT FOCUS TRACKER
+     Only the protocol crossing the top/center focus point
+     reveals its name.
+  ===================================================== */
+
+  useEffect(() => {
+    if (!visibleProtocols.length) {
+      setFocusedSlug("");
+      return;
+    }
+
+    let frame = 0;
+    const startedAt = performance.now();
+    const duration = 52000;
+
+    const normalize = (value: number) =>
+      ((value % 360) + 360) % 360;
+
+    const angleDistance = (a: number, b: number) => {
+      const delta = Math.abs(normalize(a) - normalize(b));
+      return Math.min(delta, 360 - delta);
+    };
+
+    const tick = (now: number) => {
+      const rotation =
+        ((now - startedAt) / duration) * 360;
+
+      let closestSlug = visibleProtocols[0].slug;
+      let closestDistance = Infinity;
+
+      orbitPositions.forEach(({ protocol, angle }) => {
+        const distance = angleDistance(angle + rotation, -90);
+
+        if (distance < closestDistance) {
+          closestDistance = distance;
+          closestSlug = protocol.slug;
+        }
+      });
+
+      setFocusedSlug((previous) =>
+        previous === closestSlug ? previous : closestSlug
+      );
+
+      frame = requestAnimationFrame(tick);
+    };
+
+    frame = requestAnimationFrame(tick);
+
+    return () => cancelAnimationFrame(frame);
+  }, [orbitPositions, visibleProtocols]);
+
+  /* =====================================================
      ACTIVE PROTOCOL
   ===================================================== */
 
@@ -643,6 +703,45 @@ export default function ProtocolObservatory() {
     "Cognitive & Neuro",
     "Musculoskeletal",
   ] as const;
+
+  /* =====================================================
+     PROTOCOL ADVANTAGES
+     Prefer structured advantage data from the API. When it is not
+     available, fall back to source-backed protocol metadata rather
+     than inventing clinical benefits.
+  ===================================================== */
+
+  const protocolAdvantages = useMemo<ProtocolAdvantage[]>(() => {
+    if (!activeProtocol) return [];
+
+    if (activeProtocol.advantages?.length) {
+      return activeProtocol.advantages.slice(0, 4).map((advantage) => ({
+        ...advantage,
+        icon: advantage.icon ?? getProtocolIcon(activeProtocol.slug),
+      }));
+    }
+
+    const protocolIcon = getProtocolIcon(activeProtocol.slug);
+    const familyIcon = getFamilyIcon(activeProtocol.family);
+
+    return [
+      {
+        name: activeProtocol.name,
+        detail: activeProtocol.description,
+        icon: protocolIcon,
+      },
+      {
+        name: activeProtocol.family,
+        detail: "A defined DRIPLABS wellness pathway.",
+        icon: familyIcon,
+      },
+      {
+        name: "Physician-directed",
+        detail: "Protocol selection remains physician-directed.",
+        icon: protocolIcon ?? familyIcon,
+      },
+    ];
+  }, [activeProtocol]);
 
   /* =====================================================
      AUTOMATIC FAMILY ROTATION
@@ -683,13 +782,9 @@ export default function ProtocolObservatory() {
       (protocol) => protocol.slug === activeSlug
     );
 
-    if (stillVisible) return;
-
-    const timeout = window.setTimeout(() => {
+    if (!stillVisible) {
       setActiveSlug(visibleProtocols[0].slug);
-    }, 0);
-
-    return () => window.clearTimeout(timeout);
+    }
   }, [activeSlug, visibleProtocols]);
 
   return (
@@ -775,7 +870,20 @@ export default function ProtocolObservatory() {
 
                   setFamily(item);
 
+                  // Restart the orbit whenever the family changes
+                  // so the new family enters as one clean system.
+                  requestAnimationFrame(() => {
+                    const orbit = document.querySelector(
+                      ".orbit-spin"
+                    ) as HTMLElement | null;
 
+                    if (!orbit) return;
+
+                    orbit.style.animation = "none";
+                    void orbit.offsetWidth;
+                    orbit.style.animation =
+                      "observatory-orbit 52s linear infinite";
+                  });
                 }}
                 className={
                   selected
@@ -842,10 +950,14 @@ export default function ProtocolObservatory() {
                   protocol.slug ===
                   activeSlug;
 
+                const isFocused =
+                  protocol.slug ===
+                  focusedSlug;
+
                 const icon =
-  getProtocolIcon(protocol.slug) ??
-  getFamilyIcon(protocol.family);
-  
+                  getProtocolIcon(protocol.slug) ??
+                  getFamilyIcon(protocol.family);
+
                 return (
                   <button
                     key={protocol.slug}
@@ -859,6 +971,7 @@ export default function ProtocolObservatory() {
                     className={[
                       "orbit-node",
                       isActive ? "active" : "",
+                      isFocused ? "focused" : "",
                     ]
                       .filter(Boolean)
                       .join(" ")}
@@ -878,7 +991,7 @@ export default function ProtocolObservatory() {
                             src={icon}
                             alt={`${protocol.name} protocol icon`}
                             draggable={false}
-                            loading="lazy"
+                            loading="eager"
                             onError={(event) => {
                               event.currentTarget.style.display = "none";
                             }}
@@ -891,7 +1004,11 @@ export default function ProtocolObservatory() {
                       </span>
 
                       <span
-                        className="orbit-node-info"
+                        className={
+                          isFocused
+                            ? "orbit-node-info visible"
+                            : "orbit-node-info"
+                        }
                       >
                         <small>
                           {protocol.number}
@@ -937,7 +1054,7 @@ export default function ProtocolObservatory() {
                 autoPlay
                 loop
                 playsInline
-                preload="none"
+                preload="metadata"
                 onTimeUpdate={handleTimeUpdate}
               />
 
@@ -1005,6 +1122,106 @@ export default function ProtocolObservatory() {
             <span />
           </div>
         </div>
+
+        {/* =================================================
+            PROTOCOL ADVANTAGES — DESKTOP RIGHT RAIL
+            Only this right-side content changes when the
+            showcased protocol changes. The rest of the
+            observatory structure remains untouched.
+        ================================================= */}
+
+        <aside
+          className="protocol-advantages"
+          aria-label={`${activeProtocol?.name ?? "Protocol"} details`}
+        >
+          <div
+            key={activeProtocol?.slug ?? "protocol"}
+            className="protocol-advantages-transition"
+          >
+            <div className="protocol-advantages-head">
+              <div className="protocol-showcase-identity">
+                <span className="protocol-showcase-icon">
+                  {activeProtocol ? (
+                    <img
+                      src={
+                        getProtocolIcon(activeProtocol.slug) ??
+                        getFamilyIcon(activeProtocol.family)
+                      }
+                      alt=""
+                      draggable={false}
+                    />
+                  ) : null}
+                </span>
+
+                <span className="protocol-showcase-copy">
+                  <small>PROTOCOL</small>
+                  <strong>{activeProtocol?.name}</strong>
+                  <span>{activeProtocol?.family}</span>
+                </span>
+              </div>
+
+              <span className="protocol-advantages-number">
+                {activeProtocol?.number}
+              </span>
+            </div>
+
+            <div className="protocol-advantages-title">
+              <span>PROTOCOL ADVANTAGES</span>
+              <i />
+            </div>
+
+            <div className="protocol-advantages-list">
+              {protocolAdvantages.map((advantage, index) => {
+                const icon =
+                  getProtocolIcon(activeProtocol?.slug ?? "") ??
+                  (activeProtocol
+                    ? getFamilyIcon(activeProtocol.family)
+                    : undefined);
+
+                return (
+                  <div
+                    key={`${activeProtocol?.slug ?? "protocol"}-${advantage.name}-${index}`}
+                    className="protocol-advantage-row"
+                  >
+                    <span className="protocol-advantage-icon" aria-hidden="true">
+                      {icon ? (
+                        <img
+                          src={icon}
+                          alt=""
+                          draggable={false}
+                        />
+                      ) : (
+                        <span>{String(index + 1).padStart(2, "0")}</span>
+                      )}
+                    </span>
+
+                    <span className="protocol-advantage-copy">
+                      <span className="protocol-advantage-index">
+                        {String(index + 1).padStart(2, "0")}
+                      </span>
+                      <strong>{advantage.name}</strong>
+                      {advantage.detail ? (
+                        <small>{advantage.detail}</small>
+                      ) : null}
+                    </span>
+                  </div>
+                );
+              })}
+            </div>
+
+            <Link
+              href={
+                activeProtocol
+                  ? `/protocols/${activeProtocol.slug}`
+                  : "/protocols"
+              }
+              className="protocol-advantages-link"
+            >
+              <span>VIEW FULL PROTOCOL</span>
+              <span aria-hidden="true">→</span>
+            </Link>
+          </div>
+        </aside>
 
         {/* =================================================
             ACTIVE PROTOCOL INFORMATION
@@ -1091,7 +1308,6 @@ export default function ProtocolObservatory() {
         ================================================= */
 
         .protocol-observatory {
-          contain: layout paint;
           --midnight: #020812;
           --deep: #06152b;
           --blue: #0066ff;
@@ -1475,7 +1691,6 @@ export default function ProtocolObservatory() {
         ================================================= */
 
         .observatory-system {
-          contain: layout paint;
           --orbit-radius: clamp(190px, 25vw, 285px);
           --orbit-radius-outer: clamp(220px, 30vw, 335px);
 
@@ -2183,7 +2398,11 @@ export default function ProtocolObservatory() {
           filter:
             blur(20px);
 
-          animation: none;
+          animation:
+            core-breathe
+            4s
+            ease-in-out
+            infinite;
         }
 
         @keyframes core-breathe {
@@ -2218,7 +2437,11 @@ export default function ProtocolObservatory() {
         }
 
         .core-ring-one {
-          animation: none;
+          animation:
+            core-ring-spin
+            28s
+            linear
+            infinite;
         }
 
         .core-ring-two {
@@ -2234,7 +2457,12 @@ export default function ProtocolObservatory() {
               .07
             );
 
-          animation: none;
+          animation:
+            core-ring-spin
+            42s
+            linear
+            infinite
+            reverse;
         }
 
         @keyframes core-ring-spin {
@@ -2294,7 +2522,6 @@ export default function ProtocolObservatory() {
         }
 
         .core-video {
-          transform: translateZ(0);
           width: 100%;
           height: 100%;
 
@@ -2377,7 +2604,11 @@ export default function ProtocolObservatory() {
 
           opacity: .5;
 
-          animation: none;
+          animation:
+            scanline
+            5s
+            linear
+            infinite;
         }
 
         @keyframes scanline {
@@ -2583,21 +2814,34 @@ export default function ProtocolObservatory() {
           width: 56%;
           aspect-ratio: 1;
 
-          animation: none;
+          animation:
+            energy-spin
+            13s
+            linear
+            infinite;
         }
 
         .energy-orbit-two {
           width: 70%;
           aspect-ratio: 1;
 
-          animation: none;
+          animation:
+            energy-spin
+            20s
+            linear
+            infinite
+            reverse;
         }
 
         .energy-orbit-three {
           width: 88%;
           aspect-ratio: 1;
 
-          animation: none;
+          animation:
+            energy-spin
+            31s
+            linear
+            infinite;
         }
 
         .energy-orbit-two span {
@@ -2627,6 +2871,297 @@ export default function ProtocolObservatory() {
               rotate(360deg);
           }
         }
+
+        /* =================================================
+           PROTOCOL ADVANTAGES
+        ================================================= */
+
+        .protocol-advantages {
+          position: relative;
+          z-index: 34;
+          width: 100%;
+          max-width: 330px;
+          align-self: center;
+          justify-self: stretch;
+          padding: 18px;
+          border: 1px solid rgba(140, 203, 255, .13);
+          background: linear-gradient(145deg, rgba(8,24,47,.82), rgba(2,8,18,.78));
+          box-shadow: 0 20px 70px rgba(0,0,0,.34), inset 0 0 35px rgba(22,131,255,.035), 0 0 32px rgba(0,102,255,.055);
+          backdrop-filter: blur(18px);
+          overflow: hidden;
+        }
+
+        .protocol-advantages::before {
+          content: "";
+          position: absolute;
+          inset: 0;
+          pointer-events: none;
+          background: linear-gradient(90deg, rgba(140,203,255,.07) 1px, transparent 1px), linear-gradient(rgba(140,203,255,.045) 1px, transparent 1px);
+          background-size: 32px 32px;
+          mask-image: linear-gradient(to bottom, black, transparent 82%);
+          opacity: .22;
+        }
+
+        .protocol-advantages::after {
+          content: "";
+          position: absolute;
+          left: 0;
+          top: 0;
+          width: 42px;
+          height: 1px;
+          background: #1683ff;
+          box-shadow: 0 0 16px rgba(22,131,255,.8);
+        }
+
+        .protocol-advantages-transition {
+          position: relative;
+          z-index: 1;
+          animation: protocol-panel-in .65s cubic-bezier(.16,1,.3,1) both;
+        }
+
+        @keyframes protocol-panel-in {
+          from { opacity: 0; transform: translate3d(12px, 0, 0); }
+          to { opacity: 1; transform: translate3d(0, 0, 0); }
+        }
+
+        .protocol-advantages-head {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 14px;
+          padding-bottom: 14px;
+          border-bottom: 1px solid rgba(247,250,255,.08);
+        }
+
+        .protocol-showcase-identity {
+          display: flex;
+          align-items: center;
+          min-width: 0;
+          gap: 12px;
+        }
+
+        .protocol-showcase-icon {
+          position: relative;
+          display: grid;
+          place-items: center;
+          flex: 0 0 auto;
+          width: 54px;
+          height: 54px;
+          border: 1px solid rgba(140,203,255,.25);
+          border-radius: 50%;
+          background: radial-gradient(circle at 35% 28%, rgba(140,203,255,.18), rgba(22,131,255,.08) 42%, rgba(2,8,18,.95) 76%);
+          box-shadow: 0 0 0 1px rgba(22,131,255,.06), 0 0 24px rgba(0,102,255,.22), inset 0 0 22px rgba(22,131,255,.09);
+          animation: protocol-icon-breathe 3.2s ease-in-out infinite;
+        }
+
+        .protocol-showcase-icon::before {
+          content: "";
+          position: absolute;
+          inset: -6px;
+          border: 1px solid rgba(77,155,255,.1);
+          border-radius: 50%;
+          box-shadow: 0 0 22px rgba(77,155,255,.2);
+        }
+
+        .protocol-showcase-icon img {
+          width: 32px;
+          height: 32px;
+          object-fit: contain;
+          filter: brightness(1.15) drop-shadow(0 0 8px rgba(77,155,255,.8)) drop-shadow(0 0 18px rgba(22,131,255,.38));
+        }
+
+        @keyframes protocol-icon-breathe {
+          0%, 100% { box-shadow: 0 0 0 1px rgba(22,131,255,.06), 0 0 22px rgba(0,102,255,.16), inset 0 0 20px rgba(22,131,255,.07); }
+          50% { box-shadow: 0 0 0 1px rgba(140,203,255,.12), 0 0 34px rgba(0,102,255,.28), inset 0 0 25px rgba(22,131,255,.12); }
+        }
+
+        .protocol-showcase-copy {
+          min-width: 0;
+          display: flex;
+          flex-direction: column;
+          gap: 3px;
+        }
+
+        .protocol-showcase-copy small,
+        .protocol-showcase-copy span {
+          font-family: "Space Mono", monospace;
+          font-size: 6px;
+          letter-spacing: .18em;
+          color: rgba(140,203,255,.55);
+        }
+
+        .protocol-showcase-copy strong {
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          font-family: "Manrope", sans-serif;
+          font-size: 17px;
+          font-weight: 600;
+          letter-spacing: -.02em;
+          color: #f7faff;
+        }
+
+        .protocol-advantages-number {
+          flex: 0 0 auto;
+          font-family: "Space Mono", monospace;
+          font-size: 18px;
+          color: rgba(140,203,255,.68);
+        }
+
+        .protocol-advantages-title {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          padding: 14px 0 4px;
+          font-family: "Space Mono", monospace;
+          font-size: 7px;
+          letter-spacing: .2em;
+          color: rgba(140,203,255,.62);
+        }
+
+        .protocol-advantages-title i {
+          flex: 1;
+          height: 1px;
+          background: linear-gradient(90deg, rgba(22,131,255,.5), transparent);
+        }
+
+        .protocol-advantages-list {
+          display: flex;
+          flex-direction: column;
+        }
+
+        .protocol-advantage-row {
+          position: relative;
+          display: grid;
+          grid-template-columns: 44px minmax(0,1fr);
+          align-items: center;
+          gap: 12px;
+          min-height: 68px;
+          border-bottom: 1px solid rgba(247,250,255,.065);
+          transition: transform .45s cubic-bezier(.16,1,.3,1), background .45s ease;
+        }
+
+        .protocol-advantage-row:last-child { border-bottom: 0; }
+
+        .protocol-advantage-row:hover {
+          transform: translateX(3px);
+          background: linear-gradient(90deg, rgba(22,131,255,.045), transparent);
+        }
+
+        .protocol-advantage-row::before {
+          content: "";
+          position: absolute;
+          left: -18px;
+          top: 50%;
+          width: 2px;
+          height: 0;
+          transform: translateY(-50%);
+          background: #1683ff;
+          box-shadow: 0 0 14px rgba(22,131,255,.8);
+          transition: height .45s cubic-bezier(.16,1,.3,1);
+        }
+
+        .protocol-advantage-row:hover::before { height: 32px; }
+
+        .protocol-advantage-icon {
+          position: relative;
+          display: grid;
+          place-items: center;
+          width: 40px;
+          height: 40px;
+          border: 1px solid rgba(140,203,255,.17);
+          border-radius: 50%;
+          background: radial-gradient(circle at 35% 28%, rgba(140,203,255,.15), rgba(22,131,255,.07) 42%, rgba(2,8,18,.94) 76%);
+          box-shadow: 0 0 18px rgba(0,102,255,.12), inset 0 0 18px rgba(22,131,255,.08);
+          transition: transform .45s cubic-bezier(.16,1,.3,1), border-color .45s ease, box-shadow .45s ease;
+        }
+
+        .protocol-advantage-icon::before {
+          content: "";
+          position: absolute;
+          inset: -5px;
+          border: 1px solid rgba(77,155,255,.08);
+          border-radius: 50%;
+          box-shadow: 0 0 16px rgba(77,155,255,.18);
+        }
+
+        .protocol-advantage-row:hover .protocol-advantage-icon {
+          transform: scale(1.07);
+          border-color: rgba(140,203,255,.55);
+          box-shadow: 0 0 0 1px rgba(140,203,255,.1), 0 0 28px rgba(0,102,255,.3), inset 0 0 20px rgba(22,131,255,.1);
+        }
+
+        .protocol-advantage-icon img {
+          width: 24px;
+          height: 24px;
+          object-fit: contain;
+          filter: brightness(1.12) drop-shadow(0 0 7px rgba(77,155,255,.72)) drop-shadow(0 0 15px rgba(22,131,255,.34));
+        }
+
+        .protocol-advantage-icon > span {
+          font-family: "Space Mono", monospace;
+          font-size: 8px;
+          color: rgba(140,203,255,.78);
+        }
+
+        .protocol-advantage-copy {
+          min-width: 0;
+          display: flex;
+          flex-direction: column;
+          gap: 4px;
+        }
+
+        .protocol-advantage-index {
+          font-family: "Space Mono", monospace;
+          font-size: 6px;
+          letter-spacing: .18em;
+          color: rgba(140,203,255,.42);
+        }
+
+        .protocol-advantage-copy strong {
+          font-family: "Manrope", sans-serif;
+          font-size: 10px;
+          font-weight: 600;
+          letter-spacing: .11em;
+          color: rgba(247,250,255,.82);
+          transition: color .35s ease;
+        }
+
+        .protocol-advantage-row:hover .protocol-advantage-copy strong { color: #fff; }
+
+        .protocol-advantage-copy small {
+          max-width: 205px;
+          font-family: "Manrope", sans-serif;
+          font-size: 9px;
+          line-height: 1.55;
+          color: rgba(247,250,255,.42);
+        }
+
+        .protocol-advantages-link {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 12px;
+          margin-top: 13px;
+          padding-top: 12px;
+          border-top: 1px solid rgba(247,250,255,.08);
+          font-family: "Space Mono", monospace;
+          font-size: 7px;
+          letter-spacing: .17em;
+          color: rgba(247,250,255,.7);
+          text-decoration: none;
+          transition: color .35s ease;
+        }
+
+        .protocol-advantages-link span:last-child {
+          font-family: "Manrope", sans-serif;
+          font-size: 15px;
+          color: #4d9bff;
+          transition: transform .35s cubic-bezier(.16,1,.3,1);
+        }
+
+        .protocol-advantages-link:hover { color: #fff; }
+        .protocol-advantages-link:hover span:last-child { transform: translateX(4px); }
 
         /* =================================================
            INFORMATION
@@ -2840,6 +3375,29 @@ export default function ProtocolObservatory() {
           font-size: 15px;
         }
 
+        @media (max-width: 1180px) and (min-width: 901px) {
+          .protocol-advantages {
+            max-width: 250px;
+            padding: 14px;
+          }
+
+          .protocol-advantage-row {
+            grid-template-columns: 38px minmax(0, 1fr);
+            gap: 9px;
+            min-height: 72px;
+          }
+
+          .protocol-advantage-icon {
+            width: 36px;
+            height: 36px;
+          }
+
+          .protocol-advantage-icon img {
+            width: 21px;
+            height: 21px;
+          }
+        }
+
         /* =================================================
            MOBILE SELECTOR
         ================================================= */
@@ -2848,6 +3406,13 @@ export default function ProtocolObservatory() {
           display: none;
         }
 
+        @media (max-width: 900px) {
+          .protocol-advantages {
+            display: none;
+          }
+        }
+
+
         /* =================================================
            DESKTOP EDITORIAL LAYOUT
         ================================================= */
@@ -2855,9 +3420,15 @@ export default function ProtocolObservatory() {
         @media (min-width: 901px) {
           .protocol-observatory {
             display: grid;
-            grid-template-columns: minmax(320px, .72fr) minmax(520px, 1.28fr);
-            grid-template-rows: auto auto minmax(0, 1fr);
-            column-gap: clamp(34px, 5vw, 84px);
+            grid-template-columns:
+              minmax(250px, .78fr)
+              minmax(440px, 1.22fr)
+              minmax(250px, .78fr);
+            grid-template-rows:
+              auto
+              auto
+              minmax(0, 1fr);
+            column-gap: clamp(22px, 2.5vw, 46px);
             row-gap: 0;
             align-items: center;
             min-height: 0;
@@ -2877,18 +3448,19 @@ export default function ProtocolObservatory() {
             grid-column: 1 / -1;
             grid-row: 2;
             width: 100%;
-            margin-top: 14px;
+            margin-top: 12px;
           }
 
+          /* LEFT — protocol identity */
           .observatory-information {
             grid-column: 1;
             grid-row: 3;
             width: 100%;
-            max-width: 560px;
+            max-width: 390px;
             margin: 0;
-            padding: 18px 0;
-            grid-template-columns: 68px minmax(0, 1fr);
-            gap: 18px;
+            padding: 20px 0;
+            grid-template-columns: 58px minmax(0, 1fr);
+            gap: 14px;
             align-self: center;
           }
 
@@ -2897,40 +3469,59 @@ export default function ProtocolObservatory() {
           }
 
           .information-number span {
-            font-size: clamp(30px, 3vw, 44px);
+            font-size: clamp(28px, 2.5vw, 40px);
           }
 
           .information-copy h3 {
-            font-size: clamp(30px, 2.8vw, 42px);
-            line-height: 1;
+            font-size: clamp(28px, 2.7vw, 40px);
+            line-height: .98;
           }
 
           .information-copy p {
-            max-width: 480px;
-            margin-top: 10px;
-            font-size: 12px;
-            line-height: 1.75;
+            max-width: 360px;
+            margin-top: 9px;
+            font-size: 11px;
+            line-height: 1.65;
           }
 
           .information-link {
             grid-column: 2;
             justify-self: start;
-            margin-top: 14px;
+            margin-top: 12px;
           }
 
+          /* CENTER — video / orbital system */
           .observatory-system {
             grid-column: 2;
             grid-row: 3;
             width: 100%;
-            max-width: 660px;
+            max-width: 650px;
             max-height: 100%;
-            aspect-ratio: 1 / .86;
+            aspect-ratio: 1 / .88;
             margin: 0 auto;
             align-self: center;
           }
 
           .observatory-core {
-            width: clamp(260px, 24vw, 390px);
+            width: clamp(245px, 21vw, 365px);
+          }
+
+          /* RIGHT — structured protocol advantages */
+          .protocol-advantages {
+            grid-column: 3;
+            grid-row: 3;
+            width: 100%;
+            max-width: 330px;
+            max-height: min(100%, 500px);
+            margin: 0;
+            align-self: center;
+            justify-self: stretch;
+            overflow-y: auto;
+            scrollbar-width: none;
+          }
+
+          .protocol-advantages::-webkit-scrollbar {
+            display: none;
           }
         }
 
@@ -2939,6 +3530,10 @@ export default function ProtocolObservatory() {
         ================================================= */
 
         @media (max-width: 900px) {
+          .protocol-advantages {
+            display: none;
+          }
+
           .protocol-observatory {
             min-height: auto;
             height: auto;
@@ -3201,12 +3796,15 @@ export default function ProtocolObservatory() {
           .energy-orbit-one,
           .energy-orbit-two,
           .energy-orbit-three {
-            animation: none;
+            animation: none !important;
           }
 
           .orbit-node,
           .orbit-icon,
-          .orbit-icon img {
+          .orbit-icon img,
+          .protocol-advantages-transition,
+          .protocol-showcase-icon {
+            animation: none !important;
             transition: none !important;
           }
         }

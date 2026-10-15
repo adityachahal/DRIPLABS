@@ -170,7 +170,7 @@ const PRODUCTS: Product[] = [
 
 
 
-    category: "BEAUTY & RADIANCE",
+    category: "SKIN & BEAUTY",
 
 
 

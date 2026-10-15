@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { type PointerEvent, useEffect, useRef, useState } from "react";
 
@@ -468,7 +468,7 @@ export default function Hero() {
 
     <section
 
-      className={`${manrope.variable} relative min-h-[100svh] overflow-hidden bg-[#071525] text-[#F5F0E7]`}
+      className={`${manrope.variable} relative min-h-[100svh] overflow-hidden bg-[#020812] text-[#F7FAFF]`}
 
       style={{
 
@@ -517,19 +517,19 @@ export default function Hero() {
 
         {/* General dark overlay */}
 
-        <div className="absolute inset-0 bg-[#071525]/20" />
+        <div className="absolute inset-0 bg-[#020812]/20" />
 
         {/* Left readability */}
 
-        <div className="absolute inset-0 bg-gradient-to-r from-[#071525]/90 via-[#071525]/45 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#020812]/90 via-[#020812]/45 to-transparent" />
 
         {/* Bottom fade */}
 
-        <div className="absolute inset-x-0 bottom-0 h-[38%] bg-gradient-to-t from-[#071525] via-[#071525]/70 to-transparent" />
+        <div className="absolute inset-x-0 bottom-0 h-[38%] bg-gradient-to-t from-[#020812] via-[#020812]/70 to-transparent" />
 
         {/* Top fade */}
 
-        <div className="absolute inset-x-0 top-0 h-[20%] bg-gradient-to-b from-[#071525]/70 to-transparent" />
+        <div className="absolute inset-x-0 top-0 h-[20%] bg-gradient-to-b from-[#020812]/70 to-transparent" />
 
         {/* =========================================================
             CURSOR FLOW / VELOCITY FIELD
@@ -568,7 +568,7 @@ export default function Hero() {
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,rgba(2,8,18,0.06)_48%,rgba(2,8,18,0.3)_100%)]" />
         </div>
 
-        {/* Editorial pointer label � changes on every meaningful cursor move. */}
+        {/* Editorial pointer label ï¿½ changes on every meaningful cursor move. */}
         <div
           ref={cursorLabelRef}
           className="pointer-events-none absolute left-1/2 top-1/2 z-[8] -translate-y-1/2 max-md:hidden"
@@ -593,7 +593,7 @@ export default function Hero() {
 
         {/* Blue atmospheric glow */}
 
-        <div className="pointer-events-none absolute right-[8%] top-[18%] h-[25vw] w-[25vw] rounded-full bg-[#28B8C8]/[0.06] blur-[80px] max-md:h-[48vw] max-md:w-[48vw] max-md:blur-[70px]" />
+        <div className="pointer-events-none absolute right-[8%] top-[18%] h-[25vw] w-[25vw] rounded-full bg-[#1683FF]/[0.06] blur-[80px] max-md:h-[48vw] max-md:w-[48vw] max-md:blur-[70px]" />
 
         {/* Subtle film grain */}
 
@@ -841,12 +841,11 @@ export default function Hero() {
 
             >
 
-              <span className="h-px w-5 bg-gradient-to-r from-transparent to-[#28B8C8]/70" />
-
-              <span className="ml-[-1px] text-[15px] font-light leading-none text-[#28B8C8]">
-
-                �
-
+              <span
+                className="relative flex h-3 w-3 shrink-0 items-center justify-center text-[#F2A65A]"
+                aria-hidden="true"
+              >
+                <span className="h-2 w-2 rotate-45 border border-current" />
               </span>
 
             </motion.span>
@@ -881,7 +880,7 @@ export default function Hero() {
 
             >
 
-              Nourish � Recharge � Restore
+              Nourish    Recharge    Restore
 
             </span>
 
@@ -919,13 +918,12 @@ export default function Hero() {
 
             >
 
-              <span className="mr-[-1px] text-[15px] font-light leading-none text-[#28B8C8]">
-
-                �
-
+              <span
+                className="relative flex h-3 w-3 shrink-0 items-center justify-center text-[#F2A65A]"
+                aria-hidden="true"
+              >
+                <span className="h-2 w-2 rotate-45 border border-current" />
               </span>
-
-              <span className="h-px w-5 bg-gradient-to-l from-transparent to-[#28B8C8]/70" />
 
             </motion.span>
 
@@ -999,7 +997,7 @@ export default function Hero() {
 
     tracking-[-0.065em]
 
-    text-[#F5F0E7]
+    text-[#F7FAFF]
 
   "
 
@@ -1157,7 +1155,7 @@ export default function Hero() {
 
           font-semibold
 
-          text-[#F5F0E7]
+          text-[#F7FAFF]
 
         "
 
@@ -1399,7 +1397,7 @@ export default function Hero() {
 
           {/* =====================================================
 
-              BOTTOM LEFT � CTA
+              BOTTOM LEFT ï¿½ CTA
 
           ===================================================== */}
 
@@ -1563,7 +1561,7 @@ export default function Hero() {
 
                 {/* Bottom depth */}
 
-                <span className="pointer-events-none absolute inset-x-0 bottom-0 h-1/2 rounded-full bg-gradient-to-t from-[#075F86]/20 to-transparent" />
+                <span className="pointer-events-none absolute inset-x-0 bottom-0 h-1/2 rounded-full bg-gradient-to-t from-[#0066FF]/20 to-transparent" />
 
                 <span className="relative z-10 flex items-center gap-3 whitespace-nowrap">
 
@@ -1571,7 +1569,7 @@ export default function Hero() {
 
                   <span className="text-[15px] transition-transform duration-500 group-hover:translate-x-1">
 
-                    ?
+                    →
 
                   </span>
 
@@ -1661,7 +1659,7 @@ export default function Hero() {
 
           border-white/[0.13]
 
-          bg-[#071525]/[0.97]
+          bg-[#020812]/[0.97]
 
           shadow-[0_28px_80px_rgba(0,0,0,0.48)]
 
@@ -1695,7 +1693,7 @@ export default function Hero() {
 
             from-transparent
 
-            via-[#28B8C8]/50
+            via-[#1683FF]/50
 
             to-transparent
 
@@ -1715,7 +1713,7 @@ export default function Hero() {
 
           <div className="flex items-center gap-2 pr-10">
 
-            <span className="h-px w-5 bg-[#28B8C8]/80" />
+            <span className="h-px w-5 bg-[#1683FF]/80" />
 
             <span
 
@@ -1729,7 +1727,7 @@ export default function Hero() {
 
                 tracking-[0.28em]
 
-                text-[#28B8C8]
+                text-[#1683FF]
 
               "
 
@@ -1787,18 +1785,19 @@ export default function Hero() {
 
               duration-300
 
-              hover:border-[#28B8C8]/40
+              hover:border-[#1683FF]/40
 
-              hover:bg-[#28B8C8]/[0.08]
+              hover:bg-[#1683FF]/[0.08]
 
-              hover:text-[#28B8C8]
+              hover:text-[#1683FF]
 
             "
 
           >
-
-            �
-
+            <span className="relative block h-3.5 w-3.5" aria-hidden="true">
+              <span className="absolute left-1/2 top-1/2 h-px w-4 -translate-x-1/2 -translate-y-1/2 rotate-45 bg-current" />
+              <span className="absolute left-1/2 top-1/2 h-px w-4 -translate-x-1/2 -translate-y-1/2 -rotate-45 bg-current" />
+            </span>
           </button>
 
           {/* MAIN HEADING */}
@@ -1817,7 +1816,7 @@ export default function Hero() {
 
                 tracking-[-0.035em]
 
-                text-[#F5F0E7]
+                text-[#F7FAFF]
 
               "
 
@@ -1867,7 +1866,7 @@ export default function Hero() {
 
           <div className="flex items-center gap-2">
 
-            <span className="h-px w-5 bg-[#28B8C8]/70" />
+            <span className="h-px w-5 bg-[#1683FF]/70" />
 
             <span
 
@@ -1881,7 +1880,7 @@ export default function Hero() {
 
                 tracking-[0.24em]
 
-                text-[#28B8C8]
+                text-[#1683FF]
 
               "
 
@@ -1919,7 +1918,7 @@ export default function Hero() {
 
             {/* =================================================
 
-                01 � FRANCHISE / CHANNEL PARTNER
+                01 ï¿½ FRANCHISE / CHANNEL PARTNER
 
             ================================================= */}
 
@@ -2043,13 +2042,13 @@ export default function Hero() {
 
                   group-hover:translate-x-1
 
-                  group-hover:text-[#28B8C8]
+                  group-hover:text-[#1683FF]
 
                 "
 
               >
 
-                ?
+
 
               </span>
 
@@ -2057,7 +2056,7 @@ export default function Hero() {
 
             {/* =================================================
 
-                02 � HEALTHCARE PROFESSIONALS
+                02 ï¿½ HEALTHCARE PROFESSIONALS
 
             ================================================= */}
 
@@ -2179,13 +2178,13 @@ export default function Hero() {
 
                   group-hover:translate-x-1
 
-                  group-hover:text-[#28B8C8]
+                  group-hover:text-[#1683FF]
 
                 "
 
               >
 
-                ?
+
 
               </span>
 
@@ -2193,7 +2192,7 @@ export default function Hero() {
 
             {/* =================================================
 
-                03 � CLINICS AND HOSPITALS
+                03 ï¿½ CLINICS AND HOSPITALS
 
             ================================================= */}
 
@@ -2317,13 +2316,13 @@ export default function Hero() {
 
                   group-hover:translate-x-1
 
-                  group-hover:text-[#28B8C8]
+                  group-hover:text-[#1683FF]
 
                 "
 
               >
 
-                ?
+
 
               </span>
 
@@ -2331,7 +2330,7 @@ export default function Hero() {
 
             {/* =================================================
 
-                04 � RESEARCH AND INSTITUTION
+                04 ï¿½ RESEARCH AND INSTITUTION
 
             ================================================= */}
 
@@ -2453,13 +2452,13 @@ export default function Hero() {
 
                   group-hover:translate-x-1
 
-                  group-hover:text-[#28B8C8]
+                  group-hover:text-[#1683FF]
 
                 "
 
               >
 
-                ?
+
 
               </span>
 
@@ -2481,7 +2480,7 @@ export default function Hero() {
 
           <div className="flex items-center gap-2">
 
-            <span className="h-px w-5 bg-[#28B8C8]/70" />
+            <span className="h-px w-5 bg-[#1683FF]/70" />
 
             <span
 
@@ -2495,7 +2494,7 @@ export default function Hero() {
 
                 tracking-[0.24em]
 
-                text-[#28B8C8]
+                text-[#1683FF]
 
               "
 
@@ -2535,7 +2534,7 @@ export default function Hero() {
 
             {/* =================================================
 
-                01 � CONSUMERS
+                01 ï¿½ CONSUMERS
 
             ================================================= */}
 
@@ -2661,13 +2660,13 @@ export default function Hero() {
 
                   group-hover:translate-x-1
 
-                  group-hover:text-[#28B8C8]
+                  group-hover:text-[#1683FF]
 
                 "
 
               >
 
-                ?
+
 
               </span>
 
@@ -2675,7 +2674,7 @@ export default function Hero() {
 
             {/* =================================================
 
-                02 � CORPORATE WELLNESS
+                02 ï¿½ CORPORATE WELLNESS
 
             ================================================= */}
 
@@ -2793,13 +2792,13 @@ export default function Hero() {
 
                   group-hover:translate-x-1
 
-                  group-hover:text-[#28B8C8]
+                  group-hover:text-[#1683FF]
 
                 "
 
               >
 
-                ?
+
 
               </span>
 
@@ -2917,7 +2916,7 @@ export default function Hero() {
 
                   <span className="text-[12px] transition-transform duration-500 group-hover:translate-x-1">
 
-                    ?
+                    →
 
                   </span>
 
@@ -2931,7 +2930,7 @@ export default function Hero() {
 
           {/* =====================================================
 
-              CENTER � SCROLL
+              CENTER ï¿½ SCROLL
 
           ===================================================== */}
 
@@ -3053,7 +3052,7 @@ export default function Hero() {
 
           {/* =====================================================
 
-              BOTTOM RIGHT � TRUST STRIP
+              BOTTOM RIGHT ï¿½ TRUST STRIP
 
           ===================================================== */}
 
@@ -3089,11 +3088,11 @@ export default function Hero() {
 
           >
 
-            <div className="flex w-full items-stretch justify-between max-md:rounded-[14px] max-md:border max-md:border-white/[0.10] max-md:bg-[#071525]/[0.28] max-md:px-1 max-md:py-2">
+            <div className="flex w-full items-stretch justify-between max-md:rounded-[14px] max-md:border max-md:border-white/[0.10] max-md:bg-[#020812]/[0.28] max-md:px-1 max-md:py-2">
 
               {/* =================================================
 
-                  01 � PHARMA-GRADE
+                  01 ï¿½ PHARMA-GRADE
 
               ================================================= */}
 
@@ -3165,7 +3164,7 @@ export default function Hero() {
 
               {/* =================================================
 
-                  02 � PHYSICIAN GUIDED
+                  02 ï¿½ PHYSICIAN GUIDED
 
               ================================================= */}
 
@@ -3271,7 +3270,7 @@ export default function Hero() {
 
               {/* =================================================
 
-                  03 � INDIAN PHARMACOPOEIA
+                  03 ï¿½ INDIAN PHARMACOPOEIA
 
               ================================================= */}
 
@@ -3497,7 +3496,7 @@ export default function Hero() {
 
               {/* =================================================
 
-                  04 � WHO-GMP-GLP
+                  04 ï¿½ WHO-GMP-GLP
 
               ================================================= */}
 
