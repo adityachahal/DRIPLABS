@@ -89,15 +89,16 @@ const FALLBACK_PROTOCOLS: Protocol[] = [
   { slug: "reactivate", name: "REACTIVATE DRIP", number: "07", family: "Recovery & Immune", description: "A recovery-oriented wellness formulation within the DRIPLABS wellness system." },
   { slug: "fit", name: "FIT DRIP", number: "08", family: "Metabolic & Performance", description: "A performance and recovery-focused protocol within the DRIPLABS system." },
   { slug: "refuel", name: "REFUEL DRIP", number: "09", family: "Metabolic & Performance", description: "A performance-oriented formulation within the DRIPLABS recovery system." },
-  { slug: "nadx", name: "NADx BOOST DRIP", number: "10", family: "Cellular & Longevity", description: "A cellular wellness experience within the DRIPLABS Cellular & Longevity pathway." },
+  { slug: "nadx", name: "NADx DRIP", number: "10", family: "Cellular & Longevity", description: "Cellular Energy Protocol. A physician-directed infusion composed of NAD+ and selected nutritional adjuncts." },
   { slug: "gut-plus", name: "GUT+ DRIP", number: "11", family: "Digestive & Systemic", description: "A digestive and systemic wellness protocol within the DRIPLABS protocol collection." },
-  { slug: "rebuild", name: "REBUILD DRIP", number: "12", family: "Recovery & Immune", description: "A restorative formulation within the DRIPLABS recovery and wellness system." },
+  { slug: "rebuild", name: "REBUILD DRIP", number: "12", family: "Metabolic & Performance", description: "Protein Recovery Protocol. A physician-supervised infusion composed of amino acids and metabolic cofactors." },
   { slug: "move", name: "MOVE DRIP", number: "13", family: "Musculoskeletal", description: "A formulation designed around the DRIPLABS musculoskeletal wellness pathway." },
   { slug: "femme", name: "FEMME DRIP", number: "14", family: "Women's Wellness", description: "A women’s wellness formulation within the DRIPLABS protocol collection." },
   { slug: "recover-plus", name: "RECOVER+ DRIP", number: "15", family: "Recovery & Immune", description: "An advanced recovery formulation within the DRIPLABS wellness system." },
-  { slug: "performance-x", name: "PERFORMANCE-X DRIP", number: "16", family: "Metabolic & Performance", description: "A performance-focused formulation within the DRIPLABS metabolic and performance pathway." },
+  { slug: "performance-x", name: "PERFORMANC-X DRIP", number: "16", family: "Metabolic & Performance", description: "A performance-focused formulation within the DRIPLABS metabolic and performance pathway." },
   { slug: "methyblu", name: "METHYBLU DRIP", number: "17", family: "Cellular & Longevity", description: "A specialised formulation within the DRIPLABS protocol collection." },
-  { slug: "focus", name: "FOCUS", number: "18", family: "Cognitive & Neuro", description: "Cognitive and neuronal nutritional wellness support." },
+  { slug: "focus", name: "FOCUS DRIP", number: "18", family: "Cognitive & Neuro", description: "Cognitive Wellness Protocol. A physician-guided infusion designed around cognitive and neurological nutritional wellness." },
+  { slug: "apex", name: "APEX DRIP", number: "19", family: "Cellular & Longevity", description: "Healthy Aging Protocol. A physician-directed infusion composed of NAD+ precursors and cellular support cofactors." },
 ];
 
 const SKIN_PROTOCOL_ORDER = ["radiance", "glamour", "restore"] as const;
@@ -192,7 +193,8 @@ function protocolIdentity(value: unknown): string {
   if (slug.startsWith("radiance")) return "radiance";
   if (slug.startsWith("restore")) return "restore";
   if (slug.startsWith("renew")) return "renew";
-  if (slug.startsWith("nadx")) return "nadx";
+  if (slug.startsWith("apex")) return "apex";
+  if (slug.startsWith("nadx") || slug.startsWith("cellular-energy")) return "nadx";
   if (slug.startsWith("methyblu")) return "methyblu";
   if (slug.startsWith("shrink")) return "shrink";
   if (slug.startsWith("bounce-back")) return "bounce-back";
@@ -211,11 +213,11 @@ function protocolIdentity(value: unknown): string {
 function normalizeFamily(value: unknown, slug = ""): WellnessFamily {
   const identity = protocolIdentity(slug);
   if (["glamour", "radiance", "restore"].includes(identity)) return "Skin & Beauty";
-  if (["renew", "nadx", "methyblu"].includes(identity)) return "Cellular & Longevity";
-  if (["shrink", "fit", "refuel", "performance-x"].includes(identity)) return "Metabolic & Performance";
+  if (["renew", "apex", "nadx", "methyblu"].includes(identity)) return "Cellular & Longevity";
+  if (["shrink", "fit", "refuel", "rebuild", "performance-x"].includes(identity)) return "Metabolic & Performance";
   if (identity === "gut-plus") return "Digestive & Systemic";
   if (identity === "femme") return "Women's Wellness";
-  if (["bounce-back", "reactivate", "rebuild", "recover-plus"].includes(identity)) return "Recovery & Immune";
+  if (["bounce-back", "reactivate", "recover-plus"].includes(identity)) return "Recovery & Immune";
   if (identity === "move") return "Musculoskeletal";
 
   const family = String(value ?? "").toLowerCase();
@@ -301,7 +303,11 @@ export default function UnifiedWellnessObservatory() {
         if (!cancelled && parsed.length) {
           // API entries win; fallback entries only fill protocols not included by the endpoint.
           const merged = new Map<string, Protocol>();
-          parsed.forEach((protocol) => merged.set(protocolIdentity(protocol.slug), protocol));
+          parsed.forEach((protocol) => {
+            const key = protocolIdentity(protocol.slug);
+            const canonical = FALLBACK_PROTOCOLS.find((item) => protocolIdentity(item.slug) === key);
+            merged.set(key, canonical ? { ...protocol, slug: canonical.slug, name: canonical.name, number: canonical.number, family: canonical.family } : protocol);
+          });
           FALLBACK_PROTOCOLS.forEach((protocol) => {
             const key = protocolIdentity(protocol.slug);
             if (!merged.has(key)) merged.set(key, protocol);
@@ -493,13 +499,13 @@ export default function UnifiedWellnessObservatory() {
         .uw-stage{position:relative;isolation:isolate;min-height:600px;overflow:hidden;border-radius:20px;border:1px solid rgba(255,255,255,.88);background:radial-gradient(ellipse at 50% 42%,rgba(168,209,255,.58),transparent 39%),linear-gradient(135deg,#dcecff 0%,#f9fcff 50%,#cfe3fb 100%);box-shadow:0 20px 55px rgba(23,72,137,.11)}
         .uw-stage-bg{position:absolute;inset:0;z-index:0;width:100%;height:100%;object-fit:cover;object-position:center;opacity:.17;mix-blend-mode:multiply;pointer-events:none}.uw-stage-glow{position:absolute;z-index:0;left:31%;top:9%;width:62%;height:70%;border-radius:50%;background:radial-gradient(ellipse,rgba(109,185,255,.39),rgba(155,207,255,.12) 42%,transparent 70%);filter:blur(29px);animation:uw-breathe 9s ease-in-out infinite}.uw-stage-orbit{position:absolute;z-index:1;left:7%;right:7%;top:38%;height:38%;border:1px solid rgba(39,130,244,.45);border-radius:50%;transform:rotate(-5deg);box-shadow:0 0 25px rgba(80,162,255,.19),inset 0 0 16px rgba(255,255,255,.25);pointer-events:none}.uw-stage-orbit:before,.uw-stage-orbit:after{content:"";position:absolute;width:7px;height:7px;border-radius:50%;background:#fff;box-shadow:0 0 0 3px rgba(43,140,255,.18),0 0 15px #1683ff}.uw-stage-orbit:before{left:9%;top:21%}.uw-stage-orbit:after{right:12%;bottom:12%;background:#f6bb79;box-shadow:0 0 0 3px rgba(246,187,121,.2),0 0 13px #f2a65a}
         .uw-model-portrait{position:absolute;display:block;left:51%;bottom:-2%;width:auto;height:102%;max-width:70%;object-fit:contain;object-position:center bottom;transform:translateX(-50%);z-index:3;filter:drop-shadow(0 12px 28px rgba(16,53,98,.16));pointer-events:none;user-select:none}.uw-stage-top{position:absolute;left:24px;right:24px;top:20px;display:flex;align-items:center;justify-content:space-between;gap:15px;z-index:7}.uw-stage-label{display:flex;align-items:center;gap:9px;color:#2469bc;font-size:8px;font-weight:700;letter-spacing:.24em;text-transform:uppercase}.uw-stage-label i{width:6px;height:6px;background:#258cff;border-radius:50%;box-shadow:0 0 12px #65b8ff}.uw-stage-counter{color:#526d90;font-size:8px;letter-spacing:.19em;text-align:right;text-transform:uppercase}.uw-stage-counter strong{color:#176cf3;font-weight:700}.uw-model-caption{position:absolute;z-index:6;top:13%;left:50%;transform:translateX(-50%);width:max-content;max-width:90%;border:1px solid rgba(255,255,255,.8);border-radius:999px;background:rgba(248,252,255,.52);backdrop-filter:blur(18px);padding:8px 12px;color:#3c5a81;font-size:7px;letter-spacing:.22em;text-transform:uppercase}
-        .uw-orbit-track{position:absolute;z-index:auto;inset:0;pointer-events:none;overflow:visible}.uw-orbit-position{position:absolute;left:0;top:0;width:clamp(145px,18vw,198px);transform:translate(-50%,-50%);pointer-events:auto;will-change:transform,opacity,filter;transition:opacity .3s ease,filter .3s ease}.uw-orbit-counter{transform:none;transform-origin:center;pointer-events:auto}.uw-orbit-card{position:relative;isolation:isolate;display:flex;flex-direction:column;justify-content:space-between;width:100%;min-height:194px;overflow:hidden;padding:14px 14px 12px;border:1px solid rgba(255,255,255,.95);border-radius:15px;background:linear-gradient(145deg,rgba(255,255,255,.9),rgba(235,246,255,.7));box-shadow:0 12px 32px rgba(37,93,157,.17),inset 0 1px 0 white;backdrop-filter:blur(24px);text-align:left;color:#152546;cursor:pointer;transition:transform .5s cubic-bezier(.22,1,.36,1),border-color .45s ease,box-shadow .45s ease,background .45s ease}.uw-orbit-card:hover,.uw-orbit-card.selected{transform:translateY(-7px) scale(1.025);border-color:rgba(29,126,255,.95);background:linear-gradient(145deg,rgba(255,255,255,.98),rgba(224,241,255,.88));box-shadow:0 0 0 1px rgba(22,119,248,.25),0 18px 44px rgba(22,119,248,.24),inset 0 1px 0 white}.uw-orbit-card.front{border-color:rgba(29,126,255,.96);background:linear-gradient(145deg,rgba(255,255,255,.98),rgba(224,241,255,.9));box-shadow:0 0 0 1px rgba(22,119,248,.22),0 0 28px rgba(22,119,248,.2),0 18px 44px rgba(22,119,248,.16),inset 0 1px 0 white}.uw-orbit-card.rear{box-shadow:0 7px 18px rgba(37,93,157,.07),inset 0 1px 0 rgba(255,255,255,.55)}.uw-orbit-card:focus-visible{outline:2px solid #1677f8;outline-offset:3px}.uw-card-glint{position:absolute;inset:0;z-index:-1;background:radial-gradient(circle at 78% 8%,rgba(94,176,255,.24),transparent 36%),linear-gradient(135deg,rgba(255,255,255,.35),transparent 48%);pointer-events:none}.uw-card-head{display:flex;align-items:center;justify-content:space-between;gap:10px;color:#5e7392;font-size:8px;letter-spacing:.16em}.uw-card-head strong{font-weight:600;color:#1d5fc4}.uw-protocol-glyph{display:grid;place-items:center;width:52px;height:52px;margin:10px auto;color:#1475f5;background:radial-gradient(circle,rgba(107,184,255,.22),rgba(255,255,255,.18) 70%);border:1px solid rgba(22,119,248,.15);border-radius:50%;box-shadow:inset 0 0 19px rgba(255,255,255,.9),0 5px 18px rgba(22,119,248,.11)}.uw-protocol-title{display:block;font-family:var(--font-heading,Georgia,serif);font-size:20px;line-height:1.03;letter-spacing:-.045em;color:#122344;font-weight:400}.uw-protocol-family{display:block;margin-top:6px;color:#3d6caa;font-size:7px;line-height:1.4;letter-spacing:.13em;text-transform:uppercase}.uw-protocol-ingredients{display:block;margin-top:8px;padding-top:8px;border-top:1px solid rgba(37,101,183,.16);color:#637997;font-size:8px;line-height:1.4;min-height:28px;overflow-wrap:anywhere}.uw-card-bottom{display:flex;align-items:center;justify-content:space-between;gap:9px;margin-top:10px;color:#53739b;font-size:7px;letter-spacing:.13em;text-transform:uppercase}.uw-card-bottom span:last-child{display:grid;place-items:center;width:23px;height:23px;border-radius:50%;background:#1677f8;color:white;box-shadow:0 5px 12px rgba(22,119,248,.22)}
+        .uw-orbit-track{position:absolute;z-index:auto;inset:0;pointer-events:none;overflow:visible}.uw-orbit-position{position:absolute;left:0;top:0;width:clamp(145px,18vw,198px);transform:translate(-50%,-50%);pointer-events:auto;will-change:transform,opacity,filter;transition:opacity .3s ease,filter .3s ease}.uw-orbit-counter{transform:none;transform-origin:center;pointer-events:auto}.uw-orbit-card{position:relative;isolation:isolate;display:flex;flex-direction:column;justify-content:space-between;width:100%;aspect-ratio:1/1;min-height:0;overflow:hidden;padding:0;border:1px solid rgba(255,255,255,.95);border-radius:15px;background:#f7f9fc;box-shadow:0 12px 32px rgba(37,93,157,.17),inset 0 1px 0 white;backdrop-filter:blur(24px);text-align:left;color:#152546;cursor:pointer;transition:transform .5s cubic-bezier(.22,1,.36,1),border-color .45s ease,box-shadow .45s ease,background .45s ease}.uw-protocol-card-art{object-fit:cover;display:block;transition:filter .45s ease,transform .6s cubic-bezier(.22,1,.36,1)}.uw-orbit-card:hover .uw-protocol-card-art,.uw-orbit-card.selected .uw-protocol-card-art{filter:saturate(1.04);transform:scale(1.015)}.uw-orbit-card:hover,.uw-orbit-card.selected{transform:translateY(-7px) scale(1.025);border-color:rgba(29,126,255,.95);background:linear-gradient(145deg,rgba(255,255,255,.98),rgba(224,241,255,.88));box-shadow:0 0 0 1px rgba(22,119,248,.25),0 18px 44px rgba(22,119,248,.24),inset 0 1px 0 white}.uw-orbit-card.front{border-color:rgba(29,126,255,.96);background:linear-gradient(145deg,rgba(255,255,255,.98),rgba(224,241,255,.9));box-shadow:0 0 0 1px rgba(22,119,248,.22),0 0 28px rgba(22,119,248,.2),0 18px 44px rgba(22,119,248,.16),inset 0 1px 0 white}.uw-orbit-card.rear{box-shadow:0 7px 18px rgba(37,93,157,.07),inset 0 1px 0 rgba(255,255,255,.55)}.uw-orbit-card:focus-visible{outline:2px solid #1677f8;outline-offset:3px}.uw-card-glint{position:absolute;inset:0;z-index:-1;background:radial-gradient(circle at 78% 8%,rgba(94,176,255,.24),transparent 36%),linear-gradient(135deg,rgba(255,255,255,.35),transparent 48%);pointer-events:none}.uw-card-head{display:flex;align-items:center;justify-content:space-between;gap:10px;color:#5e7392;font-size:8px;letter-spacing:.16em}.uw-card-head strong{font-weight:600;color:#1d5fc4}.uw-protocol-glyph{display:grid;place-items:center;width:52px;height:52px;margin:10px auto;color:#1475f5;background:radial-gradient(circle,rgba(107,184,255,.22),rgba(255,255,255,.18) 70%);border:1px solid rgba(22,119,248,.15);border-radius:50%;box-shadow:inset 0 0 19px rgba(255,255,255,.9),0 5px 18px rgba(22,119,248,.11)}.uw-protocol-title{display:block;font-family:var(--font-heading,Georgia,serif);font-size:20px;line-height:1.03;letter-spacing:-.045em;color:#122344;font-weight:400}.uw-protocol-family{display:block;margin-top:6px;color:#3d6caa;font-size:7px;line-height:1.4;letter-spacing:.13em;text-transform:uppercase}.uw-protocol-ingredients{display:block;margin-top:8px;padding-top:8px;border-top:1px solid rgba(37,101,183,.16);color:#637997;font-size:8px;line-height:1.4;min-height:28px;overflow-wrap:anywhere}.uw-card-bottom{display:flex;align-items:center;justify-content:space-between;gap:9px;margin-top:10px;color:#53739b;font-size:7px;letter-spacing:.13em;text-transform:uppercase}.uw-card-bottom span:last-child{display:grid;place-items:center;width:23px;height:23px;border-radius:50%;background:#1677f8;color:white;box-shadow:0 5px 12px rgba(22,119,248,.22)}
         .uw-active-detail{position:absolute;z-index:7;top:63px;right:22px;max-width:180px;padding:12px 13px;border:1px solid rgba(255,255,255,.87);border-radius:12px;background:rgba(250,253,255,.68);backdrop-filter:blur(20px);box-shadow:0 12px 34px rgba(54,105,163,.12)}.uw-active-detail small{display:block;color:#2770cd;font-size:7px;letter-spacing:.2em;text-transform:uppercase}.uw-active-detail strong{display:block;margin-top:5px;font-family:var(--font-heading,Georgia,serif);font-size:18px;font-weight:400;line-height:1.05;letter-spacing:-.035em;color:#182946}.uw-active-detail span{display:block;margin-top:5px;color:#6a7e99;font-size:8px;line-height:1.4}.uw-stage-footer{position:absolute;z-index:7;left:24px;right:24px;bottom:17px;display:flex;align-items:center;justify-content:space-between;gap:12px;color:#56749b;font-size:7px;letter-spacing:.18em;text-transform:uppercase}.uw-stage-footer b{color:#176cf3;font-weight:600}.uw-stage-footer span:last-child{display:flex;align-items:center;gap:7px}.uw-stage-footer span:last-child:before{content:"";width:4px;height:4px;background:#f2a65a;border-radius:50%;box-shadow:0 0 9px rgba(242,166,90,.7)}
         @keyframes uw-breathe{0%,100%{opacity:.48;transform:scale(.94)}50%{opacity:.88;transform:scale(1.04)}}
         .uw-reduced-motion .uw-stage-glow{animation:none!important}.uw-reduced-motion *{scroll-behavior:auto!important;transition-duration:.01ms!important}
-        @media(max-width:1200px){.uw-model-portrait{height:96%;max-width:72%}.uw-top{grid-template-columns:minmax(210px,.7fr) minmax(0,2fr);gap:24px}.uw-family-card{flex-basis:calc((100% - 18px)/2);aspect-ratio:1/1.05}.uw-lower{grid-template-columns:minmax(245px,.75fr) minmax(0,1.35fr);gap:25px}.uw-stage{min-height:560px}.uw-orbit-position{width:clamp(150px,17vw,185px)}.uw-orbit-card{min-height:180px;padding:12px}.uw-model-portrait{height:96%;max-width:72%}}
+        @media(max-width:1200px){.uw-model-portrait{height:96%;max-width:72%}.uw-top{grid-template-columns:minmax(210px,.7fr) minmax(0,2fr);gap:24px}.uw-family-card{flex-basis:calc((100% - 18px)/2);aspect-ratio:1/1.05}.uw-lower{grid-template-columns:minmax(245px,.75fr) minmax(0,1.35fr);gap:25px}.uw-stage{min-height:560px}.uw-orbit-position{width:clamp(150px,17vw,185px)}.uw-orbit-card{min-height:0;padding:0}.uw-model-portrait{height:96%;max-width:72%}}
         @media(max-width:850px){.uw-observatory{padding:42px 20px 58px}.uw-top{grid-template-columns:1fr;gap:24px}.uw-intro p{max-width:510px}.uw-family-card{flex-basis:calc((100% - 26px)/3);aspect-ratio:.85/1;min-width:165px}.uw-lower{grid-template-columns:1fr;gap:28px}.uw-detail{max-width:720px}.uw-stage{min-height:570px}.uw-model-portrait{height:98%;max-width:78%}.uw-orbit-position{width:clamp(145px,25vw,190px)}}
-        @media(max-width:560px){.uw-observatory{padding:36px 15px 44px}.uw-intro h2{font-size:clamp(2.65rem,13vw,4rem)}.uw-intro p{font-size:12px}.uw-family-card{flex-basis:76%;min-width:0;max-height:none;aspect-ratio:.92/1}.uw-family-copy h3{font-size:24px}.uw-lower{padding-top:28px}.uw-detail h3{font-size:clamp(2.65rem,13vw,4rem)}.uw-ingredient-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.uw-stage{min-height:510px;border-radius:15px}.uw-model-portrait{height:90%;max-width:96%;bottom:1%;left:50%}.uw-stage-top{left:14px;right:14px;top:14px}.uw-stage-counter{font-size:7px}.uw-model-caption{top:12%;font-size:6px}.uw-orbit-track{transform-origin:50% 60%}.uw-orbit-position{width:clamp(124px,39vw,155px)}.uw-orbit-card{min-height:166px;padding:10px;border-radius:12px}.uw-protocol-glyph{width:38px;height:38px;margin:7px auto}.uw-protocol-glyph svg{width:22px;height:22px}.uw-protocol-title{font-size:16px}.uw-protocol-family{font-size:6px}.uw-protocol-ingredients{font-size:7px;min-height:25px}.uw-card-bottom{margin-top:7px;font-size:6px}.uw-active-detail{top:48px;right:10px;max-width:139px;padding:9px}.uw-active-detail strong{font-size:15px}.uw-stage-footer{left:12px;right:12px;bottom:12px;font-size:6px;letter-spacing:.08em}.uw-stats{gap:9px}.uw-stats strong{font-size:23px}}
+        @media(max-width:560px){.uw-observatory{padding:36px 15px 44px}.uw-intro h2{font-size:clamp(2.65rem,13vw,4rem)}.uw-intro p{font-size:12px}.uw-family-card{flex-basis:76%;min-width:0;max-height:none;aspect-ratio:.92/1}.uw-family-copy h3{font-size:24px}.uw-lower{padding-top:28px}.uw-detail h3{font-size:clamp(2.65rem,13vw,4rem)}.uw-ingredient-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.uw-stage{min-height:510px;border-radius:15px}.uw-model-portrait{height:90%;max-width:96%;bottom:1%;left:50%}.uw-stage-top{left:14px;right:14px;top:14px}.uw-stage-counter{font-size:7px}.uw-model-caption{top:12%;font-size:6px}.uw-orbit-track{transform-origin:50% 60%}.uw-orbit-position{width:clamp(124px,39vw,155px)}.uw-orbit-card{min-height:0;padding:0;border-radius:12px}.uw-active-detail{top:48px;right:10px;max-width:139px;padding:9px}.uw-active-detail strong{font-size:15px}.uw-stage-footer{left:12px;right:12px;bottom:12px;font-size:6px;letter-spacing:.08em}.uw-stats{gap:9px}.uw-stats strong{font-size:23px}}
         @media(prefers-reduced-motion:reduce){.uw-stage-glow{animation:none!important}.uw-family-viewport{scroll-behavior:auto!important}}
       `}</style>
 
@@ -568,8 +574,7 @@ export default function UnifiedWellnessObservatory() {
             <div className="uw-orbit-track" aria-label="Orbiting family protocols">
               {orbitProtocols.map((protocol) => {
                 const selected = protocol.slug === activeProtocol.slug;
-                const Icon = FAMILY_ICONS[protocol.family];
-                const cardIngredients = protocolIngredients(protocol);
+                const cardArtSlug = protocolIdentity(protocol.slug);
                 return (
                   <div
                     key={protocol.slug}
@@ -598,25 +603,15 @@ export default function UnifiedWellnessObservatory() {
                         aria-pressed={selected}
                         aria-label={`View ${protocol.name} protocol details`}
                       >
-                        <span className="uw-card-glint" />
-                        <span className="uw-card-head">
-                          <strong>{protocol.number}</strong>
-                          <span>{selected ? "ACTIVE" : "DRIPLABS®"}</span>
-                        </span>
-                        <span className="uw-protocol-glyph">
-                          <Icon size={27} strokeWidth={1.15} />
-                        </span>
-                        <span className="uw-protocol-title">{protocol.name}</span>
-                        <span className="uw-protocol-family">{protocol.family}</span>
-                        <span className="uw-protocol-ingredients">
-                          {cardIngredients.length
-                            ? cardIngredients.slice(0, 2).map((item) => item.name).join(" · ")
-                            : protocol.shortDescription || protocol.description}
-                        </span>
-                        <span className="uw-card-bottom">
-                          <span>View protocol</span>
-                          <span><ArrowDownRight size={13} /></span>
-                        </span>
+                        <Image
+                          src={`/images/unified-wellness/protocol-cards/${cardArtSlug}.webp`}
+                          alt={`${protocol.name} protocol card`}
+                          fill
+                          sizes="(max-width: 560px) 155px, (max-width: 1200px) 185px, 198px"
+                          className="uw-protocol-card-art"
+                          draggable={false}
+                          priority={selected}
+                        />
                       </button>
                     </div>
                   </div>

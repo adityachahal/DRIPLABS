@@ -56,6 +56,7 @@ export default function Hero() {
   const cursorLabelRef = useRef<HTMLDivElement | null>(null);
   const cursorLabelWordRef = useRef<HTMLSpanElement | null>(null);
   const gridCanvasRef = useRef<HTMLCanvasElement | null>(null);
+  const heroSectionRef = useRef<HTMLElement | null>(null);
 
   const pointerStateRef = useRef({
     x: 0.5,
@@ -165,11 +166,11 @@ export default function Hero() {
     if (reducedMotion) return;
 
     const canvas = gridCanvasRef.current;
-    if (!canvas) return;
+    const hero = heroSectionRef.current;
+    if (!canvas || !hero) return;
 
     const isDesktop =
       window.matchMedia("(hover: hover) and (pointer: fine)").matches;
-
     if (!isDesktop) return;
 
     const context = canvas.getContext("2d");
@@ -179,28 +180,37 @@ export default function Hero() {
     let width = 0;
     let height = 0;
     let dpr = 1;
-    let lastTime = performance.now();
+    let lastTime = 0;
+    let isInView = true;
+    let isPageVisible = !document.hidden;
+    const frameInterval = 1000 / 30;
+
+    const canAnimate = () => isInView && isPageVisible;
 
     const resize = () => {
       const rect = canvas.getBoundingClientRect();
       dpr = Math.min(window.devicePixelRatio || 1, 1.5);
       width = Math.max(1, Math.floor(rect.width));
       height = Math.max(1, Math.floor(rect.height));
-
       canvas.width = Math.floor(width * dpr);
       canvas.height = Math.floor(height * dpr);
       context.setTransform(dpr, 0, 0, dpr, 0, 0);
+      if (canAnimate()) scheduleDraw();
     };
 
     const draw = (now: number) => {
-      const delta = Math.min(40, now - lastTime);
+      frame = 0;
+      if (!canAnimate()) return;
+      if (now - lastTime < frameInterval) {
+        scheduleDraw();
+        return;
+      }
       lastTime = now;
 
       const pointer = pointerStateRef.current;
       const speed = currentVelocityRef.current;
       const px = pointer.x * width;
       const py = pointer.y * height;
-
       context.clearRect(0, 0, width, height);
 
       const spacing = Math.max(74, Math.min(104, width / 15));
@@ -208,265 +218,237 @@ export default function Hero() {
       const rows = Math.ceil(height / spacing) + 2;
       const offsetX = -spacing;
       const offsetY = -spacing;
-      const localRadius = 300;
       const points: Array<Array<{ x: number; y: number }>> = [];
 
       for (let row = 0; row < rows; row += 1) {
         const rowPoints: Array<{ x: number; y: number }> = [];
-
         for (let col = 0; col < cols; col += 1) {
           const baseX = offsetX + col * spacing;
           const baseY = offsetY + row * spacing;
-
           const distance = Math.hypot(baseX - px, baseY - py);
-          const influence = Math.max(0, 1 - distance / localRadius);
+          const influence = Math.max(0, 1 - distance / 300);
           const falloff = influence * influence;
-
-          // Only points close to the pointer are displaced.
-          // Everything outside the local field remains mathematically still.
           const cursorPush = speed * 58;
           const safeDistance = Math.max(distance, 1);
-          const pushX =
-            ((baseX - px) / safeDistance) * cursorPush * falloff;
-          const pushY =
-            ((baseY - py) / safeDistance) * cursorPush * falloff;
-
-          // A tiny local ripple follows the cursor. It disappears completely
-          // outside the influence radius instead of moving the whole grid.
-          const localRipple =
-            Math.sin(distance * 0.045 - now * 0.008) *
-            speed *
-            5 *
-            falloff;
-
+          const pushX = ((baseX - px) / safeDistance) * cursorPush * falloff;
+          const pushY = ((baseY - py) / safeDistance) * cursorPush * falloff;
+          const localRipple = Math.sin(distance * 0.045 - now * 0.008) * speed * 5 * falloff;
           const driftX = pointer.dx * 14 * falloff;
           const driftY = pointer.dy * 14 * falloff;
-
           rowPoints.push({
-            x: baseX + pushX + driftX + (baseX - px) / safeDistance * localRipple,
-            y: baseY + pushY + driftY + (baseY - py) / safeDistance * localRipple,
+            x: baseX + pushX + driftX + ((baseX - px) / safeDistance) * localRipple,
+            y: baseY + pushY + driftY + ((baseY - py) / safeDistance) * localRipple,
           });
         }
-
         points.push(rowPoints);
       }
 
-      // The base grid remains quiet. Interaction intensity is expressed
-      // through the local deformation, nodes and cursor field.
       context.lineWidth = 0.65;
       context.strokeStyle = "rgba(140, 203, 255, 0.065)";
-
       for (let row = 0; row < rows; row += 1) {
         for (let col = 0; col < cols; col += 1) {
           const point = points[row][col];
-
           if (col + 1 < cols) {
             const right = points[row][col + 1];
-            context.beginPath();
-            context.moveTo(point.x, point.y);
-            context.lineTo(right.x, right.y);
-            context.stroke();
+            context.beginPath(); context.moveTo(point.x, point.y); context.lineTo(right.x, right.y); context.stroke();
           }
-
           if (row + 1 < rows) {
             const down = points[row + 1][col];
-            context.beginPath();
-            context.moveTo(point.x, point.y);
-            context.lineTo(down.x, down.y);
-            context.stroke();
+            context.beginPath(); context.moveTo(point.x, point.y); context.lineTo(down.x, down.y); context.stroke();
           }
-
           if (row + 1 < rows && col + 1 < cols) {
             const diagonal = points[row + 1][col + 1];
-            context.beginPath();
-            context.moveTo(point.x, point.y);
-            context.lineTo(diagonal.x, diagonal.y);
-            context.stroke();
+            context.beginPath(); context.moveTo(point.x, point.y); context.lineTo(diagonal.x, diagonal.y); context.stroke();
           }
-
           if (row + 1 < rows && col > 0) {
             const diagonal = points[row + 1][col - 1];
-            context.beginPath();
-            context.moveTo(point.x, point.y);
-            context.lineTo(diagonal.x, diagonal.y);
-            context.stroke();
+            context.beginPath(); context.moveTo(point.x, point.y); context.lineTo(diagonal.x, diagonal.y); context.stroke();
           }
         }
       }
 
-      // Fine nodes: these make the mesh read as a designed instrument
-      // rather than a generic animated background.
       context.fillStyle = "rgba(140, 203, 255, 0.14)";
-
       for (let row = 0; row < rows; row += 2) {
         for (let col = 0; col < cols; col += 2) {
           const point = points[row][col];
           const distance = Math.hypot(point.x - px, point.y - py);
           const influence = Math.max(0, 1 - distance / 300);
-
           if (influence > 0.02) {
             context.beginPath();
-            context.arc(
-              point.x,
-              point.y,
-              0.8 + influence * (1.8 + speed * 1.5),
-              0,
-              Math.PI * 2,
-            );
+            context.arc(point.x, point.y, 0.8 + influence * (1.8 + speed * 1.5), 0, Math.PI * 2);
             context.fill();
           }
         }
       }
 
-      // Directional energy lines follow the cursor vector. They are sparse
-      // by design so the interaction feels expensive rather than noisy.
       if (speed > 0.025) {
         const directionX = pointer.dx;
         const directionY = pointer.dy;
         const length = 80 + speed * 150;
-
         context.lineWidth = 0.8;
         context.strokeStyle = `rgba(22, 131, 255, ${0.08 + speed * 0.16})`;
-
         for (let line = -2; line <= 2; line += 1) {
           const spread = line * 18;
           const startX = px - directionX * length * 0.5 - directionY * spread;
           const startY = py - directionY * length * 0.5 + directionX * spread;
           const endX = px + directionX * length * 0.5 - directionY * spread;
           const endY = py + directionY * length * 0.5 + directionX * spread;
-
-          context.beginPath();
-          context.moveTo(startX, startY);
-          context.lineTo(endX, endY);
-          context.stroke();
+          context.beginPath(); context.moveTo(startX, startY); context.lineTo(endX, endY); context.stroke();
         }
       }
 
-      // A restrained cursor bloom makes the mesh feel physically reactive.
       const radius = 60 + speed * 120;
       const gradient = context.createRadialGradient(px, py, 0, px, py, radius);
       gradient.addColorStop(0, `rgba(22, 131, 255, ${0.16 + speed * 0.18})`);
       gradient.addColorStop(0.35, `rgba(22, 131, 255, ${0.06 + speed * 0.08})`);
       gradient.addColorStop(1, "rgba(22, 131, 255, 0)");
       context.fillStyle = gradient;
-      context.beginPath();
-      context.arc(px, py, radius, 0, Math.PI * 2);
-      context.fill();
-
-      if (delta > 0) {
-        frame = window.requestAnimationFrame(draw);
-      }
+      context.beginPath(); context.arc(px, py, radius, 0, Math.PI * 2); context.fill();
+      scheduleDraw();
     };
 
+    const scheduleDraw = () => {
+      if (canAnimate() && frame === 0) frame = window.requestAnimationFrame(draw);
+    };
+
+    const stopDraw = () => {
+      if (frame !== 0) window.cancelAnimationFrame(frame);
+      frame = 0;
+    };
+
+    const onVisibilityChange = () => {
+      isPageVisible = !document.hidden;
+      if (canAnimate()) scheduleDraw();
+      else stopDraw();
+    };
+
+    const observer = new IntersectionObserver(([entry]) => {
+      isInView = entry.isIntersecting;
+      if (canAnimate()) scheduleDraw();
+      else stopDraw();
+    }, { threshold: 0.01 });
+
     resize();
+    observer.observe(hero);
     window.addEventListener("resize", resize, { passive: true });
-    frame = window.requestAnimationFrame(draw);
+    document.addEventListener("visibilitychange", onVisibilityChange);
+    scheduleDraw();
 
     return () => {
-      window.cancelAnimationFrame(frame);
+      stopDraw();
+      observer.disconnect();
       window.removeEventListener("resize", resize);
+      document.removeEventListener("visibilitychange", onVisibilityChange);
     };
   }, [reducedMotion]);
 
   useEffect(() => {
     if (reducedMotion) return;
 
+    const hero = heroSectionRef.current;
     const isDesktop =
       window.matchMedia("(hover: hover) and (pointer: fine)").matches;
-
-    if (!isDesktop) return;
+    if (!hero || !isDesktop) return;
 
     let frame = 0;
-    let lastFrame = performance.now();
+    let lastFrame = 0;
+    let lastWordChange = lastWordChangeRef.current;
+    let isInView = true;
+    let isPageVisible = !document.hidden;
+    const frameInterval = 1000 / 30;
+
+    const canAnimate = () => isInView && isPageVisible;
 
     const tick = (now: number) => {
-      const delta = Math.min(40, now - lastFrame);
+      frame = 0;
+      if (!canAnimate()) return;
+      if (now - lastFrame < frameInterval) {
+        scheduleTick();
+        return;
+      }
+      const delta = lastFrame === 0 ? frameInterval : Math.min(40, now - lastFrame);
       lastFrame = now;
 
       const targetVelocity = pointerStateRef.current.speed;
       const currentVelocity = currentVelocityRef.current;
       const smoothing = 1 - Math.exp(-delta / 110);
-      const velocity =
-        currentVelocity + (targetVelocity - currentVelocity) * smoothing;
-
+      const velocity = currentVelocity + (targetVelocity - currentVelocity) * smoothing;
       currentVelocityRef.current = velocity;
 
       const { x, y, dx, dy } = pointerStateRef.current;
       const intensity = Math.min(1, velocity);
-
       const flow = flowLayerRef.current;
       const glow = cursorGlowRef.current;
       const cursorLabel = cursorLabelRef.current;
       const image = heroImageRef.current;
 
       if (cursorLabel) {
-        const labelX = x * 100;
-        const labelY = y * 100;
-        const offsetX = 18 + dx * 24;
-        const offsetY = 18 + dy * 24;
-
-        cursorLabel.style.left = `${labelX}%`;
-        cursorLabel.style.top = `${labelY}%`;
+        cursorLabel.style.left = `${x * 100}%`;
+        cursorLabel.style.top = `${y * 100}%`;
         cursorLabel.style.opacity = `${0.62 + intensity * 0.28}`;
-        cursorLabel.style.transform =
-          `translate(${offsetX}px, ${offsetY}px)`;
+        cursorLabel.style.transform = `translate(${18 + dx * 24}px, ${18 + dy * 24}px)`;
       }
-
       if (flow) {
-        // Keep the global grid completely stable. Only the local canvas
-        // deformation around the pointer should move.
         flow.style.transform = "translate3d(0, 0, 0)";
         flow.style.opacity = "0.045";
       }
-
       if (glow) {
-        const glowX = x * 100;
-        const glowY = y * 100;
-        const glowScale = 0.78 + intensity * 0.5;
-
-        glow.style.left = `${glowX}%`;
-        glow.style.top = `${glowY}%`;
-        glow.style.transform =
-          `translate(-50%, -50%) scale(${glowScale})`;
+        glow.style.left = `${x * 100}%`;
+        glow.style.top = `${y * 100}%`;
+        glow.style.transform = `translate(-50%, -50%) scale(${0.78 + intensity * 0.5})`;
         glow.style.opacity = `${0.12 + intensity * 0.28}`;
       }
-
       if (image) {
-        const parallaxX = (x - 0.5) * -10;
-        const parallaxY = (y - 0.5) * -6;
-        const parallaxScale = 1.008 + intensity * 0.006;
-
-        image.style.transform =
-          `translate3d(${parallaxX}px, ${parallaxY}px, 0) ` +
-          `scale(${parallaxScale})`;
+        image.style.transform = `translate3d(${(x - 0.5) * -10}px, ${(y - 0.5) * -6}px, 0) scale(${1.008 + intensity * 0.006})`;
       }
 
-      // Cursor velocity controls how quickly the existing hero word changes.
-      // At rest it remains slow and editorial; fast movement accelerates it.
       const wordInterval = 620 - intensity * 540;
-
-      if (
-        now - lastWordChangeRef.current > wordInterval &&
-        velocity > 0.045
-      ) {
-        wordIndexRef.current =
-          (wordIndexRef.current + 1) % words.length;
-
+      if (now - lastWordChange > wordInterval && velocity > 0.045) {
+        wordIndexRef.current = (wordIndexRef.current + 1) % words.length;
         setActiveWord(words[wordIndexRef.current]);
+        lastWordChange = now;
         lastWordChangeRef.current = now;
       }
 
-      frame = window.requestAnimationFrame(tick);
+      // Continue while visible so pointer velocity and the existing subtle
+      // parallax settle naturally; the loop is capped at 30fps.
+      scheduleTick();
     };
 
-    frame = window.requestAnimationFrame(tick);
+    const scheduleTick = () => {
+      if (canAnimate() && frame === 0) frame = window.requestAnimationFrame(tick);
+    };
+    const stopTick = () => {
+      if (frame !== 0) window.cancelAnimationFrame(frame);
+      frame = 0;
+    };
+    const onVisibilityChange = () => {
+      isPageVisible = !document.hidden;
+      if (canAnimate()) scheduleTick();
+      else stopTick();
+    };
+    const observer = new IntersectionObserver(([entry]) => {
+      isInView = entry.isIntersecting;
+      if (canAnimate()) scheduleTick();
+      else stopTick();
+    }, { threshold: 0.01 });
 
-    return () => window.cancelAnimationFrame(frame);
+    observer.observe(hero);
+    document.addEventListener("visibilitychange", onVisibilityChange);
+    scheduleTick();
+
+    return () => {
+      stopTick();
+      observer.disconnect();
+      document.removeEventListener("visibilitychange", onVisibilityChange);
+    };
   }, [reducedMotion]);
 
   return (
 
     <section
+
+      ref={heroSectionRef}
 
       className={`${manrope.variable} relative min-h-[100svh] overflow-hidden bg-[#020812] text-[#F7FAFF]`}
 

@@ -1,1033 +1,175 @@
 ﻿"use client";
 
+import { useEffect } from "react";
 import Link from "next/link";
-import { motion, useReducedMotion } from "framer-motion";
-import {
-  ArrowUpRight,
-  ChevronRight,
-  MapPin,
-  Mail,
-  Phone,
-} from "lucide-react";
+import { ArrowUpRight, ArrowRight, MapPin, Mail, Phone } from "lucide-react";
 
-const exploreLinks = [
-  { label: "Protocols", href: "/protocols" },
-  { label: "Wellness Paths", href: "/wellness-goals" },
-  { label: "NADx", href: "/nadx" },
-  { label: "Signature Protocols", href: "/protocols" },
-];
-
-const experienceLinks = [
-  { label: "In-Centre", href: "/experience" },
-  { label: "DRIPLABS Home", href: "/experience" },
-  { label: "DRIPLABS Private", href: "/experience" },
-  { label: "Women's Wellness", href: "/protocols/femme" },
-  { label: "Your Journey", href: "/experience" },
-];
-
-const scienceLinks = [
-  { label: "The Standard", href: "/science#standard" },
-  { label: "NADx Science", href: "/science#nadx" },
-  { label: "Evidence & Research", href: "/science#evidence" },
-  { label: "Ingredients", href: "/science#ingredients" },
-  { label: "Quality & Traceability", href: "/science#traceability" },
-  { label: "COA Library", href: "/science#coa" },
-  { label: "Decode a Vial", href: "/science#decode" },
-];
-
-const circleLinks = [
-  { label: "Membership", href: "/circle" },
-  { label: "Benefits", href: "/circle" },
-  { label: "Home Services", href: "/experience" },
-  { label: "Concierge", href: "/circle" },
-];
-
-const locationLinks = [
-  { label: "Centres", href: "/locations" },
-  { label: "Find Nearest", href: "/locations" },
-  { label: "Home", href: "/experience" },
-];
-
-const partnerLinks = [
-  { label: "Physicians", href: "/partners" },
-  { label: "Clinics & Hospitals", href: "/partners" },
-  { label: "Distributors", href: "/partners" },
-  { label: "Franchise / MSO", href: "/partners" },
-  { label: "Corporate", href: "/partners" },
-  { label: "Strategic", href: "/partners" },
-];
-
-function FooterLink({
-  label,
-  href,
-}: {
-  label: string;
-  href: string;
-}) {
+function InstagramIcon({ className = "h-4 w-4" }: { className?: string }) {
   return (
-    <li>
-      <Link
-        href={href}
-        className="
-          group
-          inline-flex
-          items-center
-          gap-2
-          text-[13px]
-          font-medium
-          tracking-[-0.01em]
-          text-white/48
-          transition-all
-          duration-300
-          hover:text-white
-        "
-      >
-        <span>{label}</span>
-
-        <ArrowUpRight
-          size={11}
-          strokeWidth={1.4}
-          className="
-            -translate-x-1
-            translate-y-1
-            opacity-0
-            transition-all
-            duration-300
-            group-hover:translate-x-0
-            group-hover:translate-y-0
-            group-hover:opacity-100
-          "
-        />
-      </Link>
-    </li>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" className={className} aria-hidden="true">
+      <rect x="3" y="3" width="18" height="18" rx="5" />
+      <circle cx="12" cy="12" r="4" />
+      <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none" />
+    </svg>
   );
 }
 
-function FooterColumn({
-  eyebrow,
-  links,
-}: {
-  eyebrow: string;
-  links: Array<{
-    label: string;
-    href: string;
-  }>;
-}) {
+const footerGroups = [
+  { title: "Explore", links: [{ label: "Protocols", href: "/protocols" }, { label: "Wellness paths", href: "/wellness-goals" }, { label: "NADx", href: "/nadx" }] },
+  { title: "Science", links: [{ label: "The standard", href: "/science#standard" }, { label: "Evidence & research", href: "/science#evidence" }, { label: "Ingredients", href: "/science#ingredients" }] },
+  { title: "Connect", links: [{ label: "Locations", href: "/locations" }, { label: "Partners", href: "/partners" }, { label: "Contact", href: "/contact" }] },
+];
+
+const instagramPosts = [
+  "https://www.instagram.com/p/DVOODmMDOa0/",
+  "https://www.instagram.com/p/DTz97Owk4rw/",
+  "https://www.instagram.com/p/DZ7NXVZExGd/",
+  "https://www.instagram.com/p/DPvvVYmE3Ai/",
+  "https://www.instagram.com/p/DbLbug6EwmM/",
+];
+
+type InstagramWindow = Window & { instgrm?: { Embeds?: { process: () => void } } };
+
+function InstagramSection() {
+  useEffect(() => {
+    const processEmbeds = () => (window as InstagramWindow).instgrm?.Embeds?.process();
+    const selector = 'script[src="https://www.instagram.com/embed.js"]';
+    const existing = document.querySelector<HTMLScriptElement>(selector);
+
+    if (existing) {
+      if ((window as InstagramWindow).instgrm?.Embeds) processEmbeds();
+      else existing.addEventListener("load", processEmbeds, { once: true });
+      return () => existing.removeEventListener("load", processEmbeds);
+    }
+
+    const script = document.createElement("script");
+    script.src = "https://www.instagram.com/embed.js";
+    script.async = true;
+    script.onload = processEmbeds;
+    document.body.appendChild(script);
+    return () => script.removeEventListener("load", processEmbeds);
+  }, []);
+
   return (
-    <div>
-      <div className="mb-5 flex items-center gap-2">
-        <span className="h-px w-4 bg-[#1683FF]" />
-
-        <span
-          className="
-            text-[8px]
-            font-medium
-            uppercase
-            tracking-[0.24em]
-            text-[#8CCBFF]/55
-          "
-        >
-          {eyebrow}
-        </span>
+    <>
+    <style jsx global>{`
+      .driplabs-instagram-scroll { scrollbar-width: none !important; -ms-overflow-style: none !important; }
+      .driplabs-instagram-scroll::-webkit-scrollbar { display: none !important; width: 0 !important; height: 0 !important; background: transparent !important; }
+      .driplabs-instagram-scroll::-webkit-scrollbar-thumb { display: none !important; }
+    `}</style>
+    <section aria-labelledby="driplabs-instagram-heading" className="relative overflow-hidden bg-[#F8F6F0] text-[#102744]">
+      <div aria-hidden="true" className="pointer-events-none absolute inset-0">
+        <div className="absolute -left-24 top-8 h-64 w-64 rounded-full bg-[#1683FF]/10 blur-[100px]" />
+        <div className="absolute -right-20 bottom-0 h-72 w-72 rounded-full bg-[#F4A261]/15 blur-[100px]" />
       </div>
-
-      <ul className="space-y-3">
-        {links.map((link) => (
-          <FooterLink
-            key={`${eyebrow}-${link.label}`}
-            label={link.label}
-            href={link.href}
-          />
-        ))}
-      </ul>
-    </div>
+      <div className="relative mx-auto max-w-[1440px] px-5 py-14 sm:px-8 sm:py-16 lg:px-14 lg:py-20">
+        <div className="mb-7 flex flex-wrap items-end justify-between gap-5 sm:mb-9">
+          <div>
+            <p className="mb-3 flex items-center gap-3 text-[9px] font-semibold uppercase tracking-[0.32em] text-[#126BFA]"><span className="h-px w-7 bg-gradient-to-r from-[#126BFA] to-[#F4A261]" />A closer look</p>
+            <h2 id="driplabs-instagram-heading" className="text-2xl font-medium tracking-[-0.045em] sm:text-3xl">From our Instagram</h2>
+          </div>
+          <a href="https://www.instagram.com/driplabs.iv/" target="_blank" rel="noopener noreferrer" className="group inline-flex items-center gap-2 rounded-full border border-[#C9D9EB] bg-white/60 px-4 py-3 text-[10px] font-semibold uppercase tracking-[0.13em] text-[#12345A] transition-all duration-300 hover:border-[#1683FF]/60 hover:bg-white hover:text-[#126BFA]">
+            <InstagramIcon className="h-[14px] w-[14px]" />Follow @driplabs.iv<ArrowUpRight size={13} className="transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+          </a>
+        </div>
+        <div className="driplabs-instagram-scroll -mx-1 flex snap-x snap-mandatory gap-4 overflow-x-auto overflow-y-hidden px-1 pb-4 sm:gap-5" style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}>
+          {instagramPosts.map((url) => (
+            <article key={url} className="w-[230px] shrink-0 snap-start overflow-hidden rounded-[18px] border border-[#DCE5EF] bg-white shadow-[0_12px_35px_rgba(16,39,68,0.06)] transition-transform duration-300 hover:-translate-y-1 sm:w-[250px]">
+              <div className="min-h-[310px] overflow-hidden bg-white">
+                <blockquote className="instagram-media !m-0 !w-full !min-w-0 !max-w-full" data-instgrm-permalink={url} data-instgrm-version="14" style={{ background: "#fff", border: 0, borderRadius: 0, boxShadow: "none", margin: 0, maxWidth: "100%", minWidth: 0, padding: 0, width: "100%" }}>
+                  <a href={url} target="_blank" rel="noopener noreferrer" className="flex min-h-[310px] items-center justify-center text-xs text-[#536984]">View this post on Instagram <ArrowUpRight size={12} className="ml-1" /></a>
+                </blockquote>
+              </div>
+            </article>
+          ))}
+        </div>
+        <p className="mt-1 text-[10px] leading-5 tracking-wide text-[#71839A]">Real posts from DRIPLABS. Swipe to explore.</p>
+      </div>
+      <div aria-hidden="true" className="h-px bg-gradient-to-r from-transparent via-[#1683FF]/60 to-transparent" />
+    </section>
+    </>
   );
 }
 
 export default function Footer() {
-  const reducedMotion = useReducedMotion();
-
   return (
-    <footer
-      className="
-        relative
-        overflow-hidden
-        bg-[#020812]
-        text-[#F7FAFF]
-      "
-    >
-      {/* ============================================================
-          AMBIENT BACKGROUND
-      ============================================================ */}
+    <>
+      <InstagramSection />
+      <footer className="relative isolate overflow-hidden bg-[#07182B] text-white">
+        <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
+          <div className="absolute -left-32 top-0 h-96 w-96 rounded-full bg-[#1683FF]/15 blur-[120px]" />
+          <div className="absolute right-[-8%] top-[-8rem] h-[26rem] w-[26rem] rounded-full bg-[#1683FF]/10 blur-[120px]" />
+          <div className="absolute bottom-[-10rem] left-[38%] h-72 w-[34rem] rounded-full bg-[#F4A261]/10 blur-[110px]" />
+          <div className="absolute inset-0 bg-[linear-gradient(120deg,rgba(255,255,255,0.025)_1px,transparent_1px),linear-gradient(rgba(255,255,255,0.025)_1px,transparent_1px)] bg-[size:72px_72px] [mask-image:linear-gradient(to_bottom,black,transparent_85%)]" />
+        </div>
+        <div className="h-[2px] w-full bg-gradient-to-r from-[#08C9E8] via-[#1683FF] to-[#F4A261]" />
 
-      <div
-        aria-hidden="true"
-        className="
-          pointer-events-none
-          absolute
-          inset-0
-          overflow-hidden
-        "
-      >
-        {/* Large blue atmospheric field */}
-
-        <div
-          className="
-            absolute
-            -right-[18%]
-            top-[4%]
-            h-[620px]
-            w-[620px]
-            rounded-full
-            bg-[#0066FF]/[0.045]
-            blur-[120px]
-          "
-        />
-
-        <div
-          className="
-            absolute
-            -left-[12%]
-            bottom-[8%]
-            h-[520px]
-            w-[520px]
-            rounded-full
-            bg-[#1683FF]/[0.025]
-            blur-[120px]
-          "
-        />
-
-        {/* Fine technical grid */}
-
-        <div
-          className="
-            absolute
-            inset-0
-            opacity-[0.055]
-          "
-          style={{
-            backgroundImage: `
-              linear-gradient(
-                to right,
-                rgba(140,203,255,0.20) 1px,
-                transparent 1px
-              ),
-              linear-gradient(
-                to bottom,
-                rgba(140,203,255,0.20) 1px,
-                transparent 1px
-              )
-            `,
-            backgroundSize: "72px 72px",
-            maskImage:
-              "linear-gradient(to bottom, transparent, black 12%, black 75%, transparent)",
-            WebkitMaskImage:
-              "linear-gradient(to bottom, transparent, black 12%, black 75%, transparent)",
-          }}
-        />
-
-        {/* Top cinematic fade */}
-
-        <div
-          className="
-            absolute
-            inset-x-0
-            top-0
-            h-40
-            bg-gradient-to-b
-            from-[#1683FF]/[0.035]
-            to-transparent
-          "
-        />
-      </div>
-
-      {/* ============================================================
-          TOP TECHNICAL LINE
-      ============================================================ */}
-
-      <div className="relative border-t border-white/[0.08]">
-        <div className="h-px bg-gradient-to-r from-transparent via-[#1683FF]/70 to-transparent" />
-      </div>
-
-      <div className="relative driplabs-container">
-        {/* ==========================================================
-            BRAND / PRIMARY CTA
-        ========================================================== */}
-
-        <section
-          className="
-            relative
-            border-b
-            border-white/[0.08]
-            py-16
-            sm:py-20
-            lg:py-28
-          "
-        >
-          {/* Technical coordinates */}
-
-          <div
-            className="
-              mb-10
-              flex
-              items-center
-              justify-between
-              text-[8px]
-              font-medium
-              uppercase
-              tracking-[0.24em]
-              text-white/25
-            "
-          >
-            <span>DRIPLABS / 06 — CONTACT</span>
-
-            <span className="hidden sm:block">
-              Physician-led wellness / India
-            </span>
-          </div>
-
-          <div
-            className="
-              grid
-              gap-12
-              lg:grid-cols-[1.35fr_0.65fr]
-              lg:items-end
-            "
-          >
-            {/* Main statement */}
-
-            <div>
-              <div className="mb-7 flex items-center gap-3">
-                <span
-                  className="
-                    h-1.5
-                    w-1.5
-                    rounded-full
-                    bg-[#1683FF]
-                    shadow-[0_0_14px_rgba(22,131,255,0.9)]
-                  "
-                />
-
-                <span
-                  className="
-                    text-[9px]
-                    font-medium
-                    uppercase
-                    tracking-[0.28em]
-                    text-[#8CCBFF]/65
-                  "
-                >
-                  Precision wellness
-                </span>
-              </div>
-
-              <h2
-                className="
-                  max-w-[980px]
-                  font-[var(--font-heading)]
-                  text-[clamp(3.5rem,8vw,8.5rem)]
-                  font-light
-                  leading-[0.82]
-                  tracking-[-0.075em]
-                  text-[#F7FAFF]
-                "
-              >
-                Your health.
-                <br />
-
-                <span className="text-white/42">
-                  Considered precisely.
-                </span>
-              </h2>
-
-              <p
-                className="
-                  mt-8
-                  max-w-[570px]
-                  text-[14px]
-                  leading-7
-                  text-white/45
-                  sm:text-[15px]
-                "
-              >
-                Physician-led advanced IV wellness and NAD+ personalised
-                experiences, delivered in a considered clinical environment
-                or at home.
-              </p>
+        <div className="relative mx-auto max-w-[1440px] px-5 sm:px-8 lg:px-14">
+          <div className="grid gap-12 py-14 sm:py-16 lg:grid-cols-[1.1fr_1fr] lg:gap-20 lg:py-20">
+            <div className="flex max-w-xl flex-col items-start">
+              <Link href="/" aria-label="DRIPLABS home" className="inline-flex rounded-sm transition-opacity duration-300 hover:opacity-80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#1683FF]">
+                <img src="data:image/webp;base64,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" alt="DRIPLABS" width={360} height={126} className="block h-auto w-[220px] object-contain object-left sm:w-[270px]" />
+              </Link>
+              <span className="mt-5 text-[9px] font-medium uppercase tracking-[0.42em] text-[#8FA9C7]">Redefine how you age</span>
+              <p className="mt-5 max-w-sm text-sm leading-7 text-[#B5C4D6] sm:text-[15px]">Advanced wellness. Precision protocols. A more considered approach to longevity.</p>
+              <Link href="/book" className="group mt-7 inline-flex items-center gap-7 rounded-full bg-gradient-to-r from-[#08C9E8] via-[#1683FF] to-[#F4A261] p-px shadow-[0_10px_32px_rgba(22,131,255,0.18)] transition-transform duration-300 hover:-translate-y-0.5">
+                <span className="inline-flex min-h-11 items-center gap-7 rounded-full bg-[#0A1E34] px-5 text-[10px] font-semibold uppercase tracking-[0.16em] text-white transition-colors duration-300 group-hover:bg-[#102944]">Book a consultation<ArrowRight size={15} strokeWidth={1.6} className="text-[#70C9FF] transition-transform duration-300 group-hover:translate-x-1" /></span>
+              </Link>
             </div>
 
-            {/* CTA */}
-
-            <div className="lg:justify-self-end">
-              <Link
-                href="/book"
-                className="
-                  group
-                  relative
-                  flex
-                  min-h-[190px]
-                  w-full
-                  max-w-[320px]
-                  flex-col
-                  justify-between
-                  overflow-hidden
-                  rounded-[4px]
-                  border
-                  border-[#1683FF]/25
-                  bg-[#06152B]/65
-                  p-6
-                  transition-all
-                  duration-500
-                  hover:border-[#1683FF]/65
-                  hover:bg-[#06152B]
-                  sm:min-h-[210px]
-                "
-              >
-                {/* CTA glow */}
-
-                <span
-                  aria-hidden="true"
-                  className="
-                    pointer-events-none
-                    absolute
-                    -right-20
-                    -top-20
-                    h-48
-                    w-48
-                    rounded-full
-                    bg-[#0066FF]/10
-                    blur-[60px]
-                    transition-all
-                    duration-700
-                    group-hover:bg-[#0066FF]/20
-                  "
-                />
-
-                <div className="relative flex items-center justify-between">
-                  <span
-                    className="
-                      text-[8px]
-                      font-medium
-                      uppercase
-                      tracking-[0.24em]
-                      text-[#8CCBFF]/55
-                    "
-                  >
-                    Start here
-                  </span>
-
-                  <ArrowUpRight
-                    size={17}
-                    strokeWidth={1.2}
-                    className="
-                      text-[#1683FF]
-                      transition-transform
-                      duration-500
-                      group-hover:translate-x-1
-                      group-hover:-translate-y-1
-                    "
-                  />
+            <nav aria-label="Footer navigation" className="grid grid-cols-2 gap-x-8 gap-y-9 sm:grid-cols-3 lg:gap-x-10">
+              {footerGroups.map((group) => (
+                <div key={group.title}>
+                  <h2 className="mb-5 flex items-center gap-2 text-[9px] font-semibold uppercase tracking-[0.24em] text-[#7CC8FF]"><span className="h-px w-4 bg-gradient-to-r from-[#1683FF] to-[#F4A261]" />{group.title}</h2>
+                  <ul className="space-y-3.5">
+                    {group.links.map((link) => (
+                      <li key={link.label}><Link href={link.href} className="group inline-flex items-center gap-1.5 text-[13px] text-[#B5C4D6] transition-colors duration-200 hover:text-white">{link.label}<ArrowUpRight size={11} strokeWidth={1.5} className="opacity-0 transition-all duration-200 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:opacity-100" /></Link></li>
+                    ))}
+                  </ul>
                 </div>
-
-                <div className="relative">
-                  <span
-                    className="
-                      block
-                      text-[25px]
-                      font-medium
-                      tracking-[-0.04em]
-                      text-white
-                    "
-                  >
-                    Book a consultation
-                  </span>
-
-                  <span
-                    className="
-                      mt-2
-                      block
-                      text-[11px]
-                      leading-5
-                      text-white/35
-                    "
-                  >
-                    Begin with physician assessment.
-                  </span>
-                </div>
-              </Link>
-            </div>
+              ))}
+            </nav>
           </div>
 
-          {/* ========================================================
-              BRAND SIGNATURE
-          ======================================================== */}
-
-          <div
-            className="
-              mt-16
-              overflow-hidden
-              border-t
-              border-white/[0.07]
-              pt-8
-              sm:mt-20
-            "
-          >
-            <div
-              className="
-                whitespace-nowrap
-                text-[clamp(4rem,11vw,12rem)]
-                font-medium
-                leading-[0.7]
-                tracking-[-0.085em]
-                text-white/[0.045]
-                select-none
-              "
-              aria-hidden="true"
-            >
-              DRIPLABS®
-            </div>
-          </div>
-        </section>
-
-        {/* ==========================================================
-            NAVIGATION SYSTEM
-        ========================================================== */}
-
-        <section
-          className="
-            relative
-            border-b
-            border-white/[0.08]
-            py-14
-            sm:py-16
-            lg:py-20
-          "
-        >
-          <div
-            className="
-              mb-12
-              flex
-              items-end
-              justify-between
-              gap-8
-            "
-          >
+          <section aria-labelledby="driplabs-newsletter-heading" className="mb-2 grid gap-6 rounded-2xl border border-white/10 bg-white/[0.035] p-5 sm:p-7 md:grid-cols-[1fr_1fr] md:items-center">
             <div>
-              <span
-                className="
-                  text-[8px]
-                  font-medium
-                  uppercase
-                  tracking-[0.26em]
-                  text-[#1683FF]
-                "
-              >
-                Explore DRIPLABS
-              </span>
-
-              <h3
-                className="
-                  mt-3
-                  font-[var(--font-heading)]
-                  text-[clamp(2rem,3.5vw,3.4rem)]
-                  font-light
-                  leading-none
-                  tracking-[-0.055em]
-                  text-white
-                "
-              >
-                Everything,
-                <br />
-                precisely organised.
-              </h3>
+              <p className="mb-2 text-[9px] font-semibold uppercase tracking-[0.28em] text-[#7CC8FF]">The DRIPLABS Edit</p>
+              <h2 id="driplabs-newsletter-heading" className="text-xl font-medium tracking-[-0.035em] text-white sm:text-2xl">Wellness, delivered thoughtfully.</h2>
+              <p className="mt-2 max-w-md text-xs leading-6 text-[#B5C4D6]">Get occasional updates on protocols, longevity insights, and the latest from DRIPLABS.</p>
             </div>
+            <form action="mailto:hello@thedriplabs.com" method="get" className="flex flex-col gap-2 sm:flex-row sm:items-center" onSubmit={(event) => {
+              event.preventDefault();
+              const form = event.currentTarget;
+              const emailInput = form.elements.namedItem("email");
+              const email = emailInput instanceof HTMLInputElement ? emailInput.value.trim() : "";
+              if (!email) return;
+              const subject = encodeURIComponent("DRIPLABS email updates subscription");
+              const body = encodeURIComponent(`Please add me to DRIPLABS email updates.
 
-            <span
-              className="
-                hidden
-                text-right
-                text-[8px]
-                uppercase
-                tracking-[0.22em]
-                text-white/25
-                md:block
-              "
-            >
-              01 — Navigation
-              <br />
-              06 — Categories
-            </span>
-          </div>
+Email: ${email}`);
+              window.location.href = `mailto:hello@thedriplabs.com?subject=${subject}&body=${body}`;
+            }}>
+              <label htmlFor="driplabs-subscribe-email" className="sr-only">Email address</label>
+              <input id="driplabs-subscribe-email" name="email" type="email" required autoComplete="email" placeholder="Enter your email address" className="min-h-12 min-w-0 flex-1 rounded-full border border-white/15 bg-[#061426] px-4 text-sm text-white outline-none placeholder:text-[#8298B2] focus:border-[#70C9FF] focus:ring-2 focus:ring-[#1683FF]/20" />
+              <button type="submit" className="inline-flex min-h-12 shrink-0 items-center justify-center gap-2 rounded-full bg-gradient-to-r from-[#08C9E8] via-[#1683FF] to-[#F4A261] px-5 text-[10px] font-semibold uppercase tracking-[0.15em] text-white transition-transform duration-300 hover:-translate-y-0.5">Subscribe <ArrowRight size={14} /></button>
+            </form>
+          </section>
 
-          <div
-            className="
-              grid
-              grid-cols-2
-              gap-x-8
-              gap-y-12
-              sm:grid-cols-3
-              lg:grid-cols-6
-              lg:gap-x-8
-            "
-          >
-            <FooterColumn
-              eyebrow="Explore"
-              links={exploreLinks}
-            />
-
-            <FooterColumn
-              eyebrow="Experience"
-              links={experienceLinks}
-            />
-
-            <FooterColumn
-              eyebrow="Science"
-              links={scienceLinks}
-            />
-
-            <FooterColumn
-              eyebrow="Circle"
-              links={circleLinks}
-            />
-
-            <FooterColumn
-              eyebrow="Locations"
-              links={locationLinks}
-            />
-
-            <FooterColumn
-              eyebrow="Partners"
-              links={partnerLinks}
-            />
-          </div>
-        </section>
-
-        {/* ==========================================================
-            CONTACT / LOCATION
-        ========================================================== */}
-
-        <section
-          className="
-            grid
-            border-b
-            border-white/[0.08]
-            py-12
-            sm:py-14
-            lg:grid-cols-[1fr_1fr_1fr]
-            lg:gap-12
-            lg:py-16
-          "
-        >
-          {/* Phone */}
-
-          <a
-            href="tel:+919319119009"
-            className="
-              group
-              border-b
-              border-white/[0.08]
-              pb-8
-              lg:border-b-0
-              lg:border-r
-              lg:pb-0
-            "
-          >
-            <div className="flex items-center gap-3">
-              <Phone
-                size={14}
-                strokeWidth={1.2}
-                className="text-[#1683FF]"
-              />
-
-              <span
-                className="
-                  text-[8px]
-                  uppercase
-                  tracking-[0.24em]
-                  text-white/30
-                "
-              >
-                Call
-              </span>
+          <div className="grid gap-6 border-t border-white/10 py-7 md:grid-cols-[1fr_auto] md:items-center">
+            <div className="flex flex-col gap-3 text-xs text-[#B5C4D6] sm:flex-row sm:items-center sm:gap-6">
+              <a href="tel:+919319119009" className="inline-flex items-center gap-2 transition-colors hover:text-white"><Phone size={13} strokeWidth={1.6} className="text-[#70C9FF]" />+91 (931) 911-9009</a>
+              <a href="mailto:hello@thedriplabs.com" className="inline-flex items-center gap-2 transition-colors hover:text-white"><Mail size={13} strokeWidth={1.6} className="text-[#70C9FF]" />hello@thedriplabs.com</a>
+              <Link href="/locations" className="inline-flex items-center gap-2 transition-colors hover:text-white"><MapPin size={13} strokeWidth={1.6} className="text-[#70C9FF]" />India</Link>
             </div>
-
-            <p
-              className="
-                mt-5
-                text-[clamp(1.5rem,2.5vw,2.3rem)]
-                font-light
-                tracking-[-0.045em]
-                text-white
-                transition-colors
-                duration-300
-                group-hover:text-[#8CCBFF]
-              "
-            >
-              +91 (931) 911-9009
-            </p>
-          </a>
-
-          {/* Email */}
-
-          <a
-            href="mailto:hello@thedriplabs.com"
-            className="
-              group
-              border-b
-              border-white/[0.08]
-              py-8
-              lg:border-b-0
-              lg:border-r
-              lg:px-8
-              lg:py-0
-            "
-          >
-            <div className="flex items-center gap-3">
-              <Mail
-                size={14}
-                strokeWidth={1.2}
-                className="text-[#1683FF]"
-              />
-
-              <span
-                className="
-                  text-[8px]
-                  uppercase
-                  tracking-[0.24em]
-                  text-white/30
-                "
-              >
-                Email
-              </span>
-            </div>
-
-            <p
-              className="
-                mt-5
-                break-all
-                text-[clamp(1.5rem,2.5vw,2.3rem)]
-                font-light
-                tracking-[-0.045em]
-                text-white
-                transition-colors
-                duration-300
-                group-hover:text-[#8CCBFF]
-              "
-            >
-              hello@thedriplabs.com
-            </p>
-          </a>
-
-          {/* Locations */}
-
-          <Link
-            href="/locations"
-            className="
-              group
-              pt-8
-              lg:pl-8
-              lg:pt-0
-            "
-          >
-            <div className="flex items-center gap-3">
-              <MapPin
-                size={14}
-                strokeWidth={1.2}
-                className="text-[#1683FF]"
-              />
-
-              <span
-                className="
-                  text-[8px]
-                  uppercase
-                  tracking-[0.24em]
-                  text-white/30
-                "
-              >
-                Locations
-              </span>
-            </div>
-
-            <div className="mt-5 flex items-center gap-3">
-              <p
-                className="
-                  text-[clamp(1.5rem,2.5vw,2.3rem)]
-                  font-light
-                  tracking-[-0.045em]
-                  text-white
-                  transition-colors
-                  duration-300
-                  group-hover:text-[#8CCBFF]
-                "
-              >
-                Six centres across India
-              </p>
-
-              <ChevronRight
-                size={18}
-                strokeWidth={1.1}
-                className="
-                  shrink-0
-                  text-[#1683FF]
-                  transition-transform
-                  duration-300
-                  group-hover:translate-x-1
-                "
-              />
-            </div>
-          </Link>
-        </section>
-
-        {/* ==========================================================
-            QUALITY / TRUST STRIP
-        ========================================================== */}
-
-        <section
-          className="
-            border-b
-            border-white/[0.08]
-            py-8
-            sm:py-9
-          "
-        >
-          <div
-            className="
-              grid
-              grid-cols-2
-              gap-y-7
-              sm:grid-cols-4
-              lg:grid-cols-6
-            "
-          >
-            {[
-              ["01", "Physician-led"],
-              ["02", "Pharma-grade"],
-              ["03", "Batch traceable"],
-              ["04", "Third-party tested"],
-              ["05", "Research backed"],
-              ["06", "India"],
-            ].map(([number, label]) => (
-              <div
-                key={number}
-                className="
-                  flex
-                  items-center
-                  gap-3
-                  sm:border-r
-                  sm:border-white/[0.06]
-                  sm:px-5
-                  first:sm:pl-0
-                  last:sm:border-r-0
-                "
-              >
-                <span
-                  className="
-                    font-mono
-                    text-[7px]
-                    tracking-[0.16em]
-                    text-[#1683FF]/70
-                  "
-                >
-                  {number}
-                </span>
-
-                <span
-                  className="
-                    text-[9px]
-                    font-medium
-                    uppercase
-                    tracking-[0.13em]
-                    text-white/35
-                  "
-                >
-                  {label}
-                </span>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        {/* ==========================================================
-            DISCLAIMER
-        ========================================================== */}
-
-        <section className="py-9 sm:py-11">
-          <div
-            className="
-              grid
-              gap-7
-              lg:grid-cols-[1fr_auto]
-              lg:items-start
-              lg:gap-12
-            "
-          >
-            <div className="max-w-[1050px]">
-              <div className="mb-4 flex items-center gap-3">
-                <span className="h-px w-5 bg-[#1683FF]/70" />
-
-                <span
-                  className="
-                    text-[8px]
-                    font-medium
-                    uppercase
-                    tracking-[0.22em]
-                    text-white/25
-                  "
-                >
-                  Medical disclaimer
-                </span>
-              </div>
-
-              <p
-                className="
-                  text-[10px]
-                  leading-[1.8]
-                  text-white/25
-                "
-              >
-                Protocol names and taglines are wellness-positioning terms
-                only — never claims of diagnosis, treatment, cure or
-                prevention. Final protocol selection, dosage and duration
-                remain the sole responsibility of the treating physician.
-                Administration only in licensed settings. Not intended to
-                diagnose, treat, cure or prevent any disease.
-              </p>
-            </div>
-
-            <div
-              className="
-                flex
-                flex-wrap
-                gap-x-7
-                gap-y-3
-                text-[9px]
-                uppercase
-                tracking-[0.18em]
-                text-white/30
-              "
-            >
-              <Link
-                href="/privacy"
-                className="transition-colors hover:text-white"
-              >
-                Privacy
-              </Link>
-
-              <Link
-                href="/terms"
-                className="transition-colors hover:text-white"
-              >
-                Terms
-              </Link>
+            <div className="flex flex-wrap items-center gap-x-5 gap-y-3 text-[9px] font-medium uppercase tracking-[0.16em] text-[#8FA9C7]">
+              <Link href="/privacy" className="transition-colors hover:text-white">Privacy</Link>
+              <Link href="/terms" className="transition-colors hover:text-white">Terms</Link>
+              <span className="text-[#8FA9C7]/70">© 2026 DRIPLABS</span>
             </div>
           </div>
-        </section>
-
-        {/* ==========================================================
-            FINAL BRAND RAIL
-        ========================================================== */}
-
-        <section
-          className="
-            border-t
-            border-white/[0.08]
-            py-5
-          "
-        >
-          <div
-            className="
-              flex
-              flex-col
-              gap-4
-              sm:flex-row
-              sm:items-center
-              sm:justify-between
-            "
-          >
-            <div className="flex items-center gap-3">
-              <span
-                className="
-                  h-1.5
-                  w-1.5
-                  rounded-full
-                  bg-[#1683FF]
-                  shadow-[0_0_10px_rgba(22,131,255,0.8)]
-                "
-              />
-
-              <span
-                className="
-                  text-[9px]
-                  font-medium
-                  uppercase
-                  tracking-[0.18em]
-                  text-white/35
-                "
-              >
-                DRIPLABS®
-              </span>
-            </div>
-
-            <span
-              className="
-                text-[9px]
-                uppercase
-                tracking-[0.18em]
-                text-white/20
-              "
-            >
-              © 2026 Snnylo Wellness Sciences
-            </span>
-
-            <span
-              className="
-                text-[9px]
-                uppercase
-                tracking-[0.18em]
-                text-white/20
-              "
-            >
-              India
-            </span>
-          </div>
-        </section>
-      </div>
-
-      {/* ============================================================
-          SUBTLE BOTTOM BLUE LINE
-      ============================================================ */}
-
-      <motion.div
-        aria-hidden="true"
-        className="
-          absolute
-          bottom-0
-          left-0
-          h-px
-          w-full
-          bg-gradient-to-r
-          from-transparent
-          via-[#1683FF]/60
-          to-transparent
-        "
-        initial={reducedMotion ? false : { scaleX: 0.35, opacity: 0.45 }}
-        whileInView={
-          reducedMotion
-            ? undefined
-            : {
-                scaleX: 1,
-                opacity: 0.8,
-              }
-        }
-        viewport={{
-          once: true,
-          amount: 0.4,
-        }}
-        transition={{
-          duration: 1.4,
-          ease: [0.22, 1, 0.36, 1],
-        }}
-      />
-    </footer>
+        </div>
+        <div aria-hidden="true" className="h-[3px] bg-gradient-to-r from-[#08C9E8] via-[#1683FF] to-[#F4A261]" />
+      </footer>
+    </>
   );
 }

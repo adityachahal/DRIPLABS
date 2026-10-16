@@ -711,47 +711,30 @@ export default function Navbar() {
 
 
   useEffect(() => {
+    let frameId: number | null = null;
 
-    const handleScroll = () => {
+    const updateScrolled = () => {
+      // Collapse multiple scroll events into one visual update per frame.
+      if (frameId !== null) return;
 
-      setScrolled(window.scrollY > 30);
-
+      frameId = window.requestAnimationFrame(() => {
+        frameId = null;
+        const nextScrolled = window.scrollY > 30;
+        setScrolled((current) =>
+          current === nextScrolled ? current : nextScrolled,
+        );
+      });
     };
 
-
-
-    handleScroll();
-
-
-
-    window.addEventListener(
-
-      "scroll",
-
-      handleScroll,
-
-      {
-
-        passive: true,
-
-      },
-
-    );
-
-
+    updateScrolled();
+    window.addEventListener("scroll", updateScrolled, { passive: true });
 
     return () => {
-
-      window.removeEventListener(
-
-        "scroll",
-
-        handleScroll,
-
-      );
-
+      window.removeEventListener("scroll", updateScrolled);
+      if (frameId !== null) {
+        window.cancelAnimationFrame(frameId);
+      }
     };
-
   }, []);
 
 
@@ -892,6 +875,19 @@ export default function Navbar() {
     setMobileSection(null);
 
   };
+
+
+  // Clear pending hover timers if the navbar unmounts during navigation.
+  useEffect(() => {
+    return () => {
+      if (openTimer.current !== null) {
+        clearTimeout(openTimer.current);
+      }
+      if (closeTimer.current !== null) {
+        clearTimeout(closeTimer.current);
+      }
+    };
+  }, []);
 
 
 
