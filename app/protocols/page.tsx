@@ -66,15 +66,29 @@ export default function ProtocolsPage() {
     <>
       <Navbar />
 
-      <main className="min-h-screen bg-[#020812] text-white">
+      <main className="min-h-screen overflow-hidden bg-[#020812] text-white">
 
         {/* =====================================================
             HERO
         ===================================================== */}
 
-        <section className="relative overflow-hidden bg-[#020812]">
+        <section className="relative isolate min-h-[620px] overflow-hidden border-b border-white/[0.08] bg-[#020812] sm:min-h-[680px] lg:min-h-[min(760px,calc(100svh-60px))]">
 
-          <div className="mx-auto max-w-[1600px] px-5 pb-16 pt-32 sm:px-8 md:px-10 md:pb-20 lg:px-14 lg:pt-40">
+          {/* Hero artwork: save the supplied image as public/images/hero/protocols-hero.png */}
+          <Image
+            src="/images/hero/protocols-hero.png"
+            alt=""
+            fill
+            priority
+            sizes="100vw"
+            quality={95}
+            aria-hidden="true"
+            className="pointer-events-none object-cover object-[58%_center]"
+          />
+          <div aria-hidden="true" className="pointer-events-none absolute inset-0 z-[1] bg-[linear-gradient(90deg,rgba(2,8,18,0.34)_0%,rgba(2,8,18,0.12)_42%,rgba(2,8,18,0.00)_75%),linear-gradient(0deg,rgba(2,8,18,0.18)_0%,transparent_28%)]" />
+          <motion.div aria-hidden="true" className="pointer-events-none absolute -left-40 bottom-[-12rem] z-[2] h-[30rem] w-[30rem] rounded-full bg-[#1683FF]/10 blur-[120px]" animate={{ x: [0, 28, 0], y: [0, -22, 0] }} transition={{ duration: 16, repeat: Infinity, ease: "easeInOut" }} />
+
+          <div className="relative z-10 mx-auto grid min-h-[620px] max-w-[1600px] items-center gap-12 px-5 pb-16 pt-32 sm:min-h-[680px] sm:px-8 md:px-10 md:pb-20 lg:min-h-[min(760px,calc(100svh-60px))] lg:grid-cols-[1.15fr_0.85fr] lg:gap-8 lg:px-14 lg:pt-36">
 
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -83,7 +97,7 @@ export default function ProtocolsPage() {
             >
               <div className="flex items-center gap-3">
 
-                <span className="h-px w-8 bg-[#1683FF]" />
+                <span className="h-px w-8 bg-gradient-to-r from-[#0066FF] to-[#8CCBFF]" />
 
                 <span className="text-[8px] tracking-[0.28em] text-[#8CCBFF]">
                   THE DRIPLABS SYSTEM
@@ -96,20 +110,21 @@ export default function ProtocolsPage() {
                   mt-7
                   max-w-[1000px]
                   font-serif
-                  text-[clamp(4rem,9vw,9rem)]
+                  text-[clamp(4rem,8.4vw,8.6rem)]
                   font-light
-                  leading-[0.78]
+                  leading-[0.80]
                   tracking-[-0.075em]
+                  [text-wrap:balance]
                 "
               >
                 Wellness,
                 <br />
-                <span className="text-white/40">
+                <span className="bg-gradient-to-r from-white/40 via-[#C5E5FF] to-[#4D9BFF] bg-clip-text text-transparent">
                   considered.
                 </span>
               </h1>
 
-              <p className="mt-8 max-w-xl text-[12px] leading-6 text-white/50 md:text-[13px]">
+              <p className="mt-8 max-w-xl text-[12px] leading-6 text-white/60 md:text-[13px] md:leading-7">
                 Nineteen physician-directed protocols across eight wellness
                 families. Explore the system one considered protocol at a time.
               </p>
@@ -130,9 +145,10 @@ export default function ProtocolsPage() {
             top-[60px]
             z-40
             border-y
-            border-white/[0.09]
-            bg-[#020812]/95
-            backdrop-blur-xl
+            border-[#0A3158]/10
+            bg-gradient-to-r from-[#FFF8E9]/95 via-[#F4F8FC]/95 to-[#DCEBFA]/95
+            shadow-[0_12px_35px_rgba(10,49,88,0.12)]
+            backdrop-blur-2xl
           "
         >
 
@@ -153,16 +169,19 @@ export default function ProtocolsPage() {
                       shrink-0
                       px-4
                       py-5
-                      text-[8px]
-                      tracking-[0.16em]
+                      text-[9px]
+                      font-medium
+                      tracking-[0.14em]
                       transition-colors
                       duration-300
+                      focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-3px] focus-visible:outline-[#8CCBFF]
+                      motion-reduce:transition-none
                       first:pl-0
                       md:px-6
                       ${
                         active
-                          ? "text-white"
-                          : "text-white/35 hover:text-white/80"
+                          ? "text-[#06203B]"
+                          : "text-[#06203B]/45 hover:text-[#06203B]"
                       }
                     `}
                   >
@@ -204,7 +223,7 @@ export default function ProtocolsPage() {
             INTRO
         ===================================================== */}
 
-        <section className="bg-[#06152B]">
+        <section className="relative overflow-hidden border-b border-white/[0.08] bg-gradient-to-br from-[#FFF8EA] via-[#F4F7FA] to-[#DCEBFA]">
 
           <div className="mx-auto max-w-[1600px] px-5 py-16 sm:px-8 md:px-10 md:py-24 lg:px-14">
 
@@ -212,13 +231,13 @@ export default function ProtocolsPage() {
 
               <div>
 
-                <span className="text-[8px] tracking-[0.28em] text-[#4D9BFF]">
+                <span className="text-[8px] tracking-[0.28em] text-[#0756A5]">
                   {activeFamily === "All"
                     ? "ALL PROTOCOLS"
                     : familyNames[activeFamily]}
                 </span>
 
-                <div className="mt-5 h-px w-10 bg-[#1683FF]" />
+                <div className="mt-5 h-px w-10 bg-gradient-to-r from-[#0066FF] to-[#8CCBFF]" />
 
               </div>
 
@@ -245,10 +264,12 @@ export default function ProtocolsPage() {
                   className="
                     max-w-[1000px]
                     font-serif
-                    text-[clamp(2.6rem,5vw,5.5rem)]
+                    text-[clamp(2.6rem,4.8vw,5.25rem)]
                     font-light
-                    leading-[0.88]
-                    tracking-[-0.06em]
+                    leading-[0.92]
+                    tracking-[-0.055em]
+                    [text-wrap:balance]
+                    text-[#06182D]
                   "
                 >
                   {activeFamily === "All"
@@ -269,11 +290,12 @@ export default function ProtocolsPage() {
             PROTOCOL GRID
         ===================================================== */}
 
-        <section className="bg-[#020812]">
+        <section className="relative isolate overflow-hidden bg-[linear-gradient(180deg,#020812_0%,#041126_48%,#020812_100%)]">
+          <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_50%_0%,rgba(0,102,255,0.11),transparent_55%),radial-gradient(ellipse_at_100%_65%,rgba(22,131,255,0.07),transparent_32%)]" />
 
           <div className="mx-auto max-w-[1600px] px-5 py-12 sm:px-8 md:px-10 md:py-16 lg:px-14 lg:py-20">
 
-            <div className="mb-8 flex items-end justify-between border-b border-white/[0.09] pb-4">
+            <div className="mb-8 flex items-end justify-between border-b border-[#8CCBFF]/20 pb-5">
 
               <div>
                 <p className="text-[8px] tracking-[0.25em] text-white/40">
@@ -300,9 +322,10 @@ export default function ProtocolsPage() {
               className="
                 grid
                 grid-cols-1
-                gap-5
-                md:grid-cols-2
+                gap-4
+                md:gap-5
                 lg:grid-cols-3
+                lg:gap-6
               "
             >
 
@@ -351,7 +374,7 @@ export default function ProtocolsPage() {
             PHYSICIAN SECTION
         ===================================================== */}
 
-        <section className="border-t border-white/[0.08] bg-[#06152B]">
+        <section className="border-t border-[#0A3158]/10 bg-gradient-to-br from-[#FDF7EA] via-[#F4F8FC] to-[#D9E9F9] text-[#06182D]">
 
           <div className="mx-auto max-w-[1600px] px-5 py-24 sm:px-8 md:px-10 md:py-32 lg:px-14">
 
@@ -361,11 +384,11 @@ export default function ProtocolsPage() {
 
                 <div className="flex items-center gap-3">
 
-                  <span className="text-[8px] tracking-[0.28em] text-[#4D9BFF]">
+                  <span className="text-[8px] tracking-[0.28em] text-[#0756A5]">
                     ONE STANDARD
                   </span>
 
-                  <span className="h-px w-8 bg-[#1683FF]" />
+                  <span className="h-px w-8 bg-gradient-to-r from-[#0066FF] to-[#8CCBFF]" />
 
                 </div>
 
@@ -387,12 +410,12 @@ export default function ProtocolsPage() {
                   <br />
                   starting point.
                   <br />
-                  <span className="text-white/35">
+                  <span className="bg-gradient-to-r from-[#55718D] to-[#0066FF] bg-clip-text text-transparent">
                     The physician decides the path.
                   </span>
                 </h2>
 
-                <div className="mt-12 grid gap-8 border-t border-white/10 pt-6 md:grid-cols-3">
+                <div className="mt-12 grid gap-8 border-t border-[#0A3158]/15 pt-6 md:grid-cols-3">
 
                   {[
                     ["01", "Physician-led"],
@@ -401,11 +424,11 @@ export default function ProtocolsPage() {
                   ].map(([number, title]) => (
                     <div key={number}>
 
-                      <span className="text-[8px] tracking-[0.22em] text-[#4D9BFF]">
+                      <span className="text-[8px] tracking-[0.22em] text-[#0756A5]">
                         {number}
                       </span>
 
-                      <p className="mt-3 font-serif text-2xl font-light">
+                      <p className="mt-3 font-serif text-2xl font-light text-[#06182D]">
                         {title}
                       </p>
 
@@ -427,7 +450,7 @@ export default function ProtocolsPage() {
             CTA
         ===================================================== */}
 
-        <section className="relative overflow-hidden bg-[#01050B]">
+        <section className="relative isolate overflow-hidden border-t border-[#8CCBFF]/40 bg-[linear-gradient(112deg,#FFF7E7_0%,#F2F7FC_38%,#A9D4F8_66%,#063D79_100%)] text-[#06182D]">
 
           <div
             className="
@@ -440,8 +463,8 @@ export default function ProtocolsPage() {
               -translate-x-1/2
               -translate-y-1/2
               rounded-full
-              bg-[#0066FF]/10
-              blur-[140px]
+              bg-[radial-gradient(circle,rgba(22,131,255,0.24)_0%,rgba(0,102,255,0.10)_38%,transparent_72%)]
+              blur-[100px]
             "
           />
 
@@ -451,7 +474,7 @@ export default function ProtocolsPage() {
 
               <div>
 
-                <span className="text-[8px] tracking-[0.3em] text-[#8CCBFF]">
+                <span className="text-[8px] tracking-[0.3em] text-[#0756A5]">
                   YOUR NEXT STEP
                 </span>
 
@@ -493,6 +516,8 @@ export default function ProtocolsPage() {
                   duration-500
                   hover:bg-[#1683FF]
                   hover:shadow-[0_12px_40px_rgba(0,102,255,.25)]
+                  focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#8CCBFF]
+                  motion-reduce:transition-none
                 "
               >
                 BEGIN YOUR JOURNEY
@@ -532,13 +557,22 @@ function ProtocolCard({
         group
         relative
         block
-        aspect-[0.88]
+        aspect-[0.82]
         overflow-hidden
-        rounded-[12px]
-        bg-[#06152B]
+        rounded-[4px]
+        border border-[#8CCBFF]/[0.16]
+        bg-gradient-to-br from-[#0A2342] via-[#06152B] to-[#020812]
         outline-none
+        transition-[border-color,box-shadow,transform] duration-700
+        hover:-translate-y-1
+        motion-reduce:transform-none
+        hover:border-[#4D9BFF]/80
+        hover:shadow-[0_28px_85px_rgba(0,82,200,0.30),inset_0_0_0_1px_rgba(140,203,255,0.08)]
         focus-visible:ring-2
-        focus-visible:ring-[#1683FF]
+        focus-visible:ring-[#8CCBFF]
+        focus-visible:ring-offset-2
+        focus-visible:ring-offset-[#020812]
+        motion-reduce:transition-none
       "
     >
 
@@ -559,9 +593,11 @@ function ProtocolCard({
           object-cover
           object-center
           transition-transform
-          duration-[1400ms]
+          duration-[900ms]
           ease-[cubic-bezier(.22,1,.36,1)]
-          group-hover:scale-[1.055]
+          group-hover:scale-[1.04]
+          motion-reduce:transform-none
+          motion-reduce:transition-none
         "
       />
 
@@ -574,10 +610,11 @@ function ProtocolCard({
         className="
           absolute
           inset-0
-          bg-[#020812]/20
+          bg-[linear-gradient(145deg,rgba(0,102,255,0.13),transparent_45%),rgba(2,8,18,0.22)]
           transition-colors
           duration-700
-          group-hover:bg-[#020812]/45
+          group-hover:bg-[linear-gradient(145deg,rgba(0,102,255,0.22),transparent_52%),rgba(2,8,18,0.35)]
+          motion-reduce:transition-none
         "
       />
 
@@ -614,9 +651,10 @@ function ProtocolCard({
           bg-[#1683FF]
           shadow-[0_0_18px_rgba(22,131,255,.7)]
           transition-transform
-          duration-700
+          duration-500
           ease-[cubic-bezier(.22,1,.36,1)]
           group-hover:scale-y-100
+          motion-reduce:transition-none
         "
       />
 
@@ -640,9 +678,9 @@ function ProtocolCard({
 
       {/* =====================================================
           CONTENT
-          
+
           THIS IS THE IMPORTANT PART.
-          
+
           The movement is deliberately simple:
           title sits low,
           then the entire content group rises on hover.
@@ -656,13 +694,16 @@ function ProtocolCard({
           flex
           flex-col
           items-center
-          px-6
-          pb-7
+          px-5
+          pb-6
           text-center
           transition-transform
-          duration-[800ms]
+          duration-500
           ease-[cubic-bezier(.22,1,.36,1)]
-          group-hover:-translate-y-[30px]
+          group-hover:-translate-y-2
+          motion-reduce:transform-none
+          motion-reduce:transition-none
+          sm:px-7 sm:pb-8
         "
       >
 
@@ -690,9 +731,9 @@ function ProtocolCard({
           className="
             max-w-full
             font-serif
-            text-[clamp(2.6rem,4vw,4.5rem)]
+            text-[clamp(2.5rem,3.5vw,4rem)]
             font-light
-            leading-[0.78]
+            leading-[0.86]
             tracking-[-0.065em]
             text-white
           "
@@ -710,9 +751,10 @@ function ProtocolCard({
             grid
             grid-rows-[0fr]
             transition-all
-            duration-[700ms]
+            duration-500
             ease-[cubic-bezier(.22,1,.36,1)]
             group-hover:grid-rows-[1fr]
+            motion-reduce:transition-none
           "
         >
 
@@ -726,11 +768,11 @@ function ProtocolCard({
                 text-[11px]
                 leading-5
                 text-white/60
-                opacity-0
+                opacity-100
                 transition-opacity
-                delay-100
-                duration-500
-                group-hover:opacity-100
+                duration-300
+                group-hover:text-white/80
+                motion-reduce:transition-none
               "
             >
               {treatment.shortDescription}
@@ -761,9 +803,10 @@ function ProtocolCard({
             text-white
             backdrop-blur-[2px]
             transition-all
-            duration-500
+            duration-300
             group-hover:border-[#1683FF]
-            group-hover:bg-[#0066FF]/20
+            group-hover:bg-[#0066FF]/25
+            motion-reduce:transition-none
           "
         >
           EXPLORE PROTOCOL

@@ -100,6 +100,7 @@ export default async function ProtocolPage({
         {/* Electric blue ambient glow */}
 
         <div
+          aria-hidden="true"
           className="pointer-events-none absolute -left-40 top-24 h-[500px] w-[500px] rounded-full blur-[150px]"
           style={{
             background: COLORS.electric,
@@ -108,6 +109,7 @@ export default async function ProtocolPage({
         />
 
         <div
+          aria-hidden="true"
           className="pointer-events-none absolute right-[-180px] top-[-120px] h-[600px] w-[600px] rounded-full blur-[160px]"
           style={{
             background: COLORS.electricBright,
@@ -265,7 +267,7 @@ export default async function ProtocolPage({
                 fill
                 priority
                 sizes="(min-width: 1024px) 60vw, 100vw"
-                className="object-cover transition-transform duration-[1600ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.025]"
+                className="object-cover transition-transform duration-[1600ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.025] motion-reduce:transform-none motion-reduce:transition-none motion-reduce:group-hover:scale-100"
               />
 
               {/* Dark cinematic grade */}
@@ -809,7 +811,7 @@ export default async function ProtocolPage({
             <div className="lg:col-span-4 lg:flex lg:justify-end">
               <Link
                 href="/standard"
-                className="group inline-flex items-center border px-6 py-4 text-[8px] uppercase tracking-[0.23em] transition-all duration-500 hover:border-[#0066FF] hover:bg-[#0066FF]"
+                className="group inline-flex items-center border px-6 py-4 text-[8px] uppercase tracking-[0.23em] transition-all duration-500 hover:border-[#0066FF] hover:bg-[#0066FF] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#8CCBFF] motion-reduce:transition-none"
                 style={{
                   borderColor: "rgba(247,250,255,0.25)",
                   color: COLORS.white,
@@ -888,7 +890,7 @@ export default async function ProtocolPage({
 
               <Link
                 href="/book"
-                className="group mt-8 inline-flex items-center px-7 py-4 text-[8px] uppercase tracking-[0.24em] transition-all duration-500 hover:bg-[#1683FF]"
+                className="group mt-8 inline-flex items-center px-7 py-4 text-[8px] uppercase tracking-[0.24em] transition-all duration-500 hover:bg-[#1683FF] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#8CCBFF] motion-reduce:transition-none"
                 style={{
                   background: COLORS.electric,
                   color: COLORS.white,
@@ -931,7 +933,7 @@ export default async function ProtocolPage({
 
             <Link
               href="/protocols"
-              className="shrink-0 text-[8px] uppercase tracking-[0.22em] transition-colors duration-300 hover:text-[#1683FF]"
+              className="shrink-0 text-[8px] uppercase tracking-[0.22em] transition-colors duration-300 hover:text-[#1683FF] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#8CCBFF] motion-reduce:transition-none"
               style={{
                 color: COLORS.ice,
               }}
