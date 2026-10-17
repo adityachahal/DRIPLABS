@@ -128,6 +128,15 @@ const standardStates = {
 
 type StandardKey = keyof typeof standardStates;
 
+const interactiveDetails: Record<StandardKey, { eyebrow: string; heading: string; rows: { label: string; value: string }[]; footer: string }> = {
+  "01": { eyebrow: "CARE PATHWAY", heading: "Physician assessment", rows: [{ label: "PROTOCOL", value: "Individually assessed" }, { label: "OVERSIGHT", value: "Physician-led" }], footer: "Assessment precedes protocol selection." },
+  "02": { eyebrow: "QUALITY FRAMEWORK", heading: "Pharma-grade standards", rows: [{ label: "STANDARDS", value: "IP · BP · USP" }, { label: "PROCESS", value: "Manufacturing discipline" }], footer: "Refer to product documentation for applicable specifications." },
+  "03": { eyebrow: "DOCUMENTATION", heading: "Clinical evidence", rows: [{ label: "PROTOCOLS", value: "Documented" }, { label: "REFERENCES", value: "Research-linked" }], footer: "Explore the supporting protocol documentation." },
+  "04": { eyebrow: "PRODUCT RECORD", heading: "Batch traceability", rows: [{ label: "BATCH NUMBER", value: "See product label" }, { label: "EXPIRY", value: "See product label" }, { label: "CERTIFICATE", value: "Certificate of Analysis" }], footer: "Batch-specific values must be verified against the supplied product pack." },
+  "05": { eyebrow: "QUALITY ASSURANCE", heading: "Third-party testing", rows: [{ label: "VERIFICATION", value: "Documentation-led" }, { label: "TEST REPORT", value: "Refer to available records" }], footer: "Only verified test reports should be presented as evidence." },
+  "06": { eyebrow: "RESEARCH LAYER", heading: "Science & references", rows: [{ label: "FORMULATION", value: "Research-informed" }, { label: "REFERENCES", value: "Documented sources" }], footer: "Review the relevant scientific references for each formulation." },
+};
+
 function TrustCard({
   point,
   active,
@@ -222,87 +231,6 @@ function TrustCard({
   );
 }
 
-function Vial({
-  active,
-  reducedMotion,
-}: {
-  active: boolean;
-  reducedMotion: boolean | null;
-}) {
-  return (
-    <motion.div
-      animate={
-        reducedMotion
-          ? undefined
-          : {
-              y: [0, -3, 0],
-              rotate: active ? [0, 0.5, -0.5, 0] : [0, 0.2, -0.2, 0],
-            }
-      }
-      transition={
-        reducedMotion
-          ? undefined
-          : { duration: active ? 5 : 7, repeat: Infinity, ease: "easeInOut" }
-      }
-      className="absolute left-1/2 top-[53%] z-20 h-[190px] w-[82px] -translate-x-1/2 -translate-y-1/2 sm:h-[225px] sm:w-[96px] lg:h-[250px] lg:w-[108px]"
-    >
-      <motion.div
-        animate={
-          reducedMotion
-            ? undefined
-            : { opacity: active ? 0.9 : 0.55, scale: active ? 1.08 : 1 }
-        }
-        transition={{ duration: 0.6 }}
-        className="absolute -inset-12 rounded-full bg-[#1683FF]/10 blur-[45px]"
-      />
-
-      <div className="absolute left-1/2 top-0 h-[12%] w-[56%] -translate-x-1/2 rounded-[7px_7px_3px_3px] border border-white/35 bg-gradient-to-b from-white/60 via-[#A8B4BF]/35 to-[#253645]/80 shadow-[0_0_18px_rgba(255,255,255,.1)]">
-        <div className="absolute inset-x-2 top-1 h-px bg-white/55" />
-        <div className="absolute inset-x-2 bottom-1 h-px bg-[#F2A65A]/55" />
-      </div>
-
-      <div className="absolute left-1/2 top-[10%] h-[14%] w-[40%] -translate-x-1/2 rounded-t-[7px] border border-white/25 bg-white/[0.07]" />
-
-      <div className="absolute left-1/2 top-[20%] h-[70%] w-[78%] -translate-x-1/2 overflow-hidden rounded-[19px_19px_16px_16px] border border-white/35 bg-gradient-to-r from-white/[0.18] via-white/[0.025] to-white/[0.13] shadow-[inset_8px_0_20px_rgba(255,255,255,.06),inset_-8px_0_20px_rgba(0,102,255,.10),0_25px_60px_rgba(0,0,0,.55)]">
-        <div className="absolute inset-y-2 left-[11%] w-[7%] rounded-full bg-white/20 blur-[2px]" />
-
-        <motion.div
-          animate={{ scaleY: active ? [0.94, 1, 0.94] : 0.96 }}
-          transition={{ duration: 4.5, repeat: Infinity, ease: "easeInOut" }}
-          style={{ transformOrigin: "bottom" }}
-          className="absolute bottom-0 left-[3%] right-[3%] h-[58%] rounded-[0_0_15px_15px] bg-gradient-to-t from-[#0047FF]/90 via-[#008BFF]/42 to-[#1683FF]/8"
-        >
-          {!reducedMotion && (
-            <>
-              <motion.span
-                animate={{ y: [-3, -32], opacity: [0, 0.8, 0] }}
-                transition={{ duration: 3.5, repeat: Infinity, delay: 0.4 }}
-                className="absolute bottom-4 left-[30%] h-1 w-1 rounded-full bg-white"
-              />
-              <motion.span
-                animate={{ y: [-3, -38], opacity: [0, 0.7, 0] }}
-                transition={{ duration: 4, repeat: Infinity, delay: 1.2 }}
-                className="absolute bottom-4 left-[66%] h-1 w-1 rounded-full bg-[#C9E9FF]"
-              />
-            </>
-          )}
-        </motion.div>
-
-        <div className="absolute left-1/2 top-[34%] flex h-[72px] w-[35px] -translate-x-1/2 items-center justify-center border border-white/10 bg-[#020812]/90 sm:h-[78px] sm:w-[38px]">
-          <span className="-rotate-90 whitespace-nowrap text-[7px] font-medium tracking-[0.25em] text-white/85">
-            DRIPLABS
-          </span>
-          <span className="absolute bottom-2 text-[5px] tracking-[0.16em] text-[#8CCBFF]">
-            NAD+
-          </span>
-        </div>
-      </div>
-
-      <div className="absolute bottom-[3%] left-1/2 h-[9%] w-[90%] -translate-x-1/2 rounded-full border border-[#8CCBFF]/25 bg-[#06152B]/80 shadow-[0_0_28px_rgba(0,102,255,.2)]" />
-    </motion.div>
-  );
-}
-
 function ClinicalVisual({
   activePoint,
   reducedMotion,
@@ -325,6 +253,16 @@ function ClinicalVisual({
 
       <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(2,8,18,.30),rgba(2,8,18,.12)_42%,rgba(2,8,18,.76))]" />
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_48%,rgba(22,131,255,.10),transparent_36%)]" />
+
+      {/* Soft ivory-to-ice-blue center field; the outer stage remains dark navy. */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute left-1/2 top-[52%] z-[1] h-[78%] w-[82%] -translate-x-1/2 -translate-y-1/2 rounded-full opacity-95 blur-[2px]"
+        style={{
+          background:
+            "radial-gradient(ellipse at 50% 44%, rgba(255,250,235,0.96) 0%, rgba(236,246,255,0.94) 22%, rgba(176,218,255,0.78) 43%, rgba(67,151,239,0.28) 61%, rgba(2,8,18,0) 76%)",
+        }}
+      />
 
       <div
         aria-hidden="true"
@@ -361,7 +299,7 @@ function ClinicalVisual({
         className="absolute left-1/2 top-[51%] h-[205px] w-[205px] -translate-x-1/2 -translate-y-1/2 rounded-full border border-dashed border-[#8CCBFF]/22 sm:h-[255px] sm:w-[255px] lg:h-[285px] lg:w-[285px]"
       />
 
-      <div className="absolute left-1/2 top-[51%] h-[145px] w-[145px] -translate-x-1/2 -translate-y-1/2 rounded-full border border-[#1683FF]/20 sm:h-[180px] sm:w-[180px] lg:h-[210px] lg:w-[210px]" />
+      <div className="absolute left-1/2 top-[51%] z-[2] h-[145px] w-[145px] -translate-x-1/2 -translate-y-1/2 rounded-full border border-[#D9EDFF]/55 shadow-[0_0_28px_rgba(214,237,255,.16)] sm:h-[180px] sm:w-[180px] lg:h-[210px] lg:w-[210px]" />
 
       {!reducedMotion && (
         <motion.div
@@ -409,7 +347,49 @@ function ClinicalVisual({
       <span className="absolute left-[11%] top-[51%] h-1.5 w-1.5 -translate-y-1/2 rounded-full bg-[#1683FF] shadow-[0_0_12px_#1683FF]" />
       <span className="absolute right-[11%] top-[51%] h-1.5 w-1.5 -translate-y-1/2 rounded-full bg-[#F2A65A] shadow-[0_0_12px_rgba(242,166,90,.8)]" />
 
-      <Vial active reducedMotion={reducedMotion} />
+      <video
+        className="absolute left-[43%] top-[49%] z-20 h-[58%] w-[52%] -translate-x-1/2 -translate-y-1/2 object-contain bg-transparent mix-blend-darken [filter:brightness(0.78)_contrast(1.32)_saturate(1.22)] sm:left-[50%] sm:h-[62%] sm:w-[53%] lg:left-[50%] lg:h-[64%] lg:w-[54%]"
+        src="/videos/credibility/credibility-loop.mp4"
+        autoPlay
+        muted
+        loop
+        playsInline
+        preload="metadata"
+        aria-label="DRIPLABS product video"
+      />
+
+      <div className="absolute right-[2.5%] top-[46%] z-40 w-[38%] max-w-[190px] sm:right-[3%] sm:top-[46%] sm:w-[34%] lg:right-[3%] lg:top-[46%] lg:w-[32%]">
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={activePoint}
+            initial={reducedMotion ? false : { opacity: 0, y: 8, scale: 0.98 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={reducedMotion ? undefined : { opacity: 0, y: -5, scale: 0.99 }}
+            transition={{ duration: reducedMotion ? 0 : 0.28, ease: [0.22, 1, 0.36, 1] }}
+            className="overflow-hidden rounded-[3px] border border-white/[0.22] bg-[#081725]/65 p-2.5 shadow-[0_12px_40px_rgba(0,0,0,.28),inset_0_1px_0_rgba(255,255,255,.08)] backdrop-blur-xl sm:p-3"
+            aria-live="polite"
+          >
+            <div className="mb-2 flex items-center justify-between gap-2 border-b border-white/[0.10] pb-2">
+              <span className="text-[5px] uppercase tracking-[0.17em] text-[#8CCBFF]/80 sm:text-[6px]">{interactiveDetails[activePoint].eyebrow}</span>
+              <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-[#1683FF] shadow-[0_0_9px_#1683FF]" />
+            </div>
+            <h3 className="font-[var(--font-heading)] text-[clamp(10px,1vw,14px)] font-light leading-tight tracking-[-0.025em] text-white/95">
+              {interactiveDetails[activePoint].heading}
+            </h3>
+            <div className="mt-2.5 space-y-2">
+              {interactiveDetails[activePoint].rows.map((row) => (
+                <div key={row.label} className="border-l border-[#1683FF]/70 pl-2">
+                  <p className="text-[5px] uppercase tracking-[0.12em] text-white/40 sm:text-[6px]">{row.label}</p>
+                  <p className="mt-0.5 text-[7px] leading-snug text-white/85 sm:text-[8px]">{row.value}</p>
+                </div>
+              ))}
+            </div>
+            <p className="mt-2.5 border-t border-white/[0.10] pt-2 text-[6px] leading-relaxed text-white/50 sm:text-[7px]">
+              {interactiveDetails[activePoint].footer}
+            </p>
+          </motion.div>
+        </AnimatePresence>
+      </div>
 
       <div className="absolute bottom-[7%] left-1/2 z-30 w-[88%] -translate-x-1/2 text-center">
         <AnimatePresence mode="wait">
