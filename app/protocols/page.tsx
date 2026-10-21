@@ -1,16 +1,13 @@
 ﻿"use client";
 
-import Image from "next/image";
 import Link from "next/link";
-import { AnimatePresence, motion } from "framer-motion";
-import { useMemo, useState } from "react";
-
+import { motion } from "framer-motion";
+import { useMemo, useRef, useState } from "react";
 import {
   treatments,
   type Treatment,
   type TreatmentFamily,
 } from "@/data/treatments";
-
 import Navbar from "@/components/navigation/Navbar";
 import Footer from "@/components/sections/Footer";
 
@@ -28,807 +25,209 @@ const families: FamilyFilter[] = [
   "Musculoskeletal",
 ];
 
-const familyNames: Record<FamilyFilter, string> = {
-  All: "All",
-  "Skin & Beauty": "Skin & Beauty",
-  "Cellular & Longevity": "Cellular & Longevity",
-  "Metabolic & Performance": "Metabolic & Performance",
-  "Digestive & Systemic": "Digestive & Systemic",
-  "Women's Wellness": "Women's Wellness",
-  "Recovery & Immune": "Recovery & Immune",
-  "Cognitive & Neuro": "Cognitive & Neuro",
-  Musculoskeletal: "Musculoskeletal",
+const familyDescriptions: Record<TreatmentFamily, string> = {
+  "Skin & Beauty": "Explore protocols in the skin and beauty collection.",
+  "Cellular & Longevity": "Explore protocols focused on cellular health and longevity.",
+  "Metabolic & Performance": "Explore protocols for metabolic health and performance.",
+  "Digestive & Systemic": "Explore protocols for digestive and systemic wellness.",
+  "Women's Wellness": "Explore protocols in the women's wellness collection.",
+  "Recovery & Immune": "Explore protocols focused on recovery and immune support.",
+  "Cognitive & Neuro": "Explore protocols for cognitive and neurological wellness.",
+  Musculoskeletal: "Explore protocols for musculoskeletal wellness.",
 };
-
-const getImage = (treatment: Treatment) =>
-  treatment.image || `/images/treatments/${treatment.slug}.jpg`;
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
 export default function ProtocolsPage() {
-  const [activeFamily, setActiveFamily] =
-    useState<FamilyFilter>("All");
-
+  const [activeFamily, setActiveFamily] = useState<FamilyFilter>("All");
   const activeTreatments = useMemo(
     () => treatments.filter((treatment) => treatment.active),
     [],
   );
 
-  const visibleTreatments = useMemo(() => {
-    if (activeFamily === "All") return activeTreatments;
+  const groupedTreatments = useMemo(
+    () =>
+      families
+        .filter((family): family is TreatmentFamily => family !== "All")
+        .map((family) => ({
+          family,
+          items: activeTreatments.filter((treatment) => treatment.family === family),
+        }))
+        .filter((group) => group.items.length > 0),
+    [activeTreatments],
+  );
 
-    return activeTreatments.filter(
-      (treatment) => treatment.family === activeFamily,
-    );
-  }, [activeFamily, activeTreatments]);
+  const visibleGroups = activeFamily === "All"
+    ? groupedTreatments
+    : groupedTreatments.filter((group) => group.family === activeFamily);
+
+  function selectFamily(family: FamilyFilter) {
+    setActiveFamily(family);
+    window.setTimeout(() => {
+      document.getElementById(family === "All" ? "protocol-families" : `family-${slugify(family)}`)
+        ?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, 40);
+  }
 
   return (
     <>
       <Navbar />
-
-      <main className="min-h-screen overflow-hidden bg-[#020812] text-white">
-
-        {/* =====================================================
-            HERO
-        ===================================================== */}
-
-        <section className="relative isolate min-h-[620px] overflow-hidden border-b border-white/[0.08] bg-[#020812] sm:min-h-[680px] lg:min-h-[min(760px,calc(100svh-60px))]">
-
-          {/* Hero artwork: save the supplied image as public/images/hero/protocols-hero.png */}
-          <Image
-            src="/images/hero/protocols-hero.png"
-            alt=""
-            fill
-            priority
-            sizes="100vw"
-            quality={95}
-            aria-hidden="true"
-            className="pointer-events-none object-cover object-[58%_center]"
-          />
-          <div aria-hidden="true" className="pointer-events-none absolute inset-0 z-[1] bg-[linear-gradient(90deg,rgba(2,8,18,0.34)_0%,rgba(2,8,18,0.12)_42%,rgba(2,8,18,0.00)_75%),linear-gradient(0deg,rgba(2,8,18,0.18)_0%,transparent_28%)]" />
-          <motion.div aria-hidden="true" className="pointer-events-none absolute -left-40 bottom-[-12rem] z-[2] h-[30rem] w-[30rem] rounded-full bg-[#1683FF]/10 blur-[120px]" animate={{ x: [0, 28, 0], y: [0, -22, 0] }} transition={{ duration: 16, repeat: Infinity, ease: "easeInOut" }} />
-
-          <div className="relative z-10 mx-auto grid min-h-[620px] max-w-[1600px] items-center gap-12 px-5 pb-16 pt-32 sm:min-h-[680px] sm:px-8 md:px-10 md:pb-20 lg:min-h-[min(760px,calc(100svh-60px))] lg:grid-cols-[1.15fr_0.85fr] lg:gap-8 lg:px-14 lg:pt-36">
-
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, ease }}
-            >
-              <div className="flex items-center gap-3">
-
-                <span className="h-px w-8 bg-gradient-to-r from-[#0066FF] to-[#8CCBFF]" />
-
-                <span className="text-[8px] tracking-[0.28em] text-[#8CCBFF]">
-                  THE DRIPLABS SYSTEM
-                </span>
-
-              </div>
-
-              <h1
-                className="
-                  mt-7
-                  max-w-[1000px]
-                  font-serif
-                  text-[clamp(4rem,8.4vw,8.6rem)]
-                  font-light
-                  leading-[0.80]
-                  tracking-[-0.075em]
-                  [text-wrap:balance]
-                "
-              >
-                Wellness,
-                <br />
-                <span className="bg-gradient-to-r from-white/40 via-[#C5E5FF] to-[#4D9BFF] bg-clip-text text-transparent">
-                  considered.
-                </span>
-              </h1>
-
-              <p className="mt-8 max-w-xl text-[12px] leading-6 text-white/60 md:text-[13px] md:leading-7">
-                Nineteen physician-directed protocols across eight wellness
-                families. Explore the system one considered protocol at a time.
-              </p>
-            </motion.div>
-
-          </div>
-
-        </section>
-
-
-        {/* =====================================================
-            FAMILY FILTER
-        ===================================================== */}
-
-        <section
-          className="
-            sticky
-            top-[60px]
-            z-40
-            border-y
-            border-[#0A3158]/10
-            bg-gradient-to-r from-[#FFF8E9]/95 via-[#F4F8FC]/95 to-[#DCEBFA]/95
-            shadow-[0_12px_35px_rgba(10,49,88,0.12)]
-            backdrop-blur-2xl
-          "
-        >
-
-          <div className="mx-auto max-w-[1600px] px-5 sm:px-8 md:px-10 lg:px-14">
-
-            <div className="flex overflow-x-auto [scrollbar-width:none]">
-
+      <main className="min-h-screen overflow-hidden bg-[#FCFAF5] text-[#101D32]">
+        {/* Compact family selector, matching the reference image */}
+        <nav aria-label="Protocol families" className="relative z-20 border-b border-[#17263A]/[0.08] bg-[#FCFAF5]">
+          <div className="mx-auto max-w-[1800px] px-5 pt-7 pb-5 sm:px-8 lg:px-10">
+            <div className="flex gap-2 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
               {families.map((family) => {
-                const active = activeFamily === family;
-
+                const selected = activeFamily === family;
                 return (
                   <button
                     key={family}
                     type="button"
-                    onClick={() => setActiveFamily(family)}
-                    className={`
-                      relative
-                      shrink-0
-                      px-4
-                      py-5
-                      text-[9px]
-                      font-medium
-                      tracking-[0.14em]
-                      transition-colors
-                      duration-300
-                      focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-3px] focus-visible:outline-[#8CCBFF]
-                      motion-reduce:transition-none
-                      first:pl-0
-                      md:px-6
-                      ${
-                        active
-                          ? "text-[#06203B]"
-                          : "text-[#06203B]/45 hover:text-[#06203B]"
-                      }
-                    `}
+                    onClick={() => selectFamily(family)}
+                    aria-pressed={selected}
+                    className={`shrink-0 rounded-full border px-5 py-3 text-[12px] transition-all duration-300 ${selected ? "border-[#1672EE] bg-[#1672EE] text-white shadow-[0_5px_16px_rgba(22,114,238,.18)]" : "border-[#17263A]/15 bg-transparent text-[#27364A] hover:border-[#1672EE]/50 hover:text-[#1672EE]"}`}
                   >
-                    {familyNames[family]}
-
-                    {active && (
-                      <motion.span
-                        layoutId="protocol-filter"
-                        transition={{
-                          duration: 0.45,
-                          ease,
-                        }}
-                        className="
-                          absolute
-                          bottom-0
-                          left-4
-                          right-4
-                          h-[2px]
-                          bg-[#1683FF]
-                          shadow-[0_0_15px_rgba(22,131,255,.65)]
-                          first:left-0
-                          md:left-6
-                          md:right-6
-                        "
-                      />
-                    )}
+                    {family}
                   </button>
                 );
               })}
-
             </div>
-
           </div>
+        </nav>
 
-        </section>
-
-
-        {/* =====================================================
-            INTRO
-        ===================================================== */}
-
-        <section className="relative overflow-hidden border-b border-white/[0.08] bg-gradient-to-br from-[#FFF8EA] via-[#F4F7FA] to-[#DCEBFA]">
-
-          <div className="mx-auto max-w-[1600px] px-5 py-16 sm:px-8 md:px-10 md:py-24 lg:px-14">
-
-            <div className="grid gap-10 lg:grid-cols-[260px_1fr] lg:gap-20">
-
-              <div>
-
-                <span className="text-[8px] tracking-[0.28em] text-[#0756A5]">
-                  {activeFamily === "All"
-                    ? "ALL PROTOCOLS"
-                    : familyNames[activeFamily]}
-                </span>
-
-                <div className="mt-5 h-px w-10 bg-gradient-to-r from-[#0066FF] to-[#8CCBFF]" />
-
-              </div>
-
-              <AnimatePresence mode="wait">
-
-                <motion.h2
-                  key={activeFamily}
-                  initial={{
-                    opacity: 0,
-                    y: 15,
-                  }}
-                  animate={{
-                    opacity: 1,
-                    y: 0,
-                  }}
-                  exit={{
-                    opacity: 0,
-                    y: -15,
-                  }}
-                  transition={{
-                    duration: 0.45,
-                    ease,
-                  }}
-                  className="
-                    max-w-[1000px]
-                    font-serif
-                    text-[clamp(2.6rem,4.8vw,5.25rem)]
-                    font-light
-                    leading-[0.92]
-                    tracking-[-0.055em]
-                    [text-wrap:balance]
-                    text-[#06182D]
-                  "
-                >
-                  {activeFamily === "All"
-                    ? "Nineteen physician-directed protocols across eight wellness families."
-                    : `${visibleTreatments.length} protocols within ${familyNames[activeFamily]}.`}
-                </motion.h2>
-
-              </AnimatePresence>
-
-            </div>
-
-          </div>
-
-        </section>
-
-
-        {/* =====================================================
-            PROTOCOL GRID
-        ===================================================== */}
-
-        <section className="relative isolate overflow-hidden bg-[linear-gradient(180deg,#020812_0%,#041126_48%,#020812_100%)]">
-          <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_50%_0%,rgba(0,102,255,0.11),transparent_55%),radial-gradient(ellipse_at_100%_65%,rgba(22,131,255,0.07),transparent_32%)]" />
-
-          <div className="mx-auto max-w-[1600px] px-5 py-12 sm:px-8 md:px-10 md:py-16 lg:px-14 lg:py-20">
-
-            <div className="mb-8 flex items-end justify-between border-b border-[#8CCBFF]/20 pb-5">
-
-              <div>
-                <p className="text-[8px] tracking-[0.25em] text-white/40">
-                  THE COLLECTION
-                </p>
-
-                <p className="mt-2 text-[10px] text-white/25">
-                  {visibleTreatments.length}{" "}
-                  {visibleTreatments.length === 1
-                    ? "protocol"
-                    : "protocols"}
-                </p>
-              </div>
-
-              <span className="hidden text-[7px] tracking-[0.25em] text-white/20 md:block">
-                PHYSICIAN-DIRECTED WELLNESS
-              </span>
-
-            </div>
-
-
-            <motion.div
-              layout
-              className="
-                grid
-                grid-cols-1
-                gap-4
-                md:gap-5
-                lg:grid-cols-3
-                lg:gap-6
-              "
-            >
-
-              <AnimatePresence mode="popLayout">
-
-                {visibleTreatments.map((treatment, index) => (
-
-                  <motion.div
-                    key={treatment.slug}
-                    layout
-                    initial={{
-                      opacity: 0,
-                      y: 20,
-                    }}
-                    animate={{
-                      opacity: 1,
-                      y: 0,
-                    }}
-                    exit={{
-                      opacity: 0,
-                      y: 20,
-                    }}
-                    transition={{
-                      duration: 0.5,
-                      delay: Math.min(index * 0.035, 0.2),
-                      ease,
-                    }}
-                  >
-
-                    <ProtocolCard treatment={treatment} />
-
-                  </motion.div>
-
+        {/* Family-first protocol showcase */}
+        <section id="protocol-families" className="scroll-mt-32 bg-[#FCFAF5]">
+          <div className="mx-auto max-w-[1800px] px-5 pt-7 pb-14 sm:px-8 lg:px-10">
+            {visibleGroups.length === 0 ? (
+              <p className="py-16 text-center text-sm text-[#273B55]/65">No active protocols are available in this family.</p>
+            ) : (
+              <div className="space-y-14 md:space-y-16">
+                {visibleGroups.map((group, index) => (
+                  <FamilySection key={group.family} family={group.family} items={group.items} index={index} />
                 ))}
-
-              </AnimatePresence>
-
-            </motion.div>
-
+              </div>
+            )}
           </div>
-
         </section>
 
-
-        {/* =====================================================
-            PHYSICIAN SECTION
-        ===================================================== */}
-
-        <section className="border-t border-[#0A3158]/10 bg-gradient-to-br from-[#FDF7EA] via-[#F4F8FC] to-[#D9E9F9] text-[#06182D]">
-
-          <div className="mx-auto max-w-[1600px] px-5 py-24 sm:px-8 md:px-10 md:py-32 lg:px-14">
-
-            <div className="grid gap-12 lg:grid-cols-[250px_1fr] lg:gap-20">
-
-              <div>
-
-                <div className="flex items-center gap-3">
-
-                  <span className="text-[8px] tracking-[0.28em] text-[#0756A5]">
-                    ONE STANDARD
-                  </span>
-
-                  <span className="h-px w-8 bg-gradient-to-r from-[#0066FF] to-[#8CCBFF]" />
-
-                </div>
-
+        <section className="border-t border-[#14223A]/10 bg-[linear-gradient(110deg,#FFF8EB_0%,#F1F6FB_60%,#DCEBFA_100%)]">
+          <div className="mx-auto grid max-w-[1600px] gap-8 px-5 py-14 sm:px-8 md:px-10 lg:grid-cols-[220px_1fr] lg:px-14 lg:py-20">
+            <p className="text-[9px] uppercase tracking-[0.26em] text-[#0066FF]">ONE STANDARD</p>
+            <div>
+              <h2 className="max-w-4xl font-serif text-[clamp(2.7rem,5.5vw,6rem)] font-light leading-[0.9] tracking-[-0.06em]">A protocol is a starting point.<br /><span className="text-[#6F849E]">The physician decides the path.</span></h2>
+              <div className="mt-9 grid gap-5 border-t border-[#14223A]/15 pt-5 sm:grid-cols-3">
+                {["Physician-led", "Considered", "Personalised"].map((label, i) => <div key={label}><p className="text-[9px] tracking-[0.2em] text-[#0066FF]">0{i + 1}</p><p className="mt-2 font-serif text-2xl font-light">{label}</p></div>)}
               </div>
-
-              <div>
-
-                <h2
-                  className="
-                    max-w-[1000px]
-                    font-serif
-                    text-[clamp(3rem,6vw,7rem)]
-                    font-light
-                    leading-[0.84]
-                    tracking-[-0.065em]
-                  "
-                >
-                  A protocol is a
-                  <br />
-                  starting point.
-                  <br />
-                  <span className="bg-gradient-to-r from-[#55718D] to-[#0066FF] bg-clip-text text-transparent">
-                    The physician decides the path.
-                  </span>
-                </h2>
-
-                <div className="mt-12 grid gap-8 border-t border-[#0A3158]/15 pt-6 md:grid-cols-3">
-
-                  {[
-                    ["01", "Physician-led"],
-                    ["02", "Considered"],
-                    ["03", "Personalised"],
-                  ].map(([number, title]) => (
-                    <div key={number}>
-
-                      <span className="text-[8px] tracking-[0.22em] text-[#0756A5]">
-                        {number}
-                      </span>
-
-                      <p className="mt-3 font-serif text-2xl font-light text-[#06182D]">
-                        {title}
-                      </p>
-
-                    </div>
-                  ))}
-
-                </div>
-
-              </div>
-
             </div>
-
           </div>
-
         </section>
-
-
-        {/* =====================================================
-            CTA
-        ===================================================== */}
-
-        <section className="relative isolate overflow-hidden border-t border-[#8CCBFF]/40 bg-[linear-gradient(112deg,#FFF7E7_0%,#F2F7FC_38%,#A9D4F8_66%,#063D79_100%)] text-[#06182D]">
-
-          <div
-            className="
-              pointer-events-none
-              absolute
-              left-1/2
-              top-1/2
-              h-[500px]
-              w-[500px]
-              -translate-x-1/2
-              -translate-y-1/2
-              rounded-full
-              bg-[radial-gradient(circle,rgba(22,131,255,0.24)_0%,rgba(0,102,255,0.10)_38%,transparent_72%)]
-              blur-[100px]
-            "
-          />
-
-          <div className="relative mx-auto max-w-[1600px] px-5 py-24 sm:px-8 md:px-10 md:py-32 lg:px-14">
-
-            <div className="flex flex-col justify-between gap-12 lg:flex-row lg:items-end">
-
-              <div>
-
-                <span className="text-[8px] tracking-[0.3em] text-[#0756A5]">
-                  YOUR NEXT STEP
-                </span>
-
-                <h2
-                  className="
-                    mt-7
-                    font-serif
-                    text-[clamp(3.5rem,7vw,8rem)]
-                    font-light
-                    leading-[0.8]
-                    tracking-[-0.07em]
-                  "
-                >
-                  Start with
-                  <br />
-                  the physician.
-                </h2>
-
-              </div>
-
-              <Link
-                href="/book"
-                className="
-                  group
-                  inline-flex
-                  min-h-[50px]
-                  items-center
-                  justify-center
-                  gap-5
-                  rounded-[10px]
-                  border
-                  border-[#1683FF]/70
-                  bg-[#0066FF]
-                  px-8
-                  text-[8px]
-                  tracking-[0.2em]
-                  text-white
-                  transition-all
-                  duration-500
-                  hover:bg-[#1683FF]
-                  hover:shadow-[0_12px_40px_rgba(0,102,255,.25)]
-                  focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#8CCBFF]
-                  motion-reduce:transition-none
-                "
-              >
-                BEGIN YOUR JOURNEY
-
-                <span className="transition-transform duration-300 group-hover:translate-x-1">
-                  →
-                </span>
-              </Link>
-
-            </div>
-
-          </div>
-
-        </section>
-
         <Footer />
-
       </main>
     </>
   );
 }
 
+function slugify(value: string): string {
+  return value.toLowerCase().replace(/&/g, "and").replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+}
 
-/* =========================================================
-   PROTOCOL CARD
-========================================================= */
+function FamilySection({ family, items, index }: { family: TreatmentFamily; items: Treatment[]; index: number }) {
+  const trackRef = useRef<HTMLDivElement>(null);
+  const [scrollPosition, setScrollPosition] = useState(0);
 
-function ProtocolCard({
-  treatment,
-}: {
-  treatment: Treatment;
-}) {
+  const scrollTrack = (direction: "left" | "right") => {
+    const track = trackRef.current;
+    if (!track) return;
+    track.scrollBy({ left: direction === "right" ? Math.max(track.clientWidth * 0.82, 300) : -Math.max(track.clientWidth * 0.82, 300), behavior: "smooth" });
+  };
+
   return (
-    <Link
-      href={`/protocols/${treatment.slug}`}
-      className="
-        group
-        relative
-        block
-        aspect-[0.82]
-        overflow-hidden
-        rounded-[4px]
-        border border-[#8CCBFF]/[0.16]
-        bg-gradient-to-br from-[#0A2342] via-[#06152B] to-[#020812]
-        outline-none
-        transition-[border-color,box-shadow,transform] duration-700
-        hover:-translate-y-1
-        motion-reduce:transform-none
-        hover:border-[#4D9BFF]/80
-        hover:shadow-[0_28px_85px_rgba(0,82,200,0.30),inset_0_0_0_1px_rgba(140,203,255,0.08)]
-        focus-visible:ring-2
-        focus-visible:ring-[#8CCBFF]
-        focus-visible:ring-offset-2
-        focus-visible:ring-offset-[#020812]
-        motion-reduce:transition-none
-      "
+    <motion.section
+      id={`family-${slugify(family)}`}
+      initial={{ opacity: 0, y: 12 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.08 }}
+      transition={{ duration: 0.5, ease }}
+      className="scroll-mt-32 min-w-0"
     >
-
-      {/* =====================================================
-          IMAGE
-      ===================================================== */}
-
-      <Image
-        src={getImage(treatment)}
-        alt={`${treatment.name} protocol`}
-        fill
-        sizes="
-          (min-width: 1024px) 33vw,
-          (min-width: 768px) 50vw,
-          100vw
-        "
-        className="
-          object-cover
-          object-center
-          transition-transform
-          duration-[900ms]
-          ease-[cubic-bezier(.22,1,.36,1)]
-          group-hover:scale-[1.04]
-          motion-reduce:transform-none
-          motion-reduce:transition-none
-        "
-      />
-
-
-      {/* =====================================================
-          BASE OVERLAY
-      ===================================================== */}
-
-      <div
-        className="
-          absolute
-          inset-0
-          bg-[linear-gradient(145deg,rgba(0,102,255,0.13),transparent_45%),rgba(2,8,18,0.22)]
-          transition-colors
-          duration-700
-          group-hover:bg-[linear-gradient(145deg,rgba(0,102,255,0.22),transparent_52%),rgba(2,8,18,0.35)]
-          motion-reduce:transition-none
-        "
-      />
-
-
-      {/* =====================================================
-          BOTTOM GRADIENT
-      ===================================================== */}
-
-      <div
-        className="
-          absolute
-          inset-0
-          bg-gradient-to-t
-          from-[#020812]/95
-          via-[#020812]/20
-          to-transparent
-        "
-      />
-
-
-      {/* =====================================================
-          ELECTRIC EDGE
-      ===================================================== */}
-
-      <div
-        className="
-          absolute
-          bottom-0
-          left-0
-          top-0
-          w-[2px]
-          origin-bottom
-          scale-y-0
-          bg-[#1683FF]
-          shadow-[0_0_18px_rgba(22,131,255,.7)]
-          transition-transform
-          duration-500
-          ease-[cubic-bezier(.22,1,.36,1)]
-          group-hover:scale-y-100
-          motion-reduce:transition-none
-        "
-      />
-
-
-      {/* =====================================================
-          TOP NUMBER
-      ===================================================== */}
-
-      <div className="absolute left-5 right-5 top-5 flex justify-between md:left-6 md:right-6 md:top-6">
-
-        <span className="text-[7px] tracking-[0.24em] text-white/45">
-          {String(treatment.number).padStart(2, "0")}
-        </span>
-
-        <span className="text-[7px] tracking-[0.20em] text-[#8CCBFF]/80">
-          {treatment.family}
-        </span>
-
+      <div className="mb-6 flex items-center gap-4">
+        <h2 className="shrink-0 bg-[#FCFAF5] pr-1 font-serif text-[clamp(2rem,2.8vw,2.9rem)] font-medium leading-none tracking-[-0.045em] text-[#20231F]">{family}</h2>
+        <div className="h-px flex-1 bg-[#20231F]/85" />
+        <div className="flex shrink-0 gap-2 pl-1">
+          <button type="button" aria-label={`Previous ${family} protocols`} onClick={() => scrollTrack("left")} className="flex h-12 w-12 items-center justify-center rounded-full border border-[#14223A]/15 bg-transparent text-[#14223A]/55 transition hover:border-[#1672EE] hover:text-[#1672EE] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#1672EE]"><ArrowIcon direction="left" /></button>
+          <button type="button" aria-label={`Next ${family} protocols`} onClick={() => scrollTrack("right")} className="flex h-12 w-12 items-center justify-center rounded-full border border-[#14223A]/20 bg-transparent text-[#14223A] transition hover:border-[#1672EE] hover:bg-[#1672EE] hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#1672EE]"><ArrowIcon direction="right" /></button>
+        </div>
       </div>
 
-
-      {/* =====================================================
-          CONTENT
-
-          THIS IS THE IMPORTANT PART.
-
-          The movement is deliberately simple:
-          title sits low,
-          then the entire content group rises on hover.
-      ===================================================== */}
-
-      <div
-        className="
-          absolute
-          inset-x-0
-          bottom-0
-          flex
-          flex-col
-          items-center
-          px-5
-          pb-6
-          text-center
-          transition-transform
-          duration-500
-          ease-[cubic-bezier(.22,1,.36,1)]
-          group-hover:-translate-y-2
-          motion-reduce:transform-none
-          motion-reduce:transition-none
-          sm:px-7 sm:pb-8
-        "
-      >
-
-        {/* Category */}
-
-        <p
-          className="
-            mb-4
-            text-[7px]
-            tracking-[0.25em]
-            text-white/45
-            transition-all
-            duration-500
-            ease-[cubic-bezier(.22,1,.36,1)]
-            group-hover:text-white/65
-          "
-        >
-          {treatment.category}
-        </p>
-
-
-        {/* Title */}
-
-        <h2
-          className="
-            max-w-full
-            font-serif
-            text-[clamp(2.5rem,3.5vw,4rem)]
-            font-light
-            leading-[0.86]
-            tracking-[-0.065em]
-            text-white
-          "
-        >
-          {treatment.name}
-        </h2>
-
-
-        {/* =================================================
-            DESCRIPTION
-        ================================================= */}
-
-        <div
-          className="
-            grid
-            grid-rows-[0fr]
-            transition-all
-            duration-500
-            ease-[cubic-bezier(.22,1,.36,1)]
-            group-hover:grid-rows-[1fr]
-            motion-reduce:transition-none
-          "
-        >
-
-          <div className="overflow-hidden">
-
-            <p
-              className="
-                mx-auto
-                max-w-[420px]
-                pt-5
-                text-[11px]
-                leading-5
-                text-white/60
-                opacity-100
-                transition-opacity
-                duration-300
-                group-hover:text-white/80
-                motion-reduce:transition-none
-              "
-            >
-              {treatment.shortDescription}
-            </p>
-
+      <div ref={trackRef} onScroll={(event) => setScrollPosition(event.currentTarget.scrollLeft)} className="flex snap-x snap-mandatory gap-5 overflow-x-auto pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        {items.map((treatment, cardIndex) => (
+          <div key={treatment.slug} className="w-[84vw] min-w-[300px] max-w-[460px] shrink-0 snap-start sm:w-[calc((100%-20px)/2)] lg:w-[calc((100%-60px)/4)]">
+            <ProtocolCard treatment={treatment} index={cardIndex} />
           </div>
-
-        </div>
-
-
-        {/* =================================================
-            RESERVE / EXPLORE BUTTON
-        ================================================= */}
-
-        <div
-          className="
-            mt-5
-            flex
-            min-h-[46px]
-            w-full
-            items-center
-            justify-center
-            border
-            border-white/45
-            bg-black/5
-            text-[8px]
-            tracking-[0.18em]
-            text-white
-            backdrop-blur-[2px]
-            transition-all
-            duration-300
-            group-hover:border-[#1683FF]
-            group-hover:bg-[#0066FF]/25
-            motion-reduce:transition-none
-          "
-        >
-          EXPLORE PROTOCOL
-
-          <span
-            className="
-              ml-4
-              translate-x-0
-              opacity-60
-              transition-all
-              duration-500
-              group-hover:translate-x-1
-              group-hover:opacity-100
-            "
-          >
-            →
-          </span>
-
-        </div>
-
+        ))}
       </div>
+      {items.length > 4 && (
+        <div className="mt-3 h-px w-full bg-[#14223A]/10">
+          <div className="h-px bg-[#1672EE] transition-[width] duration-200" style={{ width: `${Math.min(100, Math.max(12, ((scrollPosition + (trackRef.current?.clientWidth ?? 1)) / Math.max(1, trackRef.current?.scrollWidth ?? 1)) * 100))}%` }} />
+        </div>
+      )}
+    </motion.section>
+  );
+}
 
+function ProtocolCard({ treatment, index }: { treatment: Treatment; index: number }) {
+  const bagColors = [
+    { fluid: "#F59BA6", edge: "#D87988", glow: "rgba(245,155,166,.24)" },
+    { fluid: "#F3C77C", edge: "#D69B40", glow: "rgba(243,199,124,.28)" },
+    { fluid: "#83C5FF", edge: "#4E9BEA", glow: "rgba(131,197,255,.3)" },
+    { fluid: "#C9A1F5", edge: "#A77BE1", glow: "rgba(201,161,245,.28)" },
+  ];
+  const color = bagColors[index % bagColors.length];
+
+  return (
+    <Link href={`/protocols/${treatment.slug}`} className="group relative block h-[330px] overflow-hidden rounded-[28px] border border-white/80 bg-[#F3EEE6] shadow-[0_4px_18px_rgba(21,35,52,.025)] transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_18px_42px_rgba(22,114,238,.10)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1672EE] sm:h-[360px] xl:h-[390px]">
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_83%_82%,rgba(255,255,255,.95),transparent_43%),linear-gradient(135deg,#F5EFE6_0%,#F7F2EA_58%,#E9F1F8_100%)]" />
+      <div className="relative z-10 h-full p-5 sm:p-6">
+        <span className="text-[10px] font-light tracking-[0.14em] text-[#1764B9]">{String(treatment.number ?? index + 1).padStart(2, "0")}</span>
+        <span className="mt-4 block h-px w-10 bg-gradient-to-r from-[#1672EE] to-[#9BCBFF]" />
+        <div className="relative z-20 mt-7 w-[57%]">
+          <p className="text-[8px] uppercase tracking-[0.2em] text-[#2877BD]">DRIPLABS PROTOCOL</p>
+          <h3 className="mt-4 font-serif text-[clamp(1.45rem,1.7vw,2rem)] font-medium leading-[.98] tracking-[-.05em] text-[#111E32]">{treatment.name}</h3>
+          <p className="mt-3 line-clamp-3 text-[10px] leading-[1.5] text-[#192A3E] sm:text-[11px]">{treatment.shortDescription}</p>
+          <p className="mt-4 text-[8px] leading-[1.5] text-[#273B55]/65">{treatment.family}</p>
+          <span className="mt-5 inline-flex items-center gap-3 rounded-full border border-[#17263A]/35 bg-white/55 px-3.5 py-2.5 text-[8px] font-medium text-[#15263C] transition-all duration-300 group-hover:border-[#1672EE] group-hover:bg-white/90 sm:text-[9px]">Explore protocol <span className="text-[#1764B9] transition-transform group-hover:translate-x-1">→</span></span>
+        </div>
+
+        {/* CSS-rendered IV bag so package thumbnails from treatment.image cannot appear here */}
+        <div className="pointer-events-none absolute bottom-5 right-2 top-8 z-10 flex w-[48%] items-center justify-center sm:right-3">
+          <div className="absolute bottom-1 right-0 h-10 w-[90%] rounded-full blur-xl" style={{ background: color.glow }} />
+          <div className="relative h-[75%] w-[70%] max-w-[155px] min-w-[105px] transition-transform duration-700 ease-out group-hover:scale-[1.035]">
+            <div className="absolute left-[36%] top-[-5px] h-3 w-[28%] rounded-t-md border border-white/80 bg-white/75 shadow-sm" />
+            <div className="absolute inset-x-0 top-0 bottom-[7%] overflow-hidden rounded-[19px_19px_24px_24px] border-[2px] bg-white/45 shadow-[inset_0_0_14px_rgba(255,255,255,.95),0_12px_25px_rgba(50,70,90,.12)]" style={{ borderColor: `${color.edge}90`, background: `linear-gradient(110deg,rgba(255,255,255,.95) 0%,${color.fluid}55 16%,rgba(255,255,255,.78) 32%,${color.fluid}88 58%,rgba(255,255,255,.85) 78%,${color.edge}45 100%)` }}>
+              <div className="absolute inset-x-1 top-1 h-[23%] rounded-[15px_15px_7px_7px] border border-white/80 bg-white/25" />
+              <div className="absolute inset-x-1 bottom-0 h-[59%] rounded-b-[20px] opacity-85" style={{ background: `linear-gradient(180deg,${color.fluid}75,${color.fluid}CC)` }} />
+              <div className="absolute left-[13%] top-[13%] h-[66%] w-[8%] rounded-full bg-white/65 blur-[1px]" />
+              <div className="absolute right-[13%] top-[18%] h-[57%] w-[4%] rounded-full bg-white/45" />
+              {Array.from({ length: 9 }).map((_, bubble) => (
+                <span key={bubble} className="absolute rounded-full border border-white/90 bg-white/45 shadow-[0_0_4px_rgba(255,255,255,.8)]" style={{ width: bubble % 3 === 0 ? 5 : 3, height: bubble % 3 === 0 ? 5 : 3, left: `${16 + ((bubble * 19) % 67)}%`, top: `${27 + ((bubble * 13) % 52)}%` }} />
+              ))}
+              <div className="absolute left-[9%] right-[9%] top-[39%] flex min-h-[25%] flex-col items-center justify-center border-y border-white/70 bg-white/75 px-1 text-center shadow-[0_3px_9px_rgba(25,55,85,.08)] backdrop-blur-sm">
+                <span className="text-[7px] font-semibold tracking-[.2em] text-[#1A2D47] sm:text-[8px]">DRIPLABS</span>
+                <span className="mt-1 max-w-full truncate text-[5px] font-medium tracking-[.12em] text-[#284A70] sm:text-[6px]">{treatment.name.toUpperCase()}</span>
+                <span className="mt-1 text-[4px] tracking-[.15em] text-[#536D89]">IV PROTOCOL</span>
+              </div>
+            </div>
+            <div className="absolute bottom-[-2%] left-[39%] h-[9%] w-[22%] border-x border-white/90" style={{ background: `linear-gradient(90deg,${color.edge},#E9F6FF,${color.edge})` }} />
+            <div className="absolute bottom-[-11%] left-[43%] h-[11%] w-[14%] rounded-b-md border border-white/90" style={{ background: `linear-gradient(90deg,${color.edge},#EAF6FF,${color.edge})` }} />
+            <div className="absolute bottom-[-15%] left-[45%] h-[5%] w-[10%] rounded-b-sm bg-[#1683E8] shadow-[0_2px_4px_rgba(0,80,160,.25)]" />
+          </div>
+        </div>
+        <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-8 bg-gradient-to-t from-white/40 to-transparent" />
+      </div>
     </Link>
   );
+}
+
+function ArrowIcon({ direction }: { direction: "left" | "right" }) {
+  return <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" className="h-4 w-4" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"><path d={direction === "left" ? "M15 18l-6-6 6-6" : "M9 18l6-6-6-6"} /></svg>;
 }

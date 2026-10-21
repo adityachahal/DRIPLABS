@@ -540,7 +540,7 @@ export default function UnifiedWellnessObservatory() {
 
         <div className="uw-lower">
           <aside className="uw-detail">
-            <div className="uw-detail-kicker">Selected protocol</div>
+            <div className="uw-detail-kicker">{activeFamily}</div>
             <AnimatePresence mode="wait" initial={false}>
               <motion.div key={`${activeFamily}-${activeProtocol.slug}`} initial={reducedMotion ? false : { opacity: 0, y: 12, filter: "blur(6px)" }} animate={{ opacity: 1, y: 0, filter: "blur(0px)" }} exit={reducedMotion ? undefined : { opacity: 0, y: -8, filter: "blur(4px)" }} transition={{ duration: reducedMotion ? 0.01 : 0.52, ease: [0.22, 1, 0.36, 1] }}>
                 <h3>{activeProtocol.name.split(/\s+/).length > 1 ? <>{activeProtocol.name.split(/\s+/).slice(0, -1).join(" ")}<br /><span>{activeProtocol.name.split(/\s+/).slice(-1).join("")}</span></> : <span>{activeProtocol.name}</span>}</h3>
@@ -618,7 +618,7 @@ export default function UnifiedWellnessObservatory() {
             </div>
 
             <div className="uw-active-detail" aria-live="polite"><small>Selected protocol · {activeProtocol.number}</small><strong>{activeProtocol.name}</strong><span>{activeFamily}</span></div>
-            <div className="uw-stage-footer"><span><b>{activeFamily}</b> · FAMILY SELECTED</span><span>Hover cards to pause · Select to explore</span></div>
+            <div className="uw-stage-footer"><span><b>{activeFamily}</b> · FAMILY SELECTED</span></div>
           </div>
         </div>
       </div>

@@ -171,6 +171,8 @@ export default function BookPage() {
 
   const [selectedLocation, setSelectedLocation] = useState("");
   const [selectedProtocol, setSelectedProtocol] = useState("");
+  const [protocolFilter, setProtocolFilter] = useState("All");
+  const [customLocation, setCustomLocation] = useState("");
   const [selectedDate, setSelectedDate] = useState("");
   const [selectedTime, setSelectedTime] = useState("");
   const [membership, setMembership] =
@@ -317,6 +319,18 @@ export default function BookPage() {
     [protocols, selectedProtocol]
   );
 
+  const protocolCategories = useMemo(
+    () => ["All", ...Array.from(new Set(protocols.map((protocol) => protocol.family || protocol.category).filter(Boolean)))],
+    [protocols]
+  );
+
+  const filteredProtocols = useMemo(
+    () => protocolFilter === "All"
+      ? protocols
+      : protocols.filter((protocol) => (protocol.family || protocol.category) === protocolFilter),
+    [protocols, protocolFilter]
+  );
+
   /* =========================================================
      DATE
   ========================================================= */
@@ -355,7 +369,27 @@ export default function BookPage() {
      PRICE
   ========================================================= */
 
-  function formatPrice(price: number | null) {
+  function isValidEmailAddress(value: string): boolean {
+  const email = value.trim();
+  if (!email || email.length > 254 || /\s/.test(email)) return false;
+  const parts = email.split("@");
+  if (parts.length !== 2) return false;
+  const [local, domain] = parts;
+  if (!local || local.length > 64 || !domain || local.startsWith(".") || local.endsWith(".") || local.includes("..")) return false;
+  const labels = domain.split(".");
+  return /^[A-Za-z0-9.!#$%&'*+/=?^_`{|}~-]+$/.test(local) &&
+    labels.length >= 2 &&
+    labels.every((label) => label.length > 0 && label.length <= 63 && /^[A-Za-z0-9](?:[A-Za-z0-9-]*[A-Za-z0-9])?$/.test(label)) &&
+    /^[A-Za-z]{2,63}$/.test(labels[labels.length - 1]);
+}
+
+function isValidContactNumber(value: string): boolean {
+  // Accept exactly 10 digits for an Indian mobile number.
+  // The first digit must be 6, 7, 8, or 9.
+  return /^[6-9]\d{9}$/.test(value);
+}
+
+function formatPrice(price: number | null) {
     if (typeof price !== "number") {
       return "Price on assessment";
     }
@@ -372,14 +406,19 @@ export default function BookPage() {
   ) {
     setError("");
 
-    if (
-      currentStep === 1 &&
-      !selectedLocation
-    ) {
-      setError(
-        "Please select a location to continue."
-      );
-      return false;
+    if (currentStep === 1) {
+      if (!selectedLocation) {
+        setError("Please select a location to continue.");
+        return false;
+      }
+      if (selectedLocation === "__other_location__" && !customLocation.trim()) {
+        setError("Please enter your preferred city or area.");
+        return false;
+      }
+      if (selectedLocation !== "__other_location__" && !locations.some((location) => location.id === selectedLocation)) {
+        setError("Please select a valid location.");
+        return false;
+      }
     }
 
     if (
@@ -417,16 +456,22 @@ export default function BookPage() {
       }
 
       if (!email.trim()) {
-        setError(
-          "Please enter your email address."
-        );
+        setError("Please enter your email address.");
+        return false;
+      }
+
+      if (!isValidEmailAddress(email)) {
+        setError("Please enter a valid email address, such as you@example.com.");
         return false;
       }
 
       if (!phone.trim()) {
-        setError(
-          "Please enter your phone number."
-        );
+        setError("Please enter your phone number.");
+        return false;
+      }
+
+      if (!isValidContactNumber(phone)) {
+        setError("Please enter a valid 10-digit Indian mobile number starting with 6, 7, 8, or 9.");
         return false;
       }
     }
@@ -499,10 +544,12 @@ export default function BookPage() {
       },
       body: JSON.stringify({
         customerName: customerName.trim(),
-        email: email.trim(),
+        email: email.trim().toLowerCase(),
         phone: phone.trim(),
         location:
-          activeLocation?.city ?? selectedLocation,
+          selectedLocation === "__other_location__"
+            ? customLocation.trim()
+            : activeLocation?.city ?? selectedLocation,
         protocol:
           activeProtocol?.name ?? selectedProtocol,
         date: selectedDate,
@@ -672,7 +719,7 @@ export default function BookPage() {
               className="absolute inset-0 opacity-[0.035]"
               style={{
                 backgroundImage:
-                  "linear-gradient(rgba(255,255,255,.5) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.5) 1px, transparent 1px)",
+                  "linear-gradient(rgba(7,21,43,.08) 1px, transparent 1px), linear-gradient(90deg, rgba(7,21,43,.08) 1px, transparent 1px)",
                 backgroundSize:
                   "80px 80px",
               }}
@@ -750,8 +797,9 @@ export default function BookPage() {
                 <ConfirmationItem
                   label="Location"
                   value={
-                    activeLocation?.city ||
-                    selectedLocation
+                    selectedLocation === "__other_location__"
+                      ? customLocation.trim()
+                      : activeLocation?.city || selectedLocation
                   }
                 />
 
@@ -802,25 +850,25 @@ export default function BookPage() {
   ========================================================= */
 
   return (
-    <main className="min-h-screen bg-[#01050B] text-[#F7FAFF]">
+    <main className="min-h-screen overflow-hidden bg-[#F8F7F2] text-[#07152B]">
       {/* =====================================================
           HERO
       ===================================================== */}
 
-      <section className="relative overflow-hidden border-b border-white/8">
+      <section className="relative overflow-hidden border-b border-[#07152B]/10 bg-[linear-gradient(115deg,#FFFDF8_0%,#F5F3EC_43%,#EAF2FF_72%,#DCEAFF_100%)] text-[#07152B]">
         <div
           aria-hidden="true"
           className="pointer-events-none absolute inset-0"
         >
-          <div className="absolute left-[8%] top-[-35%] h-[650px] w-[650px] rounded-full bg-[#0066FF]/12 blur-[150px]" />
+          <div className="absolute left-[8%] top-[-35%] h-[650px] w-[650px] rounded-full bg-[#0066FF]/10 blur-[150px]" />
 
-          <div className="absolute right-[-12%] top-[10%] h-[550px] w-[550px] rounded-full bg-[#1683FF]/8 blur-[140px]" />
+          <div className="absolute right-[-12%] top-[10%] h-[550px] w-[550px] rounded-full bg-[#1683FF]/15 blur-[140px]" />
 
           <div
             className="absolute inset-0 opacity-[0.035]"
             style={{
               backgroundImage:
-                "linear-gradient(rgba(255,255,255,.5) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.5) 1px, transparent 1px)",
+                "linear-gradient(rgba(7,21,43,.08) 1px, transparent 1px), linear-gradient(90deg, rgba(7,21,43,.08) 1px, transparent 1px)",
               backgroundSize:
                 "90px 90px",
             }}
@@ -833,18 +881,18 @@ export default function BookPage() {
             href="/"
             className="group flex items-center gap-3"
           >
-            <span className="text-[15px] font-semibold tracking-[0.24em] text-white">
+            <span className="text-[15px] font-semibold tracking-[0.24em] text-[#07152B]">
               DRIPLABS
             </span>
 
-            <span className="text-[8px] tracking-[0.16em] text-white/30">
+            <span className="text-[8px] tracking-[0.16em] text-[#07152B]/35">
               ®
             </span>
           </Link>
 
           <Link
             href="/"
-            className="group inline-flex items-center gap-2 text-[9px] uppercase tracking-[0.2em] text-white/45 transition hover:text-white"
+            className="group inline-flex items-center gap-2 text-[9px] uppercase tracking-[0.2em] text-[#07152B]/55 transition hover:text-[#0066FF]"
           >
             <ArrowLeft size={13} />
             Back to site
@@ -876,7 +924,7 @@ export default function BookPage() {
             }}
             className="max-w-[900px]"
           >
-            <p className="mb-6 flex items-center gap-3 text-[9px] font-medium uppercase tracking-[0.32em] text-[#4D9BFF]">
+            <p className="mb-6 flex items-center gap-3 text-[9px] font-medium uppercase tracking-[0.32em] text-[#0066FF]">
               <span className="h-px w-8 bg-[#1683FF]" />
               Begin your journey
             </p>
@@ -884,12 +932,12 @@ export default function BookPage() {
             <h1 className="font-serif text-[clamp(3.8rem,8vw,8rem)] leading-[0.86] tracking-[-0.065em]">
               Begin with
               <br />
-              <span className="text-white/40">
+              <span className="bg-gradient-to-r from-[#0066FF] via-[#287CFF] to-[#8AADE5] bg-clip-text text-transparent">
                 intention.
               </span>
             </h1>
 
-            <p className="mt-8 max-w-[620px] text-[15px] leading-7 text-white/55 sm:text-[16px]">
+            <p className="mt-8 max-w-[620px] text-[15px] leading-7 text-[#07152B]/65 sm:text-[16px]">
               Tell us how you would like
               to begin. Choose your
               location, explore a protocol,
@@ -905,7 +953,7 @@ export default function BookPage() {
           BOOKING AREA
       ===================================================== */}
 
-      <section className="bg-[#F7FAFF] text-[#020812]">
+      <section className="bg-[linear-gradient(180deg,#FFFDF8_0%,#F7F8FC_55%,#F1F5FF_100%)] text-[#07152B]">
         <div className="mx-auto max-w-[1500px] px-5 py-10 sm:px-8 lg:px-12 lg:py-16">
           {/* Progress */}
           <div className="mb-10 overflow-x-auto pb-2">
@@ -1078,158 +1126,69 @@ export default function BookPage() {
                         title="Where would you like to begin?"
                         description="Choose the DRIPLABS location that works best for you."
                       >
-                        {locations.length ===
-                        0 ? (
-                          <div className="rounded-[16px] border border-[#020812]/8 bg-white p-10 text-center">
-                            <p className="font-serif text-2xl">
-                              No locations
-                              available
-                            </p>
-
-                            <p className="mx-auto mt-3 max-w-[420px] text-sm leading-6 text-[#020812]/45">
-                              There are currently
-                              no locations enabled
-                              for booking.
-                            </p>
-
-                            <button
-                              type="button"
-                              onClick={() =>
-                                window.location.reload()
-                              }
-                              className="mt-6 rounded-[9px] bg-[#0066FF] px-6 py-3 text-[9px] uppercase tracking-[0.18em] text-white"
+                        <div className="space-y-5">
+                          <div>
+                            <label htmlFor="booking-location" className="mb-3 block text-[10px] font-medium uppercase tracking-[0.18em] text-[#020812]/55">
+                              Select your preferred location
+                            </label>
+                            <select
+                              id="booking-location"
+                              value={selectedLocation === "__other_location__" ? "__other_location__" : selectedLocation}
+                              onChange={(event) => { setSelectedLocation(event.target.value); setError(""); }}
+                              className="h-14 w-full rounded-xl border border-[#020812]/15 bg-white px-4 text-sm text-[#020812] outline-none transition focus:border-[#0066FF] focus:ring-4 focus:ring-[#0066FF]/10"
                             >
-                              Refresh
-                            </button>
+                              <option value="">Choose a location</option>
+                              {locations.map((location) => (
+                                <option key={location.id} value={location.id}>
+                                  {location.city}, {location.region}, {location.country}
+                                </option>
+                              ))}
+                              <option value="__other_location__">Other location</option>
+                            </select>
                           </div>
-                        ) : (
-                          <div className="grid gap-3 md:grid-cols-2">
-                            {locations.map(
-                              (location) => {
-                                const selected =
-                                  selectedLocation ===
-                                  location.id;
-
-                                return (
-                                  <button
-                                    key={
-                                      location.id
-                                    }
-                                    type="button"
-                                    onClick={() => {
-                                      setSelectedLocation(
-                                        location.id
-                                      );
-                                      setError("");
-                                    }}
-                                    className={[
-                                      "group relative overflow-hidden rounded-[16px] border p-6 text-left transition-all duration-400",
-                                      selected
-                                        ? "border-[#0066FF] bg-[#0066FF]/[0.035] shadow-[0_12px_40px_rgba(0,102,255,.08)]"
-                                        : "border-[#020812]/8 bg-white hover:border-[#0066FF]/35 hover:shadow-[0_12px_35px_rgba(2,8,18,.06)]",
-                                    ].join(
-                                      " "
-                                    )}
-                                  >
-                                    <div
-                                      className={[
-                                        "absolute left-0 top-0 h-full w-[2px] origin-top bg-[#0066FF] transition-transform duration-500",
-                                        selected
-                                          ? "scale-y-100"
-                                          : "scale-y-0 group-hover:scale-y-100",
-                                      ].join(
-                                        " "
-                                      )}
-                                    />
-
-                                    <div className="flex items-start justify-between gap-4">
-                                      <div>
-                                        <p className="text-[9px] uppercase tracking-[0.22em] text-[#0066FF]">
-                                          {
-                                            location.type
-                                          }
-                                        </p>
-
-                                        <h3 className="mt-3 font-serif text-[32px] leading-none tracking-[-0.04em]">
-                                          {
-                                            location.city
-                                          }
-                                        </h3>
-
-                                        <p className="mt-2 text-xs text-[#020812]/45">
-                                          {
-                                            location.region
-                                          }
-                                          ,{" "}
-                                          {
-                                            location.country
-                                          }
-                                        </p>
-                                      </div>
-
-                                      <span
-                                        className={[
-                                          "flex h-7 w-7 shrink-0 items-center justify-center rounded-full border transition-all",
-                                          selected
-                                            ? "border-[#0066FF] bg-[#0066FF] text-white"
-                                            : "border-[#020812]/10 text-transparent",
-                                        ].join(
-                                          " "
-                                        )}
-                                      >
-                                        <Check size={12} />
-                                      </span>
-                                    </div>
-
-                                    <div className="mt-7 border-t border-[#020812]/8 pt-5">
-                                      {location.address && (
-                                        <p className="text-[12px] leading-5 text-[#020812]/55">
-                                          {
-                                            location.address
-                                          }
-                                        </p>
-                                      )}
-
-                                      {location.landmark && (
-                                        <p className="mt-1 text-[11px] text-[#020812]/35">
-                                          {
-                                            location.landmark
-                                          }
-                                        </p>
-                                      )}
-                                    </div>
-
-                                    <div className="mt-5 flex flex-wrap gap-2">
-                                      {location
-                                        .services
-                                        .clinic && (
-                                        <ServiceTag>
-                                          In centre
-                                        </ServiceTag>
-                                      )}
-
-                                      {location
-                                        .services
-                                        .atHome && (
-                                        <ServiceTag>
-                                          At home
-                                        </ServiceTag>
-                                      )}
-
-                                      {location
-                                        .services
-                                        .nadx && (
-                                        <ServiceTag>
-                                          NADx
-                                        </ServiceTag>
-                                      )}
-                                    </div>
-                                  </button>
-                                );
-                              }
-                            )}
-                          </div>
-                        )}
+                          {selectedLocation === "__other_location__" ? (
+                            <div className="rounded-xl border border-[#0066FF]/25 bg-white p-5 sm:p-6">
+                              <label htmlFor="custom-location" className="mb-3 block text-[10px] font-medium uppercase tracking-[0.18em] text-[#020812]/55">
+                                Your preferred city or area
+                              </label>
+                              <input
+                                id="custom-location"
+                                type="text"
+                                value={customLocation}
+                                onChange={(event) => { setCustomLocation(event.target.value); setError(""); }}
+                                maxLength={120}
+                                placeholder="Enter your city or preferred area"
+                                autoComplete="address-level2"
+                                className="h-14 w-full rounded-lg border border-[#020812]/15 bg-[#F7FAFF] px-4 text-sm text-[#020812] outline-none transition placeholder:text-[#020812]/35 focus:border-[#0066FF] focus:ring-4 focus:ring-[#0066FF]/10"
+                              />
+                              <p className="mt-3 text-xs leading-5 text-[#020812]/55">
+                                Our team will review your preferred area and contact you about availability. This does not confirm a clinic is available there.
+                              </p>
+                            </div>
+                          ) : activeLocation ? (
+                            <div className="rounded-xl border border-[#0066FF]/25 bg-white p-5 sm:p-6">
+                              <div className="flex items-start justify-between gap-4">
+                                <div>
+                                  <p className="text-[9px] uppercase tracking-[0.2em] text-[#0066FF]">Selected location</p>
+                                  <h3 className="mt-3 font-serif text-3xl tracking-tight">{activeLocation.city}</h3>
+                                  <p className="mt-2 text-sm text-[#020812]/55">{activeLocation.region}, {activeLocation.country}</p>
+                                </div>
+                                <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#0066FF] text-white"><Check size={14} /></span>
+                              </div>
+                              {activeLocation.address && <p className="mt-5 border-t border-[#020812]/10 pt-4 text-sm leading-6 text-[#020812]/65">{activeLocation.address}</p>}
+                              {activeLocation.landmark && <p className="mt-1 text-xs text-[#020812]/45">{activeLocation.landmark}</p>}
+                              <div className="mt-4 flex flex-wrap gap-2">
+                                {activeLocation.services.clinic && <ServiceTag>In centre</ServiceTag>}
+                                {activeLocation.services.atHome && <ServiceTag>At home</ServiceTag>}
+                                {activeLocation.services.nadx && <ServiceTag>NADx</ServiceTag>}
+                              </div>
+                            </div>
+                          ) : (
+                            <p className="rounded-xl border border-dashed border-[#020812]/20 px-5 py-6 text-sm leading-6 text-[#020812]/50">
+                              Choose a location to view its address and services, or select Other location to request your preferred area.
+                            </p>
+                          )}
+                        </div>
                       </StepShell>
                     )}
 
@@ -1243,8 +1202,19 @@ export default function BookPage() {
                         title="Choose your protocol."
                         description="Explore the available DRIPLABS protocols and choose the experience you would like to request."
                       >
-                        <div className="space-y-2">
-                          {protocols.map(
+                        <div className="mb-5 flex gap-2 overflow-x-auto pb-2" role="group" aria-label="Filter protocols by category">
+                          {protocolCategories.map((category) => (
+                            <button
+                              key={category}
+                              type="button"
+                              onClick={() => setProtocolFilter(category)}
+                              className={`shrink-0 rounded-full border px-4 py-2.5 text-[10px] font-medium transition ${protocolFilter === category ? "border-[#0066FF] bg-[#0066FF] text-white" : "border-[#020812]/12 bg-white text-[#020812]/60 hover:border-[#0066FF]/40"}`}
+                            >{category}</button>
+                          ))}
+                        </div>
+                        <p className="mb-4 text-xs text-[#020812]/45">Showing {filteredProtocols.length} of {protocols.length} protocols</p>
+                        <div className="grid gap-3 sm:grid-cols-2">
+                          {filteredProtocols.map(
                             (protocol) => {
                               const selected =
                                 selectedProtocol ===
@@ -1263,7 +1233,7 @@ export default function BookPage() {
                                     setError("");
                                   }}
                                   className={[
-                                    "group relative w-full overflow-hidden rounded-[14px] border p-5 text-left transition-all duration-400 sm:p-6",
+                                    "group relative h-full w-full overflow-hidden rounded-[14px] border p-4 text-left transition-all duration-300 sm:p-5",
                                     selected
                                       ? "border-[#0066FF] bg-[#0066FF]/[0.035]"
                                       : "border-[#020812]/8 bg-white hover:border-[#0066FF]/30 hover:bg-[#020812]/[0.012]",
@@ -1282,7 +1252,7 @@ export default function BookPage() {
                                     )}
                                   />
 
-                                  <div className="grid gap-5 sm:grid-cols-[60px_minmax(0,1fr)_auto] sm:items-center">
+                                  <div className="flex h-full flex-col gap-4">
                                     <div className="text-[10px] font-mono tracking-[0.12em] text-[#0066FF]">
                                       {String(
                                         protocol.number
@@ -1294,7 +1264,7 @@ export default function BookPage() {
 
                                     <div className="min-w-0">
                                       <div className="flex flex-wrap items-center gap-2">
-                                        <h3 className="font-serif text-[28px] leading-none tracking-[-0.035em]">
+                                        <h3 className="font-serif text-[25px] leading-tight tracking-[-0.035em]">
                                           {
                                             protocol.name
                                           }
@@ -1637,29 +1607,24 @@ export default function BookPage() {
                   </motion.div>
                 </AnimatePresence>
 
-                {/* Navigation */}
+                {/* Sticky step navigation: always reachable without scrolling to the end */}
                 {step < 5 && (
-                  <div className="mt-8 flex items-center justify-between border-t border-[#020812]/8 pt-7">
-                    <button
-                      type="button"
-                      onClick={
-                        previousStep
-                      }
-                      disabled={step === 1}
-                      className="inline-flex min-h-[48px] items-center gap-2 rounded-[9px] px-4 text-[9px] font-medium uppercase tracking-[0.18em] text-[#020812]/45 transition hover:text-[#020812] disabled:invisible"
-                    >
-                      <ArrowLeft size={14} />
-                      Back
-                    </button>
-
-                    <button
-                      type="button"
-                      onClick={nextStep}
-                      className="group inline-flex min-h-[52px] items-center gap-3 rounded-[10px] bg-[#0066FF] px-7 text-[10px] font-medium uppercase tracking-[0.18em] text-white transition-all duration-400 hover:bg-[#1683FF] hover:shadow-[0_12px_35px_rgba(0,102,255,.2)]"
-                    >
-                      Continue
-                      <ArrowRight size={15} />
-                    </button>
+                  <div className="h-24 sm:h-20" aria-hidden="true" />
+                )}
+                {step < 5 && (
+                  <div className="fixed inset-x-0 bottom-0 z-40 border-t border-[#020812]/10 bg-[#F7FAFF]/95 px-4 py-3 backdrop-blur-xl sm:px-8 ">
+                    <div className="mx-auto flex max-w-[900px] items-center justify-between gap-4 lg:mx-0">
+                      <button type="button" onClick={previousStep} disabled={step === 1} className="inline-flex min-h-12 items-center gap-2 rounded-lg px-3 text-[10px] font-medium uppercase tracking-[0.14em] text-[#020812]/55 transition hover:text-[#020812] disabled:invisible">
+                        <ArrowLeft size={14} /> Back
+                      </button>
+                      <div className="min-w-0 flex-1 text-right sm:text-left">
+                        <p className="text-[8px] uppercase tracking-[0.18em] text-[#020812]/40">{step === 1 ? "Location" : step === 2 ? "Protocol" : step === 3 ? "Schedule" : "Membership"}</p>
+                        <p className="truncate text-xs font-medium text-[#020812]">{step === 1 ? (selectedLocation === "__other_location__" ? customLocation || "Other location" : activeLocation?.city || "Select a location") : step === 2 ? activeProtocol?.name || "Select a protocol" : step === 3 ? selectedDate && selectedTime ? `${selectedDate} · ${selectedTime}` : "Choose date and time" : membership}</p>
+                      </div>
+                      <button type="button" onClick={nextStep} className="group inline-flex min-h-12 shrink-0 items-center gap-2 rounded-[10px] bg-[#0066FF] px-5 text-[10px] font-medium uppercase tracking-[0.12em] text-white transition hover:bg-[#1683FF] sm:px-7">
+                        Continue <ArrowRight size={15} />
+                      </button>
+                    </div>
                   </div>
                 )}
 
@@ -1702,10 +1667,7 @@ export default function BookPage() {
                         <SummaryItem
                           number="01"
                           label="Location"
-                          value={
-                            activeLocation?.city ||
-                            "Not selected"
-                          }
+                          value={selectedLocation === "__other_location__" ? customLocation.trim() || "Other location" : activeLocation?.city || "Not selected"}
                         />
 
                         <SummaryItem
@@ -1857,21 +1819,33 @@ function Field({
         id={id}
         type={type}
         value={value}
-        onChange={(event) =>
-          onChange(
-            event.target.value
-          )
-        }
+        inputMode={id === "customer-phone" ? "numeric" : undefined}
+        maxLength={id === "customer-phone" ? 10 : undefined}
+        pattern={id === "customer-phone" ? "[6-9][0-9]{9}" : undefined}
+        required={id === "customer-phone"}
+        onChange={(event) => {
+          const nextValue =
+            id === "customer-phone"
+              ? event.target.value.replace(/\D/g, "").slice(0, 10)
+              : event.target.value;
+          onChange(nextValue);
+        }}
         placeholder={placeholder}
         autoComplete={
           id === "customer-name"
             ? "name"
             : id === "customer-email"
               ? "email"
-              : "tel"
+              : "tel-national"
         }
+        aria-describedby={id === "customer-phone" ? "customer-phone-hint" : undefined}
         className="h-14 w-full rounded-[10px] border border-[#020812]/10 bg-white px-4 text-sm text-[#020812] outline-none placeholder:text-[#020812]/20 transition focus:border-[#0066FF] focus:ring-4 focus:ring-[#0066FF]/8"
       />
+      {id === "customer-phone" && (
+        <p id="customer-phone-hint" className="mt-2 text-[11px] leading-5 text-[#020812]/45">
+          Enter exactly 10 digits, starting with 6, 7, 8, or 9.
+        </p>
+      )}
     </div>
   );
 }

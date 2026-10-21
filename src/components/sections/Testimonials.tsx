@@ -7,31 +7,31 @@ const testimonials = [
   {
     quote:
       "The entire experience felt calm, considered and incredibly professional.",
-    name: "DRIPLABS Guest",
+    name: "Kashish dahiya",
     location: "India",
     theme: "Professional care",
     number: "01",
-    initials: "DG",
+    initials: "KD",
     signal: "A considered experience",
   },
   {
     quote:
       "From the consultation to the treatment itself, everything felt effortless.",
-    name: "DRIPLABS Guest",
+    name: "Abhishek Sharma",
     location: "India",
     theme: "Effortless experience",
     number: "02",
-    initials: "DG",
+    initials: "AS",
     signal: "Consultation to treatment",
   },
   {
     quote:
       "A completely different kind of wellness experience. Beautiful space and attentive care.",
-    name: "DRIPLABS Guest",
+    name: "Kabir Thapar",
     location: "India",
     theme: "Attentive care",
     number: "03",
-    initials: "DG",
+    initials: "KT",
     signal: "Thoughtful, attentive care",
   },
 ];

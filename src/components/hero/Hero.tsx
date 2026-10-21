@@ -184,6 +184,12 @@ export default function Hero() {
     let isInView = true;
     let isPageVisible = !document.hidden;
     const frameInterval = 1000 / 30;
+    const labels = [
+      "NAD", "Pyr", "MB", "Dxp", "Cu", "Asc", "Chc", "Zn",
+      "Ppz", "AGn", "Lac", "Fe", "EAA", "GSH", "NaCl", "NAC",
+      "Cbl", "Toc", "Mn", "Ca", "Mg", "Btn",
+    ];
+    const symbols = ["∞", "≋", "⌘", "◇", "◎", "⌬", "☼", "⬡", "♧", "◌", "⚖", "∿"];
 
     const canAnimate = () => isInView && isPageVisible;
 
@@ -196,6 +202,74 @@ export default function Hero() {
       canvas.height = Math.floor(height * dpr);
       context.setTransform(dpr, 0, 0, dpr, 0, 0);
       if (canAnimate()) scheduleDraw();
+    };
+
+    const drawHexagon = (
+      x: number,
+      y: number,
+      radius: number,
+      label: string,
+      symbol: string,
+      index: number,
+      now: number,
+      influence: number,
+    ) => {
+      // Fixed per-cell intensity: hexagons do not pulse or animate on their own.
+      const pulse = 0.35 + (index % 5) * 0.1;
+      const edgeAlpha = 0.16 + pulse * 0.08 + influence * 0.28;
+      const palette = ["22, 131, 255", "0, 210, 220", "120, 112, 255", "242, 166, 90"];
+      const color = palette[index % palette.length];
+
+      context.beginPath();
+      for (let side = 0; side < 6; side += 1) {
+        const angle = (Math.PI / 3) * side + Math.PI / 6;
+        const vx = x + Math.cos(angle) * radius;
+        const vy = y + Math.sin(angle) * radius;
+        if (side === 0) context.moveTo(vx, vy);
+        else context.lineTo(vx, vy);
+      }
+      context.closePath();
+      context.fillStyle = `rgba(5, 18, 43, ${0.16 + influence * 0.06})`;
+      context.fill();
+      context.lineWidth = influence > 0.45 ? 1.15 : 0.75;
+      context.strokeStyle = `rgba(${color}, ${edgeAlpha})`;
+      context.stroke();
+
+      // Fine coloured edge highlight, kept restrained for legibility.
+      if (influence > 0.2 || pulse > 0.86) {
+        context.beginPath();
+        const angle = -Math.PI / 3 + (index % 3) * (Math.PI / 3);
+        context.moveTo(
+          x + Math.cos(angle) * radius,
+          y + Math.sin(angle) * radius,
+        );
+        context.lineTo(
+          x + Math.cos(angle + Math.PI / 3) * radius,
+          y + Math.sin(angle + Math.PI / 3) * radius,
+        );
+        context.strokeStyle = `rgba(${color}, ${0.18 + influence * 0.28})`;
+        context.lineWidth = 1.5;
+        context.stroke();
+      }
+
+      // Keep the scientific labels subtle so the hero copy remains dominant.
+      const textAlpha = 0.20 + pulse * 0.12 + influence * 0.36;
+      context.textAlign = "center";
+      context.textBaseline = "middle";
+      context.font = "500 12px Manrope, sans-serif";
+      context.fillStyle = `rgba(222, 237, 255, ${textAlpha})`;
+      context.fillText(label, x, y - 3);
+
+      context.beginPath();
+      context.moveTo(x - 10, y + 10);
+      context.lineTo(x + 10, y + 10);
+      context.strokeStyle = `rgba(${color}, ${0.14 + influence * 0.24})`;
+      context.lineWidth = 0.8;
+      context.stroke();
+
+      context.font = "12px sans-serif";
+      context.fillStyle = `rgba(${color}, ${0.36 + pulse * 0.2 + influence * 0.35})`;
+      context.fillText(symbol, x, y + 22);
     };
 
     const draw = (now: number) => {
@@ -213,97 +287,58 @@ export default function Hero() {
       const py = pointer.y * height;
       context.clearRect(0, 0, width, height);
 
-      const spacing = Math.max(74, Math.min(104, width / 15));
-      const cols = Math.ceil(width / spacing) + 2;
-      const rows = Math.ceil(height / spacing) + 2;
-      const offsetX = -spacing;
-      const offsetY = -spacing;
-      const points: Array<Array<{ x: number; y: number }>> = [];
+      const radius = Math.max(42, Math.min(58, width / 27));
+      const hexWidth = Math.sqrt(3) * radius;
+      const rowStep = radius * 1.5;
+      const cols = Math.ceil(width / hexWidth) + 3;
+      const rows = Math.ceil(height / rowStep) + 3;
+      let index = 0;
 
-      for (let row = 0; row < rows; row += 1) {
-        const rowPoints: Array<{ x: number; y: number }> = [];
-        for (let col = 0; col < cols; col += 1) {
-          const baseX = offsetX + col * spacing;
-          const baseY = offsetY + row * spacing;
+      for (let row = -1; row < rows; row += 1) {
+        for (let col = -1; col < cols; col += 1) {
+          const baseX = col * hexWidth + (row % 2 ? hexWidth / 2 : 0) - hexWidth / 2;
+          const baseY = row * rowStep - rowStep / 2;
           const distance = Math.hypot(baseX - px, baseY - py);
           const influence = Math.max(0, 1 - distance / 300);
           const falloff = influence * influence;
-          const cursorPush = speed * 58;
           const safeDistance = Math.max(distance, 1);
-          const pushX = ((baseX - px) / safeDistance) * cursorPush * falloff;
-          const pushY = ((baseY - py) / safeDistance) * cursorPush * falloff;
-          const localRipple = Math.sin(distance * 0.045 - now * 0.008) * speed * 5 * falloff;
-          const driftX = pointer.dx * 14 * falloff;
-          const driftY = pointer.dy * 14 * falloff;
-          rowPoints.push({
-            x: baseX + pushX + driftX + ((baseX - px) / safeDistance) * localRipple,
-            y: baseY + pushY + driftY + ((baseY - py) / safeDistance) * localRipple,
-          });
-        }
-        points.push(rowPoints);
-      }
+          const push = speed * 20 * falloff;
+          // Keep the hexagon lattice fixed; cells respond only to pointer movement.
+          const ripple = speed * 4 * falloff;
+          const x = baseX + ((baseX - px) / safeDistance) * (push + ripple);
+          const y = baseY + ((baseY - py) / safeDistance) * (push + ripple);
+          const labelIndex = (Math.abs(row * 5 + col * 3) + Math.floor(index / 2)) % labels.length;
 
-      context.lineWidth = 0.65;
-      context.strokeStyle = "rgba(140, 203, 255, 0.065)";
-      for (let row = 0; row < rows; row += 1) {
-        for (let col = 0; col < cols; col += 1) {
-          const point = points[row][col];
-          if (col + 1 < cols) {
-            const right = points[row][col + 1];
-            context.beginPath(); context.moveTo(point.x, point.y); context.lineTo(right.x, right.y); context.stroke();
-          }
-          if (row + 1 < rows) {
-            const down = points[row + 1][col];
-            context.beginPath(); context.moveTo(point.x, point.y); context.lineTo(down.x, down.y); context.stroke();
-          }
-          if (row + 1 < rows && col + 1 < cols) {
-            const diagonal = points[row + 1][col + 1];
-            context.beginPath(); context.moveTo(point.x, point.y); context.lineTo(diagonal.x, diagonal.y); context.stroke();
-          }
-          if (row + 1 < rows && col > 0) {
-            const diagonal = points[row + 1][col - 1];
-            context.beginPath(); context.moveTo(point.x, point.y); context.lineTo(diagonal.x, diagonal.y); context.stroke();
-          }
+          // Fade the scientific lattice toward the copy side; keep it clearest on the right.
+          const rightSideVisibility = Math.max(0.12, Math.min(1, (baseX / width - 0.12) / 0.68));
+          context.save();
+          context.globalAlpha = rightSideVisibility * rightSideVisibility;
+          drawHexagon(
+            x,
+            y,
+            radius,
+            labels[labelIndex],
+            symbols[(labelIndex + index) % symbols.length],
+            index,
+            now,
+            falloff,
+          );
+          context.restore();
+          index += 1;
         }
       }
 
-      context.fillStyle = "rgba(140, 203, 255, 0.14)";
-      for (let row = 0; row < rows; row += 2) {
-        for (let col = 0; col < cols; col += 2) {
-          const point = points[row][col];
-          const distance = Math.hypot(point.x - px, point.y - py);
-          const influence = Math.max(0, 1 - distance / 300);
-          if (influence > 0.02) {
-            context.beginPath();
-            context.arc(point.x, point.y, 0.8 + influence * (1.8 + speed * 1.5), 0, Math.PI * 2);
-            context.fill();
-          }
-        }
-      }
-
-      if (speed > 0.025) {
-        const directionX = pointer.dx;
-        const directionY = pointer.dy;
-        const length = 80 + speed * 150;
-        context.lineWidth = 0.8;
-        context.strokeStyle = `rgba(22, 131, 255, ${0.08 + speed * 0.16})`;
-        for (let line = -2; line <= 2; line += 1) {
-          const spread = line * 18;
-          const startX = px - directionX * length * 0.5 - directionY * spread;
-          const startY = py - directionY * length * 0.5 + directionX * spread;
-          const endX = px + directionX * length * 0.5 - directionY * spread;
-          const endY = py + directionY * length * 0.5 + directionX * spread;
-          context.beginPath(); context.moveTo(startX, startY); context.lineTo(endX, endY); context.stroke();
-        }
-      }
-
-      const radius = 60 + speed * 120;
-      const gradient = context.createRadialGradient(px, py, 0, px, py, radius);
-      gradient.addColorStop(0, `rgba(22, 131, 255, ${0.16 + speed * 0.18})`);
-      gradient.addColorStop(0.35, `rgba(22, 131, 255, ${0.06 + speed * 0.08})`);
+      // A restrained cursor glow keeps the existing pointer-reactive feel.
+      const glowRadius = 70 + speed * 100;
+      const gradient = context.createRadialGradient(px, py, 0, px, py, glowRadius);
+      gradient.addColorStop(0, `rgba(22, 131, 255, ${0.10 + speed * 0.12})`);
+      gradient.addColorStop(0.4, `rgba(22, 131, 255, ${0.035 + speed * 0.04})`);
       gradient.addColorStop(1, "rgba(22, 131, 255, 0)");
       context.fillStyle = gradient;
-      context.beginPath(); context.arc(px, py, radius, 0, Math.PI * 2); context.fill();
+      context.beginPath();
+      context.arc(px, py, glowRadius, 0, Math.PI * 2);
+      context.fill();
+
       scheduleDraw();
     };
 
@@ -503,7 +538,7 @@ export default function Hero() {
 
         {/* Left readability */}
 
-        <div className="absolute inset-0 bg-gradient-to-r from-[#020812]/90 via-[#020812]/45 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#020812]/96 via-[#020812]/68 via-45% to-[#020812]/10" />
 
         {/* Bottom fade */}
 
@@ -523,8 +558,8 @@ export default function Hero() {
           className="pointer-events-none absolute inset-[-10%] z-[3] overflow-hidden will-change-transform max-md:hidden"
           style={{
             backgroundImage:
-              "linear-gradient(30deg, rgba(22,131,255,0.13) 1px, transparent 1px), linear-gradient(150deg, rgba(140,203,255,0.08) 1px, transparent 1px)",
-            backgroundSize: "54px 54px, 54px 54px",
+              "radial-gradient(ellipse at 70% 45%, rgba(22,131,255,0.08), transparent 58%)",
+            backgroundSize: "100% 100%",
             opacity: 0.045,
             mixBlendMode: "screen",
           }}
@@ -817,17 +852,18 @@ export default function Hero() {
 
               }}
 
-              className="relative top-[44px] mr-2 flex items-center max-md:top-0 max-md:mr-1"
+              className="relative top-[44px] mr-3 flex items-center max-md:top-0 max-md:mr-2"
 
               aria-hidden="true"
 
             >
 
-              <span
-                className="relative flex h-3 w-3 shrink-0 items-center justify-center text-[#F2A65A]"
-                aria-hidden="true"
-              >
-                <span className="h-2 w-2 rotate-45 border border-current" />
+              <span className="relative block h-px w-9 overflow-hidden bg-[#1683FF]/35 sm:w-12" aria-hidden="true">
+                <motion.span
+                  className="absolute inset-y-0 left-0 w-1/2 bg-gradient-to-r from-transparent via-[#1683FF] to-[#8CCBFF] shadow-[0_0_8px_rgba(22,131,255,0.9)]"
+                  animate={reducedMotion ? { x: 0 } : { x: [ -24, 48 ] }}
+                  transition={reducedMotion ? { duration: 0.01 } : { duration: 1.8, repeat: Infinity, ease: "linear" }}
+                />
               </span>
 
             </motion.span>
@@ -894,17 +930,18 @@ export default function Hero() {
 
               }}
 
-              className="relative top-[44px] ml-2 flex items-center max-md:top-0 max-md:ml-1"
+              className="relative top-[44px] ml-3 flex items-center max-md:top-0 max-md:ml-2"
 
               aria-hidden="true"
 
             >
 
-              <span
-                className="relative flex h-3 w-3 shrink-0 items-center justify-center text-[#F2A65A]"
-                aria-hidden="true"
-              >
-                <span className="h-2 w-2 rotate-45 border border-current" />
+              <span className="relative block h-px w-9 overflow-hidden bg-[#1683FF]/35 sm:w-12" aria-hidden="true">
+                <motion.span
+                  className="absolute inset-y-0 left-0 w-1/2 bg-gradient-to-r from-transparent via-[#1683FF] to-[#8CCBFF] shadow-[0_0_8px_rgba(22,131,255,0.9)]"
+                  animate={reducedMotion ? { x: 0 } : { x: [ -24, 48 ] }}
+                  transition={reducedMotion ? { duration: 0.01 } : { duration: 1.8, repeat: Infinity, ease: "linear" }}
+                />
               </span>
 
             </motion.span>
@@ -1127,7 +1164,7 @@ export default function Hero() {
 
           relative
 
-          -ml-[1.87em]
+          -ml-[1.55em]
 
           inline-flex
 

@@ -255,7 +255,7 @@ export default function LocationMarquee() {
                 {/* CTA */}
                 <Link
                   href="/experience"
-                  className="mt-5 inline-flex h-[38px] items-center gap-3 rounded-full bg-[#07334A] px-5 text-[10px] font-semibold uppercase tracking-[0.08em] text-white transition-all duration-300 hover:bg-[#1683FF]"
+                  className="mt-5 inline-flex h-[38px] items-center gap-3 rounded-full bg-white px-5 text-[10px] font-semibold uppercase tracking-[0.08em] text-[#06152B] transition-all duration-300 hover:bg-[#1683FF] hover:text-white"
                 >
                   Request Home Visit
 
